@@ -50,12 +50,6 @@ public sealed class HexagonControl : MonoBehaviour
             yield return null;
         }
 
-        // float correction = targetAngle - rotatedAngle;
-        // if (Mathf.Abs(correction) > 0.01f)
-        // {
-        //     transform.Rotate(rotationAxis, correction, Space.World);
-        // }
-
         IsRotateActive = false;
     }
 }
