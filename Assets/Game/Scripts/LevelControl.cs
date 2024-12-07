@@ -25,13 +25,16 @@ public sealed class HexagonLevelControl : MonoBehaviour, ILevelAction
 
     private void GenerateLevel()
     {
+        Transform trHexagons = new GameObject("Hexagons").transform;
+        trHexagons.SetParent(transform);
+
         float hexagonRadius = _hexagonPrefab.transform.localScale.x * 1.2f;
 
         _hexagonList.Add(Instantiate (
             _hexagonPrefab,
             Vector3.zero, 
             Quaternion.identity, 
-            transform
+            trHexagons
         ).GetComponent<HexagonControl>());
 
         float xOffset = hexagonRadius * 1.5f;
@@ -52,7 +55,7 @@ public sealed class HexagonLevelControl : MonoBehaviour, ILevelAction
                         _hexagonPrefab, 
                         offset, 
                         Quaternion.identity, 
-                        transform
+                        trHexagons
                     ).GetComponent<HexagonControl>());
                 }
             }

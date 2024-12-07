@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CameraMove : MonoBehaviour, ICameraControl
+public class CameraMove : MonoBehaviour, ICameraAction
 {
     [Header("Camera Move Control")]
     [SerializeField] float _smoothSpeed;
@@ -10,37 +10,30 @@ public class CameraMove : MonoBehaviour, ICameraControl
     [Header("Camera Height Borders")]
     [SerializeField] float _maxHeight;
     [SerializeField] float _minHeight;
-    [SerializeField] LayerMask _groundLayer;
     [Header("Camera Map Borders")]
     [SerializeField] float _westBorder;
     [SerializeField] float _eastBorder;
     [SerializeField] float _northBorder;
     [SerializeField] float _southBorder;
 
-    private Transform _trCamera;
     private CameraAction _cameraAction;
-    private bool _isCameraStatic;
+    private bool _isTimerStatic;
     private float _timeCameraStatic;
-    private float _correntHeight;
     private float _correntSensitivityMove;
+    private float _correntSensitivityZoom;
 
     private Vector3 _newMovePosition;
     private Vector3 _newZoomPosition;
 
     private void Awake() {
-        _trCamera = GetComponent<Transform>();
+        _newMovePosition = transform.position;
+        _newZoomPosition = transform.position;
 
-        _newMovePosition = _trCamera.position;
-        _newZoomPosition = _trCamera.position;
-
-        _correntHeight = _maxHeight;
-        _correntSensitivityMove = _sensitivityMove;
-
-        _trCamera.position = CheckHeight(_trCamera.position);
+        SetSensitivityWithHeight();
     }
 
     private void Update() {
-        if (_isCameraStatic && Time.time > _timeCameraStatic) _cameraAction = CameraAction.CameraOnStatic;
+        if (_isTimerStatic && Time.time > _timeCameraStatic) _cameraAction = CameraAction.CameraOnStatic;
 
         switch (_cameraAction) {
             case CameraAction.CameraOnStatic:
@@ -62,55 +55,36 @@ public class CameraMove : MonoBehaviour, ICameraControl
     }
 
     private void MoveCamera() {
-        Vector3 hightPosition = CheckHeight(Vector3.Lerp(_trCamera.position, _newMovePosition, _smoothSpeed));
+        Vector3 newPosition = Vector3.Lerp(transform.position, _newMovePosition, _smoothSpeed);
 
-        Vector3 newPosition = CheckMapBorder(hightPosition);
+        newPosition = CheckMapBorder(newPosition);
 
-        _trCamera.position = newPosition;
+        transform.position = newPosition;
     }
 
     private void ZoomCamera() {
-        _correntHeight = Mathf.Clamp (
-            Mathf.Lerp(_correntHeight, _correntHeight + _newZoomPosition.y - _trCamera.position.y, _smoothSpeed), 
-            _minHeight, 
-            _maxHeight
-        );
-
-        SetSensitivityMoveFromHeight();
-
-        Vector3 hightPosition = CheckHeight(Vector3.Lerp(_trCamera.position, _newZoomPosition, _smoothSpeed));
+        Vector3 newPosition = Vector3.Lerp(transform.position, _newZoomPosition, _smoothSpeed);
         
-        Vector3 newPosition = CheckMapBorder(hightPosition);
+        newPosition = CheckMapBorder(newPosition);
 
-        _trCamera.position = newPosition;
+        transform.position = newPosition;
+
+        SetSensitivityWithHeight();
     }
 
-    private void SetSensitivityMoveFromHeight() {
-        float percentageOfMaxHeight = _correntHeight * 100 / _maxHeight;
+    private void SetSensitivityWithHeight() {
+        float percentageOfMaxHeight = transform.position.y * 100 / _maxHeight;
 
+        _correntSensitivityZoom = _sensitivityZoom * percentageOfMaxHeight / 100;
         _correntSensitivityMove = _sensitivityMove * percentageOfMaxHeight / 100;
     }
 
     private Vector3 CheckMapBorder(Vector3 cameraPosition) {
         float x = Mathf.Clamp(cameraPosition.x, _westBorder, _eastBorder);
+        float y = Mathf.Clamp (cameraPosition.y, _minHeight, _maxHeight);
         float z = Mathf.Clamp(cameraPosition.z, _southBorder, _northBorder);
 
-        return new Vector3(x, cameraPosition.y, z);
-    }
-
-    private Vector3 CheckHeight(Vector3 cameraPosition) {
-        if (Physics.Raycast(cameraPosition, Vector3.down, out RaycastHit hit, 150, _groundLayer)) {
-            return new Vector3 (
-                cameraPosition.x, 
-                cameraPosition.y + _correntHeight - hit.distance, 
-                cameraPosition.z
-            );
-        }
-        else {
-            Debug.Log("The terrain is lost!");
-
-            return cameraPosition;
-        }
+        return new Vector3(x, y, z);
     }
 
     public void SetNewMovePosition(Vector3 vec3) {
@@ -118,29 +92,28 @@ public class CameraMove : MonoBehaviour, ICameraControl
     }
 
     public void SetNewZoomPosition(Vector3 vec3) {
-        if (vec3.y > 0f && _correntHeight != _maxHeight) {
-            _newZoomPosition += vec3 * _sensitivityZoom * Time.deltaTime;
-        }
-        else if (vec3.y < 0f && _correntHeight != _minHeight){
-            _newZoomPosition += vec3 * _sensitivityZoom * Time.deltaTime;
+        float heightValue = transform.position.y;
+
+        if (vec3.y > 0f && heightValue != _maxHeight || vec3.y < 0f && heightValue != _minHeight) {
+            _newZoomPosition += vec3 * _correntSensitivityZoom * Time.deltaTime;
         }
     }
 
     public void SwitchCameraAction(CameraAction cameraAction) {
         _cameraAction = cameraAction;
 
-        _newMovePosition = _trCamera.position;
-        _newZoomPosition = _trCamera.position;
+        _newMovePosition = transform.position;
+        _newZoomPosition = transform.position;
     }
 
-    public void CameraStaticOnEnable(bool onEnable) {
+    public void TimerStaticOnEnable(bool onEnable) {
         if (onEnable) {
             _timeCameraStatic = Time.time + _timeToCameraStatic;
 
-            _isCameraStatic = true;
+            _isTimerStatic = true;
         }
         else {
-            _isCameraStatic = false;
+            _isTimerStatic = false;
         }
     }
 
@@ -167,9 +140,9 @@ public enum CameraAction {
     CameraLooked
 }
 
-public interface ICameraControl {
+public interface ICameraAction {
     public void SwitchCameraAction(CameraAction cameraAction);
     public void SetNewMovePosition(Vector3 vec3);
     public void SetNewZoomPosition(Vector3 vec3);
-    public void CameraStaticOnEnable(bool onEnable);
+    public void TimerStaticOnEnable(bool onEnable);
 }

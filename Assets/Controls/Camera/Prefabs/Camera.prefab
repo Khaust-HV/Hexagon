@@ -47,17 +47,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _smoothSpeed: 0.075
   _timeToCameraStatic: 1.25
-  _sensitivityMove: 5
-  _sensitivityZoom: 150
-  _maxHeight: 60
-  _minHeight: 5
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  _westBorder: -350
-  _eastBorder: 350
-  _northBorder: 350
-  _southBorder: -475
+  _sensitivityMove: 4
+  _sensitivityZoom: 125
+  _maxHeight: 75
+  _minHeight: 20
+  _westBorder: -190
+  _eastBorder: 190
+  _northBorder: 190
+  _southBorder: -190
 --- !u!1 &8609619185474201752
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,13 +82,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8609619185474201752}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38268343, y: -0, z: -0, w: 0.92387956}
+  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1540062685830143208}
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!20 &6234340480555759298
 Camera:
   m_ObjectHideFlags: 0
@@ -101,8 +98,8 @@ Camera:
   m_GameObject: {fileID: 8609619185474201752}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0

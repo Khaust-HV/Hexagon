@@ -4,7 +4,7 @@ using InputSystemActions;
 public sealed class InputManager : MonoBehaviour
 {
     private TouchscreenInputActions _touchscreenInputActions;
-    private ICameraControl _iCameraControl;
+    private ICameraAction _iCameraControl;
     private CameraAction _cameraAction;
     private bool _isCameraStaticStarted;
     private float _oldDistanceTouchPosition;
@@ -31,25 +31,25 @@ public sealed class InputManager : MonoBehaviour
 
         private void CameraMoveOnEnable(bool onEnable) {
             if (onEnable) {
-                if (_isCameraStaticStarted) _iCameraControl.CameraStaticOnEnable(_isCameraStaticStarted = false);
+                if (_isCameraStaticStarted) _iCameraControl.TimerStaticOnEnable(_isCameraStaticStarted = false);
 
                 _iCameraControl.SwitchCameraAction(_cameraAction = CameraAction.CameraMove);
             }
             else {
-                if (_cameraAction == CameraAction.CameraMove) _iCameraControl.CameraStaticOnEnable(_isCameraStaticStarted = true);
+                if (_cameraAction == CameraAction.CameraMove) _iCameraControl.TimerStaticOnEnable(_isCameraStaticStarted = true);
             }
         }
 
         private void CameraZoomOnEnable(bool onEnable) {
             if (onEnable) {
-                if (_isCameraStaticStarted) _iCameraControl.CameraStaticOnEnable(_isCameraStaticStarted = false);
+                if (_isCameraStaticStarted) _iCameraControl.TimerStaticOnEnable(_isCameraStaticStarted = false);
 
                 _oldDistanceTouchPosition = 0f;
 
                 _iCameraControl.SwitchCameraAction(_cameraAction = CameraAction.CameraZoom);
             }
             else {
-                if (_cameraAction == CameraAction.CameraZoom) _iCameraControl.CameraStaticOnEnable(_isCameraStaticStarted = true);
+                if (_cameraAction == CameraAction.CameraZoom) _iCameraControl.TimerStaticOnEnable(_isCameraStaticStarted = true);
             }
         }
 
