@@ -7,6 +7,7 @@ namespace InputSystemActions {
         private readonly InputMap _inputMap;
         private Vector2 _firstTouchPosition;
 
+        public event Action<Vector2> TapPosition;
         public event Action<bool> FirstTouchActive;
         public event Action<Vector2> SingleSwipeDelta;
         public event Action<bool> SecondTouchActive;
@@ -21,6 +22,7 @@ namespace InputSystemActions {
                 if (onEnable) {
                     _inputMap.GameplayInput.Enable();
 
+                    _inputMap.GameplayInput.TapOnScreenPress.canceled += _ => TapOnScreen();
                     _inputMap.GameplayInput.FirstTouchContact.started += _ => FirstTouchOnEnable();
                     _inputMap.GameplayInput.FirstTouchContact.canceled += _ => FirstTouchOnDisable();
                     _inputMap.GameplayInput.FirstTouchPosition.performed += FirstTouchPosition;
@@ -33,6 +35,7 @@ namespace InputSystemActions {
                 else {
                     _inputMap.GameplayInput.Disable();
 
+                    _inputMap.GameplayInput.TapOnScreenPress.canceled -= _ => TapOnScreen();
                     _inputMap.GameplayInput.FirstTouchContact.started -= _ => FirstTouchOnEnable();
                     _inputMap.GameplayInput.FirstTouchContact.canceled -= _ => FirstTouchOnDisable();
                     _inputMap.GameplayInput.FirstTouchPosition.performed -= FirstTouchPosition;
@@ -42,6 +45,10 @@ namespace InputSystemActions {
                     _inputMap.GameplayInput.SecondTouchContact.canceled -= _ => SecondTouchOnDisable();
                     _inputMap.GameplayInput.SecondTouchPosition.performed -= DoubleTouch;
                 }
+            }
+
+            private void TapOnScreen() {
+                TapPosition?.Invoke(_inputMap.GameplayInput.TapOnScreenPosition.ReadValue<Vector2>());
             }
 
             private void FirstTouchOnEnable() {

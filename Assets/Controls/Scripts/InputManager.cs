@@ -1,18 +1,29 @@
 using UnityEngine;
 using InputSystemActions;
+using Zenject;
 
 public sealed class InputManager : MonoBehaviour
 {
     private TouchscreenInputActions _touchscreenInputActions;
-    private ICameraAction _iCameraControl;
-    private CameraAction _cameraAction;
+    private CameraState _cameraState;
     private bool _isCameraStaticStarted;
     private float _oldDistanceTouchPosition;
 
-    private void Awake() {
-        _iCameraControl = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMove>();
+    private IPlayerManagerInput _iPlayerManagerInput;
+    private ICameraMove _iCameraMove;
 
+    [Inject]
+    private void Construct(IPlayerManagerInput iPlayerManagerInput, ICameraMove iCameraMove) {
+        _iPlayerManagerInput = iPlayerManagerInput;
+        _iCameraMove = iCameraMove;
+
+        transform.SetParent(GameObject.Find("Managers").transform);
+    }
+
+    private void Start() {
         _touchscreenInputActions = new TouchscreenInputActions(new InputMap());
+
+        _touchscreenInputActions.TapPosition += TapOnScreenPosition;
 
         _touchscreenInputActions.FirstTouchActive += CameraMoveOnEnable;
         _touchscreenInputActions.SingleSwipeDelta += CameraMove;
@@ -29,34 +40,38 @@ public sealed class InputManager : MonoBehaviour
             _touchscreenInputActions.GameplayInputOnEnable(onEnable);
         }
 
+        private void TapOnScreenPosition(Vector2 position) {
+            _iPlayerManagerInput.TapPositionCheck(position);
+        }
+
         private void CameraMoveOnEnable(bool onEnable) {
             if (onEnable) {
-                if (_isCameraStaticStarted) _iCameraControl.TimerStaticOnEnable(_isCameraStaticStarted = false);
+                if (_isCameraStaticStarted) _iCameraMove.TimerStaticOnEnable(_isCameraStaticStarted = false);
 
-                _iCameraControl.SwitchCameraAction(_cameraAction = CameraAction.CameraMove);
+                _iCameraMove.SwitchCameraAction(_cameraState = CameraState.CameraMove);
             }
             else {
-                if (_cameraAction == CameraAction.CameraMove) _iCameraControl.TimerStaticOnEnable(_isCameraStaticStarted = true);
+                if (_cameraState == CameraState.CameraMove) _iCameraMove.TimerStaticOnEnable(_isCameraStaticStarted = true);
             }
         }
 
         private void CameraZoomOnEnable(bool onEnable) {
             if (onEnable) {
-                if (_isCameraStaticStarted) _iCameraControl.TimerStaticOnEnable(_isCameraStaticStarted = false);
+                if (_isCameraStaticStarted) _iCameraMove.TimerStaticOnEnable(_isCameraStaticStarted = false);
 
                 _oldDistanceTouchPosition = 0f;
 
-                _iCameraControl.SwitchCameraAction(_cameraAction = CameraAction.CameraZoom);
+                _iCameraMove.SwitchCameraAction(_cameraState = CameraState.CameraZoom);
             }
             else {
-                if (_cameraAction == CameraAction.CameraZoom) _iCameraControl.TimerStaticOnEnable(_isCameraStaticStarted = true);
+                if (_cameraState == CameraState.CameraZoom) _iCameraMove.TimerStaticOnEnable(_isCameraStaticStarted = true);
             }
         }
 
         private void CameraMove(Vector2 vec2) {
             Vector3 position =  new Vector3(vec2.x, 0f, vec2.y);
 
-            _iCameraControl.SetNewMovePosition(position);
+            _iCameraMove.SetNewMovePosition(position);
         }
 
         private void CameraZoom(Vector2 firstVec2, Vector2 secondVec2) {
@@ -76,7 +91,7 @@ public sealed class InputManager : MonoBehaviour
                 position = new Vector3(0f, 1f, -1f);
             }
 
-            _iCameraControl.SetNewZoomPosition(position);
+            _iCameraMove.SetNewZoomPosition(position);
 
             _oldDistanceTouchPosition = correntTouchDistance;
         }

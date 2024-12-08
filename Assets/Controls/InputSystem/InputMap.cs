@@ -71,6 +71,24 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TapOnScreenPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""cce26ee4-3399-4e56-a83b-49616e79e259"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""SlowTap"",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TapOnScreenPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""c8c28e6b-6818-453b-ae2a-c169197c25a7"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -128,6 +146,28 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""action"": ""FirstTouchContact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e43f3ca6-4476-47f9-ac3c-b97624669ae3"",
+                    ""path"": ""<Touchscreen>/primaryTouch/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TapOnScreenPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c2f54f45-7261-4000-b417-e429c7e6255b"",
+                    ""path"": ""<Touchscreen>/primaryTouch/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TapOnScreenPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -141,6 +181,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_GameplayInput_SingleSwipeOnScreen = m_GameplayInput.FindAction("SingleSwipeOnScreen", throwIfNotFound: true);
         m_GameplayInput_SecondTouchContact = m_GameplayInput.FindAction("SecondTouchContact", throwIfNotFound: true);
         m_GameplayInput_SecondTouchPosition = m_GameplayInput.FindAction("SecondTouchPosition", throwIfNotFound: true);
+        m_GameplayInput_TapOnScreenPress = m_GameplayInput.FindAction("TapOnScreenPress", throwIfNotFound: true);
+        m_GameplayInput_TapOnScreenPosition = m_GameplayInput.FindAction("TapOnScreenPosition", throwIfNotFound: true);
     }
 
     ~@InputMap()
@@ -212,6 +254,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_GameplayInput_SingleSwipeOnScreen;
     private readonly InputAction m_GameplayInput_SecondTouchContact;
     private readonly InputAction m_GameplayInput_SecondTouchPosition;
+    private readonly InputAction m_GameplayInput_TapOnScreenPress;
+    private readonly InputAction m_GameplayInput_TapOnScreenPosition;
     public struct GameplayInputActions
     {
         private @InputMap m_Wrapper;
@@ -221,6 +265,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @SingleSwipeOnScreen => m_Wrapper.m_GameplayInput_SingleSwipeOnScreen;
         public InputAction @SecondTouchContact => m_Wrapper.m_GameplayInput_SecondTouchContact;
         public InputAction @SecondTouchPosition => m_Wrapper.m_GameplayInput_SecondTouchPosition;
+        public InputAction @TapOnScreenPress => m_Wrapper.m_GameplayInput_TapOnScreenPress;
+        public InputAction @TapOnScreenPosition => m_Wrapper.m_GameplayInput_TapOnScreenPosition;
         public InputActionMap Get() { return m_Wrapper.m_GameplayInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -245,6 +291,12 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @SecondTouchPosition.started += instance.OnSecondTouchPosition;
             @SecondTouchPosition.performed += instance.OnSecondTouchPosition;
             @SecondTouchPosition.canceled += instance.OnSecondTouchPosition;
+            @TapOnScreenPress.started += instance.OnTapOnScreenPress;
+            @TapOnScreenPress.performed += instance.OnTapOnScreenPress;
+            @TapOnScreenPress.canceled += instance.OnTapOnScreenPress;
+            @TapOnScreenPosition.started += instance.OnTapOnScreenPosition;
+            @TapOnScreenPosition.performed += instance.OnTapOnScreenPosition;
+            @TapOnScreenPosition.canceled += instance.OnTapOnScreenPosition;
         }
 
         private void UnregisterCallbacks(IGameplayInputActions instance)
@@ -264,6 +316,12 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @SecondTouchPosition.started -= instance.OnSecondTouchPosition;
             @SecondTouchPosition.performed -= instance.OnSecondTouchPosition;
             @SecondTouchPosition.canceled -= instance.OnSecondTouchPosition;
+            @TapOnScreenPress.started -= instance.OnTapOnScreenPress;
+            @TapOnScreenPress.performed -= instance.OnTapOnScreenPress;
+            @TapOnScreenPress.canceled -= instance.OnTapOnScreenPress;
+            @TapOnScreenPosition.started -= instance.OnTapOnScreenPosition;
+            @TapOnScreenPosition.performed -= instance.OnTapOnScreenPosition;
+            @TapOnScreenPosition.canceled -= instance.OnTapOnScreenPosition;
         }
 
         public void RemoveCallbacks(IGameplayInputActions instance)
@@ -288,5 +346,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnSingleSwipeOnScreen(InputAction.CallbackContext context);
         void OnSecondTouchContact(InputAction.CallbackContext context);
         void OnSecondTouchPosition(InputAction.CallbackContext context);
+        void OnTapOnScreenPress(InputAction.CallbackContext context);
+        void OnTapOnScreenPosition(InputAction.CallbackContext context);
     }
 }

@@ -1,22 +1,22 @@
 using UnityEngine;
 
-public class CameraMove : MonoBehaviour, ICameraAction
+public class CameraControl : MonoBehaviour, ICameraMove
 {
-    [Header("Camera Move Control")]
+    [Header("Camera move control")]
     [SerializeField] float _smoothSpeed;
     [SerializeField] float _timeToCameraStatic;
     [SerializeField] private float _sensitivityMove;
     [SerializeField] private float _sensitivityZoom;
-    [Header("Camera Height Borders")]
+    [Header("Camera height borders")]
     [SerializeField] float _maxHeight;
     [SerializeField] float _minHeight;
-    [Header("Camera Map Borders")]
+    [Header("Camera map borders")]
     [SerializeField] float _westBorder;
     [SerializeField] float _eastBorder;
     [SerializeField] float _northBorder;
     [SerializeField] float _southBorder;
 
-    private CameraAction _cameraAction;
+    private CameraState _cameraState;
     private bool _isTimerStatic;
     private float _timeCameraStatic;
     private float _correntSensitivityMove;
@@ -33,22 +33,22 @@ public class CameraMove : MonoBehaviour, ICameraAction
     }
 
     private void Update() {
-        if (_isTimerStatic && Time.time > _timeCameraStatic) _cameraAction = CameraAction.CameraOnStatic;
+        if (_isTimerStatic && Time.time > _timeCameraStatic) _cameraState = CameraState.CameraOnStatic;
 
-        switch (_cameraAction) {
-            case CameraAction.CameraOnStatic:
+        switch (_cameraState) {
+            case CameraState.CameraOnStatic:
                 return;
             //break;
 
-            case CameraAction.CameraMove:
+            case CameraState.CameraMove:
                 MoveCamera();
             break;
 
-            case CameraAction.CameraZoom:
+            case CameraState.CameraZoom:
                 ZoomCamera();
             break;
             
-            case CameraAction.CameraLooked:
+            case CameraState.CameraLooked:
                 //Camera looks on the lookTarget
             break;
         }
@@ -99,8 +99,8 @@ public class CameraMove : MonoBehaviour, ICameraAction
         }
     }
 
-    public void SwitchCameraAction(CameraAction cameraAction) {
-        _cameraAction = cameraAction;
+    public void SwitchCameraAction(CameraState cameraState) {
+        _cameraState = cameraState;
 
         _newMovePosition = transform.position;
         _newZoomPosition = transform.position;
@@ -133,16 +133,16 @@ public class CameraMove : MonoBehaviour, ICameraAction
     }
 }
 
-public enum CameraAction {
+public interface ICameraMove {
+    public void SwitchCameraAction(CameraState cameraAction);
+    public void SetNewMovePosition(Vector3 vec3);
+    public void SetNewZoomPosition(Vector3 vec3);
+    public void TimerStaticOnEnable(bool onEnable);
+}
+
+public enum CameraState {
     CameraOnStatic,
     CameraMove,
     CameraZoom,
     CameraLooked
-}
-
-public interface ICameraAction {
-    public void SwitchCameraAction(CameraAction cameraAction);
-    public void SetNewMovePosition(Vector3 vec3);
-    public void SetNewZoomPosition(Vector3 vec3);
-    public void TimerStaticOnEnable(bool onEnable);
 }

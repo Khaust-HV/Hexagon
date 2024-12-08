@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public sealed class HexagonLevelControl : MonoBehaviour, ILevelAction
+public sealed class LevelControl : MonoBehaviour, ILevelCreate
 {
     [Header("Level generate settings")]
     [SerializeField] private GameObject _hexagonPrefab;
@@ -73,6 +73,6 @@ public sealed class HexagonLevelControl : MonoBehaviour, ILevelAction
     }
 }
 
-public interface ILevelAction {
+public interface ILevelCreate {
     public void LevelInit();
 }
