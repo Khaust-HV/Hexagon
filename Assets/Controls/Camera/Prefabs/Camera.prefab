@@ -55,9 +55,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   _smoothSpeed: 0.075
-  _timeToCameraStatic: 1.25
   _sensitivityMove: 4
   _sensitivityZoom: 125
+  _timeToStopMoveing: 1.5
   _maxHeight: 75
   _minHeight: 20
   _westBorder: -190

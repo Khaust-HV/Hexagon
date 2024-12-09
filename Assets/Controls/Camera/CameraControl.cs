@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CameraControl : MonoBehaviour, ICameraMove, ICameraRaycast
@@ -10,9 +11,9 @@ public class CameraControl : MonoBehaviour, ICameraMove, ICameraRaycast
     [SerializeField] private LayerMask _HexagonLayer;
     [Header("Camera move control")]
     [SerializeField] float _smoothSpeed;
-    [SerializeField] float _timeToCameraStatic;
     [SerializeField] private float _sensitivityMove;
     [SerializeField] private float _sensitivityZoom;
+    [SerializeField] private float _timeToStopMoveing;
     [Header("Camera map borders")]
     [SerializeField] float _maxHeight;
     [SerializeField] float _minHeight;
@@ -22,11 +23,12 @@ public class CameraControl : MonoBehaviour, ICameraMove, ICameraRaycast
     [SerializeField] float _southBorder;
 
     private CameraState _cameraState;
-    private bool _isTimerStaticActive;
-    private float _timeToStopTimer;
     private float _currentSensitivityMove;
     private float _currentSensitivityZoom;
-
+    private IEnumerator _iECameraMoveing;
+    private bool _isIECameraMoveingActive;
+    private float _currentTimeToStopMoveing;
+    private bool _isTimerToStopMovementActive;
     private Vector3 _newMovePosition;
     private Vector3 _newZoomPosition;
 
@@ -37,40 +39,55 @@ public class CameraControl : MonoBehaviour, ICameraMove, ICameraRaycast
         SetSensitivityWithHeight();
     }
 
-    private void Update() {
-        if (_isTimerStaticActive && Time.time > _timeToStopTimer) _cameraState = CameraState.CameraIsStatic;
+    private IEnumerator CameraMovementStart() {
 
-        switch (_cameraState) {
-            case CameraState.CameraIsStatic:
-                return;
-            //break;
+        while (true) {
+            if (_isTimerToStopMovementActive && Time.time > _currentTimeToStopMoveing) CameraMovementStop();
 
+            switch (_cameraState) {
             case CameraState.CameraMoveing:
-                MoveCamera();
+                MoveingCamera();
             break;
 
             case CameraState.CameraZooming:
-                ZoomCamera();
+                ZoomingCamera();
             break;
+
+            case CameraState.CameraLookingOnTarget:
+                LookingCamera();
+            break;
+            }
+
+            yield return null;
         }
     }
 
-    private void MoveCamera() {
-        Vector3 newPosition = Vector3.Lerp(transform.position, _newMovePosition, _smoothSpeed);
+    private void CameraMovementStop() {
+        Debug.Log("Movement Stoped");
+        StopCoroutine(_iECameraMoveing);
 
-        newPosition = CheckMapBorder(newPosition);
+        _isTimerToStopMovementActive = false;
+        _isIECameraMoveingActive = false;
 
-        transform.position = newPosition;
+        SwitchCameraState(CameraState.CameraIsStatic);
     }
 
-    private void ZoomCamera() {
-        Vector3 newPosition = Vector3.Lerp(transform.position, _newZoomPosition, _smoothSpeed);
-        
-        newPosition = CheckMapBorder(newPosition);
+    private void MoveingCamera() {
+        Vector3 stepPosition = Vector3.Lerp(transform.position, _newMovePosition, _smoothSpeed);
 
-        transform.position = newPosition;
+        transform.position = stepPosition;
+    }
+
+    private void ZoomingCamera() {
+        Vector3 stepPosition = Vector3.Lerp(transform.position, _newZoomPosition, _smoothSpeed);
+
+        transform.position = stepPosition;
 
         SetSensitivityWithHeight();
+    }
+
+    private void LookingCamera() {
+        //Looked on target
     }
 
     private void SetSensitivityWithHeight() {
@@ -88,33 +105,38 @@ public class CameraControl : MonoBehaviour, ICameraMove, ICameraRaycast
         return new Vector3(x, y, z);
     }
 
-    public void SetNewMovePosition(Vector3 vec3) {
-        _newMovePosition += vec3 * _currentSensitivityMove * Time.deltaTime;
+    public void SetNewMovePosition(Vector3 vec3) {        
+        _newMovePosition = CheckMapBorder(_newMovePosition + vec3 * _currentSensitivityMove * Time.deltaTime);
     }
 
     public void SetNewZoomPosition(Vector3 vec3) {
-        float heightValue = transform.position.y;
-
-        if (vec3.y > 0f && heightValue != _maxHeight || vec3.y < 0f && heightValue != _minHeight) {
-            _newZoomPosition += vec3 * _currentSensitivityZoom * Time.deltaTime;
-        }
+        _newZoomPosition = CheckMapBorder(_newZoomPosition + vec3 * _currentSensitivityZoom * Time.deltaTime);
     }
 
     public void SwitchCameraState(CameraState cameraState) {
-        _cameraState = cameraState;
+        Debug.Log("Current State = " + cameraState);
 
         _newMovePosition = transform.position;
         _newZoomPosition = transform.position;
+
+        _cameraState = cameraState;
     }
 
-    public void SetTimerStaticActive(bool isActive) {
+    public void SetCameraMovementActive(bool isActive) {
         if (isActive) {
-            _timeToStopTimer = Time.time + _timeToCameraStatic;
+            _isTimerToStopMovementActive = false;
 
-            _isTimerStaticActive = true;
+            if (!_isIECameraMoveingActive) {
+                Debug.Log("Movement Started");
+                StartCoroutine(_iECameraMoveing = CameraMovementStart());
+                _isIECameraMoveingActive = true;
+            }
         }
         else {
-            _isTimerStaticActive = false;
+            if (!_isTimerToStopMovementActive) {
+                _currentTimeToStopMoveing = Time.time + _timeToStopMoveing;
+                _isTimerToStopMovementActive = true;
+            } 
         }
     }
 
@@ -156,9 +178,9 @@ public class CameraControl : MonoBehaviour, ICameraMove, ICameraRaycast
 
 public interface ICameraMove {
     public void SwitchCameraState(CameraState cameraState);
+    public void SetCameraMovementActive(bool isActive);
     public void SetNewMovePosition(Vector3 vec3);
     public void SetNewZoomPosition(Vector3 vec3);
-    public void SetTimerStaticActive(bool isActive);
 }
 
 public interface ICameraRaycast {

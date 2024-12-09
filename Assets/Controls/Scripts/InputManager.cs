@@ -5,9 +5,8 @@ using Zenject;
 public sealed class InputManager : MonoBehaviour
 {
     private TouchscreenInputActions _touchscreenInputActions;
-    private CameraState _cameraState;
-    private bool _isTimerStaticActive;
     private float _oldDistanceTouchPosition;
+    private CameraState _cameraState;
 
     private IPlayerManagerInput _iPlayerManagerInput;
     private ICameraMove _iCameraMove;
@@ -25,10 +24,10 @@ public sealed class InputManager : MonoBehaviour
 
         _touchscreenInputActions.TapPosition += TapOnScreenPosition;
 
-        _touchscreenInputActions.FirstTouchIsActive += SetCameraMoveActive;
+        _touchscreenInputActions.FirstTouchActive += SetCameraMoveActive;
         _touchscreenInputActions.SingleSwipeDelta += CameraMove;
 
-        _touchscreenInputActions.SecondTouchIsActive += SetCameraZoomActive;
+        _touchscreenInputActions.SecondTouchActive += SetCameraZoomActive;
         _touchscreenInputActions.DoubleTouchPositions += CameraZoom;
         
         SetGameplayInputActionMapActive(true);
@@ -46,25 +45,22 @@ public sealed class InputManager : MonoBehaviour
 
         private void SetCameraMoveActive(bool isActive) {
             if (isActive) {
-                if (_isTimerStaticActive) _iCameraMove.SetTimerStaticActive(_isTimerStaticActive = false);
-
                 _iCameraMove.SwitchCameraState(_cameraState = CameraState.CameraMoveing);
+                _iCameraMove.SetCameraMovementActive(true);
             }
             else {
-                if (_cameraState == CameraState.CameraMoveing) _iCameraMove.SetTimerStaticActive(_isTimerStaticActive = true);
+                if (_cameraState == CameraState.CameraMoveing) _iCameraMove.SetCameraMovementActive(false);
             }
         }
 
         private void SetCameraZoomActive(bool isActive) {
             if (isActive) {
-                if (_isTimerStaticActive) _iCameraMove.SetTimerStaticActive(_isTimerStaticActive = false);
-
                 _oldDistanceTouchPosition = 0f;
-
                 _iCameraMove.SwitchCameraState(_cameraState = CameraState.CameraZooming);
+                _iCameraMove.SetCameraMovementActive(true);
             }
             else {
-                if (_cameraState == CameraState.CameraZooming) _iCameraMove.SetTimerStaticActive(_isTimerStaticActive = true);
+                if (_cameraState == CameraState.CameraZooming) _iCameraMove.SetCameraMovementActive(false);
             }
         }
 

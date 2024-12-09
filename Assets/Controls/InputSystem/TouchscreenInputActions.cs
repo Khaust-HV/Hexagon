@@ -8,9 +8,9 @@ namespace InputSystemActions {
         private Vector2 _firstTouchPosition;
 
         public event Action<Vector2> TapPosition;
-        public event Action<bool> FirstTouchIsActive;
+        public event Action<bool> FirstTouchActive;
         public event Action<Vector2> SingleSwipeDelta;
-        public event Action<bool> SecondTouchIsActive;
+        public event Action<bool> SecondTouchActive;
         public event Action<Vector2, Vector2> DoubleTouchPositions;
 
         public TouchscreenInputActions(InputMap inputMap) {
@@ -52,11 +52,10 @@ namespace InputSystemActions {
             }
 
             private void FirstTouchOnEnable() {
-                FirstTouchIsActive?.Invoke(true);
+                FirstTouchActive?.Invoke(true);
             }
-
-             private void FirstTouchOnDisable() {
-                FirstTouchIsActive?.Invoke(false);
+            private void FirstTouchOnDisable() {
+                FirstTouchActive?.Invoke(false);
             }
 
             private void FirstTouchPosition(InputAction.CallbackContext context) {
@@ -68,11 +67,10 @@ namespace InputSystemActions {
             }
 
             private void SecondTouchOnEnable() {
-                SecondTouchIsActive?.Invoke(true);
+                SecondTouchActive?.Invoke(true);
             }
-
             private void SecondTouchOnDisable() {
-                SecondTouchIsActive?.Invoke(false);
+                SecondTouchActive?.Invoke(false);
             }
 
             private void DoubleTouch(InputAction.CallbackContext context) {
