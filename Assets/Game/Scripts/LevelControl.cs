@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
-public sealed class LevelControl : MonoBehaviour, ILevelCreate
+public sealed class LevelControl : MonoBehaviour, IHexagonTarget
 {
     [Header("Level generate settings")]
     [SerializeField] private GameObject _hexagonPrefab;
@@ -10,17 +11,19 @@ public sealed class LevelControl : MonoBehaviour, ILevelCreate
 
     private List<HexagonControl> _hexagonList;
 
-    private void Start() // FIX IT !
-    {
-        LevelInit();
-
-        StartCoroutine(TestRotate()); // FIX IT !
-    }
-
-    public void LevelInit() {
+    [Inject]
+    private void Construct() {
         _hexagonList = new List<HexagonControl>();
 
         GenerateLevel();
+    }
+
+    private void Start() {
+        StartCoroutine(TestRotate()); // FIX IT !
+    }
+
+    public bool SetHexagonTarget(int hexagonID) {
+        return true; // !
     }
 
     private void GenerateLevel()
@@ -73,6 +76,6 @@ public sealed class LevelControl : MonoBehaviour, ILevelCreate
     }
 }
 
-public interface ILevelCreate {
-    public void LevelInit();
+public interface IHexagonTarget {
+    public bool SetHexagonTarget(int hexagonID);
 }

@@ -6,6 +6,7 @@ public sealed class HexagonControl : MonoBehaviour
     [SerializeField] private float rotationSpeed;
 
     public bool IsRotateActive { get; private set; }
+    public int HexagonID { get; set; }
 
     public void StartRandomRotation()
     {

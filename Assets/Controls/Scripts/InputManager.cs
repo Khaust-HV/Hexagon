@@ -6,7 +6,7 @@ public sealed class InputManager : MonoBehaviour
 {
     private TouchscreenInputActions _touchscreenInputActions;
     private CameraState _cameraState;
-    private bool _isCameraStaticStarted;
+    private bool _isTimerStaticActive;
     private float _oldDistanceTouchPosition;
 
     private IPlayerManagerInput _iPlayerManagerInput;
@@ -25,46 +25,46 @@ public sealed class InputManager : MonoBehaviour
 
         _touchscreenInputActions.TapPosition += TapOnScreenPosition;
 
-        _touchscreenInputActions.FirstTouchActive += CameraMoveOnEnable;
+        _touchscreenInputActions.FirstTouchIsActive += SetCameraMoveActive;
         _touchscreenInputActions.SingleSwipeDelta += CameraMove;
 
-        _touchscreenInputActions.SecondTouchActive += CameraZoomOnEnable;
+        _touchscreenInputActions.SecondTouchIsActive += SetCameraZoomActive;
         _touchscreenInputActions.DoubleTouchPositions += CameraZoom;
         
-        GameplayInputActionMapOnEnable(true);
+        SetGameplayInputActionMapActive(true);
     }
 
     #region GameplayInputActionMap
 
-        private void GameplayInputActionMapOnEnable(bool onEnable) {
-            _touchscreenInputActions.GameplayInputOnEnable(onEnable);
+        private void SetGameplayInputActionMapActive(bool isActive) {
+            _touchscreenInputActions.SetGameplayInputActive(isActive);
         }
 
         private void TapOnScreenPosition(Vector2 position) {
             _iPlayerManagerInput.TapPositionCheck(position);
         }
 
-        private void CameraMoveOnEnable(bool onEnable) {
-            if (onEnable) {
-                if (_isCameraStaticStarted) _iCameraMove.TimerStaticOnEnable(_isCameraStaticStarted = false);
+        private void SetCameraMoveActive(bool isActive) {
+            if (isActive) {
+                if (_isTimerStaticActive) _iCameraMove.SetTimerStaticActive(_isTimerStaticActive = false);
 
-                _iCameraMove.SwitchCameraAction(_cameraState = CameraState.CameraMove);
+                _iCameraMove.SwitchCameraState(_cameraState = CameraState.CameraMoveing);
             }
             else {
-                if (_cameraState == CameraState.CameraMove) _iCameraMove.TimerStaticOnEnable(_isCameraStaticStarted = true);
+                if (_cameraState == CameraState.CameraMoveing) _iCameraMove.SetTimerStaticActive(_isTimerStaticActive = true);
             }
         }
 
-        private void CameraZoomOnEnable(bool onEnable) {
-            if (onEnable) {
-                if (_isCameraStaticStarted) _iCameraMove.TimerStaticOnEnable(_isCameraStaticStarted = false);
+        private void SetCameraZoomActive(bool isActive) {
+            if (isActive) {
+                if (_isTimerStaticActive) _iCameraMove.SetTimerStaticActive(_isTimerStaticActive = false);
 
                 _oldDistanceTouchPosition = 0f;
 
-                _iCameraMove.SwitchCameraAction(_cameraState = CameraState.CameraZoom);
+                _iCameraMove.SwitchCameraState(_cameraState = CameraState.CameraZooming);
             }
             else {
-                if (_cameraState == CameraState.CameraZoom) _iCameraMove.TimerStaticOnEnable(_isCameraStaticStarted = true);
+                if (_cameraState == CameraState.CameraZooming) _iCameraMove.SetTimerStaticActive(_isTimerStaticActive = true);
             }
         }
 

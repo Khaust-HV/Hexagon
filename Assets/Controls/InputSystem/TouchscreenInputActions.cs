@@ -8,9 +8,9 @@ namespace InputSystemActions {
         private Vector2 _firstTouchPosition;
 
         public event Action<Vector2> TapPosition;
-        public event Action<bool> FirstTouchActive;
+        public event Action<bool> FirstTouchIsActive;
         public event Action<Vector2> SingleSwipeDelta;
-        public event Action<bool> SecondTouchActive;
+        public event Action<bool> SecondTouchIsActive;
         public event Action<Vector2, Vector2> DoubleTouchPositions;
 
         public TouchscreenInputActions(InputMap inputMap) {
@@ -18,8 +18,8 @@ namespace InputSystemActions {
         }
 
         #region GameplayInput
-            public void GameplayInputOnEnable(bool onEnable) {
-                if (onEnable) {
+            public void SetGameplayInputActive(bool isActive) {
+                if (isActive) {
                     _inputMap.GameplayInput.Enable();
 
                     _inputMap.GameplayInput.TapOnScreenPress.canceled += _ => TapOnScreen();
@@ -52,11 +52,11 @@ namespace InputSystemActions {
             }
 
             private void FirstTouchOnEnable() {
-                FirstTouchActive?.Invoke(true);
+                FirstTouchIsActive?.Invoke(true);
             }
 
              private void FirstTouchOnDisable() {
-                FirstTouchActive?.Invoke(false);
+                FirstTouchIsActive?.Invoke(false);
             }
 
             private void FirstTouchPosition(InputAction.CallbackContext context) {
@@ -68,11 +68,11 @@ namespace InputSystemActions {
             }
 
             private void SecondTouchOnEnable() {
-                SecondTouchActive?.Invoke(true);
+                SecondTouchIsActive?.Invoke(true);
             }
 
             private void SecondTouchOnDisable() {
-                SecondTouchActive?.Invoke(false);
+                SecondTouchIsActive?.Invoke(false);
             }
 
             private void DoubleTouch(InputAction.CallbackContext context) {

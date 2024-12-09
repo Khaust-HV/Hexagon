@@ -284,6 +284,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HexagonLP
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3f76ef63eb27d4a14a6373473a0633eb, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -297,6 +301,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3f76ef63eb27d4a14a6373473a0633eb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1827610791515927934}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3f76ef63eb27d4a14a6373473a0633eb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8597484206414062552}
   m_SourcePrefab: {fileID: 100100000, guid: 3f76ef63eb27d4a14a6373473a0633eb, type: 3}
 --- !u!4 &2567273611747547021 stripped
 Transform:
@@ -321,3 +328,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 270
+--- !u!64 &-8597484206414062552
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2948477954461666615}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3613567641014311022, guid: 3f76ef63eb27d4a14a6373473a0633eb, type: 3}

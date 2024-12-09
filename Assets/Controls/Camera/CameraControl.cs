@@ -1,31 +1,36 @@
 using UnityEngine;
 
-public class CameraControl : MonoBehaviour, ICameraMove
+public class CameraControl : MonoBehaviour, ICameraMove, ICameraRaycast
 {
+    [Header("Camera raycast settings")]
+    [SerializeField] private Camera _camera;
+    [SerializeField] private float _raycastUIDistance;
+    [SerializeField] private LayerMask _UILayer;
+    [SerializeField] private float _raycastHexagonDistance;
+    [SerializeField] private LayerMask _HexagonLayer;
     [Header("Camera move control")]
     [SerializeField] float _smoothSpeed;
     [SerializeField] float _timeToCameraStatic;
     [SerializeField] private float _sensitivityMove;
     [SerializeField] private float _sensitivityZoom;
-    [Header("Camera height borders")]
+    [Header("Camera map borders")]
     [SerializeField] float _maxHeight;
     [SerializeField] float _minHeight;
-    [Header("Camera map borders")]
     [SerializeField] float _westBorder;
     [SerializeField] float _eastBorder;
     [SerializeField] float _northBorder;
     [SerializeField] float _southBorder;
 
     private CameraState _cameraState;
-    private bool _isTimerStatic;
-    private float _timeCameraStatic;
-    private float _correntSensitivityMove;
-    private float _correntSensitivityZoom;
+    private bool _isTimerStaticActive;
+    private float _timeToStopTimer;
+    private float _currentSensitivityMove;
+    private float _currentSensitivityZoom;
 
     private Vector3 _newMovePosition;
     private Vector3 _newZoomPosition;
 
-    private void Awake() {
+    private void Start() {
         _newMovePosition = transform.position;
         _newZoomPosition = transform.position;
 
@@ -33,23 +38,19 @@ public class CameraControl : MonoBehaviour, ICameraMove
     }
 
     private void Update() {
-        if (_isTimerStatic && Time.time > _timeCameraStatic) _cameraState = CameraState.CameraOnStatic;
+        if (_isTimerStaticActive && Time.time > _timeToStopTimer) _cameraState = CameraState.CameraIsStatic;
 
         switch (_cameraState) {
-            case CameraState.CameraOnStatic:
+            case CameraState.CameraIsStatic:
                 return;
             //break;
 
-            case CameraState.CameraMove:
+            case CameraState.CameraMoveing:
                 MoveCamera();
             break;
 
-            case CameraState.CameraZoom:
+            case CameraState.CameraZooming:
                 ZoomCamera();
-            break;
-            
-            case CameraState.CameraLooked:
-                //Camera looks on the lookTarget
             break;
         }
     }
@@ -75,8 +76,8 @@ public class CameraControl : MonoBehaviour, ICameraMove
     private void SetSensitivityWithHeight() {
         float percentageOfMaxHeight = transform.position.y * 100 / _maxHeight;
 
-        _correntSensitivityZoom = _sensitivityZoom * percentageOfMaxHeight / 100;
-        _correntSensitivityMove = _sensitivityMove * percentageOfMaxHeight / 100;
+        _currentSensitivityZoom = _sensitivityZoom * percentageOfMaxHeight / 100;
+        _currentSensitivityMove = _sensitivityMove * percentageOfMaxHeight / 100;
     }
 
     private Vector3 CheckMapBorder(Vector3 cameraPosition) {
@@ -88,37 +89,57 @@ public class CameraControl : MonoBehaviour, ICameraMove
     }
 
     public void SetNewMovePosition(Vector3 vec3) {
-        _newMovePosition += vec3 * _correntSensitivityMove * Time.deltaTime;
+        _newMovePosition += vec3 * _currentSensitivityMove * Time.deltaTime;
     }
 
     public void SetNewZoomPosition(Vector3 vec3) {
         float heightValue = transform.position.y;
 
         if (vec3.y > 0f && heightValue != _maxHeight || vec3.y < 0f && heightValue != _minHeight) {
-            _newZoomPosition += vec3 * _correntSensitivityZoom * Time.deltaTime;
+            _newZoomPosition += vec3 * _currentSensitivityZoom * Time.deltaTime;
         }
     }
 
-    public void SwitchCameraAction(CameraState cameraState) {
+    public void SwitchCameraState(CameraState cameraState) {
         _cameraState = cameraState;
 
         _newMovePosition = transform.position;
         _newZoomPosition = transform.position;
     }
 
-    public void TimerStaticOnEnable(bool onEnable) {
-        if (onEnable) {
-            _timeCameraStatic = Time.time + _timeToCameraStatic;
+    public void SetTimerStaticActive(bool isActive) {
+        if (isActive) {
+            _timeToStopTimer = Time.time + _timeToCameraStatic;
 
-            _isTimerStatic = true;
+            _isTimerStaticActive = true;
         }
         else {
-            _isTimerStatic = false;
+            _isTimerStaticActive = false;
         }
     }
 
-    private void OnDrawGizmos()
-    {
+    public bool ScreenPositionIntoRayFromCamera(Vector2 position, RaycastCheckTargetType checkType, out RaycastHit hit) {
+        Ray ray = _camera.ScreenPointToRay(position);
+
+        Debug.DrawRay(ray.origin, ray.direction * _raycastHexagonDistance, Color.red, 10f); // FIX IT !
+        
+        switch (checkType) {
+            case RaycastCheckTargetType.CheckHexagon:
+                return Physics.Raycast(ray, out hit, _raycastHexagonDistance, _HexagonLayer);
+            // break;
+
+            case RaycastCheckTargetType.CheckUI:
+                return Physics.Raycast(ray, out hit, _raycastUIDistance, _UILayer);
+            // break;
+
+            default: 
+                hit = new RaycastHit();
+                return false;
+            // break;
+        }
+    }
+
+    private void OnDrawGizmos() {
         Gizmos.color = Color.red;
 
         Vector3 topLeft = new Vector3(_westBorder, 0, _northBorder);
@@ -134,15 +155,24 @@ public class CameraControl : MonoBehaviour, ICameraMove
 }
 
 public interface ICameraMove {
-    public void SwitchCameraAction(CameraState cameraAction);
+    public void SwitchCameraState(CameraState cameraState);
     public void SetNewMovePosition(Vector3 vec3);
     public void SetNewZoomPosition(Vector3 vec3);
-    public void TimerStaticOnEnable(bool onEnable);
+    public void SetTimerStaticActive(bool isActive);
+}
+
+public interface ICameraRaycast {
+    public bool ScreenPositionIntoRayFromCamera(Vector2 position, RaycastCheckTargetType checkType, out RaycastHit hit);
+}
+
+public enum RaycastCheckTargetType {
+    CheckHexagon,
+    CheckUI
 }
 
 public enum CameraState {
-    CameraOnStatic,
-    CameraMove,
-    CameraZoom,
-    CameraLooked
+    CameraIsStatic,
+    CameraMoveing,
+    CameraZooming,
+    CameraLookingOnTarget,
 }

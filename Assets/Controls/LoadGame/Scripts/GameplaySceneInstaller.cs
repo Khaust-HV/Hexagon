@@ -2,10 +2,10 @@ using UnityEngine;
 using Zenject;
 
 public sealed class GameplaySceneInstaller : MonoInstaller {
-    [Header("Managers settings")]
+    [Header("Managers prefabs")]
     [SerializeField] private GameObject _playerManagerPrefab;
     [SerializeField] private GameObject _inputManagerPrefab;
-    [Header("Other settings")]
+    [Header("Other prefabs")]
     [SerializeField] private GameObject _cameraControlPrefab;
     [SerializeField] private GameObject _levelControlPrefab;
 
