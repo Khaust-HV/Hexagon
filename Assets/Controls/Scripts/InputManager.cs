@@ -2,7 +2,7 @@ using UnityEngine;
 using InputSystemActions;
 using Zenject;
 
-public sealed class InputManager : MonoBehaviour
+public sealed class InputManager : MonoBehaviour, ISwitchGameplayInput
 {
     private TouchscreenInputActions _touchscreenInputActions;
     private float _oldDistanceTouchPosition;
@@ -10,11 +10,13 @@ public sealed class InputManager : MonoBehaviour
 
     private IPlayerManagerInput _iPlayerManagerInput;
     private ICameraMove _iCameraMove;
+    private ICameraZoom _iCameraZoom;
 
     [Inject]
-    private void Construct(IPlayerManagerInput iPlayerManagerInput, ICameraMove iCameraMove) {
+    private void Construct(IPlayerManagerInput iPlayerManagerInput, ICameraMove iCameraMove, ICameraZoom iCameraZoom) {
         _iPlayerManagerInput = iPlayerManagerInput;
         _iCameraMove = iCameraMove;
+        _iCameraZoom = iCameraZoom;
 
         transform.SetParent(GameObject.Find("Managers").transform);
     }
@@ -22,19 +24,61 @@ public sealed class InputManager : MonoBehaviour
     private void Start() {
         _touchscreenInputActions = new TouchscreenInputActions(new InputMap());
 
-        _touchscreenInputActions.TapPosition += TapOnScreenPosition;
-
-        _touchscreenInputActions.FirstTouchActive += SetCameraMoveActive;
-        _touchscreenInputActions.SingleSwipeDelta += CameraMove;
-
-        _touchscreenInputActions.SecondTouchActive += SetCameraZoomActive;
-        _touchscreenInputActions.DoubleTouchPositions += CameraZoom;
+        SetAllGameplayActive(true);
         
         SetGameplayInputActionMapActive(true);
     }
 
-    #region GameplayInputActionMap
+    #region GameplayInputSwitch
+        public void SetAllGameplayActive(bool isActive) {
+            if (isActive) {
+                _touchscreenInputActions.TapPosition += TapOnScreenPosition;
 
+                _touchscreenInputActions.FirstTouchActive += SetCameraMoveActive;
+                _touchscreenInputActions.SingleSwipeDelta += CameraMove;
+
+                _touchscreenInputActions.SecondTouchActive += SetCameraZoomActive;
+                _touchscreenInputActions.DoubleTouchPositions += CameraZoom;
+            } 
+            else {
+                _touchscreenInputActions.TapPosition -= TapOnScreenPosition;
+
+                _touchscreenInputActions.FirstTouchActive -= SetCameraMoveActive;
+                _touchscreenInputActions.SingleSwipeDelta -= CameraMove;
+
+                _touchscreenInputActions.SecondTouchActive -= SetCameraZoomActive;
+                _touchscreenInputActions.DoubleTouchPositions -= CameraZoom;
+            }
+        }
+
+        public void SetMoveAndZoomActive(bool isActive) {
+            if (isActive) {
+                _touchscreenInputActions.FirstTouchActive += SetCameraMoveActive;
+                _touchscreenInputActions.SingleSwipeDelta += CameraMove;
+
+                _touchscreenInputActions.SecondTouchActive += SetCameraZoomActive;
+                _touchscreenInputActions.DoubleTouchPositions += CameraZoom;
+            } 
+            else {
+                _touchscreenInputActions.FirstTouchActive -= SetCameraMoveActive;
+                _touchscreenInputActions.SingleSwipeDelta -= CameraMove;
+
+                _touchscreenInputActions.SecondTouchActive -= SetCameraZoomActive;
+                _touchscreenInputActions.DoubleTouchPositions -= CameraZoom;
+            }
+        }
+
+        public void SetTapOnScreenActive(bool isActive) {
+            if (isActive) {
+                _touchscreenInputActions.TapPosition += TapOnScreenPosition;
+            } 
+            else {
+                _touchscreenInputActions.TapPosition -= TapOnScreenPosition;
+            }
+        }
+    #endregion
+
+    #region GameplayInputActionMap
         private void SetGameplayInputActionMapActive(bool isActive) {
             _touchscreenInputActions.SetGameplayInputActive(isActive);
         }
@@ -56,11 +100,11 @@ public sealed class InputManager : MonoBehaviour
         private void SetCameraZoomActive(bool isActive) {
             if (isActive) {
                 _oldDistanceTouchPosition = 0f;
-                _iCameraMove.SwitchCameraState(_cameraState = CameraState.CameraZooming);
-                _iCameraMove.SetCameraMovementActive(true);
+                _iCameraZoom.SwitchCameraState(_cameraState = CameraState.CameraZooming);
+                _iCameraZoom.SetCameraMovementActive(true);
             }
             else {
-                if (_cameraState == CameraState.CameraZooming) _iCameraMove.SetCameraMovementActive(false);
+                if (_cameraState == CameraState.CameraZooming) _iCameraZoom.SetCameraMovementActive(false);
             }
         }
 
@@ -87,9 +131,15 @@ public sealed class InputManager : MonoBehaviour
                 position = new Vector3(0f, 1f, -1f);
             }
 
-            _iCameraMove.SetNewZoomPosition(position);
+            _iCameraZoom.SetNewZoomPosition(position);
 
             _oldDistanceTouchPosition = correntTouchDistance;
         }
     #endregion
+}
+
+public interface ISwitchGameplayInput {
+    public void SetAllGameplayActive(bool isActive);
+    public void SetMoveAndZoomActive(bool isActive);
+    public void SetTapOnScreenActive(bool isActive);
 }

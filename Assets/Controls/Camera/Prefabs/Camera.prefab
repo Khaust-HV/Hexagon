@@ -54,10 +54,14 @@ MonoBehaviour:
   _HexagonLayer:
     serializedVersion: 2
     m_Bits: 8
-  _smoothSpeed: 0.075
+  _smoothSpeed: 0.125
+  _rotationSmoothSpeed: 5
   _sensitivityMove: 4
-  _sensitivityZoom: 125
-  _timeToStopMoveing: 1.5
+  _sensitivityZoom: 150
+  _timeToStopMoveing: 1.75
+  _orbitRadius: 15
+  _orbitHeight: 20
+  _satelliteSpeed: 10
   _maxHeight: 75
   _minHeight: 20
   _westBorder: -190
