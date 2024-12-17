@@ -1,0 +1,1 @@
+/Users/honcharenko/Documents/Unity/Projects/Hexagon/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/3wd4a4h5/obj/arm64-v8a

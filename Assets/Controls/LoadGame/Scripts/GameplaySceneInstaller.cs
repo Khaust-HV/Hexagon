@@ -1,37 +1,38 @@
+using GameConfigs;
 using UnityEngine;
 using Zenject;
 
 public sealed class GameplaySceneInstaller : MonoInstaller {
-    [Header("Managers prefabs")]
-    [SerializeField] private GameObject _playerManagerPrefab;
-    [SerializeField] private GameObject _inputManagerPrefab;
-    [Header("Other prefabs")]
-    [SerializeField] private GameObject _cameraControlPrefab;
-    [SerializeField] private GameObject _levelControlPrefab;
+    [Header("Level configs")]
+    [SerializeField] private LevelConfigs _levelConfigs;
+    [Header("DI prefabs")]
+    [SerializeField] private GameObject _cameraControllerPrefab;
 
     public override void InstallBindings() {
-        #region Managers
-            Container.BindInterfacesAndSelfTo<PlayerManager>()
-            .FromComponentInNewPrefab(_playerManagerPrefab)
-            .AsSingle()
-            .NonLazy();
+        Application.targetFrameRate = 120;
 
-            Container.BindInterfacesAndSelfTo<InputManager>()
-            .FromComponentInNewPrefab(_inputManagerPrefab)
-            .AsSingle()
-            .NonLazy();
-        #endregion
+        LevelConfigsBind();
 
-        #region Other Dependencies
-            Container.BindInterfacesAndSelfTo<CameraControl>()
-            .FromComponentInNewPrefab(_cameraControlPrefab)
-            .AsSingle()
-            .NonLazy();
+        ManagersInit();
 
-            Container.BindInterfacesAndSelfTo<LevelControl>()
-            .FromComponentInNewPrefab(_levelControlPrefab)
-            .AsSingle()
-            .NonLazy();
-        #endregion
+        OtherDependencesInit();
+    }
+
+    private void LevelConfigsBind() {
+        Container.Bind<LevelConfigs>().FromInstance(_levelConfigs).AsSingle().NonLazy();
+    }
+
+    private void ManagersInit() {
+        Container.BindInterfacesTo<PlayerManager>().AsSingle().NonLazy();
+        Container.BindInterfacesTo<InputManager>().AsSingle().NonLazy();
+        Container.BindInterfacesTo<LevelManager>().AsSingle().NonLazy();
+    }
+
+    private void OtherDependencesInit() {
+        Container.BindInterfacesTo<LevelObjectPool>().AsSingle().NonLazy();
+        Container.BindInterfacesTo<LevelObjectCreator>().AsSingle().NonLazy();
+        Container.BindInterfacesTo<LevelObjectBuilder>().AsSingle().NonLazy();
+        
+        Container.BindInterfacesAndSelfTo<CameraController>().FromComponentInNewPrefab(_cameraControllerPrefab).AsSingle().NonLazy();
     }
 }
