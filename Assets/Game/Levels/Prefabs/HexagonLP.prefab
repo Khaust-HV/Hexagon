@@ -123,9 +123,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 3f76ef63eb27d4a14a6373473a0633eb, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3f76ef63eb27d4a14a6373473a0633eb, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: b4012bdf3db3f44a3800a03c5614973e, type: 2}
+      objectReference: {fileID: 2100000, guid: ac2530d23451a4d20affe8e54dcc80b6, type: 2}
     - target: {fileID: 919132149155446097, guid: 3f76ef63eb27d4a14a6373473a0633eb, type: 3}
       propertyPath: m_Name
       value: HexagonLP
@@ -195,6 +199,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058672e61e200411cba21bfb434ae0b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 270
   _firstObjectPoist: {fileID: 6541236401022855217}
   _secondObjectPoist: {fileID: 1637365101197011889}

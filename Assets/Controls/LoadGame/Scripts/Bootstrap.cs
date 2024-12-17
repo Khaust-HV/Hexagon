@@ -1,8 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-public sealed class Bootstrap : MonoBehaviour
-{
+public sealed class Bootstrap : MonoBehaviour {
     #region DI
         IGenerateLevel _iGenerateLevel;
         IBuildingsCreate _iBuildingsCreate;
@@ -22,6 +21,7 @@ public sealed class Bootstrap : MonoBehaviour
     private void Awake() {
         // Generate level
         int sumNumberHexagons = _iBuildingsCreate.CreateHexagons();
+        
         _iGenerateLevel.SetSumNumberHexagons(sumNumberHexagons);
         _iGenerateLevel.GenerateLevel();
 

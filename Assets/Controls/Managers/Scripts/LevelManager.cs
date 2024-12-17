@@ -34,6 +34,7 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
 
     public void GenerateLevel() {
         SpreadHexagons();
+        RandomSetHexagonType(); // FIX IT !
     }
 
     public void SetSumNumberHexagons(int sumNumberHexagons) {
@@ -64,6 +65,14 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
                     }
                 }
             break;
+        }
+    }
+
+    private void RandomSetHexagonType() { // FIX IT !
+        for (int i = 0; i < _sumNumberHexagons; i++) {
+            int randomType = Random.Range(0, 5);
+
+            _iBuildingsPool.GetHexagonByID(i).SetHexagonTypeAndEnable((HexagonType)randomType);
         }
     }
 }

@@ -12,28 +12,30 @@ public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjec
     #endregion
 
     #region DI
-        private LevelObjectFactory _levelObjectFactory;
-
+        private ILevelObjectFactory _iLevelObjectFactory;
         private IBuildingsPool _iBuildingsPool;
         private IUnitsPool _iUnitsPool;
         private IProjectilesPool _iProjectilesPool;
     #endregion
 
     [Inject]
-    private void Construct(IBuildingsPool iBuildingsPool, IUnitsPool iUnitsPool, IProjectilesPool iProjectilesPool, LevelConfigs levelConfigs) {
+    private void Construct (
+        IBuildingsPool iBuildingsPool, 
+        IUnitsPool iUnitsPool, 
+        IProjectilesPool iProjectilesPool, 
+        ILevelObjectFactory iLevelObjectFactory, 
+        LevelConfigs levelConfigs) {
         // Set DI
         _iBuildingsPool = iBuildingsPool;
         _iUnitsPool = iUnitsPool;
         _iProjectilesPool = iProjectilesPool;
+        _iLevelObjectFactory = iLevelObjectFactory;
 
         // Set configurations
         _hexagonPrefab = levelConfigs.HexagonPrefab;
         _hexagonSize = levelConfigs.HexagonSize;
         _algorithmOfLevelBuilding = levelConfigs.AlgorithmOfLevelBuilding;
         _numberOfRings = levelConfigs.NumberOfRings;
-
-        // Init DI
-        _levelObjectFactory = new LevelObjectFactory();
     }
 
     public int CreateHexagons() {
@@ -45,7 +47,7 @@ public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjec
 
                 sumNumberHexagons = 1 + 6 * sumFirstNumber;
 
-                List<IHexagonControl> hexagonList = _levelObjectFactory.CreateObjects<IHexagonControl> (
+                List<IHexagonControl> hexagonList = _iLevelObjectFactory.CreateObjects<IHexagonControl> (
                     prefab: _hexagonPrefab, 
                     number: sumNumberHexagons, 
                     trParentObject: _iBuildingsPool.GetHexagonTransformPool(),

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8873a9fafec694d55bd5f027ec737b9b, type: 3}
   m_Name: FirstLevelConfigs
   m_EditorClassIdentifier: 
-  <HexagonPrefab>k__BackingField: {fileID: 0}
-  <HexagonSize>k__BackingField: 0
+  <HexagonPrefab>k__BackingField: {fileID: 2948477954461666615, guid: b9c36ecd629044b728ae15a3d19da442, type: 3}
+  <HexagonSize>k__BackingField: 10
   <AlgorithmOfLevelBuilding>k__BackingField: 0
-  <NumberOfRings>k__BackingField: 0
+  <NumberOfRings>k__BackingField: 10
