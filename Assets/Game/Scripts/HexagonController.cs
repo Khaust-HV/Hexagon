@@ -5,66 +5,43 @@ using Zenject;
 
 public sealed class HexagonController : MonoBehaviour, IHexagonControl {
     [Header("Hexagon object points")]
-    [SerializeField] private Transform _firstObjectPoist;
-    [SerializeField] private Transform _secondObjectPoist;
+    [SerializeField] private Transform _firstObjectPoint;
+    [SerializeField] private Transform _secondObjectPoint;
 
-    #region Hexagon Settings
-        private float _rotationSpeed;
-
-        private Material _defaultHexagonMaterial;
-        private Material _shadowHexagonMaterial;
-        private Material _randomHexagonMaterial;
-        private Material _fragileHexagonMaterial;
-        private Material _temporaryHexagonMaterial;
-
-        private float _minTimeForAutoHexagonRotate;
-        private float _maxTimeForAutoHexagonRotate;
-
+    #region Hexagon Config Settings
         private int _minNumberRotationsForHexagon;
         private int _maxNumberRotationsForHexagon;
 
         private float _minTimeSquadForHexagon;
         private float _maxTimeSquadForHexagon;
-
-
     #endregion
 
     private HexagonType _hexagonType;
+    private int _currentAvailableNumberRotations;
+
     private IHexagonObjectControl _currentObject;
     private IHexagonObjectControl _oldObject;
-    private MeshRenderer _mhHexagon;
-    
-    // Hexagon type value
-    private bool _isRotation;
-    private bool _isCollapses;
-    private bool _isRandomRotation;
-    private bool _isFragile;
-    private EfficiencyOfBuildingsType _efficiencyOfBuildings;
-    private int _currentAvailableNumberRotations;
-    private IEnumerator _hexagonRotation;
-    private IEnumerator _randomRotation;
+
     private IEnumerator _destroyBecauseSquad;
 
     public int HexagonID { get; private set; }
 
+    private HexagonTypeControl _hexagonTypeControl;
+    private HexagonRotationControl _hexagonRotationControl;
+    private HexagonDestroyControl _hexagonDestroyControl;
+
     [Inject]
     private void Construct(HexagonConfigs hexagonConfigs) {
-        _rotationSpeed = hexagonConfigs.RotationSpeed;
-
-        _defaultHexagonMaterial = hexagonConfigs.DefaultHexagonMaterial;
-        _shadowHexagonMaterial = hexagonConfigs.ShadowHexagonMaterial;
-        _randomHexagonMaterial = hexagonConfigs.RandomHexagonMaterial;
-        _fragileHexagonMaterial = hexagonConfigs.FragileHexagonMaterial;
-        _temporaryHexagonMaterial = hexagonConfigs.TemporaryHexagonMaterial;
-
-        _minTimeForAutoHexagonRotate = hexagonConfigs.MinTimeForAutoHexagonRotate;
-        _maxTimeForAutoHexagonRotate = hexagonConfigs.MaxTimeForAutoHexagonRotate;
         _minNumberRotationsForHexagon = hexagonConfigs.MinNumberRotationsForHexagon;
         _maxNumberRotationsForHexagon = hexagonConfigs.MaxNumberRotationsForHexagon;
         _minTimeSquadForHexagon = hexagonConfigs.MinTimeSquadForHexagon;
         _maxTimeSquadForHexagon = hexagonConfigs.MaxTimeSquadForHexagon;
 
-        _mhHexagon = gameObject.GetComponent<MeshRenderer>();
+        _hexagonTypeControl = GetComponent<HexagonTypeControl>();
+        _hexagonRotationControl = GetComponent<HexagonRotationControl>();
+        _hexagonDestroyControl = GetComponent<HexagonDestroyControl>();
+
+        _hexagonRotationControl.HexagonRandomRotation += CheckingBeforeRotate;
     }
 
     public void SetPositionAndID(Vector3 position, int id) {
@@ -77,78 +54,35 @@ public sealed class HexagonController : MonoBehaviour, IHexagonControl {
         
         gameObject.SetActive(true);
 
+        _hexagonTypeControl.SetHexagonType(hexagonType, rotateShadow);
+
+        _currentAvailableNumberRotations = Random.Range(_minNumberRotationsForHexagon, _maxNumberRotationsForHexagon);
+
         switch (hexagonType) {
-            case HexagonType.Default:
-                _mhHexagon.material = _defaultHexagonMaterial;
-                _isRotation = true;
-                _isCollapses = true;
-                _isRandomRotation = false;
-                _isFragile = false;
-                _efficiencyOfBuildings = EfficiencyOfBuildingsType.Standard;
-            break;
-
-            case HexagonType.Shadow:
-                _mhHexagon.material = _shadowHexagonMaterial;
-                _isRotation = rotateShadow;
-                _isCollapses = false;
-                _isRandomRotation = false;
-                _isFragile = false;
-                if (rotateShadow) _efficiencyOfBuildings = EfficiencyOfBuildingsType.Standard;
-                else _efficiencyOfBuildings = EfficiencyOfBuildingsType.Low;
-            break;
-
             case HexagonType.Random:
-                _mhHexagon.material = _randomHexagonMaterial;
-                _isRotation = true;
-                _isCollapses = true;
-                _isRandomRotation = true;
-                _isFragile = false;
-                _efficiencyOfBuildings = EfficiencyOfBuildingsType.High;
-                StartCoroutine(_randomRotation = RandomRotation());
-            break;
-
-            case HexagonType.Fragile:
-                _mhHexagon.material = _fragileHexagonMaterial;
-                _isRotation = true;
-                _isCollapses = true;
-                _isRandomRotation = false;
-                _isFragile = true;
-                _efficiencyOfBuildings = EfficiencyOfBuildingsType.High;
-                _currentAvailableNumberRotations = Random.Range(_minNumberRotationsForHexagon, _maxNumberRotationsForHexagon);
-            break;
-
             case HexagonType.Temporary:
-                _mhHexagon.material = _temporaryHexagonMaterial;
-                _isRotation = true;
-                _isCollapses = true;
-                _isRandomRotation = true;
-                _isFragile = true;
-                _efficiencyOfBuildings = EfficiencyOfBuildingsType.VeryHigh;
-                _currentAvailableNumberRotations = Random.Range(_minNumberRotationsForHexagon, _maxNumberRotationsForHexagon);
-                StartCoroutine(_randomRotation = RandomRotation());
+                _hexagonRotationControl.StartRandomRotation();
             break;
         }
     }
 
-    private IEnumerator RandomRotation() {
-        while (true) {
-            float timeToRotate = Random.Range(_minTimeForAutoHexagonRotate, _maxTimeForAutoHexagonRotate);
+    private IEnumerator DestroyBecauseSquad() {
+        float timeToDestroy = Random.Range(_minTimeSquadForHexagon, _maxTimeSquadForHexagon);
 
-            yield return new WaitForSeconds(timeToRotate);
+        yield return new WaitForSeconds(timeToDestroy);
 
-            CheckingBeforeRotate();
-        }
+        _hexagonDestroyControl.DestroyPlannedHexagon();
     }
 
     private void CheckingBeforeRotate() {
         switch (_hexagonType) {
             case HexagonType.Shadow:
-                if (!_isRotation) return;
+                if (!_hexagonTypeControl.IsRotation) return;
             break;
 
             case HexagonType.Fragile:
                 if (_currentAvailableNumberRotations - 1 <= 0) {
-                    DestroyHexagon();
+                    _hexagonDestroyControl.DestroyPlannedHexagon();
 
                     return;
                 }
@@ -157,9 +91,9 @@ public sealed class HexagonController : MonoBehaviour, IHexagonControl {
 
             case HexagonType.Temporary:
                 if (_currentAvailableNumberRotations - 1 <= 0) {
-                    DestroyHexagon();
+                    StopCoroutine(_hexagonRotationControl.IERandomHexagonRotation);
 
-                    StopCoroutine(_randomRotation);
+                    _hexagonDestroyControl.DestroyPlannedHexagon();
 
                     return;
                 }
@@ -169,11 +103,7 @@ public sealed class HexagonController : MonoBehaviour, IHexagonControl {
 
         // Set new object
 
-        StartCoroutine(_hexagonRotation = HexagonRotation());
-    }
-
-    private void DestroyHexagon() {
-        
+        _hexagonRotationControl.StartRotation();
     }
 
     public void SetFirstObject(IHexagonObjectControl iHexagonObjectControl) {
@@ -181,56 +111,10 @@ public sealed class HexagonController : MonoBehaviour, IHexagonControl {
 
         //Set object parent and position
     }
-
-    private IEnumerator HexagonRotation() {
-        bool rotateAroundX = Random.Range(0, 2) == 0;
-        int direction = Random.Range(0, 2) == 0 ? 1 : -1;
-
-        Vector3 rotationAxis;
-
-        if (rotateAroundX) {
-            rotationAxis = Vector3.right * direction;
-        } else {
-            rotationAxis = Vector3.forward * direction;
-        }
-
-        float targetAngle = 180f * direction;
-
-        float rotatedAngle = 0f;
-        
-        while (Mathf.Abs(rotatedAngle) < Mathf.Abs(targetAngle)) {
-            float stepAngle = _rotationSpeed * direction * Time.deltaTime;
-
-            if (Mathf.Abs(rotatedAngle + stepAngle) > Mathf.Abs(targetAngle)) {
-                stepAngle = targetAngle - rotatedAngle;
-            }
-
-            transform.Rotate(rotationAxis, stepAngle, Space.World);
-
-            rotatedAngle += stepAngle;
-
-            yield return null;
-        }
-    }
 }
 
 public interface IHexagonControl {
     public void SetPositionAndID(Vector3 position, int id);
     public void SetHexagonTypeAndEnable(HexagonType hexagonType, bool rotateShadow = false);
     public void SetFirstObject(IHexagonObjectControl iHexagonObjectControl);
-}
-
-public enum HexagonType {
-    Default,
-    Shadow,
-    Random,
-    Fragile,
-    Temporary
-}
-
-public enum EfficiencyOfBuildingsType {
-    Low,
-    Standard,
-    High,
-    VeryHigh
 }

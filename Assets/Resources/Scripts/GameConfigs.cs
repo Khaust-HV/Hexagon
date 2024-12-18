@@ -11,11 +11,10 @@ namespace GameConfigs {
 
     [CreateAssetMenu(menuName = "Configs/HexagonConfigs", fileName = "HexagonConfigs")]
     public sealed class HexagonConfigs : ScriptableObject {
-        [field: SerializeField] public float RotationSpeed { get; private set; }
+        [field: SerializeField] public int RotationSpeed { get; private set; }
         [field: SerializeField] public Material DefaultHexagonMaterial { get; private set; }
         [field: SerializeField] public Material ShadowHexagonMaterial { get; private set; }
         [field: SerializeField] public Material RandomHexagonMaterial { get; private set; }
-        [field: SerializeField] public Material FragileHexagonMaterial { get; private set; }
         [field: SerializeField] public Material TemporaryHexagonMaterial { get; private set; }
         [field: SerializeField] public float MinTimeForAutoHexagonRotate { get; private set; }
         [field: SerializeField] public float MaxTimeForAutoHexagonRotate { get; private set; }

@@ -3,7 +3,7 @@ using UnityEngine;
 using Zenject;
 
 public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
-    #region Level Settings
+    #region Level Config Settings
         private float _hexagonSize;
         private AlgorithmOfLevelBuilding _algorithmOfLevelBuilding;
         private int _numberOfRings;
