@@ -13,13 +13,16 @@ MonoBehaviour:
   m_Name: HexagonConfigs
   m_EditorClassIdentifier: Assembly-CSharp:GameConfigs:HexagonConfigs
   <RotationSpeed>k__BackingField: 300
-  <DefaultHexagonMaterial>k__BackingField: {fileID: 2100000, guid: ac2530d23451a4d20affe8e54dcc80b6, type: 2}
-  <ShadowHexagonMaterial>k__BackingField: {fileID: 2100000, guid: 5594c4d27473e4335bb597e669363f43, type: 2}
-  <RandomHexagonMaterial>k__BackingField: {fileID: 2100000, guid: 2117160354be440158dbbc0f7ece7c97, type: 2}
-  <TemporaryHexagonMaterial>k__BackingField: {fileID: 2100000, guid: 6c6d9011dd42b49f1b321636edbb7194, type: 2}
   <MinTimeForAutoHexagonRotate>k__BackingField: 5
   <MaxTimeForAutoHexagonRotate>k__BackingField: 20
   <MinNumberRotationsForHexagon>k__BackingField: 2
   <MaxNumberRotationsForHexagon>k__BackingField: 3
-  <MinTimeSquadForHexagon>k__BackingField: 10
-  <MaxTimeSquadForHexagon>k__BackingField: 30
+  <DefaultHexagonMaterial>k__BackingField: {fileID: 2100000, guid: ac2530d23451a4d20affe8e54dcc80b6, type: 2}
+  <ShadowHexagonMaterial>k__BackingField: {fileID: 2100000, guid: 5594c4d27473e4335bb597e669363f43, type: 2}
+  <RandomHexagonMaterial>k__BackingField: {fileID: 2100000, guid: 2117160354be440158dbbc0f7ece7c97, type: 2}
+  <TemporaryHexagonMaterial>k__BackingField: {fileID: 2100000, guid: 6c6d9011dd42b49f1b321636edbb7194, type: 2}
+  <MinTimeSquadForHexagon>k__BackingField: 2
+  <MaxTimeSquadForHexagon>k__BackingField: 5
+  <TimeToDestroyParts>k__BackingField: 3
+  <ForcePlannedExplosion>k__BackingField: 750
+  <ForceNonPlannedExplosion>k__BackingField: 750
