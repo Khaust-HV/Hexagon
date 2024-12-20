@@ -5,28 +5,23 @@ using Zenject;
 
 namespace Hexagon {
     public sealed class HexagonController : MonoBehaviour, IHexagonControl {
-        [Header("Hexagon object points")]
-        [SerializeField] private Transform _firstObjectPoint;
-        [SerializeField] private Transform _secondObjectPoint;
-
         #region Hexagon Config Settings
             private int _minNumberRotationsForHexagon;
             private int _maxNumberRotationsForHexagon;
         #endregion
 
         public event Action CameraLooking;
+        public event Action<int> NeedNewHexagonObject;
 
         private HexagonType _hexagonType;
         private int _currentAvailableNumberRotations;
         private bool _isHexagonActive;
 
-        private IHexagonObjectControl _currentObject;
-        private IHexagonObjectControl _oldObject;
-
         private HexagonTypeControl _hexagonTypeControl;
         private HexagonRotationControl _hexagonRotationControl;
         private HexagonDestroyControl _hexagonDestroyControl;
         private HexagonUnitAreaControl _hexagonUnitAreaControl;
+        private HexagonSetObjectControl _hexagonSetObjectControl;
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {
@@ -37,6 +32,7 @@ namespace Hexagon {
             _hexagonRotationControl = GetComponent<HexagonRotationControl>();
             _hexagonDestroyControl = GetComponent<HexagonDestroyControl>();
             _hexagonUnitAreaControl = transform.GetChild(0).GetComponent<HexagonUnitAreaControl>();
+            _hexagonSetObjectControl = GetComponent<HexagonSetObjectControl>();
 
             _hexagonRotationControl.HexagonRandomRotation += CheckingBeforeRotate;
             _hexagonDestroyControl.RestoreHexagon += RestoreHexagon;
@@ -75,6 +71,12 @@ namespace Hexagon {
             }
         }
 
+        public void SetHexagonObject(IHexagonObjectControl iHexagonObjectControl) {
+            _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl);
+
+            _hexagonRotationControl.StartRotation();
+        }
+
         private void CheckingBeforeRotate() {
             switch (_hexagonType) {
                 case HexagonType.Shadow:
@@ -94,9 +96,9 @@ namespace Hexagon {
 
             CameraLooking?.Invoke(); // If a player has taken a focus but the hexagon is rotation
 
-            // Set new object
+            NeedNewHexagonObject?.Invoke(_hexagonUnitAreaControl.HexagonID); // Request to level for a new object
 
-            _hexagonRotationControl.StartRotation();
+            _hexagonRotationControl.StartRotation(); // FIX IT !
         }
 
         private void DestroyHexagon(bool isPlanned) {
@@ -104,33 +106,35 @@ namespace Hexagon {
 
             CameraLooking?.Invoke(); // If a player has taken a focus but the hexagon is destroyed
 
-            if (isPlanned) {
-                _hexagonDestroyControl.DestroyPlannedHexagon();
-            }
-            else {
-                _hexagonDestroyControl.DestroyNonPlannedHexagon();
-            }
+            if (isPlanned) _hexagonDestroyControl.DestroyPlannedHexagon();
+            else _hexagonDestroyControl.DestroyNonPlannedHexagon();
         }
 
         private void StopActivity() {
             _hexagonRotationControl.StopAllRotation();
+
+            switch (_hexagonType) {
+                case HexagonType.Fragile:
+                case HexagonType.Temporary:
+                    _hexagonUnitAreaControl.SetUnitAreaActive(false);
+                break;
+            }
         }
 
         private void RestoreHexagon() {
             _isHexagonActive = false;
         }
 
-        public void SetFirstObject(IHexagonObjectControl iHexagonObjectControl) {
-            _currentObject = iHexagonObjectControl;
-
-            //Set object parent and position
+        public bool IsHexagonActive() {
+            return _isHexagonActive;
         }
     }
 
     public interface IHexagonControl {
         public void SetPositionAndID(Vector3 position, int id);
         public void SetHexagonTypeAndEnable(HexagonType hexagonType, bool rotateShadow = false);
-        public void SetFirstObject(IHexagonObjectControl iHexagonObjectControl);
+        public void SetHexagonObject(IHexagonObjectControl iHexagonObjectControl);
         public event Action CameraLooking;
+        public bool IsHexagonActive();
     }
 }

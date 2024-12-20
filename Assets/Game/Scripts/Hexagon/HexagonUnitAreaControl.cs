@@ -7,8 +7,8 @@ using Zenject;
 namespace Hexagon {
     public sealed class HexagonUnitAreaControl : MonoBehaviour {
         #region Hexagon Config Settings
-            private float _minTimeSquadForHexagon;
-            private float _maxTimeSquadForHexagon;
+            private float _minTimeUnitInAreaForHexagon;
+            private float _maxTimeUnitInAreaForHexagon;
         #endregion
 
         public event Action<bool> DestroyHexagon;
@@ -21,8 +21,8 @@ namespace Hexagon {
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {
-            _minTimeSquadForHexagon = hexagonConfigs.MinTimeSquadForHexagon;
-            _maxTimeSquadForHexagon = hexagonConfigs.MaxTimeSquadForHexagon;
+            _minTimeUnitInAreaForHexagon = hexagonConfigs.MinTimeUnitInAreaForHexagon;
+            _maxTimeUnitInAreaForHexagon = hexagonConfigs.MaxTimeUnitInAreaForHexagon;
 
             _hexagonUnitDetectionArea = transform.GetChild(0).GetComponent<HexagonUnitDetectionArea>();
             _hexagonUnitDetectionArea.UnitDetected += IsUnitsInAreaDetected;
@@ -38,7 +38,7 @@ namespace Hexagon {
                 _mcUnitsArea.enabled = true;
             } else {
                 _mcUnitsArea.enabled = false;
-                StopCoroutine(_iEDestroyBecauseSquad);
+                if (_iEDestroyBecauseSquad != null) IsUnitsInAreaDetected(false);
             }
         }
 
@@ -51,7 +51,7 @@ namespace Hexagon {
         }
 
         private IEnumerator DestroyBecauseSquad() {
-            float timeToDestroy = UnityEngine.Random.Range(_minTimeSquadForHexagon, _maxTimeSquadForHexagon);
+            float timeToDestroy = UnityEngine.Random.Range(_minTimeUnitInAreaForHexagon, _maxTimeUnitInAreaForHexagon);
 
             yield return new WaitForSeconds(timeToDestroy);
 

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5586759957325575945}
   - component: {fileID: 4493647720693204119}
   - component: {fileID: 7016221864879503782}
+  - component: {fileID: 2243182222679065975}
   m_Layer: 0
   m_Name: Hexagon
   m_TagString: Untagged
@@ -52,8 +53,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058672e61e200411cba21bfb434ae0b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _firstObjectPoint: {fileID: 622703348515751879}
-  _secondObjectPoint: {fileID: 3981908331999082072}
 --- !u!114 &5586759957325575945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +120,20 @@ MonoBehaviour:
   - {fileID: 2944714164960222381}
   - {fileID: 2731157652652724205}
   - {fileID: 1446466395303572822}
+--- !u!114 &2243182222679065975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131078191774577411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 066dccff713d14a13b781a762eae7c15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _firstObjectPoint: {fileID: 622703348515751879}
+  _secondObjectPoint: {fileID: 3981908331999082072}
 --- !u!1 &7110274063681576775
 GameObject:
   m_ObjectHideFlags: 0

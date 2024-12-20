@@ -7,7 +7,7 @@ using Zenject;
 namespace Hexagon {
     public sealed class HexagonRotationControl : MonoBehaviour {
         #region Hexagon Config Settings
-            private int _rotationSpeed;
+            private float _rotationTime;
 
             private float _minTimeForAutoHexagonRotate;
             private float _maxTimeForAutoHexagonRotate;
@@ -17,7 +17,7 @@ namespace Hexagon {
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {
-            _rotationSpeed = hexagonConfigs.RotationSpeed;
+            _rotationTime = hexagonConfigs.RotationTime;
             
             _minTimeForAutoHexagonRotate = hexagonConfigs.MinTimeForAutoHexagonRotate;
             _maxTimeForAutoHexagonRotate = hexagonConfigs.MaxTimeForAutoHexagonRotate;
@@ -49,26 +49,19 @@ namespace Hexagon {
             bool rotateAroundX = UnityEngine.Random.Range(0, 2) == 0;
             int direction = UnityEngine.Random.Range(0, 2) == 0 ? 1 : -1;
 
-            Vector3 rotationAxis;
+            Vector3 rotationAxis = (rotateAroundX ? Vector3.right : Vector3.forward) * direction;
 
-            if (rotateAroundX) {
-                rotationAxis = Vector3.right * direction;
-            } else {
-                rotationAxis = Vector3.forward * direction;
-            }
-
-            float targetAngle = 180f * direction;
+            float targetAngle = 180f;
             float rotatedAngle = 0f;
-            
-            while (Mathf.Abs(rotatedAngle) < Mathf.Abs(targetAngle)) {
-                float stepAngle = _rotationSpeed * direction * Time.deltaTime;
+            float rotationSpeed = targetAngle / _rotationTime;
 
-                if (Mathf.Abs(rotatedAngle + stepAngle) > Mathf.Abs(targetAngle)) {
+            while (Mathf.Abs(rotatedAngle) < targetAngle) {
+                float stepAngle = rotationSpeed * Time.deltaTime;
+                if (rotatedAngle + stepAngle > targetAngle) {
                     stepAngle = targetAngle - rotatedAngle;
                 }
 
                 transform.Rotate(rotationAxis, stepAngle, Space.World);
-
                 rotatedAngle += stepAngle;
 
                 yield return null;

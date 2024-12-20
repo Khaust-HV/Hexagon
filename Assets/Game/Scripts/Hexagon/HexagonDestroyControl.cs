@@ -93,7 +93,7 @@ namespace Hexagon {
 
             while (timePassed < _timeToDestroyParts) {
                 timePassed += Time.deltaTime;
-                float percentageTime = timePassed * 100 / _timeToDestroyParts;
+                // float percentageTime = timePassed * 100 / _timeToDestroyParts;
 
                 // Set hide effect for parts
 
@@ -127,6 +127,8 @@ namespace Hexagon {
                 _trDestroyedHexagonParts[i].localPosition = Vector3.zero;
                 _trDestroyedHexagonParts[i].localRotation = Quaternion.identity;
             }
+
+            transform.position = Vector3.zero;
 
             RestoreHexagon?.Invoke();
         }
