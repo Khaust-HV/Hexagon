@@ -1,3 +1,4 @@
+using LevelObjectsPool;
 using Hexagon;
 using GameConfigs;
 using UnityEngine;
@@ -36,8 +37,8 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
     }
 
     public void SetThisHexagonTargetActive(int hexagonID, bool isActive) {
-        if (isActive) _iBuildingsPool.GetHexagonByID(hexagonID).CameraLooking += HexagonDestroyOrRotation;
-        else _iBuildingsPool.GetHexagonByID(hexagonID).CameraLooking -= HexagonDestroyOrRotation;
+        if (isActive) _iBuildingsPool.GetHexagonControllerByID(hexagonID).CameraLooking += HexagonDestroyOrRotation;
+        else _iBuildingsPool.GetHexagonControllerByID(hexagonID).CameraLooking -= HexagonDestroyOrRotation;
     }
 
     private void HexagonDestroyOrRotation() {
@@ -62,7 +63,7 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
 
                 int hexagonNumber = 0;
 
-                _iBuildingsPool.GetHexagonByID(hexagonNumber).SetPositionAndID(Vector3.zero, hexagonNumber++);
+                _iBuildingsPool.GetHexagonControllerByID(hexagonNumber).SetPositionAndID(Vector3.zero, hexagonNumber++);
 
                 for (int ring = 1; ring <= _numberOfRings; ring++) {
                     for (int side = 0; side < 6; side++) {
@@ -72,7 +73,7 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
 
                             Vector3 offset = new Vector3(x, 0, z);
 
-                            _iBuildingsPool.GetHexagonByID(hexagonNumber).SetPositionAndID(offset, hexagonNumber++);
+                            _iBuildingsPool.GetHexagonControllerByID(hexagonNumber).SetPositionAndID(offset, hexagonNumber++);
                         }
                     }
                 }
@@ -84,7 +85,7 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
         for (int i = 0; i < _sumNumberHexagons; i++) {
             int randomType = Random.Range(0, 5);
 
-            _iBuildingsPool.GetHexagonByID(i).SetHexagonTypeAndEnable((HexagonType)randomType);
+            _iBuildingsPool.GetHexagonControllerByID(i).SetHexagonTypeAndEnable((HexagonType)randomType);
         }
     }
 }

@@ -96,7 +96,7 @@ namespace Hexagon {
 
             CameraLooking?.Invoke(); // If a player has taken a focus but the hexagon is rotation
 
-            NeedNewHexagonObject?.Invoke(_hexagonUnitAreaControl.HexagonID); // Request to level for a new object
+            NeedNewHexagonObject?.Invoke(_hexagonUnitAreaControl.HexagonID); // Request to levelManager for a new object
 
             _hexagonRotationControl.StartRotation(); // FIX IT !
         }
@@ -125,7 +125,7 @@ namespace Hexagon {
             _isHexagonActive = false;
         }
 
-        public bool IsHexagonActive() {
+        public bool IsHexagonControllerActive() {
             return _isHexagonActive;
         }
     }
@@ -135,6 +135,6 @@ namespace Hexagon {
         public void SetHexagonTypeAndEnable(HexagonType hexagonType, bool rotateShadow = false);
         public void SetHexagonObject(IHexagonObjectControl iHexagonObjectControl);
         public event Action CameraLooking;
-        public bool IsHexagonActive();
+        public bool IsHexagonControllerActive();
     }
 }

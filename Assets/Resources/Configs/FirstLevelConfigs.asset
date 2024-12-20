@@ -15,4 +15,4 @@ MonoBehaviour:
   <HexagonPrefab>k__BackingField: {fileID: 1131078191774577411, guid: b9c36ecd629044b728ae15a3d19da442, type: 3}
   <HexagonSize>k__BackingField: 10
   <AlgorithmOfLevelBuilding>k__BackingField: 0
-  <NumberOfRings>k__BackingField: 1
+  <NumberOfRings>k__BackingField: 10
