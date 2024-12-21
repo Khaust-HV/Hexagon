@@ -1,5 +1,5 @@
 # Hexagon
- Pet-project version 0.0.12
+ Pet-project version 0.0.19
 
 // Version Unity Editor - 60000.0.30f1
 

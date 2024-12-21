@@ -7,13 +7,11 @@ using Zenject;
 
 public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjectilesCreate {
     #region Level Config Settings
+        private int _numberObjectsCreatedInCaseOfShortage;
         private GameObject _hexagonControllerPrefab;
         private float _hexagonSize;
-        private AlgorithmOfLevelBuilding _algorithmOfLevelBuilding;
-        private int _numberOfRings;
-        private int _numberObjectsCreatedInCaseOfShortage;
-        private float _hexagonObjectSize;
         private GameObject _hexagonObjectsControllerPrefab;
+        private float _hexagonObjectSize;
     #endregion
 
     #region DI
@@ -37,13 +35,11 @@ public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjec
         _iLevelObjectFactory = iLevelObjectFactory;
 
         // Set configurations
+        _numberObjectsCreatedInCaseOfShortage = levelConfigs.NumberObjectsCreatedInCaseOfShortage;
         _hexagonControllerPrefab = levelConfigs.HexagonControllerPrefab;
         _hexagonSize = levelConfigs.HexagonSize;
-        _algorithmOfLevelBuilding = levelConfigs.AlgorithmOfLevelBuilding;
-        _numberOfRings = levelConfigs.NumberOfRings;
-        _numberObjectsCreatedInCaseOfShortage = levelConfigs.NumberObjectsCreatedInCaseOfShortage;
-        _hexagonObjectSize = levelConfigs.HexagonObjectSize;
         _hexagonObjectsControllerPrefab = levelConfigs.HexagonObjectsControllerPrefab;
+        _hexagonObjectSize = levelConfigs.HexagonObjectSize;
     }
 
     public IHexagonControl CreateSomeHexagonControllers() {

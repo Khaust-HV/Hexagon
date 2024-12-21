@@ -1,7 +1,11 @@
 using UnityEngine;
 
-public sealed class HexagonObjectController : MonoBehaviour {
+public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectControl {
+    private bool _isHexagonObjectActive;
     
+    public bool IsHexagonObjectControllerActive() {
+        return _isHexagonObjectActive;
+    }
 }
 
 public interface IHexagonObjectControl {

@@ -16,6 +16,7 @@ namespace Hexagon {
         private HexagonType _hexagonType;
         private int _currentAvailableNumberRotations;
         private bool _isHexagonActive;
+        private bool _isHexagonAlreadyUsed;
 
         private HexagonTypeControl _hexagonTypeControl;
         private HexagonRotationControl _hexagonRotationControl;
@@ -44,6 +45,7 @@ namespace Hexagon {
             _hexagonUnitAreaControl.SetHexagonID(id);
 
             _isHexagonActive = true;
+            _isHexagonAlreadyUsed = true;
             gameObject.SetActive(true);
         }
 
@@ -127,6 +129,10 @@ namespace Hexagon {
         public bool IsHexagonControllerActive() {
             return _isHexagonActive;
         }
+
+        public bool IsHexagonControllerAlreadyUsed() {
+            return _isHexagonAlreadyUsed;
+        }
     }
 
     public interface IHexagonControl {
@@ -135,5 +141,7 @@ namespace Hexagon {
         public void SetHexagonObject(IHexagonObjectControl iHexagonObjectControl);
         public event Action CameraLooking;
         public bool IsHexagonControllerActive();
+        public event Action<int> NeedNewHexagonObject;
+        public bool IsHexagonControllerAlreadyUsed();
     }
 }

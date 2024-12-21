@@ -12,11 +12,11 @@ namespace LevelObjectsPool {
             private Transform _trSquadsPool;
         #endregion
 
-        private Dictionary<System.Type, Dictionary<System.Enum, List<IHexagonObjectElement>>> _hexagonObjectsStorage;
+        private Dictionary<System.Type, Dictionary<System.Enum, List<IHexagonObjectElement>>> _hexagonObjectsStorage = new();
 
-        private List<IHexagonControl> _hexagonControllersList;
-        private List<IHexagonObjectControl> _hexagonObjectContrlollersList;
-        private List<IHexagonControl> _squadsList;
+        private List<IHexagonControl> _hexagonControllersList = new();
+        private List<IHexagonObjectControl> _hexagonObjectContrlollersList = new();
+        private List<IHexagonControl> _squadsList = new();
 
         #region DI 
             private IBuildingsCreate _iBuildingsCreate;
@@ -31,24 +31,9 @@ namespace LevelObjectsPool {
             _iProjectilesCreate = iProjectilesCreate;
 
             Transform objectPool = new GameObject("LevelObjectPool").transform;
-
-            _trHexagonsPool = new GameObject("Hexagons").transform;
-            _trHexagonsPool.SetParent(objectPool);
-
-            _trHexagonObjectsPool = new GameObject("HexagonObjects").transform;
-            _trHexagonObjectsPool.SetParent(objectPool);
-
-            _trUnitsPool = new GameObject("Units").transform;
-            _trUnitsPool.SetParent(objectPool);
-
-            _trSquadsPool = new GameObject("Squads").transform;
-            _trSquadsPool.SetParent(objectPool);
-
-            _hexagonObjectsStorage = new Dictionary<System.Type, Dictionary<System.Enum, List<IHexagonObjectElement>>>();
-
-            _hexagonControllersList = new List<IHexagonControl>();
-            _hexagonObjectContrlollersList = new List<IHexagonObjectControl>();
-            _squadsList = new List<IHexagonControl>();
+            (_trHexagonsPool = new GameObject("Hexagons").transform).SetParent(objectPool);
+            (_trHexagonObjectsPool = new GameObject("HexagonObjects").transform).SetParent(objectPool);
+            (_trUnitsPool = new GameObject("Units").transform).SetParent(objectPool);
         }
 
         public Transform GetHexagonTransformPool() {
@@ -88,7 +73,7 @@ namespace LevelObjectsPool {
                         if (element.IsHexagonObjectElementActive()) return element;
                     }
 
-                    return _iBuildingsCreate.CreateSomeHexagonObjects(type);
+                return _iBuildingsCreate.CreateSomeHexagonObjects(type);
             }
 
             return null;

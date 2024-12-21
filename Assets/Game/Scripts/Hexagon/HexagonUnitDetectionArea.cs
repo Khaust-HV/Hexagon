@@ -6,7 +6,7 @@ namespace Hexagon {
     public sealed class HexagonUnitDetectionArea : MonoBehaviour {
         public event Action<bool> UnitDetected;
 
-        private List<GameObject> _listUnitsInArea = new List<GameObject>();
+        private List<GameObject> _listUnitsInArea = new();
 
         private void OnTriggerEnter(Collider other) {
             if (other.CompareTag("Unit")) {

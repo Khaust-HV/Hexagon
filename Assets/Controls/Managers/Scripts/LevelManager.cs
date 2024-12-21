@@ -48,6 +48,10 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
         RandomSetHexagonType(); // FIX IT !
     }
 
+    private void CreateNewHexagonObjectForHexagon(int hexagonID) {
+        // Create new hexagon object
+    }
+
     private void SpreadHexagons() {
         switch (_algorithmOfLevelBuilding) {
             case AlgorithmOfLevelBuilding.Circular:
@@ -57,7 +61,9 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
 
                 int hexagonNumber = 0;
 
-                _iBuildingsPool.GetDisableHexagonController().SetHexagonPositionAndID(Vector3.zero, hexagonNumber++);
+                var hexagonController = _iBuildingsPool.GetDisableHexagonController();
+                if (!hexagonController.IsHexagonControllerAlreadyUsed()) hexagonController.NeedNewHexagonObject += CreateNewHexagonObjectForHexagon;
+                hexagonController.SetHexagonPositionAndID(Vector3.zero, hexagonNumber++);
 
                 for (int ring = 1; ring <= _numberOfRings; ring++) {
                     for (int side = 0; side < 6; side++) {
@@ -67,7 +73,9 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
 
                             Vector3 offset = new Vector3(x, 0, z);
 
-                            _iBuildingsPool.GetDisableHexagonController().SetHexagonPositionAndID(offset, hexagonNumber++);
+                            hexagonController = _iBuildingsPool.GetDisableHexagonController();
+                            if (!hexagonController.IsHexagonControllerAlreadyUsed()) hexagonController.NeedNewHexagonObject += CreateNewHexagonObjectForHexagon;
+                            hexagonController.SetHexagonPositionAndID(offset, hexagonNumber++);
                         }
                     }
                 }

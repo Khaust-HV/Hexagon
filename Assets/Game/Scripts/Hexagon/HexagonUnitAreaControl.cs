@@ -14,7 +14,7 @@ namespace Hexagon {
         public event Action<bool> DestroyHexagon;
 
         private HexagonUnitDetectionArea _hexagonUnitDetectionArea;
-        private MeshCollider _mcUnitsArea;
+        private SphereCollider _scUnitsArea;
         private IEnumerator _iEDestroyBecauseSquad;
 
         public int HexagonID { get; private set; }
@@ -26,7 +26,7 @@ namespace Hexagon {
 
             _hexagonUnitDetectionArea = transform.GetChild(0).GetComponent<HexagonUnitDetectionArea>();
             _hexagonUnitDetectionArea.UnitDetected += IsUnitsInAreaDetected;
-            _mcUnitsArea = _hexagonUnitDetectionArea.GetComponent<MeshCollider>();
+            _scUnitsArea = _hexagonUnitDetectionArea.GetComponent<SphereCollider>();
         }
 
         public void SetHexagonID(int hexagonID) {
@@ -35,9 +35,9 @@ namespace Hexagon {
 
         public void SetUnitAreaActive(bool isActive) {
             if (isActive) {
-                _mcUnitsArea.enabled = true;
+                _scUnitsArea.enabled = true;
             } else {
-                _mcUnitsArea.enabled = false;
+                _scUnitsArea.enabled = false;
                 if (_iEDestroyBecauseSquad != null) IsUnitsInAreaDetected(false);
             }
         }
