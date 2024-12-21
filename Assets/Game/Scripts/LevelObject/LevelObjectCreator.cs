@@ -46,27 +46,17 @@ public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjec
         _hexagonObjectsControllerPrefab = levelConfigs.HexagonObjectsControllerPrefab;
     }
 
-    public int CreateHexagons() {
-        int sumNumberHexagons = 0;
+    public IHexagonControl CreateSomeHexagonControllers() {
+        List<IHexagonControl> hexagonControllersList = _iLevelObjectFactory.CreateObjects<IHexagonControl> (
+            prefab: _hexagonControllerPrefab, 
+            number: _numberObjectsCreatedInCaseOfShortage, 
+            trParentObject: _iBuildingsPool.GetHexagonTransformPool(),
+            size: _hexagonSize
+        );
 
-        switch (_algorithmOfLevelBuilding) {
-            case AlgorithmOfLevelBuilding.Circular:
-                int sumFirstNumber = _numberOfRings * (_numberOfRings + 1) / 2;
+        _iBuildingsPool.AddNewHexagonControllersInPool(hexagonControllersList);
 
-                sumNumberHexagons = 1 + 6 * sumFirstNumber;
-
-                List<IHexagonControl> hexagonList = _iLevelObjectFactory.CreateObjects<IHexagonControl> (
-                    prefab: _hexagonControllerPrefab, 
-                    number: sumNumberHexagons, 
-                    trParentObject: _iBuildingsPool.GetHexagonTransformPool(),
-                    size: _hexagonSize
-                );
-
-                _iBuildingsPool.AddNewHexagonControllersInPool(hexagonList);
-            break;
-        } 
-
-        return sumNumberHexagons;
+        return hexagonControllersList[0];
     }
 
     public IHexagonObjectElement CreateSomeHexagonObjects<T>(T type) where T : System.Enum {
@@ -146,7 +136,7 @@ public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjec
 }
 
 public interface IBuildingsCreate {
-    public int CreateHexagons();
+    public IHexagonControl CreateSomeHexagonControllers();
     public IHexagonObjectElement CreateSomeHexagonObjects<T>(T type) where T : System.Enum;
     public IHexagonObjectControl CreateSomeHexagonObjectControllers();
 }

@@ -39,17 +39,16 @@ namespace Hexagon {
             _hexagonUnitAreaControl.DestroyHexagon += DestroyHexagon;
         }
 
-        public void SetPositionAndID(Vector3 position, int id) {
+        public void SetHexagonPositionAndID(Vector3 position, int id) {
             transform.position = position;
             _hexagonUnitAreaControl.SetHexagonID(id);
-        }
-
-        public void SetHexagonTypeAndEnable(HexagonType hexagonType, bool rotateShadow = false) {
-            _hexagonType = hexagonType;
-            
-            gameObject.SetActive(true);
 
             _isHexagonActive = true;
+            gameObject.SetActive(true);
+        }
+
+        public void SetHexagonType(HexagonType hexagonType, bool rotateShadow = false) {
+            _hexagonType = hexagonType;
 
             _hexagonTypeControl.SetHexagonType(hexagonType, rotateShadow);
 
@@ -131,8 +130,8 @@ namespace Hexagon {
     }
 
     public interface IHexagonControl {
-        public void SetPositionAndID(Vector3 position, int id);
-        public void SetHexagonTypeAndEnable(HexagonType hexagonType, bool rotateShadow = false);
+        public void SetHexagonPositionAndID(Vector3 position, int id);
+        public void SetHexagonType(HexagonType hexagonType, bool rotateShadow = false);
         public void SetHexagonObject(IHexagonObjectControl iHexagonObjectControl);
         public event Action CameraLooking;
         public bool IsHexagonControllerActive();

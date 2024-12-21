@@ -59,8 +59,22 @@ namespace LevelObjectsPool {
             return _hexagonControllersList[hexagonID];
         }
 
+        public IHexagonControl GetDisableHexagonController() {
+            foreach (var hexagonController in _hexagonControllersList) {
+                if (!hexagonController.IsHexagonControllerActive()) {
+                    return hexagonController;
+                }
+            }
+
+            return _iBuildingsCreate.CreateSomeHexagonControllers();
+        }
+
         public void AddNewHexagonControllersInPool(List<IHexagonControl> hexagonControllersList) {
             _hexagonControllersList.AddRange(hexagonControllersList);
+        }
+
+        public int GetNumberHexagonControllers() {
+            return _hexagonControllersList.Count;
         }
 
         public Transform GetHexagonObjectTransformPool() {
@@ -110,6 +124,8 @@ namespace LevelObjectsPool {
     public interface IBuildingsPool {
         public Transform GetHexagonTransformPool();
         public IHexagonControl GetHexagonControllerByID(int hexagonID);
+        public IHexagonControl GetDisableHexagonController();
+        public int GetNumberHexagonControllers();
         public void AddNewHexagonControllersInPool(List<IHexagonControl> hexagonControllersList);
 
         public Transform GetHexagonObjectTransformPool();

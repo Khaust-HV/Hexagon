@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7016221864879503782}
   - component: {fileID: 2243182222679065975}
   m_Layer: 0
-  m_Name: Hexagon
+  m_Name: HexagonController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

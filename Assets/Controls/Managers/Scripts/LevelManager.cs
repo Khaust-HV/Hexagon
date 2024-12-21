@@ -10,8 +10,6 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
         private AlgorithmOfLevelBuilding _algorithmOfLevelBuilding;
         private int _numberOfRings;
     #endregion
-
-    private int _sumNumberHexagons;
     
     #region DI
         private IBuildingsPool _iBuildingsPool;
@@ -50,10 +48,6 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
         RandomSetHexagonType(); // FIX IT !
     }
 
-    public void SetSumNumberHexagons(int sumNumberHexagons) {
-        _sumNumberHexagons = sumNumberHexagons;
-    }
-
     private void SpreadHexagons() {
         switch (_algorithmOfLevelBuilding) {
             case AlgorithmOfLevelBuilding.Circular:
@@ -63,7 +57,7 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
 
                 int hexagonNumber = 0;
 
-                _iBuildingsPool.GetHexagonControllerByID(hexagonNumber).SetPositionAndID(Vector3.zero, hexagonNumber++);
+                _iBuildingsPool.GetDisableHexagonController().SetHexagonPositionAndID(Vector3.zero, hexagonNumber++);
 
                 for (int ring = 1; ring <= _numberOfRings; ring++) {
                     for (int side = 0; side < 6; side++) {
@@ -73,7 +67,7 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
 
                             Vector3 offset = new Vector3(x, 0, z);
 
-                            _iBuildingsPool.GetHexagonControllerByID(hexagonNumber).SetPositionAndID(offset, hexagonNumber++);
+                            _iBuildingsPool.GetDisableHexagonController().SetHexagonPositionAndID(offset, hexagonNumber++);
                         }
                     }
                 }
@@ -82,10 +76,12 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
     }
 
     private void RandomSetHexagonType() { // FIX IT !
-        for (int i = 0; i < _sumNumberHexagons; i++) {
+        for (int i = 0; i < _iBuildingsPool.GetNumberHexagonControllers(); i++) {
+            if (!_iBuildingsPool.GetHexagonControllerByID(i).IsHexagonControllerActive()) continue;
+
             int randomType = Random.Range(0, 5);
 
-            _iBuildingsPool.GetHexagonControllerByID(i).SetHexagonTypeAndEnable((HexagonType)randomType);
+            _iBuildingsPool.GetHexagonControllerByID(i).SetHexagonType((HexagonType)randomType);
         }
     }
 }
@@ -96,7 +92,6 @@ public interface IHexagonTarget {
 }
 
 public interface IGenerateLevel {
-    public void SetSumNumberHexagons(int sumNumberHexagons);
     public void GenerateLevel();
 }
 

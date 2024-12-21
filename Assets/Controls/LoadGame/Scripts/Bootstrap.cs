@@ -20,9 +20,6 @@ public sealed class Bootstrap : MonoBehaviour {
 
     private void Awake() {
         // Generate level
-        int sumNumberHexagons = _iBuildingsCreate.CreateHexagons();
-        
-        _iGenerateLevel.SetSumNumberHexagons(sumNumberHexagons);
         _iGenerateLevel.GenerateLevel();
 
         // Set control
