@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Hexagon {
     public sealed class HexagonRotationControl : MonoBehaviour {
-        #region Hexagon Config Settings
+        #region Hexagon Configs Settings
             private float _rotationTime;
 
             private float _minTimeForAutoHexagonRotate;
@@ -17,8 +17,8 @@ namespace Hexagon {
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {
+            // Set configurations
             _rotationTime = hexagonConfigs.RotationTime;
-            
             _minTimeForAutoHexagonRotate = hexagonConfigs.MinTimeForAutoHexagonRotate;
             _maxTimeForAutoHexagonRotate = hexagonConfigs.MaxTimeForAutoHexagonRotate;
         }

@@ -17,10 +17,12 @@ public sealed class InputManager : ISwitchGameplayInput, IDisposable {
 
     [Inject]
     private void Construct(IPlayerManagerInput iPlayerManagerInput, ICameraMove iCameraMove, ICameraZoom iCameraZoom) {
+        // Set DI
         _iPlayerManagerInput = iPlayerManagerInput;
         _iCameraMove = iCameraMove;
         _iCameraZoom = iCameraZoom;
 
+        // Set component
         _touchscreenInputActions = new TouchscreenInputActions(new InputMap());
     }
 

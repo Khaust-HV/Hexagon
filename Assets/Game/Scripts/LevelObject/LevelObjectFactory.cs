@@ -3,9 +3,12 @@ using UnityEngine;
 using Zenject;
 
 public class LevelObjectFactory : ILevelObjectFactory {
-    private readonly DiContainer _container;
+    #region DI
+        private readonly DiContainer _container;
+    #endregion
 
     public LevelObjectFactory(DiContainer container) {
+        // Set DI
         _container = container;
     }
 

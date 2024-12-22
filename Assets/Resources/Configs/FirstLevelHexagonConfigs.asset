@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21089c4c9551e465abe2111274de4dd4, type: 3}
-  m_Name: HexagonConfigs
+  m_Name: FirstLevelHexagonConfigs
   m_EditorClassIdentifier: 
   <RotationTime>k__BackingField: 0.5
   <MinTimeForAutoHexagonRotate>k__BackingField: 2
@@ -23,6 +23,7 @@ MonoBehaviour:
   <TemporaryHexagonMaterial>k__BackingField: {fileID: 2100000, guid: 6c6d9011dd42b49f1b321636edbb7194, type: 2}
   <MinTimeUnitInAreaForHexagon>k__BackingField: 10
   <MaxTimeUnitInAreaForHexagon>k__BackingField: 45
+  <TimeDestroyAndSpawnObject>k__BackingField: 0.5
   <TimeToDestroyParts>k__BackingField: 3
   <ForcePlannedExplosion>k__BackingField: 1000
   <ForceNonPlannedExplosion>k__BackingField: 2500

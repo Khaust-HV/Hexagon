@@ -26,10 +26,12 @@ namespace LevelObjectsPool {
 
         [Inject]
         private void Construct(IBuildingsCreate iBuildingsCreate, IUnitsCreate iUnitsCreate, IProjectilesCreate iProjectilesCreate) {
+            // Set DI
             _iBuildingsCreate = iBuildingsCreate;
             _iUnitsCreate = iUnitsCreate;
             _iProjectilesCreate = iProjectilesCreate;
 
+            // Set component
             Transform objectPool = new GameObject("LevelObjectPool").transform;
             (_trHexagonsPool = new GameObject("Hexagons").transform).SetParent(objectPool);
             (_trHexagonObjectsPool = new GameObject("HexagonObjects").transform).SetParent(objectPool);

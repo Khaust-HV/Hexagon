@@ -5,7 +5,7 @@ using UnityEngine;
 using Zenject;
 
 public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
-    #region Level Config Settings
+    #region Level Configs Settings
         private float _hexagonSize;
         private AlgorithmOfLevelBuilding _algorithmOfLevelBuilding;
         private int _numberOfRings;
@@ -49,7 +49,7 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
     }
 
     private void CreateNewHexagonObjectForHexagon(int hexagonID) {
-        // Create new hexagon object
+        // Create new hexagonObject
     }
 
     private void SpreadHexagons() {

@@ -26,9 +26,11 @@ namespace Hexagon {
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {
+            // Set configurations
             _minNumberRotationsForHexagon = hexagonConfigs.MinNumberRotationsForHexagon;
             _maxNumberRotationsForHexagon = hexagonConfigs.MaxNumberRotationsForHexagon;
 
+            // Set component
             _hexagonTypeControl = GetComponent<HexagonTypeControl>();
             _hexagonRotationControl = GetComponent<HexagonRotationControl>();
             _hexagonDestroyControl = GetComponent<HexagonDestroyControl>();

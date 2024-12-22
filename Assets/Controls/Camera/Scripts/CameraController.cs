@@ -1,33 +1,37 @@
 using System;
 using System.Collections;
+using GameConfigs;
 using UnityEngine;
+using Zenject;
 
 public class CameraController : MonoBehaviour, ICameraMove, ICameraZoom, ICameraSatelliteMovement, ICameraRaycast {
-    [Header("Camera raycast settings")]
-    [SerializeField] private Camera _camera;
-    [SerializeField] private float _raycastUIDistance;
-    [SerializeField] private LayerMask _UILayer;
-    [SerializeField] private float _raycastHexagonDistance;
-    [SerializeField] private LayerMask _HexagonLayer;
-    [Header("Camera move control")]
-    [SerializeField] float _movementSmoothSpeed;
-    [SerializeField] float _rotationSmoothSpeed;
-    [SerializeField] private float _sensitivityMove;
-    [SerializeField] private float _sensitivityZoom;
-    [SerializeField] private float _timeToStopMoveing;
-    [Header("Camera as satellite control")]
-    [SerializeField] private float _orbitRadius;
-    [SerializeField] private float _orbitHeight;
-    [SerializeField] private float _satelliteSpeed;
-    [Header("Camera map borders")]
-    [SerializeField] float _maxHeight;
-    [SerializeField] float _minHeight;
-    [SerializeField] float _westBorder;
-    [SerializeField] float _eastBorder;
-    [SerializeField] float _northBorder;
-    [SerializeField] float _southBorder;
+    #region Camera Configs Settings
+        // Camera raycast settings
+        private float _raycastUIDistance;
+        private LayerMask _UILayer;
+        private float _raycastHexagonDistance;
+        private LayerMask _HexagonLayer;
+        // Camera move control
+        private float _movementSmoothSpeed;
+        private float _rotationSmoothSpeed;
+        private float _sensitivityMove;
+        private float _sensitivityZoom;
+        private float _timeToStopMoveing;
+        // Camera as satellite control
+        private float _orbitRadius;
+        private float _orbitHeight;
+        private float _satelliteSpeed;
+        // Camera map borders
+        private float _maxHeight;
+        private float _minHeight;
+        private float _westBorder;
+        private float _eastBorder;
+        private float _northBorder;
+        private float _southBorder;
+    #endregion
 
     // The camera moves from the player's input
+    private Camera _camera;
     private CameraState _cameraState;
     private float _currentSensitivityMove;
     private float _currentSensitivityZoom;
@@ -37,6 +41,7 @@ public class CameraController : MonoBehaviour, ICameraMove, ICameraZoom, ICamera
     private bool _isTimerToStopMovementActive;
     private Vector3 _newMovePosition;
     private Vector3 _newZoomPosition;
+
     // The camera looks and moves toward the target 
     private Vector3 _targetPosition;
     private Vector3 _satellitePosition;
@@ -48,7 +53,30 @@ public class CameraController : MonoBehaviour, ICameraMove, ICameraZoom, ICamera
     public event Action CameraNearTarget;
     public event Action CameraBackToDefault;
 
-    private void Start() {
+    [Inject]
+    private void Construct(CameraConfigs cameraConfigs) {
+        // Set configurations
+        _raycastUIDistance = cameraConfigs.RaycastUIDistance;
+        _UILayer = cameraConfigs.UILayer;
+        _raycastHexagonDistance = cameraConfigs.RaycastHexagonDistance;
+        _HexagonLayer = cameraConfigs.HexagonLayer;
+        _movementSmoothSpeed = cameraConfigs.MovementSmoothSpeed;
+        _rotationSmoothSpeed = cameraConfigs.RotationSmoothSpeed;
+        _sensitivityMove = cameraConfigs.SensitivityMove;
+        _sensitivityZoom = cameraConfigs.SensitivityZoom;
+        _timeToStopMoveing = cameraConfigs.TimeToStopMoveing;
+        _orbitRadius = cameraConfigs.OrbitRadius;
+        _orbitHeight = cameraConfigs.OrbitHeight;
+        _satelliteSpeed = cameraConfigs.SatelliteSpeed;
+        _maxHeight = cameraConfigs.MaxHeight;
+        _minHeight = cameraConfigs.MinHeight;
+        _westBorder = cameraConfigs.WestBorder;
+        _eastBorder = cameraConfigs.EastBorder;
+        _northBorder = cameraConfigs.NorthBorder;
+        _southBorder = cameraConfigs.SouthBorder;
+
+        // Set component
+        _camera = transform.GetChild(0).GetComponent<Camera>();
         _trCamera = _camera.GetComponent<Transform>();
 
         _newMovePosition = transform.position;
@@ -109,7 +137,6 @@ public class CameraController : MonoBehaviour, ICameraMove, ICameraZoom, ICamera
             yield return null;
         }
     }
-
 
     private void MoveingCamera() {
         Vector3 stepPosition = Vector3.Lerp(transform.position, _newMovePosition, _movementSmoothSpeed);

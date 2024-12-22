@@ -5,6 +5,7 @@ using Zenject;
 
 public sealed class PlayerManager : IPlayerManagerInput, IInteractingWithObject, IDisposable {
     private PlayerState _playerState;
+    private int _currentTargetID;
 
     #region DI
         private ICameraRaycast _iCameraRaycast;
@@ -13,8 +14,6 @@ public sealed class PlayerManager : IPlayerManagerInput, IInteractingWithObject,
         private ISwitchGameplayInput _iSwitchInput;
     #endregion
 
-    private int _currentTargetID;
-
     [Inject]
     private void Construct (
         ICameraRaycast iCameraRaycast, 
@@ -22,6 +21,7 @@ public sealed class PlayerManager : IPlayerManagerInput, IInteractingWithObject,
         IHexagonTarget iHexagonTarget, 
         ISwitchGameplayInput iSwitchInput
         ) {
+        // Set DI
         _iCameraRaycast = iCameraRaycast;
         _iCameraSatelliteMovement = iCameraSatelliteMovement;
         _iHexagonTarget = iHexagonTarget;

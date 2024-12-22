@@ -16,7 +16,7 @@ namespace Hexagon {
         [SerializeField] private GameObject _destroyedHexagon;
         [SerializeField] private Transform[] _trDestroyedHexagonParts;
 
-        #region Hexagon Config Settings
+        #region Hexagon Configs Settings
             private float _timeToDestroyParts;
             private float _forcePlannedExplosion;
             private float _forceNonPlannedExplosion;
@@ -24,19 +24,24 @@ namespace Hexagon {
 
         public event Action RestoreHexagon;
 
+        // HexagonLP settings
         private MeshRenderer _mrHexagonLP;
 
+        // Fragile hexagon settings
         private Rigidbody[] _rbFragileHexagonParts;
         private MeshCollider[] _mcFragileHexagonParts;
 
+        // Destroyed hexagon settings
         private Rigidbody[] _rbDestroyedHexagonParts;
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {
+            // Set configurations
             _timeToDestroyParts = hexagonConfigs.TimeToDestroyParts;
             _forcePlannedExplosion = hexagonConfigs.ForcePlannedExplosion;
             _forceNonPlannedExplosion = hexagonConfigs.ForceNonPlannedExplosion;
 
+            // Set component
             _mrHexagonLP = _hexagonLP.GetComponent<MeshRenderer>();
 
             _rbFragileHexagonParts = new Rigidbody[_trFragileHexagonParts.Length];

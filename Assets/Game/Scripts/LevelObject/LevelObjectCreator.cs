@@ -6,7 +6,7 @@ using UnityEngine;
 using Zenject;
 
 public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjectilesCreate {
-    #region Level Config Settings
+    #region Level Configs Settings
         private int _numberObjectsCreatedInCaseOfShortage;
         private GameObject _hexagonControllerPrefab;
         private float _hexagonSize;

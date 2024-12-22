@@ -12,7 +12,7 @@ namespace Hexagon {
         [Header("FragileHexagon settings")]
         [SerializeField] private MeshRenderer[] _mrDestroyedHexagonParts;
 
-        #region Hexagon Config Settings
+        #region Hexagon Configs Settings
             private Material _defaultHexagonMaterial;
             private Material _shadowHexagonMaterial;
             private Material _randomHexagonMaterial;
@@ -28,11 +28,13 @@ namespace Hexagon {
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {
+            // Set configurations
             _defaultHexagonMaterial = hexagonConfigs.DefaultHexagonMaterial;
             _shadowHexagonMaterial = hexagonConfigs.ShadowHexagonMaterial;
             _randomHexagonMaterial = hexagonConfigs.RandomHexagonMaterial;
             _temporaryHexagonMaterial = hexagonConfigs.TemporaryHexagonMaterial;
 
+            // Set component
             _mrHexagonLP = _hexagonLP.GetComponent<MeshRenderer>();
         }
 

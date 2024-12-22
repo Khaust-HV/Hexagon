@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Hexagon {
     public sealed class HexagonUnitAreaControl : MonoBehaviour {
-        #region Hexagon Config Settings
+        #region Hexagon Configs Settings
             private float _minTimeUnitInAreaForHexagon;
             private float _maxTimeUnitInAreaForHexagon;
         #endregion
@@ -21,9 +21,11 @@ namespace Hexagon {
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {
+            // Set configurations
             _minTimeUnitInAreaForHexagon = hexagonConfigs.MinTimeUnitInAreaForHexagon;
             _maxTimeUnitInAreaForHexagon = hexagonConfigs.MaxTimeUnitInAreaForHexagon;
 
+            // Set component
             _hexagonUnitDetectionArea = transform.GetChild(0).GetComponent<HexagonUnitDetectionArea>();
             _hexagonUnitDetectionArea.UnitDetected += IsUnitsInAreaDetected;
             _scUnitsArea = _hexagonUnitDetectionArea.GetComponent<SphereCollider>();

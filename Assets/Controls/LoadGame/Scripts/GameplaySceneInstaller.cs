@@ -4,9 +4,10 @@ using UnityEngine;
 using Zenject;
 
 public sealed class GameplaySceneInstaller : MonoInstaller {
-    [Header("Configuration")]
+    [Header("Configurations")]
     [SerializeField] private LevelConfigs _levelConfigs;
     [SerializeField] private HexagonConfigs _hexagonConfigs;
+    [SerializeField] private CameraConfigs _cameraConfigs;
     [Header("DI prefabs")]
     [SerializeField] private GameObject _cameraControllerPrefab;
 
@@ -23,6 +24,7 @@ public sealed class GameplaySceneInstaller : MonoInstaller {
     private void ConfigsBind() {
         Container.Bind<LevelConfigs>().FromInstance(_levelConfigs).AsSingle().NonLazy();
         Container.Bind<HexagonConfigs>().FromInstance(_hexagonConfigs).AsSingle().NonLazy();
+        Container.Bind<CameraConfigs>().FromInstance(_cameraConfigs).AsSingle().NonLazy();
     }
 
     private void ManagersInit() {
