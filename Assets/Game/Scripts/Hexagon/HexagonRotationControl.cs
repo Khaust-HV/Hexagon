@@ -23,7 +23,7 @@ namespace Hexagon {
             _maxTimeForAutoHexagonRotate = hexagonConfigs.MaxTimeForAutoHexagonRotate;
         }
 
-        public void StopAllRotation() {
+        public void StopAllActions() {
             StopAllCoroutines();
         }
 

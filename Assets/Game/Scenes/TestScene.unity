@@ -321,6 +321,7 @@ MonoBehaviour:
   _levelConfigs: {fileID: 11400000, guid: 54dac3eb0ed4a4ec1843be4d8d7b29ea, type: 2}
   _hexagonConfigs: {fileID: 11400000, guid: a8c80bde02b1e42559cd01d7fa5dd41b, type: 2}
   _cameraConfigs: {fileID: 11400000, guid: f7e397ca295784733afb169ad197c071, type: 2}
+  _materialConfigs: {fileID: 11400000, guid: ee5f2b5fa45914cdc99f139c49b222d4, type: 2}
   _cameraControllerPrefab: {fileID: 2920280877308496660, guid: 1cd0adc1c6d2c496bab05ebd9ff81b5e, type: 3}
 --- !u!114 &1731957245
 MonoBehaviour:

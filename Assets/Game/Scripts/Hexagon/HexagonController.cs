@@ -17,28 +17,33 @@ namespace Hexagon {
         private int _currentAvailableNumberRotations;
         private bool _isHexagonActive;
         private bool _isHexagonAlreadyUsed;
+        private Material _material;
 
         private HexagonTypeControl _hexagonTypeControl;
         private HexagonRotationControl _hexagonRotationControl;
-        private HexagonDestroyControl _hexagonDestroyControl;
+        private HexagonSpawnAndDestroyControl _hexagonSpawnAndDestroyControl;
         private HexagonUnitAreaControl _hexagonUnitAreaControl;
         private HexagonSetObjectControl _hexagonSetObjectControl;
 
         [Inject]
-        private void Construct(HexagonConfigs hexagonConfigs) {
+        private void Construct(HexagonConfigs hexagonConfigs, MaterialConfigs materialConfigs) {
             // Set configurations
             _minNumberRotationsForHexagon = hexagonConfigs.MinNumberRotationsForHexagon;
             _maxNumberRotationsForHexagon = hexagonConfigs.MaxNumberRotationsForHexagon;
 
+            _material = new Material(materialConfigs.SpawnAndDestroyShaderEffect);
+            _material.SetFloat("_Metallic", materialConfigs.Metallic);
+            _material.SetFloat("_Smoothness", materialConfigs.Smoothness);
+
             // Set component
             _hexagonTypeControl = GetComponent<HexagonTypeControl>();
             _hexagonRotationControl = GetComponent<HexagonRotationControl>();
-            _hexagonDestroyControl = GetComponent<HexagonDestroyControl>();
+            _hexagonSpawnAndDestroyControl = GetComponent<HexagonSpawnAndDestroyControl>();
             _hexagonUnitAreaControl = transform.GetChild(0).GetComponent<HexagonUnitAreaControl>();
             _hexagonSetObjectControl = GetComponent<HexagonSetObjectControl>();
 
             _hexagonRotationControl.HexagonRandomRotation += CheckingBeforeRotate;
-            _hexagonDestroyControl.RestoreHexagon += RestoreHexagon;
+            _hexagonSpawnAndDestroyControl.RestoreHexagon += RestoreHexagon;
             _hexagonUnitAreaControl.DestroyHexagon += DestroyHexagon;
         }
 
@@ -54,7 +59,7 @@ namespace Hexagon {
         public void SetHexagonType(HexagonType hexagonType, bool rotateShadow = false) {
             _hexagonType = hexagonType;
 
-            _hexagonTypeControl.SetHexagonType(hexagonType, rotateShadow);
+            _hexagonTypeControl.SetHexagonType(_material, hexagonType, rotateShadow);
 
             _currentAvailableNumberRotations = UnityEngine.Random.Range(_minNumberRotationsForHexagon, _maxNumberRotationsForHexagon);
 
@@ -72,6 +77,8 @@ namespace Hexagon {
                     _hexagonUnitAreaControl.SetUnitAreaActive(true);
                 break;
             }
+
+            _hexagonSpawnAndDestroyControl.SpawnEffectEnable(_material);
         }
 
         public void SetHexagonObject(IHexagonObjectControl iHexagonObjectControl) {
@@ -109,12 +116,15 @@ namespace Hexagon {
 
             CameraLooking?.Invoke(); // If a player has taken a focus but the hexagon is destroyed
 
-            if (isPlanned) _hexagonDestroyControl.DestroyPlannedHexagon();
-            else _hexagonDestroyControl.DestroyNonPlannedHexagon();
+            if (isPlanned) _hexagonSpawnAndDestroyControl.DestroyPlannedHexagon();
+            else _hexagonSpawnAndDestroyControl.DestroyNonPlannedHexagon();
+
+            _hexagonSpawnAndDestroyControl.DestroyEffectEnable(_material);
         }
 
         private void StopActivity() {
-            _hexagonRotationControl.StopAllRotation();
+            _hexagonRotationControl.StopAllActions();
+            _hexagonSpawnAndDestroyControl.StopAllActions();
 
             switch (_hexagonType) {
                 case HexagonType.Fragile:

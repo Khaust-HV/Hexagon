@@ -5,7 +5,7 @@ using UnityEngine;
 using Zenject;
 
 namespace Hexagon {
-    public sealed class HexagonDestroyControl : MonoBehaviour {
+    public sealed class HexagonSpawnAndDestroyControl : MonoBehaviour {
         [Header("HexagonLP settings")]
         [SerializeField] private GameObject _hexagonLP;
         [Header("Fragile hexagon settings")]
@@ -17,9 +17,26 @@ namespace Hexagon {
         [SerializeField] private Transform[] _trDestroyedHexagonParts;
 
         #region Hexagon Configs Settings
-            private float _timeToDestroyParts;
+            // Destroy settings
+            private float _timeToRestoreAndHideParts;
             private float _forcePlannedExplosion;
             private float _forceNonPlannedExplosion;
+            // Spawn effect settings
+            private float _spawnEffectTime;
+            private float _noiseScaleSpawn;
+            private float _noiseStrengthSpawn;
+            private float _startCutoffHeightSpawn;
+            private float _finishCutoffHeightSpawn;
+            private float _edgeWidthSpawn;
+            private Color _edgeColorSpawn;
+            // Destroy effect settings
+            private float _destroyEffectTime;
+            private float _noiseScaleDestroy;
+            private float _noiseStrengthDestroy;
+            private float _startCutoffHeightDestroy;
+            private float _finishCutoffHeightDestroy;
+            private float _edgeWidthDestroy;
+            private Color _edgeColorDestroy;
         #endregion
 
         public event Action RestoreHexagon;
@@ -35,11 +52,27 @@ namespace Hexagon {
         private Rigidbody[] _rbDestroyedHexagonParts;
 
         [Inject]
-        private void Construct(HexagonConfigs hexagonConfigs) {
+        private void Construct(HexagonConfigs hexagonConfigs, MaterialConfigs materialConfigs) {
             // Set configurations
-            _timeToDestroyParts = hexagonConfigs.TimeToDestroyParts;
+            _timeToRestoreAndHideParts = hexagonConfigs.TimeToRestoreAndHideParts;
             _forcePlannedExplosion = hexagonConfigs.ForcePlannedExplosion;
             _forceNonPlannedExplosion = hexagonConfigs.ForceNonPlannedExplosion;
+
+            _spawnEffectTime = materialConfigs.SpawnEffectTime;
+            _noiseScaleSpawn = materialConfigs.NoiseScaleSpawn;
+            _noiseStrengthSpawn = materialConfigs.NoiseStrengthSpawn;
+            _startCutoffHeightSpawn = materialConfigs.StartCutoffHeightSpawn;
+            _finishCutoffHeightSpawn = materialConfigs.FinishCutoffHeightSpawn;
+            _edgeWidthSpawn = materialConfigs.EdgeWidthSpawn;
+            _edgeColorSpawn = materialConfigs.EdgeColorSpawn;
+
+            _destroyEffectTime = materialConfigs.DestroyEffectTime;
+            _noiseScaleDestroy = materialConfigs.NoiseScaleDestroy;
+            _noiseStrengthDestroy = materialConfigs.NoiseStrengthDestroy;
+            _startCutoffHeightDestroy = materialConfigs.StartCutoffHeightDestroy;
+            _finishCutoffHeightDestroy = materialConfigs.FinishCutoffHeightDestroy;
+            _edgeWidthDestroy = materialConfigs.EdgeWidthDestroy;
+            _edgeColorDestroy = materialConfigs.EdgeColorDestroy;
 
             // Set component
             _mrHexagonLP = _hexagonLP.GetComponent<MeshRenderer>();
@@ -55,6 +88,60 @@ namespace Hexagon {
             for (int i = 0; i < _trDestroyedHexagonParts.Length; i++) {
                 _rbDestroyedHexagonParts[i] = _trDestroyedHexagonParts[i].GetComponent<Rigidbody>();
             }
+        }
+
+        public void SpawnEffectEnable(Material material) {
+            material.SetFloat("_NoiseScale", _noiseScaleSpawn);
+            material.SetFloat("_NoiseStrength", _noiseStrengthSpawn);
+            material.SetFloat("_CutoffHeight", _startCutoffHeightSpawn);
+            material.SetFloat("_EdgeWidth", _edgeWidthSpawn);
+            material.SetColor("_EdgeColor", _edgeColorSpawn);
+
+            StartCoroutine(SpawnEffectStarted(material));
+        }
+
+        private IEnumerator SpawnEffectStarted(Material material) {
+            float elapsedTime = 0f;
+
+            while (elapsedTime < _spawnEffectTime)
+            {
+                float currentValue = Mathf.Lerp(_startCutoffHeightSpawn, _finishCutoffHeightSpawn, elapsedTime / _spawnEffectTime);
+
+                material.SetFloat("_CutoffHeight", currentValue);
+
+                elapsedTime += Time.deltaTime;
+
+                yield return null;
+            }
+
+            material.SetFloat("_CutoffHeight", _finishCutoffHeightSpawn);
+        }
+
+        public void DestroyEffectEnable(Material material) {
+            material.SetFloat("_NoiseScale", _noiseScaleDestroy);
+            material.SetFloat("_NoiseStrength", _noiseStrengthDestroy);
+            material.SetFloat("_CutoffHeight", _startCutoffHeightDestroy);
+            material.SetFloat("_EdgeWidth", _edgeWidthDestroy);
+            material.SetColor("_EdgeColor", _edgeColorDestroy);
+
+            StartCoroutine(DestroyEffectStarted(material));
+        }
+
+        private IEnumerator DestroyEffectStarted(Material material) {
+            float elapsedTime = 0f;
+
+            while (elapsedTime < _destroyEffectTime)
+            {
+                float currentValue = Mathf.Lerp(_startCutoffHeightDestroy, _finishCutoffHeightDestroy, elapsedTime / _destroyEffectTime);
+
+                material.SetFloat("_CutoffHeight", currentValue);
+
+                elapsedTime += Time.deltaTime;
+
+                yield return null;
+            }
+
+            material.SetFloat("_CutoffHeight", _finishCutoffHeightDestroy);
         }
 
         public void DestroyPlannedHexagon() {
@@ -94,18 +181,13 @@ namespace Hexagon {
         }
 
         private IEnumerator DestroyParts() {
-            float timePassed = 0f;
-
-            while (timePassed < _timeToDestroyParts) {
-                timePassed += Time.deltaTime;
-                // float percentageTime = timePassed * 100 / _timeToDestroyParts;
-
-                // Set hide effect for parts
-
-                yield return null;
-            }
+            yield return new WaitForSeconds(_timeToRestoreAndHideParts);
 
             RestoreAndHide();
+        }
+
+        public void StopAllActions() {
+            StopAllCoroutines();
         }
 
         private void RestoreAndHide() {
@@ -134,6 +216,8 @@ namespace Hexagon {
             }
 
             transform.position = Vector3.zero;
+
+            gameObject.SetActive(false);
 
             RestoreHexagon?.Invoke();
         }

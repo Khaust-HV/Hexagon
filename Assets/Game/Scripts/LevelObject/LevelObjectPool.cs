@@ -4,7 +4,7 @@ using UnityEngine;
 using Zenject;
 
 namespace LevelObjectsPool {
-    public sealed class LevelObjectPool : IBuildingsPool, IUnitsPool, IProjectilesPool {
+    public sealed class LevelObjectPool : IBuildingsPool, IUnitsPool, IProjectilesPool, IStorageTransformPool {
         #region Transform Pools
             private Transform _trHexagonsPool;
             private Transform _trHexagonObjectsPool;
@@ -109,13 +109,11 @@ namespace LevelObjectsPool {
     }
 
     public interface IBuildingsPool {
-        public Transform GetHexagonTransformPool();
         public IHexagonControl GetHexagonControllerByID(int hexagonID);
         public IHexagonControl GetDisableHexagonController();
         public int GetNumberHexagonControllers();
         public void AddNewHexagonControllersInPool(List<IHexagonControl> hexagonControllersList);
 
-        public Transform GetHexagonObjectTransformPool();
         public IHexagonObjectElement GetDisableHexagonObjectElement<T>(T type) where T : System.Enum;
         public void AddNewHexagonObjectsInPool<T>(T type, List<IHexagonObjectElement> hexagonObjectList) where T : System.Enum;
         public IHexagonObjectControl GetDisableHexagonObjectController();
@@ -130,13 +128,35 @@ namespace LevelObjectsPool {
 
     }
 
+    public interface IStorageTransformPool {
+        public Transform GetHexagonTransformPool();
+        public Transform GetHexagonObjectTransformPool();
+    }
+
     #region Hexagon Objects Types
         public enum DecorationHexagonObjectsType {
-
+            Biome,
+            TreeBiome,
+            StoneBiome,
+            MetalBiome,
+            ElectricityBiome,
+            OilBiome,
+            RedCrystalBiome,
+            BlueCrystalBiome,
+            GreenCrystalBiome,
+            GlitcheBiome
         }
 
         public enum MineHexagonObjectsType {
-
+            TreeSource,
+            StoneSource,
+            MetalSource,
+            ElectricitySource,
+            OilSource,
+            RedCrystalSource,
+            BlueCrystalSource,
+            GreenCrystalSource,
+            GlitcheSource
         }
 
         public enum HeapHexagonObjectsType {

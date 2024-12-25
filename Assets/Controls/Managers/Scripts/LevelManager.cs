@@ -3,6 +3,7 @@ using Hexagon;
 using GameConfigs;
 using UnityEngine;
 using Zenject;
+using System.Threading.Tasks;
 
 public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
     #region Level Configs Settings
@@ -43,9 +44,9 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
         _iInteractingWithObject.CancelChoosingToBuildOrImprove();
     }
 
-    public void GenerateLevel() {
+    public async void GenerateLevel() {
         SpreadHexagons();
-        RandomSetHexagonType(); // FIX IT !
+        await RandomSetHexagonTypeAsync(); // FIX IT !
     }
 
     private void CreateNewHexagonObjectForHexagon(int hexagonID) {
@@ -83,15 +84,17 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
         }
     }
 
-    private void RandomSetHexagonType() { // FIX IT !
+    public async Task RandomSetHexagonTypeAsync() { // FIX IT !
         for (int i = 0; i < _iBuildingsPool.GetNumberHexagonControllers(); i++) {
             if (!_iBuildingsPool.GetHexagonControllerByID(i).IsHexagonControllerActive()) continue;
 
             int randomType = Random.Range(0, 5);
 
             _iBuildingsPool.GetHexagonControllerByID(i).SetHexagonType((HexagonType)randomType);
-        }
-    }
+
+            await Task.Delay(25);
+        }   
+    }   
 }
 
 public interface IHexagonTarget {

@@ -13,10 +13,11 @@ namespace Hexagon {
         [SerializeField] private MeshRenderer[] _mrDestroyedHexagonParts;
 
         #region Hexagon Configs Settings
-            private Material _defaultHexagonMaterial;
-            private Material _shadowHexagonMaterial;
-            private Material _randomHexagonMaterial;
-            private Material _temporaryHexagonMaterial;
+            // Color hexagon type settings
+            private Color _defaultHexagonColor;
+            private Color _shadowHexagonColor;
+            private Color _randomHexagonColor;
+            private Color _temporaryHexagonColor;
         #endregion
 
         private MeshRenderer _mrHexagonLP;
@@ -29,22 +30,22 @@ namespace Hexagon {
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {
             // Set configurations
-            _defaultHexagonMaterial = hexagonConfigs.DefaultHexagonMaterial;
-            _shadowHexagonMaterial = hexagonConfigs.ShadowHexagonMaterial;
-            _randomHexagonMaterial = hexagonConfigs.RandomHexagonMaterial;
-            _temporaryHexagonMaterial = hexagonConfigs.TemporaryHexagonMaterial;
-
+            _defaultHexagonColor = hexagonConfigs.DefaultHexagonColor;
+            _shadowHexagonColor = hexagonConfigs.ShadowHexagonColor;
+            _randomHexagonColor = hexagonConfigs.RandomHexagonColor;
+            _temporaryHexagonColor = hexagonConfigs.TemporaryHexagonColor;
             // Set component
             _mrHexagonLP = _hexagonLP.GetComponent<MeshRenderer>();
         }
 
-        public void SetHexagonType(HexagonType hexagonType, bool rotateShadow = false) {
+        public void SetHexagonType(Material material, HexagonType hexagonType, bool rotateShadow = false) {
             switch (hexagonType) {
                 case HexagonType.Default:
                     _hexagonLP.SetActive(true);
-                    _mrHexagonLP.material = _defaultHexagonMaterial;
+                    material.SetColor("_BaseColor", _defaultHexagonColor);
+                    _mrHexagonLP.material = material;
                     for (int i = 0; i < _mrDestroyedHexagonParts.Length; i++) {
-                        _mrDestroyedHexagonParts[i].material = _defaultHexagonMaterial;
+                        _mrDestroyedHexagonParts[i].material = material;
                     }
                     IsRotation = true;
                     IsCollapses = true;
@@ -54,9 +55,10 @@ namespace Hexagon {
 
                 case HexagonType.Shadow:
                     _hexagonLP.SetActive(true);
-                    _mrHexagonLP.material = _shadowHexagonMaterial;
+                    material.SetColor("_BaseColor", _shadowHexagonColor);
+                    _mrHexagonLP.material = material;
                     for (int i = 0; i < _mrDestroyedHexagonParts.Length; i++) {
-                        _mrDestroyedHexagonParts[i].material = _shadowHexagonMaterial;
+                        _mrDestroyedHexagonParts[i].material = material;
                     }
                     IsRotation = rotateShadow;
                     IsCollapses = false;
@@ -67,9 +69,10 @@ namespace Hexagon {
 
                 case HexagonType.Random:
                     _hexagonLP.SetActive(true);
-                    _mrHexagonLP.material = _randomHexagonMaterial;
+                    material.SetColor("_BaseColor", _randomHexagonColor);
+                    _mrHexagonLP.material = material;
                     for (int i = 0; i < _mrDestroyedHexagonParts.Length; i++) {
-                        _mrDestroyedHexagonParts[i].material = _randomHexagonMaterial;
+                        _mrDestroyedHexagonParts[i].material = material;
                     }
                     IsRotation = true;
                     IsCollapses = true;
@@ -81,11 +84,12 @@ namespace Hexagon {
                     _hexagonLP.SetActive(true);
                     _mrHexagonLP.enabled = false;
                     _fragileHexagon.SetActive(true);
+                    material.SetColor("_BaseColor", _defaultHexagonColor);
                     for (int i = 0; i < _mrFragileHexagonParts.Length; i++) {
-                        _mrFragileHexagonParts[i].material = _defaultHexagonMaterial;
+                        _mrFragileHexagonParts[i].material = material;
                     }
                     for (int i = 0; i < _mrDestroyedHexagonParts.Length; i++) {
-                        _mrDestroyedHexagonParts[i].material = _defaultHexagonMaterial;
+                        _mrDestroyedHexagonParts[i].material = material;
                     }
                     IsRotation = true;
                     IsCollapses = true;
@@ -97,11 +101,12 @@ namespace Hexagon {
                     _hexagonLP.SetActive(true);
                     _mrHexagonLP.enabled = false;
                     _fragileHexagon.SetActive(true);
+                    material.SetColor("_BaseColor", _temporaryHexagonColor);
                     for (int i = 0; i < _mrFragileHexagonParts.Length; i++) {
-                        _mrFragileHexagonParts[i].material = _temporaryHexagonMaterial;
+                        _mrFragileHexagonParts[i].material = material;
                     }
                     for (int i = 0; i < _mrDestroyedHexagonParts.Length; i++) {
-                        _mrDestroyedHexagonParts[i].material = _temporaryHexagonMaterial;
+                        _mrDestroyedHexagonParts[i].material = material;
                     }
                     IsRotation = true;
                     IsCollapses = true;
@@ -109,6 +114,7 @@ namespace Hexagon {
                     EfficiencyOfBuildings = EfficiencyOfBuildingsType.VeryHigh;
                 break;
             }
+            material.SetFloat("_CutoffHeight", 1f);
         }
     }
 

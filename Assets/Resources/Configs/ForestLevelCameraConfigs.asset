@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ef20adcce54544ca9682c6c8cfb662b, type: 3}
+  m_Name: ForestLevelCameraConfigs
+  m_EditorClassIdentifier: 
+  <RaycastUIDistance>k__BackingField: 0.3
+  <UILayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 32
+  <RaycastHexagonDistance>k__BackingField: 215
+  <HexagonLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 8
+  <MovementSmoothSpeed>k__BackingField: 0.125
+  <RotationSmoothSpeed>k__BackingField: 5
+  <SensitivityMove>k__BackingField: 4
+  <SensitivityZoom>k__BackingField: 150
+  <TimeToStopMoveing>k__BackingField: 1.75
+  <OrbitRadius>k__BackingField: 15
+  <OrbitHeight>k__BackingField: 20
+  <SatelliteSpeed>k__BackingField: 10
+  <MaxHeight>k__BackingField: 75
+  <MinHeight>k__BackingField: 20
+  <WestBorder>k__BackingField: -190
+  <EastBorder>k__BackingField: 190
+  <NorthBorder>k__BackingField: 190
+  <SouthBorder>k__BackingField: -190

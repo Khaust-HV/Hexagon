@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a93b93bf83b9e448fa47f2f86dca14eb, type: 3}
+  m_Name: ForestLevelMaterialConfigs
+  m_EditorClassIdentifier: 
+  <SpawnAndDestroyShaderEffect>k__BackingField: {fileID: -6465566751694194690, guid: 06e326f53660c41588505363b141234e, type: 3}
+  <Metallic>k__BackingField: 0.3
+  <Smoothness>k__BackingField: 0.5
+  <SpawnEffectTime>k__BackingField: 2
+  <NoiseScaleSpawn>k__BackingField: 75
+  <NoiseStrengthSpawn>k__BackingField: 1
+  <StartCutoffHeightSpawn>k__BackingField: -1.5
+  <FinishCutoffHeightSpawn>k__BackingField: 3
+  <EdgeWidthSpawn>k__BackingField: 1
+  <EdgeColorSpawn>k__BackingField: {r: 0, g: 1.3057064, b: 1.4980394, a: 1}
+  <DestroyEffectTime>k__BackingField: 2
+  <NoiseScaleDestroy>k__BackingField: 75
+  <NoiseStrengthDestroy>k__BackingField: 10
+  <StartCutoffHeightDestroy>k__BackingField: 1
+  <FinishCutoffHeightDestroy>k__BackingField: -8.5
+  <EdgeWidthDestroy>k__BackingField: 1
+  <EdgeColorDestroy>k__BackingField: {r: 0, g: 1.3057064, b: 1.4980394, a: 1}
