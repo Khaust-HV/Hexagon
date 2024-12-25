@@ -14,6 +14,7 @@ namespace Hexagon {
         #endregion
 
         public event Action HexagonRandomRotation;
+        public bool IsHexagonRotation { get; private set; }
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {
@@ -46,6 +47,8 @@ namespace Hexagon {
         }
 
         private IEnumerator HexagonRotation() {
+            IsHexagonRotation = true;
+
             bool rotateAroundX = UnityEngine.Random.Range(0, 2) == 0;
             int direction = UnityEngine.Random.Range(0, 2) == 0 ? 1 : -1;
 
@@ -66,6 +69,8 @@ namespace Hexagon {
 
                 yield return null;
             }
+
+            IsHexagonRotation = false;
         }
     }
 }

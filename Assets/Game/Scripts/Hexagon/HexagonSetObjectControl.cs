@@ -6,25 +6,26 @@ namespace Hexagon {
         [SerializeField] private Transform _firstObjectPoint;
         [SerializeField] private Transform _secondObjectPoint;
 
-        private IHexagonObjectControl _currentObject;
+        public IHexagonObjectControl CurrentObject { get; private set; }
+
         private IHexagonObjectControl _oldObject;
 
         private bool _isHexagonUpsideDown;
 
         public void SetHexagonObject(IHexagonObjectControl iHexagonObjectControl) {
-            if (_oldObject != null) {/* _oldObject disassemble and hide */}
+            if (_oldObject != null) _oldObject.RestoreAndHide();
 
-            if (_currentObject != null) _oldObject = _currentObject;
+            if (CurrentObject != null) _oldObject = CurrentObject;
 
-            _currentObject = iHexagonObjectControl;
+            CurrentObject = iHexagonObjectControl;
 
-            if (_isHexagonUpsideDown) {/* Set _currentObject parent and _firstObjectPoint position */}
-            else {/* Set _currentObject parent and _secondObjectPoint position */}
+            if (_isHexagonUpsideDown) CurrentObject.SetParentObject(_firstObjectPoint);
+            else CurrentObject.SetParentObject(_secondObjectPoint);
 
             _isHexagonUpsideDown = !_isHexagonUpsideDown;
 
-            if (_oldObject != null) {/* _oldObject active destroy effect */}
-            // _currentObject active spawn effect
+            if (_oldObject != null) _oldObject.SetObjectActive(false);
+            CurrentObject.SetObjectActive(true);
         }
     }
 }

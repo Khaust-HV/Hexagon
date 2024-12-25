@@ -4,8 +4,8 @@ using Zenject;
 
 public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectControl {
     private bool _isHexagonObjectActive;
-    private IHexagonObjectElement _decorationObject;
     private IHexagonObjectElement _mainObject;
+    private IHexagonObjectElement _decorationObject;
 
     #region DI
         IStorageTransformPool _iStorageTransformPool;
@@ -28,16 +28,20 @@ public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectContr
         transform.rotation = Quaternion.identity;
     }
 
+    public void SetMainObject(IHexagonObjectElement mainObject) {
+        _mainObject = mainObject;
+
+        _mainObject.SetParentObject(transform);
+    }
+
     public void SetDecorationObject(IHexagonObjectElement decorationObject) {
         _decorationObject = decorationObject;
 
         _decorationObject.SetParentObject(transform);
     }
 
-    public void SetMainObject(IHexagonObjectElement mainObject) {
-        _mainObject = mainObject;
-
-        _mainObject.SetParentObject(transform);
+    public IHexagonObjectElement GetMainHexagonObjectElement() {
+        return _mainObject;
     }
 
     public void SetObjectActive(bool isActive) {
@@ -75,4 +79,5 @@ public interface IHexagonObjectControl {
     public void SetMainObject(IHexagonObjectElement mainObject);
     public void SetObjectActive(bool isActive);
     public void RestoreAndHide();
+    public IHexagonObjectElement GetMainHexagonObjectElement();
 }

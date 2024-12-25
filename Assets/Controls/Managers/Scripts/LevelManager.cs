@@ -86,13 +86,13 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
 
     public async Task RandomSetHexagonTypeAsync() { // FIX IT !
         for (int i = 0; i < _iBuildingsPool.GetNumberHexagonControllers(); i++) {
-            if (!_iBuildingsPool.GetHexagonControllerByID(i).IsHexagonControllerActive()) continue;
+            if (!_iBuildingsPool.GetHexagonControllerByID(i)?.IsHexagonControllerActive() ?? false) continue;
 
             int randomType = Random.Range(0, 5);
 
-            _iBuildingsPool.GetHexagonControllerByID(i).SetHexagonType((HexagonType)randomType);
+            _iBuildingsPool.GetHexagonControllerByID(i)?.SetHexagonType((HexagonType)randomType);
 
-            await Task.Delay(25);
+            await Task.Delay(15);
         }   
     }   
 }

@@ -56,6 +56,10 @@ namespace Hexagon {
             gameObject.SetActive(true);
         }
 
+        public int GetHexagonID() {
+            return _hexagonUnitAreaControl.HexagonID;
+        }
+
         public void SetHexagonType(HexagonType hexagonType, bool rotateShadow = false) {
             _hexagonType = hexagonType;
 
@@ -81,10 +85,14 @@ namespace Hexagon {
             _hexagonSpawnAndDestroyControl.SpawnEffectEnable(_material);
         }
 
-        public void SetHexagonObject(IHexagonObjectControl iHexagonObjectControl) {
+        public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl) {
+            if (_hexagonRotationControl.IsHexagonRotation) return false; // Prevent set a new object during rotation
+
             _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl);
 
             _hexagonRotationControl.StartRotation();
+
+            return true;
         }
 
         private void CheckingBeforeRotate() {
@@ -109,6 +117,10 @@ namespace Hexagon {
             NeedNewHexagonObject?.Invoke(_hexagonUnitAreaControl.HexagonID); // Request to levelManager for a new object
 
             _hexagonRotationControl.StartRotation(); // FIX IT !
+        }
+
+        public IHexagonObjectElement GetHexagonObjectElement() {
+            return _hexagonSetObjectControl.CurrentObject.GetMainHexagonObjectElement();
         }
 
         private void DestroyHexagon(bool isPlanned) {
@@ -149,11 +161,13 @@ namespace Hexagon {
 
     public interface IHexagonControl {
         public void SetHexagonPositionAndID(Vector3 position, int id);
+        public int GetHexagonID();
         public void SetHexagonType(HexagonType hexagonType, bool rotateShadow = false);
-        public void SetHexagonObject(IHexagonObjectControl iHexagonObjectControl);
+        public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl);
         public event Action CameraLooking;
         public bool IsHexagonControllerActive();
         public event Action<int> NeedNewHexagonObject;
-        public bool IsHexagonControllerAlreadyUsed();
+        public bool IsHexagonControllerAlreadyUsed(); // To prevent re-subscription to events
+        public IHexagonObjectElement GetHexagonObjectElement();
     }
 }

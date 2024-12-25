@@ -43,7 +43,11 @@ namespace LevelObjectsPool {
         }
 
         public IHexagonControl GetHexagonControllerByID(int hexagonID) {
-            return _hexagonControllersList[hexagonID];
+            foreach (var hexagonController in _hexagonControllersList) {
+                if (hexagonController.GetHexagonID() == hexagonID) return hexagonController;
+            }
+
+            return null;
         }
 
         public IHexagonControl GetDisableHexagonController() {

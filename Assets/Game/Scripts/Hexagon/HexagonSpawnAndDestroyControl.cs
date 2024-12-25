@@ -103,8 +103,7 @@ namespace Hexagon {
         private IEnumerator SpawnEffectStarted(Material material) {
             float elapsedTime = 0f;
 
-            while (elapsedTime < _spawnEffectTime)
-            {
+            while (elapsedTime < _spawnEffectTime) {
                 float currentValue = Mathf.Lerp(_startCutoffHeightSpawn, _finishCutoffHeightSpawn, elapsedTime / _spawnEffectTime);
 
                 material.SetFloat("_CutoffHeight", currentValue);
@@ -130,8 +129,7 @@ namespace Hexagon {
         private IEnumerator DestroyEffectStarted(Material material) {
             float elapsedTime = 0f;
 
-            while (elapsedTime < _destroyEffectTime)
-            {
+            while (elapsedTime < _destroyEffectTime) {
                 float currentValue = Mathf.Lerp(_startCutoffHeightDestroy, _finishCutoffHeightDestroy, elapsedTime / _destroyEffectTime);
 
                 material.SetFloat("_CutoffHeight", currentValue);
