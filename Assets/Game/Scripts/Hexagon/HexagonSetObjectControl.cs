@@ -8,14 +8,10 @@ namespace Hexagon {
 
         public IHexagonObjectControl CurrentObject { get; private set; }
 
-        private IHexagonObjectControl _oldObject;
-
         private bool _isHexagonUpsideDown;
 
         public void SetHexagonObject(IHexagonObjectControl iHexagonObjectControl) {
-            if (_oldObject != null) _oldObject.RestoreAndHide();
-
-            if (CurrentObject != null) _oldObject = CurrentObject;
+            if (CurrentObject != null) CurrentObject.SetObjectActive(false);
 
             CurrentObject = iHexagonObjectControl;
 
@@ -24,8 +20,13 @@ namespace Hexagon {
 
             _isHexagonUpsideDown = !_isHexagonUpsideDown;
 
-            if (_oldObject != null) _oldObject.SetObjectActive(false);
             CurrentObject.SetObjectActive(true);
+        }
+
+        public void DestroyCurrentHexagonObject() {
+            if (CurrentObject != null) CurrentObject.SetObjectActive(false);
+            
+            _isHexagonUpsideDown = false;
         }
     }
 }

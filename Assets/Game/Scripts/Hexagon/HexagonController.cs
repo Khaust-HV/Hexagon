@@ -119,8 +119,8 @@ namespace Hexagon {
             _hexagonRotationControl.StartRotation(); // FIX IT !
         }
 
-        public IHexagonObjectElement GetHexagonObjectElement() {
-            return _hexagonSetObjectControl.CurrentObject.GetMainHexagonObjectElement();
+        public IHexagonObjectControl GetHexagonObjectController() {
+            return _hexagonSetObjectControl.CurrentObject;
         }
 
         private void DestroyHexagon(bool isPlanned) {
@@ -137,6 +137,7 @@ namespace Hexagon {
         private void StopActivity() {
             _hexagonRotationControl.StopAllActions();
             _hexagonSpawnAndDestroyControl.StopAllActions();
+            _hexagonSetObjectControl.DestroyCurrentHexagonObject();
 
             switch (_hexagonType) {
                 case HexagonType.Fragile:
@@ -168,6 +169,6 @@ namespace Hexagon {
         public bool IsHexagonControllerActive();
         public event Action<int> NeedNewHexagonObject;
         public bool IsHexagonControllerAlreadyUsed(); // To prevent re-subscription to events
-        public IHexagonObjectElement GetHexagonObjectElement();
+        public IHexagonObjectControl GetHexagonObjectController();
     }
 }

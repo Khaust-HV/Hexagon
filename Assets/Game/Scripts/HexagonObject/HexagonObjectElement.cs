@@ -24,8 +24,10 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
         private float _edgeWidthDestroy;
         private Color _edgeColorDestroy;
     #endregion
-    
-    protected Enum _hexagonObjectElementType;
+
+    public event Action SpawnEffectFinished;
+    public event Action DestroyEffectFinished;
+
     private bool _isHexagonObjectElementActive;
     private Material _material;
     private MeshRenderer _meshRenderer;
@@ -35,7 +37,7 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
     #endregion
 
     [Inject]
-    private void Construct(IStorageTransformPool iStorageTransformPool, MaterialConfigs materialConfigs) {
+    private void BaseConstruct(IStorageTransformPool iStorageTransformPool, MaterialConfigs materialConfigs) {
         // Set DI
         _iStorageTransformPool = iStorageTransformPool;
 
@@ -65,6 +67,11 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
         _meshRenderer.material = _material;
     }
 
+    public virtual void SetHexagonObjectWorkActive(bool isActive) {
+        // Override and implement the object activity switching functionality
+        Debug.Log($"Base WorkActive {isActive} {gameObject.name}");
+    }
+
     public void SetParentObject(Transform parentObject) {
         _isHexagonObjectElementActive = true;
 
@@ -74,10 +81,6 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
         transform.rotation = Quaternion.identity;
 
         gameObject.SetActive(true);
-    }
-
-    public Enum GetHexagonObjectType() {
-        return _hexagonObjectElementType;
     }
 
     public void SpawnEffectEnable() {
@@ -104,6 +107,8 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
         }
 
         _material.SetFloat("_CutoffHeight", _finishCutoffHeightSpawn);
+
+        SpawnEffectFinished?.Invoke();
     }
 
     public void DestroyEffectEnable() {
@@ -130,6 +135,8 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
         }
 
         _material.SetFloat("_CutoffHeight", _finishCutoffHeightDestroy);
+
+        DestroyEffectFinished?.Invoke();
     }
 
     public void StopAllActions() {
@@ -158,6 +165,9 @@ public interface IHexagonObjectElement {
     public void SetParentObject(Transform parentObject);
     public void SpawnEffectEnable();
     public void DestroyEffectEnable();
+    public event Action SpawnEffectFinished;
+    public void SetHexagonObjectWorkActive(bool isActive);
+    public event Action DestroyEffectFinished;
+    public void StopAllActions();
     public void RestoreAndHide();
-    public Enum GetHexagonObjectType();
 }
