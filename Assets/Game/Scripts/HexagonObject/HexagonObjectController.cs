@@ -92,6 +92,16 @@ public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectContr
         _hologramObject.HologramSpawnEffectEnable();
     }
 
+    public void SetMainObjectFromHexagonObjectHologram() {
+        _hologramObject.MakeObjectBase();
+
+        _mainObject = _hologramObject;
+
+        _hologramObject = null;
+
+        _mainObject.SpawnEffectEnable();
+    }
+
     public void RestoreHologramObject() {
         if (_hologramObject != null) {
             _hologramObject.RestoreAndHide();
@@ -175,6 +185,7 @@ public interface IHexagonObjectControl {
     public void SetMainObject(IHexagonObjectElement mainObject);
     public void SetDecorationObject(IHexagonObjectElement decorationObject);
     public void SetHexagonObjectHologram(IHexagonObjectElement hologramObject);
+    public void SetMainObjectFromHexagonObjectHologram();
     public void RestoreHologramObject();
     public void SetObjectActive(bool isActive);
 }

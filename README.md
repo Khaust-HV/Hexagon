@@ -1,5 +1,5 @@
 # Hexagon
-Pet-project version 0.0.23
+Pet-project version 0.0.24
 
 // Assembly tests video - https://drive.google.com/drive/folders/1BKEVmV7WmYyvL1j82CLrT-ieZZK4VWgj?usp=sharing
 

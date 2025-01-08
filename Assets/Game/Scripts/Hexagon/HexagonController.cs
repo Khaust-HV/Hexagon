@@ -43,6 +43,7 @@ namespace Hexagon {
             _hexagonSetObjectControl = GetComponent<HexagonSetObjectControl>();
 
             _hexagonRotationControl.HexagonRandomRotation += CheckingBeforeRotate;
+            _hexagonSpawnAndDestroyControl.HexagonSpawnFinished += HexagonEnable;
             _hexagonSpawnAndDestroyControl.RestoreHexagon += RestoreHexagon;
             _hexagonUnitAreaControl.DestroyHexagon += DestroyHexagon;
         }
@@ -67,7 +68,21 @@ namespace Hexagon {
 
             _currentAvailableNumberRotations = UnityEngine.Random.Range(_minNumberRotationsForHexagon, _maxNumberRotationsForHexagon);
 
-            switch (hexagonType) {
+            _hexagonSpawnAndDestroyControl.SpawnEffectEnable(_material);
+        }
+
+        public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl) {
+            if (_hexagonRotationControl.IsHexagonRotation) return false; // Prevent set a new object during rotation
+
+            _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl);
+
+            _hexagonRotationControl.StartRotation();
+
+            return true;
+        }
+
+        private void HexagonEnable() {
+            switch (_hexagonType) {
                 case HexagonType.Random:
                     _hexagonRotationControl.StartRandomRotation();
                 break;
@@ -81,18 +96,6 @@ namespace Hexagon {
                     _hexagonUnitAreaControl.SetUnitAreaActive(true);
                 break;
             }
-
-            _hexagonSpawnAndDestroyControl.SpawnEffectEnable(_material);
-        }
-
-        public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl) {
-            if (_hexagonRotationControl.IsHexagonRotation) return false; // Prevent set a new object during rotation
-
-            _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl);
-
-            _hexagonRotationControl.StartRotation();
-
-            return true;
         }
 
         private void CheckingBeforeRotate() {

@@ -63,8 +63,6 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
         _destroyEdgeWidth = materialConfigs.DestroyEdgeWidth;
         _destroyEdgeColor = materialConfigs.DestroyEdgeColor;
 
-        // Set hologram effect configs !
-
         SetTimeForEffect();
 
         // Set component
@@ -183,6 +181,11 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
         _isObjectHologram = true;
     }
 
+    public void MakeObjectBase() {
+        _meshRenderer.material = _baseMaterial;
+        _isObjectHologram = false;
+    }
+
     public void RestoreAndHide() {
         gameObject.SetActive(false);
 
@@ -211,5 +214,6 @@ public interface IHexagonObjectElement {
     public void DestroyEffectEnable();
     public void RestoreAndHide();
     public void MakeObjectHologram();
+    public void MakeObjectBase();
     public void HologramSpawnEffectEnable();
 }

@@ -39,6 +39,7 @@ namespace Hexagon {
             private Color _edgeColorDestroy;
         #endregion
 
+        public event Action HexagonSpawnFinished;
         public event Action RestoreHexagon;
 
         // HexagonLP settings
@@ -114,6 +115,8 @@ namespace Hexagon {
             }
 
             material.SetFloat("_CutoffHeight", _finishCutoffHeightSpawn);
+
+            HexagonSpawnFinished?.Invoke();
         }
 
         public void DestroyEffectEnable(Material material) {
@@ -140,6 +143,8 @@ namespace Hexagon {
             }
 
             material.SetFloat("_CutoffHeight", _finishCutoffHeightDestroy);
+
+            RestoreAndHide();
         }
 
         public void DestroyPlannedHexagon() {
@@ -156,8 +161,6 @@ namespace Hexagon {
                     ForceMode.Impulse
                 );
             }
-
-            StartCoroutine(DestroyParts());
         }
 
         public void DestroyNonPlannedHexagon() {
@@ -174,14 +177,6 @@ namespace Hexagon {
                     ForceMode.Impulse
                 );
             }
-            
-            StartCoroutine(DestroyParts());
-        }
-
-        private IEnumerator DestroyParts() {
-            yield return new WaitForSeconds(_timeToRestoreAndHideParts);
-
-            RestoreAndHide();
         }
 
         public void StopAllActions() {
