@@ -12,20 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a93b93bf83b9e448fa47f2f86dca14eb, type: 3}
   m_Name: ForestLevelMaterialConfigs
   m_EditorClassIdentifier: 
-  <SpawnAndDestroyShaderEffect>k__BackingField: {fileID: -6465566751694194690, guid: 06e326f53660c41588505363b141234e, type: 3}
-  <Metallic>k__BackingField: 0.3
-  <Smoothness>k__BackingField: 0.5
+  <DissolveShaderEffectNonUV>k__BackingField: {fileID: -6465566751694194690, guid: 3fb7e3973b1634093837d3b5907d284c, type: 3}
+  <DissolveShaderEffectWithUV>k__BackingField: {fileID: -6465566751694194690, guid: a07e660a7a06b4cd4b4245217e045a76, type: 3}
+  <BaseMetallic>k__BackingField: 0.3
+  <BaseSmoothness>k__BackingField: 0.5
   <SpawnEffectTime>k__BackingField: 2
-  <NoiseScaleSpawn>k__BackingField: 75
-  <NoiseStrengthSpawn>k__BackingField: 1
-  <StartCutoffHeightSpawn>k__BackingField: -1.5
-  <FinishCutoffHeightSpawn>k__BackingField: 3
-  <EdgeWidthSpawn>k__BackingField: 1
-  <EdgeColorSpawn>k__BackingField: {r: 0, g: 1.3057064, b: 1.4980394, a: 1}
+  <SpawnNoiseScale>k__BackingField: 75
+  <SpawnNoiseStrength>k__BackingField: 1
+  <SpawnStartCutoffHeight>k__BackingField: -1.5
+  <SpawnFinishCutoffHeight>k__BackingField: 3
+  <SpawnEdgeWidth>k__BackingField: 1
+  <SpawnEdgeColor>k__BackingField: {r: 0, g: 23.968628, b: 23.96863, a: 0}
   <DestroyEffectTime>k__BackingField: 2
-  <NoiseScaleDestroy>k__BackingField: 75
-  <NoiseStrengthDestroy>k__BackingField: 10
-  <StartCutoffHeightDestroy>k__BackingField: 1
-  <FinishCutoffHeightDestroy>k__BackingField: -8.5
-  <EdgeWidthDestroy>k__BackingField: 1
-  <EdgeColorDestroy>k__BackingField: {r: 0, g: 1.3057064, b: 1.4980394, a: 1}
+  <DestroyNoiseScale>k__BackingField: 75
+  <DestroyNoiseStrength>k__BackingField: 10
+  <DestroyStartCutoffHeight>k__BackingField: 1
+  <DestroyFinishCutoffHeight>k__BackingField: -8.5
+  <DestroyEdgeWidth>k__BackingField: 1
+  <DestroyEdgeColor>k__BackingField: {r: 0, g: 23.96863, b: 23.96863, a: 0}
+  <HologramAndDissolveShaderEffect>k__BackingField: {fileID: -6465566751694194690, guid: d78e243118bd94c00a914015b4709837, type: 3}
+  <HologramMetallic>k__BackingField: 0.3
+  <HologramSmoothness>k__BackingField: 0.5
+  <HologramSpawnEffectTime>k__BackingField: 0.5
+  <HologramNoiseScale>k__BackingField: 75
+  <HologramNoiseStrength>k__BackingField: 1
+  <HologramEdgeWidth>k__BackingField: 0.01
+  <HologramAnimationSpeed>k__BackingField: 0.25
+  <HologramBaseColor>k__BackingField: {r: 0, g: 5.992157, b: 4.894118, a: 0}
+  <HologramFresnelColor>k__BackingField: {r: 2.9960787, g: 2.9960787, b: 2.9960787, a: 0}
+  <HologramEdgeColor>k__BackingField: {r: 0, g: 766.9961, b: 766.9961, a: 0}

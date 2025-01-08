@@ -31,9 +31,9 @@ namespace Hexagon {
             _minNumberRotationsForHexagon = hexagonConfigs.MinNumberRotationsForHexagon;
             _maxNumberRotationsForHexagon = hexagonConfigs.MaxNumberRotationsForHexagon;
 
-            _material = new Material(materialConfigs.SpawnAndDestroyShaderEffect);
-            _material.SetFloat("_Metallic", materialConfigs.Metallic);
-            _material.SetFloat("_Smoothness", materialConfigs.Smoothness);
+            _material = new Material(materialConfigs.DissolveShaderEffectNonUV);
+            _material.SetFloat("_Metallic", materialConfigs.BaseMetallic);
+            _material.SetFloat("_Smoothness", materialConfigs.BaseSmoothness);
 
             // Set component
             _hexagonTypeControl = GetComponent<HexagonTypeControl>();

@@ -59,20 +59,20 @@ namespace Hexagon {
             _forceNonPlannedExplosion = hexagonConfigs.ForceNonPlannedExplosion;
 
             _spawnEffectTime = materialConfigs.SpawnEffectTime;
-            _noiseScaleSpawn = materialConfigs.NoiseScaleSpawn;
-            _noiseStrengthSpawn = materialConfigs.NoiseStrengthSpawn;
-            _startCutoffHeightSpawn = materialConfigs.StartCutoffHeightSpawn;
-            _finishCutoffHeightSpawn = materialConfigs.FinishCutoffHeightSpawn;
-            _edgeWidthSpawn = materialConfigs.EdgeWidthSpawn;
-            _edgeColorSpawn = materialConfigs.EdgeColorSpawn;
+            _noiseScaleSpawn = materialConfigs.SpawnNoiseScale;
+            _noiseStrengthSpawn = materialConfigs.SpawnNoiseStrength;
+            _startCutoffHeightSpawn = materialConfigs.SpawnStartCutoffHeight;
+            _finishCutoffHeightSpawn = materialConfigs.SpawnFinishCutoffHeight;
+            _edgeWidthSpawn = materialConfigs.SpawnEdgeWidth;
+            _edgeColorSpawn = materialConfigs.SpawnEdgeColor;
 
             _destroyEffectTime = materialConfigs.DestroyEffectTime;
-            _noiseScaleDestroy = materialConfigs.NoiseScaleDestroy;
-            _noiseStrengthDestroy = materialConfigs.NoiseStrengthDestroy;
-            _startCutoffHeightDestroy = materialConfigs.StartCutoffHeightDestroy;
-            _finishCutoffHeightDestroy = materialConfigs.FinishCutoffHeightDestroy;
-            _edgeWidthDestroy = materialConfigs.EdgeWidthDestroy;
-            _edgeColorDestroy = materialConfigs.EdgeColorDestroy;
+            _noiseScaleDestroy = materialConfigs.DestroyNoiseScale;
+            _noiseStrengthDestroy = materialConfigs.DestroyNoiseStrength;
+            _startCutoffHeightDestroy = materialConfigs.DestroyStartCutoffHeight;
+            _finishCutoffHeightDestroy = materialConfigs.DestroyFinishCutoffHeight;
+            _edgeWidthDestroy = materialConfigs.DestroyEdgeWidth;
+            _edgeColorDestroy = materialConfigs.DestroyEdgeColor;
 
             // Set component
             _mrHexagonLP = _hexagonLP.GetComponent<MeshRenderer>();

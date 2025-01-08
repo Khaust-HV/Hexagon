@@ -1,23 +1,33 @@
 using System;
+using System.Collections;
+using GameConfigs;
 using LevelObjectsPool;
 using UnityEngine;
 using Zenject;
 
 public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectControl {
+    #region Material Configs Settings
+        private float _destroyEffectTime;
+    #endregion
+
     private bool _isHexagonObjectActive;
     private bool _isItImprovedYet;
     private Enum _hexagonObjectType;
     private IHexagonObjectElement _mainObject;
     private IHexagonObjectElement _decorationObject;
+    private IHexagonObjectElement _hologramObject;
 
     #region DI
         IStorageTransformPool _iStorageTransformPool;
     #endregion
 
     [Inject]
-    private void Construct(IStorageTransformPool iStorageTransformPool) {
+    private void Construct(IStorageTransformPool iStorageTransformPool, MaterialConfigs materialConfigs) {
         // Set DI
         _iStorageTransformPool = iStorageTransformPool;
+
+        // Set configurations
+        _destroyEffectTime = materialConfigs.DestroyEffectTime;
     }
 
     public void SetParentObject(Transform parentObject) {
@@ -34,7 +44,20 @@ public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectContr
     public void SetHexagonObjectType(Enum type) {
         _hexagonObjectType = type;
 
-        // Set _isItImprovedYet haw true, if improvements are not available at this hexagonObject
+        switch (_hexagonObjectType) {
+            
+            case HeapHexagonObjectsType:
+            case LiquidHexagonObjectsType:
+            case UnBuildebleFieldHexagonObjectsType:
+            case CoreHexagonObjectsType:
+                _isItImprovedYet = true;
+            break;
+
+            case BuildebleFieldHexagonObjectsType:
+            case MineHexagonObjectsType:
+                _isItImprovedYet = false;
+            break;
+        }
     }
 
     public Enum GetHexagonObjectType() {
@@ -48,9 +71,6 @@ public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectContr
     public void SetMainObject(IHexagonObjectElement mainObject) {
         _mainObject = mainObject;
 
-        _mainObject.SpawnEffectFinished += MainHexagonObjectWorkStart;
-        _mainObject.DestroyEffectFinished += RestoreAndHide;
-
         _mainObject.SetParentObject(transform);
     }
 
@@ -59,34 +79,75 @@ public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectContr
 
         _decorationObject.SetParentObject(transform);
     }
+    
+    public void SetHexagonObjectHologram(IHexagonObjectElement hologramObject) {
+        RestoreHologramObject();
 
-    public void SetObjectActive(bool isActive) {
-        if (isActive) {
-            _mainObject.SpawnEffectEnable();
-            _decorationObject.SpawnEffectEnable();
-        } else {
-            _mainObject.StopAllActions();
-            _mainObject.SetHexagonObjectWorkActive(false);
-            _mainObject.DestroyEffectEnable();
+        _hologramObject = hologramObject;
 
-            _decorationObject.StopAllActions();
-            _decorationObject.SetHexagonObjectWorkActive(false);
-            _decorationObject.DestroyEffectEnable();
+        _hologramObject.SetParentObject(transform);
+
+        _hologramObject.MakeObjectHologram();
+
+        _hologramObject.HologramSpawnEffectEnable();
+    }
+
+    public void RestoreHologramObject() {
+        if (_hologramObject != null) {
+            _hologramObject.RestoreAndHide();
+
+            _hologramObject = null;
         }
     }
 
-    private void MainHexagonObjectWorkStart() {
-        _mainObject.SpawnEffectFinished -= MainHexagonObjectWorkStart;
+    public void SetObjectActive(bool isActive) {
+        switch (_hexagonObjectType) {
+            case MineHexagonObjectsType:
+            case HeapHexagonObjectsType:
+            case LiquidHexagonObjectsType:
+                if (isActive) {
+                    _mainObject.SpawnEffectEnable();
+                    _decorationObject.SpawnEffectEnable();
+                } else {
+                    _mainObject.DestroyEffectEnable();
 
-        _mainObject.SetHexagonObjectWorkActive(true);
-        _decorationObject.SetHexagonObjectWorkActive(true);
+                    _decorationObject.DestroyEffectEnable();
+
+                    StartCoroutine(RestoreAndHide());
+                }
+            break;
+
+            case UnBuildebleFieldHexagonObjectsType:
+            case CoreHexagonObjectsType:
+                if (isActive) {
+                    _mainObject.SpawnEffectEnable();
+                } else {
+                    _mainObject.DestroyEffectEnable();
+
+                    StartCoroutine(RestoreAndHide());
+                }
+            break;
+
+            case BuildebleFieldHexagonObjectsType:
+                if (isActive) {
+                    _decorationObject.SpawnEffectEnable();
+                } else {
+                    if (_mainObject != null) {
+                        _mainObject.DestroyEffectEnable();
+                    }
+
+                    _decorationObject.DestroyEffectEnable();
+
+                    StartCoroutine(RestoreAndHide());
+                }
+            break;
+        }
     }
 
-    private void RestoreAndHide() {
-        _mainObject.DestroyEffectFinished -= RestoreAndHide;
+    private IEnumerator RestoreAndHide() {
+        RestoreHologramObject();
 
-        _mainObject.RestoreAndHide();
-        _decorationObject.RestoreAndHide();
+        yield return new WaitForSeconds(_destroyEffectTime);
 
         _mainObject = null;
         _decorationObject = null;
@@ -111,7 +172,9 @@ public interface IHexagonObjectControl {
     public void SetHexagonObjectType(Enum type);
     public Enum GetHexagonObjectType();
     public bool IsItImprovedYet();
-    public void SetDecorationObject(IHexagonObjectElement decorationObject);
     public void SetMainObject(IHexagonObjectElement mainObject);
+    public void SetDecorationObject(IHexagonObjectElement decorationObject);
+    public void SetHexagonObjectHologram(IHexagonObjectElement hologramObject);
+    public void RestoreHologramObject();
     public void SetObjectActive(bool isActive);
 }

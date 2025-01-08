@@ -17,10 +17,10 @@ MonoBehaviour:
   <MaxTimeForAutoHexagonRotate>k__BackingField: 6
   <MinNumberRotationsForHexagon>k__BackingField: 2
   <MaxNumberRotationsForHexagon>k__BackingField: 5
-  <DefaultHexagonColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
-  <ShadowHexagonColor>k__BackingField: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 1}
-  <RandomHexagonColor>k__BackingField: {r: 0.4472144, g: 0, b: 0.9056604, a: 1}
-  <TemporaryHexagonColor>k__BackingField: {r: 0.745283, g: 0, b: 0, a: 1}
+  <DefaultHexagonColor>k__BackingField: {r: 1, g: 1, b: 1, a: 0}
+  <ShadowHexagonColor>k__BackingField: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 0}
+  <RandomHexagonColor>k__BackingField: {r: 0.4472144, g: 0, b: 0.9056604, a: 0}
+  <TemporaryHexagonColor>k__BackingField: {r: 0.745283, g: 0, b: 0, a: 0}
   <MinTimeUnitInAreaForHexagon>k__BackingField: 10
   <MaxTimeUnitInAreaForHexagon>k__BackingField: 45
   <TimeToRestoreAndHideParts>k__BackingField: 2
