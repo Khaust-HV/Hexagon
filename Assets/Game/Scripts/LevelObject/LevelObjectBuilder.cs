@@ -51,7 +51,7 @@ public sealed class LevelObjectBuilder : IBuilder {
                     HeapHexagonObjectsType.NormalObjects => DecorationHexagonObjectsType.Biome,
                     HeapHexagonObjectsType.QuestObjects => DecorationHexagonObjectsType.LakeBiome,
                     HeapHexagonObjectsType.Lake => DecorationHexagonObjectsType.Biome,
-                    _ => throw new System.ArgumentOutOfRangeException(nameof(heapType), "Invalid mine type")
+                    _ => throw new System.ArgumentOutOfRangeException(nameof(heapType), "Invalid heap type")
                 };
 
                 decorationObject = _iBuildingsPool.GetDisableHexagonObjectElement(decorationType);
@@ -115,7 +115,7 @@ public sealed class LevelObjectBuilder : IBuilder {
             // break;
 
             default:
-                return null;
+                throw new System.ArgumentOutOfRangeException("Invalid hexagonObject type");
             // break;
         }
     }

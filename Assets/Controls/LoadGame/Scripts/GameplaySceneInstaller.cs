@@ -9,6 +9,7 @@ public sealed class GameplaySceneInstaller : MonoInstaller {
     [SerializeField] private HexagonConfigs _hexagonConfigs;
     [SerializeField] private CameraConfigs _cameraConfigs;
     [SerializeField] private MaterialConfigs _materialConfigs;
+    [SerializeField] private HexagonObjectConfigs _hexagonObjectConfigs;
     [Header("DI prefabs")]
     [SerializeField] private GameObject _cameraControllerPrefab;
 
@@ -27,6 +28,7 @@ public sealed class GameplaySceneInstaller : MonoInstaller {
         Container.Bind<HexagonConfigs>().FromInstance(_hexagonConfigs).AsSingle().NonLazy();
         Container.Bind<CameraConfigs>().FromInstance(_cameraConfigs).AsSingle().NonLazy();
         Container.Bind<MaterialConfigs>().FromInstance(_materialConfigs).AsSingle().NonLazy();
+        Container.Bind<HexagonObjectConfigs>().FromInstance(_hexagonObjectConfigs).AsSingle().NonLazy();
     }
 
     private void ManagersInit() {

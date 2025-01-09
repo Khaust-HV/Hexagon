@@ -79,13 +79,13 @@ namespace LevelObjectsPool {
                         if (!element.IsHexagonObjectElementActive()) return element;
                     }
 
-                return _iBuildingsCreate.CreateSomeHexagonObjects(type);
+                return _iBuildingsCreate.CreateSomeHexagonObjectElements(type);
             }
 
             return null;
         }
 
-        public void AddNewHexagonObjectsInPool<T>(T type, List<IHexagonObjectElement> hexagonObjectList) where T : System.Enum {
+        public void AddNewHexagonObjectElementsInPool<T>(T type, List<IHexagonObjectElement> hexagonObjectList) where T : System.Enum {
             if (!_hexagonObjectsStorage.TryGetValue(typeof(T), out var typeStorage)) {
                 typeStorage = new Dictionary<System.Enum, List<IHexagonObjectElement>>();
                 _hexagonObjectsStorage[typeof(T)] = typeStorage;
@@ -119,7 +119,7 @@ namespace LevelObjectsPool {
         public void AddNewHexagonControllersInPool(List<IHexagonControl> hexagonControllersList);
 
         public IHexagonObjectElement GetDisableHexagonObjectElement<T>(T type) where T : System.Enum;
-        public void AddNewHexagonObjectsInPool<T>(T type, List<IHexagonObjectElement> hexagonObjectList) where T : System.Enum;
+        public void AddNewHexagonObjectElementsInPool<T>(T type, List<IHexagonObjectElement> hexagonObjectList) where T : System.Enum;
         public IHexagonObjectControl GetDisableHexagonObjectController();
         public void AddNewHexagonObjectControllersInPool(List<IHexagonObjectControl> hexagonObjectContrlollersList);
     }
@@ -228,7 +228,7 @@ namespace LevelObjectsPool {
             // Buildings for hiring units
             WarriorHallOfTimber,
             StoneforgeBarracks,
-            IronVanguardCitadel,
+            MetalVanguardCitadel,
             ElectrospireComplex,
             OiledMechanismHub,
             InfernalArcaneForge,

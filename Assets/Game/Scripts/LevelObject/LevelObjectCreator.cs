@@ -2,11 +2,11 @@ using LevelObjectsPool;
 using Hexagon;
 using System.Collections.Generic;
 using GameConfigs;
-using UnityEngine;
 using Zenject;
 
 public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjectilesCreate {
     private LevelConfigs _levelConfigs;
+    private HexagonObjectConfigs _hexagonObjectConfigs;
 
     #region DI
         private ILevelObjectFactory _iLevelObjectFactory;
@@ -23,7 +23,9 @@ public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjec
         IProjectilesPool iProjectilesPool, 
         ILevelObjectFactory iLevelObjectFactory,
         IStorageTransformPool iStorageTransformPool, 
-        LevelConfigs levelConfigs) {
+        LevelConfigs levelConfigs,
+        HexagonObjectConfigs hexagonObjectConfigs
+        ) {
         // Set DI
         _iBuildingsPool = iBuildingsPool;
         _iUnitsPool = iUnitsPool;
@@ -33,6 +35,7 @@ public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjec
 
         // Set configurations
         _levelConfigs = levelConfigs;
+        _hexagonObjectConfigs = hexagonObjectConfigs;
     }
 
     public IHexagonControl CreateSomeHexagonControllers() {
@@ -48,10 +51,10 @@ public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjec
         return hexagonControllersList[0];
     }
 
-    public IHexagonObjectElement CreateSomeHexagonObjects<T>(T type) where T : System.Enum {
-        var prefabs = GetHexagonObjectPrefabs(type);
+    public IHexagonObjectElement CreateSomeHexagonObjectElements<T>(T type) where T : System.Enum {
+        var prefabs = _hexagonObjectConfigs.GetHexagonObjectPrefabs(type);
 
-        List<IHexagonObjectElement> hexagonObjectsList = null;
+        List<IHexagonObjectElement> hexagonObjectsList;
 
         int numberObjects = type switch {
             CoreHexagonObjectsType.MainCore => 1,
@@ -74,58 +77,9 @@ public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjec
             );
         }
 
-        _iBuildingsPool.AddNewHexagonObjectsInPool(type, hexagonObjectsList);
+        _iBuildingsPool.AddNewHexagonObjectElementsInPool(type, hexagonObjectsList);
 
         return hexagonObjectsList[0];
-    }
-
-    private GameObject[] GetHexagonObjectPrefabs<T>(T type) where T : System.Enum {
-        // switch (type) {
-        //     case DecorationHexagonObjectsType decorationType:
-        //         switch (decorationType) { 
-
-        //         }
-        //     // break;
-
-        //     case MineHexagonObjectsType mineType:
-        //         switch (mineType) {
-
-        //         }
-
-        //     // break;
-
-        //     case HeapHexagonObjectsType heapType:
-        //         switch (heapType) {
-
-        //         }
-        //     // break;
-
-        //     case CoreHexagonObjectsType coreType:
-        //         switch (coreType) {
-
-        //         }
-        //     // break;
-
-        //     case BuildebleFieldHexagonObjectsType buildableFieldType:
-        //         switch (buildableFieldType) {
-
-        //         }
-        //     // break;
-
-        //     case UnBuildebleFieldHexagonObjectsType unBuildableFieldType:
-        //         switch (unBuildableFieldType) {
-
-        //         }
-        //     // break;
-
-        //     case LiquidHexagonObjectsType liquidType:
-        //         switch (liquidType) {
-
-        //         }
-        //     // break;
-        // }
-
-        return new GameObject[0]; // FIX IT !
     }
 
     public IHexagonObjectControl CreateSomeHexagonObjectControllers() {
@@ -144,7 +98,7 @@ public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjec
 
 public interface IBuildingsCreate {
     public IHexagonControl CreateSomeHexagonControllers();
-    public IHexagonObjectElement CreateSomeHexagonObjects<T>(T type) where T : System.Enum;
+    public IHexagonObjectElement CreateSomeHexagonObjectElements<T>(T type) where T : System.Enum;
     public IHexagonObjectControl CreateSomeHexagonObjectControllers();
 }
 

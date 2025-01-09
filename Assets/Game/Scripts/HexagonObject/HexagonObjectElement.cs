@@ -8,7 +8,6 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
     private MaterialConfigs _materialConfigs;
 
     private float _spawnEffectTime;
-    private float _destroyEffectTime;
 
     private bool _isHexagonObjectElementActive;
     private bool _isObjectHologram;
@@ -32,16 +31,15 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
         _baseMaterial.SetFloat("_Metallic", materialConfigs.BaseMetallic);
         _baseMaterial.SetFloat("_Smoothness", materialConfigs.BaseSmoothness);
 
-        SetTimeForEffect();
+        SetTimeForSpawnEffect();
 
         // Set component
         _meshRenderer = GetComponent<MeshRenderer>();
         _meshRenderer.material = _baseMaterial;
     }
 
-    protected virtual void SetTimeForEffect() {
+    protected virtual void SetTimeForSpawnEffect() {
         _spawnEffectTime = _materialConfigs.SpawnEffectTime;
-        _destroyEffectTime = _materialConfigs.DestroyEffectTime;
     }
 
     protected virtual void SetHexagonObjectWorkActive(bool isActive) {
@@ -117,8 +115,8 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
     private IEnumerator DestroyEffectStarted() {
         float elapsedTime = 0f;
 
-        while (elapsedTime < _destroyEffectTime) {
-            float currentValue = Mathf.Lerp(_materialConfigs.DestroyStartCutoffHeight, _materialConfigs.DestroyFinishCutoffHeight, elapsedTime / _destroyEffectTime);
+        while (elapsedTime < _materialConfigs.DestroyEffectTime) {
+            float currentValue = Mathf.Lerp(_materialConfigs.DestroyStartCutoffHeight, _materialConfigs.DestroyFinishCutoffHeight, elapsedTime / _materialConfigs.DestroyEffectTime);
 
             _baseMaterial.SetFloat("_CutoffHeight", currentValue);
 
