@@ -6,12 +6,7 @@ using Zenject;
 
 namespace Hexagon {
     public sealed class HexagonRotationControl : MonoBehaviour {
-        #region Hexagon Configs Settings
-            private float _rotationTime;
-
-            private float _minTimeForAutoHexagonRotate;
-            private float _maxTimeForAutoHexagonRotate;
-        #endregion
+        private HexagonConfigs _hexagonConfigs;
 
         public event Action HexagonRandomRotation;
         public bool IsHexagonRotation { get; private set; }
@@ -19,9 +14,7 @@ namespace Hexagon {
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {
             // Set configurations
-            _rotationTime = hexagonConfigs.RotationTime;
-            _minTimeForAutoHexagonRotate = hexagonConfigs.MinTimeForAutoHexagonRotate;
-            _maxTimeForAutoHexagonRotate = hexagonConfigs.MaxTimeForAutoHexagonRotate;
+            _hexagonConfigs = hexagonConfigs;
         }
 
         public void StopAllActions() {
@@ -34,7 +27,7 @@ namespace Hexagon {
 
         private IEnumerator RandomHexagonRotation() {
             while (true) {
-                float timeToRotate = UnityEngine.Random.Range(_minTimeForAutoHexagonRotate, _maxTimeForAutoHexagonRotate);
+                float timeToRotate = UnityEngine.Random.Range(_hexagonConfigs.MinTimeForAutoHexagonRotate, _hexagonConfigs.MaxTimeForAutoHexagonRotate);
 
                 yield return new WaitForSeconds(timeToRotate);
 
@@ -56,7 +49,7 @@ namespace Hexagon {
 
             float targetAngle = 180f;
             float rotatedAngle = 0f;
-            float rotationSpeed = targetAngle / _rotationTime;
+            float rotationSpeed = targetAngle / _hexagonConfigs.RotationTime;
 
             while (Mathf.Abs(rotatedAngle) < targetAngle) {
                 float stepAngle = rotationSpeed * Time.deltaTime;

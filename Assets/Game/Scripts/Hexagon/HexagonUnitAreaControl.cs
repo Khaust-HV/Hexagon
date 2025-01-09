@@ -6,10 +6,7 @@ using Zenject;
 
 namespace Hexagon {
     public sealed class HexagonUnitAreaControl : MonoBehaviour {
-        #region Hexagon Configs Settings
-            private float _minTimeUnitInAreaForHexagon;
-            private float _maxTimeUnitInAreaForHexagon;
-        #endregion
+        private HexagonConfigs _hexagonConfigs;
 
         public event Action<bool> DestroyHexagon;
 
@@ -22,8 +19,7 @@ namespace Hexagon {
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {
             // Set configurations
-            _minTimeUnitInAreaForHexagon = hexagonConfigs.MinTimeUnitInAreaForHexagon;
-            _maxTimeUnitInAreaForHexagon = hexagonConfigs.MaxTimeUnitInAreaForHexagon;
+            _hexagonConfigs = hexagonConfigs;
 
             // Set component
             _hexagonUnitDetectionArea = transform.GetChild(0).GetComponent<HexagonUnitDetectionArea>();
@@ -53,7 +49,7 @@ namespace Hexagon {
         }
 
         private IEnumerator DestroyBecauseSquad() {
-            float timeToDestroy = UnityEngine.Random.Range(_minTimeUnitInAreaForHexagon, _maxTimeUnitInAreaForHexagon);
+            float timeToDestroy = UnityEngine.Random.Range(_hexagonConfigs.MinTimeUnitInAreaForHexagon, _hexagonConfigs.MaxTimeUnitInAreaForHexagon);
 
             yield return new WaitForSeconds(timeToDestroy);
 

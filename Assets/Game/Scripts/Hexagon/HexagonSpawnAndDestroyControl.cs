@@ -16,28 +16,8 @@ namespace Hexagon {
         [SerializeField] private GameObject _destroyedHexagon;
         [SerializeField] private Transform[] _trDestroyedHexagonParts;
 
-        #region Hexagon Configs Settings
-            // Destroy settings
-            private float _timeToRestoreAndHideParts;
-            private float _forcePlannedExplosion;
-            private float _forceNonPlannedExplosion;
-            // Spawn effect settings
-            private float _spawnEffectTime;
-            private float _noiseScaleSpawn;
-            private float _noiseStrengthSpawn;
-            private float _startCutoffHeightSpawn;
-            private float _finishCutoffHeightSpawn;
-            private float _edgeWidthSpawn;
-            private Color _edgeColorSpawn;
-            // Destroy effect settings
-            private float _destroyEffectTime;
-            private float _noiseScaleDestroy;
-            private float _noiseStrengthDestroy;
-            private float _startCutoffHeightDestroy;
-            private float _finishCutoffHeightDestroy;
-            private float _edgeWidthDestroy;
-            private Color _edgeColorDestroy;
-        #endregion
+        private HexagonConfigs _hexagonConfigs;
+        private MaterialConfigs _materialConfigs;
 
         public event Action HexagonSpawnFinished;
         public event Action RestoreHexagon;
@@ -55,25 +35,8 @@ namespace Hexagon {
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs, MaterialConfigs materialConfigs) {
             // Set configurations
-            _timeToRestoreAndHideParts = hexagonConfigs.TimeToRestoreAndHideParts;
-            _forcePlannedExplosion = hexagonConfigs.ForcePlannedExplosion;
-            _forceNonPlannedExplosion = hexagonConfigs.ForceNonPlannedExplosion;
-
-            _spawnEffectTime = materialConfigs.SpawnEffectTime;
-            _noiseScaleSpawn = materialConfigs.SpawnNoiseScale;
-            _noiseStrengthSpawn = materialConfigs.SpawnNoiseStrength;
-            _startCutoffHeightSpawn = materialConfigs.SpawnStartCutoffHeight;
-            _finishCutoffHeightSpawn = materialConfigs.SpawnFinishCutoffHeight;
-            _edgeWidthSpawn = materialConfigs.SpawnEdgeWidth;
-            _edgeColorSpawn = materialConfigs.SpawnEdgeColor;
-
-            _destroyEffectTime = materialConfigs.DestroyEffectTime;
-            _noiseScaleDestroy = materialConfigs.DestroyNoiseScale;
-            _noiseStrengthDestroy = materialConfigs.DestroyNoiseStrength;
-            _startCutoffHeightDestroy = materialConfigs.DestroyStartCutoffHeight;
-            _finishCutoffHeightDestroy = materialConfigs.DestroyFinishCutoffHeight;
-            _edgeWidthDestroy = materialConfigs.DestroyEdgeWidth;
-            _edgeColorDestroy = materialConfigs.DestroyEdgeColor;
+            _hexagonConfigs = hexagonConfigs;
+            _materialConfigs = materialConfigs;
 
             // Set component
             _mrHexagonLP = _hexagonLP.GetComponent<MeshRenderer>();
@@ -92,11 +55,11 @@ namespace Hexagon {
         }
 
         public void SpawnEffectEnable(Material material) {
-            material.SetFloat("_NoiseScale", _noiseScaleSpawn);
-            material.SetFloat("_NoiseStrength", _noiseStrengthSpawn);
-            material.SetFloat("_CutoffHeight", _startCutoffHeightSpawn);
-            material.SetFloat("_EdgeWidth", _edgeWidthSpawn);
-            material.SetColor("_EdgeColor", _edgeColorSpawn);
+            material.SetFloat("_NoiseScale", _materialConfigs.SpawnNoiseScale);
+            material.SetFloat("_NoiseStrength", _materialConfigs.SpawnNoiseStrength);
+            material.SetFloat("_CutoffHeight", _materialConfigs.SpawnStartCutoffHeight);
+            material.SetFloat("_EdgeWidth", _materialConfigs.SpawnEdgeWidth);
+            material.SetColor("_EdgeColor", _materialConfigs.SpawnEdgeColor);
 
             StartCoroutine(SpawnEffectStarted(material));
         }
@@ -104,8 +67,8 @@ namespace Hexagon {
         private IEnumerator SpawnEffectStarted(Material material) {
             float elapsedTime = 0f;
 
-            while (elapsedTime < _spawnEffectTime) {
-                float currentValue = Mathf.Lerp(_startCutoffHeightSpawn, _finishCutoffHeightSpawn, elapsedTime / _spawnEffectTime);
+            while (elapsedTime < _materialConfigs.SpawnEffectTime) {
+                float currentValue = Mathf.Lerp(_materialConfigs.SpawnStartCutoffHeight, _materialConfigs.SpawnFinishCutoffHeight, elapsedTime / _materialConfigs.SpawnEffectTime);
 
                 material.SetFloat("_CutoffHeight", currentValue);
 
@@ -114,17 +77,17 @@ namespace Hexagon {
                 yield return null;
             }
 
-            material.SetFloat("_CutoffHeight", _finishCutoffHeightSpawn);
+            material.SetFloat("_CutoffHeight", _materialConfigs.SpawnFinishCutoffHeight);
 
             HexagonSpawnFinished?.Invoke();
         }
 
         public void DestroyEffectEnable(Material material) {
-            material.SetFloat("_NoiseScale", _noiseScaleDestroy);
-            material.SetFloat("_NoiseStrength", _noiseStrengthDestroy);
-            material.SetFloat("_CutoffHeight", _startCutoffHeightDestroy);
-            material.SetFloat("_EdgeWidth", _edgeWidthDestroy);
-            material.SetColor("_EdgeColor", _edgeColorDestroy);
+            material.SetFloat("_NoiseScale", _materialConfigs.DestroyNoiseScale);
+            material.SetFloat("_NoiseStrength", _materialConfigs.DestroyNoiseStrength);
+            material.SetFloat("_CutoffHeight", _materialConfigs.DestroyStartCutoffHeight);
+            material.SetFloat("_EdgeWidth", _materialConfigs.DestroyEdgeWidth);
+            material.SetColor("_EdgeColor", _materialConfigs.DestroyEdgeColor);
 
             StartCoroutine(DestroyEffectStarted(material));
         }
@@ -132,8 +95,8 @@ namespace Hexagon {
         private IEnumerator DestroyEffectStarted(Material material) {
             float elapsedTime = 0f;
 
-            while (elapsedTime < _destroyEffectTime) {
-                float currentValue = Mathf.Lerp(_startCutoffHeightDestroy, _finishCutoffHeightDestroy, elapsedTime / _destroyEffectTime);
+            while (elapsedTime < _materialConfigs.DestroyEffectTime) {
+                float currentValue = Mathf.Lerp(_materialConfigs.DestroyStartCutoffHeight, _materialConfigs.DestroyFinishCutoffHeight, elapsedTime / _materialConfigs.DestroyEffectTime);
 
                 material.SetFloat("_CutoffHeight", currentValue);
 
@@ -142,7 +105,7 @@ namespace Hexagon {
                 yield return null;
             }
 
-            material.SetFloat("_CutoffHeight", _finishCutoffHeightDestroy);
+            material.SetFloat("_CutoffHeight", _materialConfigs.DestroyFinishCutoffHeight);
 
             RestoreAndHide();
         }
@@ -154,7 +117,7 @@ namespace Hexagon {
                 _mcFragileHexagonParts[i].enabled = true;
                 _rbFragileHexagonParts[i].isKinematic = false;
                 _rbFragileHexagonParts[i].AddExplosionForce (
-                    _forcePlannedExplosion, 
+                    _hexagonConfigs.ForcePlannedExplosion, 
                     _rbDestroyedHexagonParts[i].transform.position + UnityEngine.Random.onUnitSphere * _hexagonLP.transform.localScale.x, 
                     _hexagonLP.transform.localScale.x, 
                     1f, 
@@ -170,7 +133,7 @@ namespace Hexagon {
 
             for (int i = 0; i < _rbDestroyedHexagonParts.Length; i++) {
                 _rbDestroyedHexagonParts[i].AddExplosionForce (
-                    _forceNonPlannedExplosion, 
+                    _hexagonConfigs.ForceNonPlannedExplosion, 
                     _rbDestroyedHexagonParts[i].transform.position + UnityEngine.Random.onUnitSphere * _hexagonLP.transform.localScale.x, 
                     _hexagonLP.transform.localScale.x, 
                     1f, 

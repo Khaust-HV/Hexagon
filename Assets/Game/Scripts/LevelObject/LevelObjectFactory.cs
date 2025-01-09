@@ -31,6 +31,8 @@ public class LevelObjectFactory : ILevelObjectFactory {
             }
         }
 
+        if (objectsList.Count < number) Debug.Log($"Not all {prefab.name} have been created {objectsList.Count}/{number}");
+
         return objectsList;
     }
 
@@ -54,6 +56,8 @@ public class LevelObjectFactory : ILevelObjectFactory {
                 }
             }
         }
+
+        if (objectsList.Count < number) Debug.Log($"Not all random {prefabs[0].name} have been created {objectsList.Count}/{number}");
 
         return objectsList;
     }

@@ -6,12 +6,8 @@ using Zenject;
 using System.Threading.Tasks;
 
 public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
-    #region Level Configs Settings
-        private float _hexagonSize;
-        private AlgorithmOfLevelBuilding _algorithmOfLevelBuilding;
-        private int _numberOfRings;
-    #endregion
-    
+    private LevelConfigs _levelConfigs;
+
     #region DI
         private IBuildingsPool _iBuildingsPool;
         private IUnitsPool _iUnitsPool;
@@ -26,9 +22,7 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
         _iInteractingWithObject = iInteractingWithObject;
 
         // Set configurations
-        _hexagonSize = levelConfigs.HexagonSize;
-        _algorithmOfLevelBuilding = levelConfigs.AlgorithmOfLevelBuilding;
-        _numberOfRings = levelConfigs.NumberOfRings;
+        _levelConfigs = levelConfigs;
     }
 
     public bool IsMakeThisHexagonAsTarget(int hexagonID) {
@@ -49,24 +43,24 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
         await RandomSetHexagonTypeAsync(); // FIX IT !
     }
 
-    private void CreateNewHexagonObjectForHexagon(int hexagonID) {
+    private void CreateNewHexagonObjectForHexagon(IHexagonControl iHexagonControl) {
         // Create new hexagonObject
     }
 
     private void SpreadHexagons() {
-        switch (_algorithmOfLevelBuilding) {
+        switch (_levelConfigs.AlgorithmOfLevelBuilding) {
             case AlgorithmOfLevelBuilding.Circular:
-                float hexagonRadius = _hexagonSize * 1.2f;
+                float hexagonRadius = _levelConfigs.HexagonSize * 1.2f;
                 float xOffset = hexagonRadius * 1.5f;
                 float zOffset = hexagonRadius * Mathf.Sqrt(3) * 0.86f;
 
                 int hexagonNumber = 0;
 
                 var hexagonController = _iBuildingsPool.GetDisableHexagonController();
-                if (!hexagonController.IsHexagonControllerAlreadyUsed()) hexagonController.NeedNewHexagonObject += CreateNewHexagonObjectForHexagon;
+                if (!hexagonController.IsHexagonControllerAlreadyUsed()) hexagonController.NeedHexagonObject += CreateNewHexagonObjectForHexagon;
                 hexagonController.SetHexagonPositionAndID(Vector3.zero, hexagonNumber++);
 
-                for (int ring = 1; ring <= _numberOfRings; ring++) {
+                for (int ring = 1; ring <= _levelConfigs.NumberOfRings; ring++) {
                     for (int side = 0; side < 6; side++) {
                         for (int step = 0; step < ring; step++) {
                             float x = (ring - step) * xOffset * Mathf.Cos(Mathf.PI / 3 * side) + step * xOffset * Mathf.Cos(Mathf.PI / 3 * (side + 1));
@@ -75,7 +69,7 @@ public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
                             Vector3 offset = new Vector3(x, 0, z);
 
                             hexagonController = _iBuildingsPool.GetDisableHexagonController();
-                            if (!hexagonController.IsHexagonControllerAlreadyUsed()) hexagonController.NeedNewHexagonObject += CreateNewHexagonObjectForHexagon;
+                            if (!hexagonController.IsHexagonControllerAlreadyUsed()) hexagonController.NeedHexagonObject += CreateNewHexagonObjectForHexagon;
                             hexagonController.SetHexagonPositionAndID(offset, hexagonNumber++);
                         }
                     }

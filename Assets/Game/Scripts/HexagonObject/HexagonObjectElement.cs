@@ -5,27 +5,10 @@ using UnityEngine;
 using Zenject;
 
 public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
-    #region Material Configs Settings
-        private MaterialConfigs _materialConfigs;
-        // Spawn effect settings
-        private float _spawnEffectTime;
-        private float _spawnNoiseScale;
-        private float _spawnNoiseStrength;
-        private float _spawnStartCutoffHeight;
-        private float _spawnFinishCutoffHeight;
-        private float _spawnEdgeWidth;
-        private Color _spawnEdgeColor;
-        // Destroy effect settings
-        private float _destroyEffectTime;
-        private float _destroyNoiseScale;
-        private float _destroyNoiseStrength;
-        private float _destroyStartCutoffHeight;
-        private float _destroyFinishCutoffHeight;
-        private float _destroyEdgeWidth;
-        private Color _destroyEdgeColor;
-        // Hologram effect settings
-        private float _hologramSpawnEffectTime;
-    #endregion
+    private MaterialConfigs _materialConfigs;
+
+    private float _spawnEffectTime;
+    private float _destroyEffectTime;
 
     private bool _isHexagonObjectElementActive;
     private bool _isObjectHologram;
@@ -48,20 +31,6 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
         _baseMaterial = new Material(materialConfigs.DissolveShaderEffectWithUV);
         _baseMaterial.SetFloat("_Metallic", materialConfigs.BaseMetallic);
         _baseMaterial.SetFloat("_Smoothness", materialConfigs.BaseSmoothness);
-
-        _spawnNoiseScale = materialConfigs.SpawnNoiseScale;
-        _spawnNoiseStrength = materialConfigs.SpawnNoiseStrength;
-        _spawnStartCutoffHeight = materialConfigs.SpawnStartCutoffHeight;
-        _spawnFinishCutoffHeight = materialConfigs.SpawnFinishCutoffHeight;
-        _spawnEdgeWidth = materialConfigs.SpawnEdgeWidth;
-        _spawnEdgeColor = materialConfigs.SpawnEdgeColor;
-
-        _destroyNoiseScale = materialConfigs.DestroyNoiseScale;
-        _destroyNoiseStrength = materialConfigs.DestroyNoiseStrength;
-        _destroyStartCutoffHeight = materialConfigs.DestroyStartCutoffHeight;
-        _destroyFinishCutoffHeight = materialConfigs.DestroyFinishCutoffHeight;
-        _destroyEdgeWidth = materialConfigs.DestroyEdgeWidth;
-        _destroyEdgeColor = materialConfigs.DestroyEdgeColor;
 
         SetTimeForEffect();
 
@@ -100,26 +69,26 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
     }
 
     public void SpawnEffectEnable() {
-        _baseMaterial.SetFloat("_NoiseScale", _spawnNoiseScale);
-        _baseMaterial.SetFloat("_NoiseStrength", _spawnNoiseStrength);
-        _baseMaterial.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
-        _baseMaterial.SetFloat("_EdgeWidth", _spawnEdgeWidth);
-        _baseMaterial.SetColor("_EdgeColor", _spawnEdgeColor);
+        _baseMaterial.SetFloat("_NoiseScale", _materialConfigs.SpawnNoiseScale);
+        _baseMaterial.SetFloat("_NoiseStrength", _materialConfigs.SpawnNoiseStrength);
+        _baseMaterial.SetFloat("_CutoffHeight", _materialConfigs.SpawnStartCutoffHeight);
+        _baseMaterial.SetFloat("_EdgeWidth", _materialConfigs.SpawnEdgeWidth);
+        _baseMaterial.SetColor("_EdgeColor", _materialConfigs.SpawnEdgeColor);
 
         StartCoroutine(SpawnEffectStarted(_baseMaterial, _spawnEffectTime));
     }
 
     public void HologramSpawnEffectEnable() {
-        _hologramMaterial.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
+        _hologramMaterial.SetFloat("_CutoffHeight", _materialConfigs.SpawnStartCutoffHeight);
 
-        StartCoroutine(SpawnEffectStarted(_hologramMaterial, _hologramSpawnEffectTime));
+        StartCoroutine(SpawnEffectStarted(_hologramMaterial, _materialConfigs.HologramSpawnEffectTime));
     }
 
     private IEnumerator SpawnEffectStarted(Material material, float spawnEffectTime) {
         float elapsedTime = 0f;
 
         while (elapsedTime < spawnEffectTime) {
-            float currentValue = Mathf.Lerp(_spawnStartCutoffHeight, _spawnFinishCutoffHeight, elapsedTime / spawnEffectTime);
+            float currentValue = Mathf.Lerp(_materialConfigs.SpawnStartCutoffHeight, _materialConfigs.SpawnFinishCutoffHeight, elapsedTime / spawnEffectTime);
 
             material.SetFloat("_CutoffHeight", currentValue);
 
@@ -128,17 +97,17 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
             yield return null;
         }
 
-        material.SetFloat("_CutoffHeight", _spawnFinishCutoffHeight);
+        material.SetFloat("_CutoffHeight", _materialConfigs.SpawnFinishCutoffHeight);
 
         SetHexagonObjectWorkActive(true);
     }
 
     public void DestroyEffectEnable() {
-        _baseMaterial.SetFloat("_NoiseScale", _destroyNoiseScale);
-        _baseMaterial.SetFloat("_NoiseStrength", _destroyNoiseStrength);
-        _baseMaterial.SetFloat("_CutoffHeight", _destroyStartCutoffHeight);
-        _baseMaterial.SetFloat("_EdgeWidth", _destroyEdgeWidth);
-        _baseMaterial.SetColor("_EdgeColor", _destroyEdgeColor);
+        _baseMaterial.SetFloat("_NoiseScale", _materialConfigs.DestroyNoiseScale);
+        _baseMaterial.SetFloat("_NoiseStrength", _materialConfigs.DestroyNoiseStrength);
+        _baseMaterial.SetFloat("_CutoffHeight", _materialConfigs.DestroyStartCutoffHeight);
+        _baseMaterial.SetFloat("_EdgeWidth", _materialConfigs.DestroyEdgeWidth);
+        _baseMaterial.SetColor("_EdgeColor", _materialConfigs.DestroyEdgeColor);
 
         SetHexagonObjectWorkActive(false);
 
@@ -149,7 +118,7 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
         float elapsedTime = 0f;
 
         while (elapsedTime < _destroyEffectTime) {
-            float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / _destroyEffectTime);
+            float currentValue = Mathf.Lerp(_materialConfigs.DestroyStartCutoffHeight, _materialConfigs.DestroyFinishCutoffHeight, elapsedTime / _destroyEffectTime);
 
             _baseMaterial.SetFloat("_CutoffHeight", currentValue);
 
@@ -158,7 +127,7 @@ public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
             yield return null;
         }
 
-        _baseMaterial.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
+        _baseMaterial.SetFloat("_CutoffHeight", _materialConfigs.DestroyFinishCutoffHeight);
 
         RestoreAndHide();
     }

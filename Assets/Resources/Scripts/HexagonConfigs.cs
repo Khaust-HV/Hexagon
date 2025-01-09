@@ -18,7 +18,6 @@ namespace GameConfigs {
         [field: SerializeField] public float MinTimeUnitInAreaForHexagon { get; private set; }
         [field: SerializeField] public float MaxTimeUnitInAreaForHexagon { get; private set; }
         [field: Header("Destroy settings")]
-        [field: SerializeField] public float TimeToRestoreAndHideParts { get; private set; }
         [field: SerializeField] public float ForcePlannedExplosion { get; private set; }
         [field: SerializeField] public float ForceNonPlannedExplosion { get; private set; }
     }

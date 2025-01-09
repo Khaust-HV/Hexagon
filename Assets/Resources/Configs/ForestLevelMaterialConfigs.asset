@@ -28,7 +28,7 @@ MonoBehaviour:
   <DestroyNoiseStrength>k__BackingField: 10
   <DestroyStartCutoffHeight>k__BackingField: 1
   <DestroyFinishCutoffHeight>k__BackingField: -8.5
-  <DestroyEdgeWidth>k__BackingField: 1
+  <DestroyEdgeWidth>k__BackingField: 0.1
   <DestroyEdgeColor>k__BackingField: {r: 0, g: 23.96863, b: 23.96863, a: 0}
   <HologramAndDissolveShaderEffect>k__BackingField: {fileID: -6465566751694194690, guid: d78e243118bd94c00a914015b4709837, type: 3}
   <HologramMetallic>k__BackingField: 0.3

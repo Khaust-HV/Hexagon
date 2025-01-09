@@ -6,9 +6,7 @@ using UnityEngine;
 using Zenject;
 
 public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectControl {
-    #region Material Configs Settings
-        private float _destroyEffectTime;
-    #endregion
+    private MaterialConfigs _materialConfigs;
 
     private bool _isHexagonObjectActive;
     private bool _isItImprovedYet;
@@ -27,7 +25,7 @@ public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectContr
         _iStorageTransformPool = iStorageTransformPool;
 
         // Set configurations
-        _destroyEffectTime = materialConfigs.DestroyEffectTime;
+        _materialConfigs = materialConfigs;
     }
 
     public void SetParentObject(Transform parentObject) {
@@ -47,7 +45,7 @@ public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectContr
         switch (_hexagonObjectType) {
             
             case HeapHexagonObjectsType:
-            case LiquidHexagonObjectsType:
+            case RiverHexagonObjectsType:
             case UnBuildebleFieldHexagonObjectsType:
             case CoreHexagonObjectsType:
                 _isItImprovedYet = true;
@@ -93,6 +91,8 @@ public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectContr
     }
 
     public void SetMainObjectFromHexagonObjectHologram() {
+        if (_mainObject != null) _mainObject.DestroyEffectEnable();
+
         _hologramObject.MakeObjectBase();
 
         _mainObject = _hologramObject;
@@ -114,7 +114,7 @@ public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectContr
         switch (_hexagonObjectType) {
             case MineHexagonObjectsType:
             case HeapHexagonObjectsType:
-            case LiquidHexagonObjectsType:
+            case RiverHexagonObjectsType:
                 if (isActive) {
                     _mainObject.SpawnEffectEnable();
                     _decorationObject.SpawnEffectEnable();
@@ -157,7 +157,7 @@ public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectContr
     private IEnumerator RestoreAndHide() {
         RestoreHologramObject();
 
-        yield return new WaitForSeconds(_destroyEffectTime);
+        yield return new WaitForSeconds(_materialConfigs.DestroyEffectTime);
 
         _mainObject = null;
         _decorationObject = null;

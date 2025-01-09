@@ -76,7 +76,7 @@ namespace LevelObjectsPool {
             if (_hexagonObjectsStorage.TryGetValue(typeof(T), out var typeStorage) && 
                 typeStorage.TryGetValue(type, out var elements)) {
                     foreach (var element in elements) {
-                        if (element.IsHexagonObjectElementActive()) return element;
+                        if (!element.IsHexagonObjectElementActive()) return element;
                     }
 
                 return _iBuildingsCreate.CreateSomeHexagonObjects(type);
@@ -139,7 +139,10 @@ namespace LevelObjectsPool {
 
     #region Hexagon Objects Types
         public enum DecorationHexagonObjectsType {
+            // Ganeral decoration
             Biome,
+
+            // Mine decoration
             TreeBiome,
             StoneBiome,
             MetalBiome,
@@ -148,10 +151,14 @@ namespace LevelObjectsPool {
             RedCrystalBiome,
             BlueCrystalBiome,
             GreenCrystalBiome,
-            GlitcheBiome
+            GlitcheBiome,
+            
+            // Lake decoration
+            LakeBiome
         }
 
         public enum MineHexagonObjectsType {
+            // Sources of resources
             TreeSource,
             StoneSource,
             MetalSource,
@@ -160,27 +167,98 @@ namespace LevelObjectsPool {
             RedCrystalSource,
             BlueCrystalSource,
             GreenCrystalSource,
-            GlitcheSource
+            GlitcheSource,
+
+            // Extraction of resources
+            TreeMining,
+            StoneMining,
+            MetalMining,
+            ElectricityMining,
+            OilMining,
+            RedCrystalMining,
+            BlueCrystalMining,
+            GreenCrystalMining,
+            GlitcheMining
         }
 
         public enum HeapHexagonObjectsType {
-
+            NormalObjects,
+            QuestObjects,
+            Lake
         }
 
         public enum CoreHexagonObjectsType {
-
+            MainCore,
+            ShieldCore
         }
 
         public enum BuildebleFieldHexagonObjectsType {
+            Nothing,
 
+            // Wood towers
+            FlamingRainTower,
+            VineEnsnareTower,
+            FrostArrowTree,
+            ChaoticGrove,
+            PiercingBallista,
+            ReinforcedArcherTower,
+            ElectricSapling,
+            BurningSpout,
+
+            // Stone towers
+            VolcanicEruptionTower,
+            EntanglingObelisk,
+            FrozenPillar,
+            PixelatedMonolith,
+            FortifiedCatapult,
+            CannonadeBastion,
+            ArcLightningTower,
+            MoltenFortress,
+
+            // Metal towers
+            PlasmaForge,
+            BioMechGuardian,
+            CryoArtillery,
+            GlitchEngine,
+            SiegeBastion,
+            FortifiedMarksman,
+            TeslaOvercharger,
+            IgnitionBlaster,
+
+            // Buildings for hiring units
+            WarriorHallOfTimber,
+            StoneforgeBarracks,
+            IronVanguardCitadel,
+            ElectrospireComplex,
+            OiledMechanismHub,
+            InfernalArcaneForge,
+            VerdantEnclaveOfNature,
+            FrostwovenSanctum
         }
 
         public enum UnBuildebleFieldHexagonObjectsType {
+            // Constructor for roads
+            StartOrFinishRoad,
+            StraightRoad,
+            LongTurnRoad,
+            NearTurnRoad,
 
+            // Poorly traveled areas
+            HardWay
         }
 
-        public enum LiquidHexagonObjectsType {
+        public enum RiverHexagonObjectsType {
+            // Safe river
+            StartOrFinishSafeRiver,
+            StraightSafeRiver,
+            LongTurnSafeRiver,
+            NearTurnSafeRiver,
 
+            // Dangerous river
+            StartOrFinishDangerousRiver,
+            StraightDangerousRiver,
+            LongTurnDangerousRiver,
+            NearTurnDangerousRiver
         }
     #endregion
 

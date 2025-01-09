@@ -5,13 +5,10 @@ using Zenject;
 
 namespace Hexagon {
     public sealed class HexagonController : MonoBehaviour, IHexagonControl {
-        #region Hexagon Config Settings
-            private int _minNumberRotationsForHexagon;
-            private int _maxNumberRotationsForHexagon;
-        #endregion
+        private HexagonConfigs _hexagonConfigs;
 
         public event Action CameraLooking;
-        public event Action<int> NeedNewHexagonObject;
+        public event Action<IHexagonControl> NeedHexagonObject;
 
         private HexagonType _hexagonType;
         private int _currentAvailableNumberRotations;
@@ -28,8 +25,7 @@ namespace Hexagon {
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs, MaterialConfigs materialConfigs) {
             // Set configurations
-            _minNumberRotationsForHexagon = hexagonConfigs.MinNumberRotationsForHexagon;
-            _maxNumberRotationsForHexagon = hexagonConfigs.MaxNumberRotationsForHexagon;
+            _hexagonConfigs = hexagonConfigs;
 
             _material = new Material(materialConfigs.DissolveShaderEffectNonUV);
             _material.SetFloat("_Metallic", materialConfigs.BaseMetallic);
@@ -66,7 +62,7 @@ namespace Hexagon {
 
             _hexagonTypeControl.SetHexagonType(_material, hexagonType, rotateShadow);
 
-            _currentAvailableNumberRotations = UnityEngine.Random.Range(_minNumberRotationsForHexagon, _maxNumberRotationsForHexagon);
+            _currentAvailableNumberRotations = UnityEngine.Random.Range(_hexagonConfigs.MinNumberRotationsForHexagon, _hexagonConfigs.MaxNumberRotationsForHexagon);
 
             _hexagonSpawnAndDestroyControl.SpawnEffectEnable(_material);
         }
@@ -96,6 +92,8 @@ namespace Hexagon {
                     _hexagonUnitAreaControl.SetUnitAreaActive(true);
                 break;
             }
+
+            NeedHexagonObject?.Invoke(this); // Request to levelManager for a new object
         }
 
         private void CheckingBeforeRotate() {
@@ -117,7 +115,7 @@ namespace Hexagon {
 
             CameraLooking?.Invoke(); // If a player has taken a focus but the hexagon is rotation
 
-            NeedNewHexagonObject?.Invoke(_hexagonUnitAreaControl.HexagonID); // Request to levelManager for a new object
+            NeedHexagonObject?.Invoke(this); // Request to levelManager for a new object
 
             _hexagonRotationControl.StartRotation(); // FIX IT !
         }
@@ -170,7 +168,7 @@ namespace Hexagon {
         public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl);
         public event Action CameraLooking;
         public bool IsHexagonControllerActive();
-        public event Action<int> NeedNewHexagonObject;
+        public event Action<IHexagonControl> NeedHexagonObject;
         public bool IsHexagonControllerAlreadyUsed(); // To prevent re-subscription to events
         public IHexagonObjectControl GetHexagonObjectController();
     }

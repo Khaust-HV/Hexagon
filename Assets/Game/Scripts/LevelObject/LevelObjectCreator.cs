@@ -6,13 +6,7 @@ using UnityEngine;
 using Zenject;
 
 public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjectilesCreate {
-    #region Level Configs Settings
-        private int _numberObjectsCreatedInCaseOfShortage;
-        private GameObject _hexagonControllerPrefab;
-        private float _hexagonSize;
-        private GameObject _hexagonObjectsControllerPrefab;
-        private float _hexagonObjectSize;
-    #endregion
+    private LevelConfigs _levelConfigs;
 
     #region DI
         private ILevelObjectFactory _iLevelObjectFactory;
@@ -38,19 +32,15 @@ public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjec
         _iStorageTransformPool = iStorageTransformPool;
 
         // Set configurations
-        _numberObjectsCreatedInCaseOfShortage = levelConfigs.NumberObjectsCreatedInCaseOfShortage;
-        _hexagonControllerPrefab = levelConfigs.HexagonControllerPrefab;
-        _hexagonSize = levelConfigs.HexagonSize;
-        _hexagonObjectsControllerPrefab = levelConfigs.HexagonObjectsControllerPrefab;
-        _hexagonObjectSize = levelConfigs.HexagonObjectSize;
+        _levelConfigs = levelConfigs;
     }
 
     public IHexagonControl CreateSomeHexagonControllers() {
         List<IHexagonControl> hexagonControllersList = _iLevelObjectFactory.CreateObjects<IHexagonControl> (
-            prefab: _hexagonControllerPrefab, 
-            number: _numberObjectsCreatedInCaseOfShortage, 
+            prefab: _levelConfigs.HexagonControllerPrefab, 
+            number: _levelConfigs.NumberObjectsCreatedInCaseOfShortage, 
             trParentObject: _iStorageTransformPool.GetHexagonTransformPool(),
-            size: _hexagonSize
+            size: _levelConfigs.HexagonSize
         );
 
         _iBuildingsPool.AddNewHexagonControllersInPool(hexagonControllersList);
@@ -59,12 +49,30 @@ public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjec
     }
 
     public IHexagonObjectElement CreateSomeHexagonObjects<T>(T type) where T : System.Enum {
-        List<IHexagonObjectElement> hexagonObjectsList = _iLevelObjectFactory.CreateRandomObjects<IHexagonObjectElement> (
-            prefabs: GetHexagonObjectPrefabs(type), 
-            number: _numberObjectsCreatedInCaseOfShortage, 
-            trParentObject: _iStorageTransformPool.GetHexagonObjectTransformPool(),
-            size: _hexagonObjectSize
-        );
+        var prefabs = GetHexagonObjectPrefabs(type);
+
+        List<IHexagonObjectElement> hexagonObjectsList = null;
+
+        int numberObjects = type switch {
+            CoreHexagonObjectsType.MainCore => 1,
+            _ => _levelConfigs.NumberObjectsCreatedInCaseOfShortage
+        };
+
+        if (prefabs.Length == 1) {
+            hexagonObjectsList = _iLevelObjectFactory.CreateObjects<IHexagonObjectElement> (
+                prefab: prefabs[0], 
+                number: numberObjects, 
+                trParentObject: _iStorageTransformPool.GetHexagonObjectTransformPool(),
+                size: _levelConfigs.HexagonObjectSize
+            );
+        } else {
+            hexagonObjectsList = _iLevelObjectFactory.CreateRandomObjects<IHexagonObjectElement> (
+                prefabs: prefabs, 
+                number: numberObjects, 
+                trParentObject: _iStorageTransformPool.GetHexagonObjectTransformPool(),
+                size: _levelConfigs.HexagonObjectSize
+            );
+        }
 
         _iBuildingsPool.AddNewHexagonObjectsInPool(type, hexagonObjectsList);
 
@@ -122,10 +130,10 @@ public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjec
 
     public IHexagonObjectControl CreateSomeHexagonObjectControllers() {
         List<IHexagonObjectControl> hexagonObjectControllersList = _iLevelObjectFactory.CreateObjects<IHexagonObjectControl> (
-            prefab: _hexagonObjectsControllerPrefab, 
-            number: _numberObjectsCreatedInCaseOfShortage, 
+            prefab: _levelConfigs.HexagonObjectsControllerPrefab, 
+            number: _levelConfigs.NumberObjectsCreatedInCaseOfShortage, 
             trParentObject: _iStorageTransformPool.GetHexagonObjectTransformPool(),
-            size: _hexagonObjectSize
+            size: _levelConfigs.HexagonObjectSize
         );
 
         _iBuildingsPool.AddNewHexagonObjectControllersInPool(hexagonObjectControllersList);
