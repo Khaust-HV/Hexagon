@@ -1,5 +1,5 @@
-using LevelObjectsPool;
 using UnityEngine;
+using LevelObjectType;
 
 namespace GameConfigs {
     [CreateAssetMenu(menuName = "Configs/HexagonObjectConfigs", fileName = "LevelHexagonObjectConfigs")]
@@ -60,6 +60,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] GlitcheSourcePrefabs { get; private set; }
         [field: Header("TreeMining settings <Mine> <Source>")]
         [field: SerializeField] public GameObject[] TreeMiningPrefabs { get; private set; }
+        [field: Space(15)]
 
         [field: Header("StoneMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] StoneMiningPrefabs { get; private set; }
@@ -96,6 +97,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] ElectricSaplingPrefabs { get; private set; }
         [field: Header("BurningSpout settings <BuildebleField> <Tree>")]
         [field: SerializeField] public GameObject[] BurningSpoutPrefabs { get; private set; }
+        [field: Space(15)]
 
         [field: Header("VolcanicEruptionTower settings <BuildebleField> <Stone>")]
         [field: SerializeField] public GameObject[] VolcanicEruptionTowerPrefabs { get; private set; }
@@ -113,6 +115,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] ArcLightningTowerPrefabs { get; private set; }
         [field: Header("MoltenFortress settings <BuildebleField> <Stone>")]
         [field: SerializeField] public GameObject[] MoltenFortressPrefabs { get; private set; }
+        [field: Space(15)]
 
         [field: Header("PlasmaForge settings <BuildebleField> <Metal>")]
         [field: SerializeField] public GameObject[] PlasmaForgePrefabs { get; private set; }
@@ -130,6 +133,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] TeslaOverchargerPrefabs { get; private set; }
         [field: Header("IgnitionBlaster settings <BuildebleField> <Metal>")]
         [field: SerializeField] public GameObject[] IgnitionBlasterPrefabs { get; private set; }
+        [field: Space(15)]
 
         [field: Header("WarriorHallOfTimber settings <BuildebleField> <Units>")]
         [field: SerializeField] public GameObject[] WarriorHallOfTimberPrefabs { get; private set; }
@@ -187,6 +191,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] LongTurnSafeRiverPrefabs { get; private set; }
         [field: Header("NearTurnSafeRiver settings <River> <SafeRiver>")]
         [field: SerializeField] public GameObject[] NearTurnSafeRiverPrefabs { get; private set; }
+        [field: Space(15)]
 
         [field: Header("StartOrFinishDangerousRiver settings <River> <DangerousRiver>")]
         [field: SerializeField] public GameObject[] StartOrFinishDangerousRiverPrefabs { get; private set; }
@@ -212,7 +217,7 @@ namespace GameConfigs {
                         DecorationHexagonObjectsType.BlueCrystalBiome => BlueCrystalBiomePrefabs,
                         DecorationHexagonObjectsType.GreenCrystalBiome => GreenCrystalBiomePrefabs,
                         DecorationHexagonObjectsType.GlitcheBiome => GlitcheBiomePrefabs,
-                        _ => throw new System.ArgumentOutOfRangeException(nameof(decorationType), "Invalid decoration type")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {decorationType} in the configuration file")
                     };
                 // break;
 
@@ -237,7 +242,7 @@ namespace GameConfigs {
                         MineHexagonObjectsType.BlueCrystalMining => BlueCrystalMiningPrefabs,
                         MineHexagonObjectsType.GreenCrystalMining => GreenCrystalMiningPrefabs,
                         MineHexagonObjectsType.GlitcheMining => GlitcheMiningPrefabs,
-                        _ => throw new System.ArgumentOutOfRangeException(nameof(mineType), "Invalid mine type")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {mineType} in the configuration file")
                     };
                 // break;
 
@@ -278,7 +283,7 @@ namespace GameConfigs {
                         BuildebleFieldHexagonObjectsType.InfernalArcaneForge => InfernalArcaneForgePrefabs,
                         BuildebleFieldHexagonObjectsType.VerdantEnclaveOfNature => VerdantEnclaveOfNaturePrefabs,
                         BuildebleFieldHexagonObjectsType.FrostwovenSanctum => FrostwovenSanctumPrefabs,
-                        _ => throw new System.ArgumentOutOfRangeException(nameof(buildableFieldType), "Invalid buildableField type")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {buildableFieldType} in the configuration file")
                     };
                 // break;
 
@@ -289,7 +294,7 @@ namespace GameConfigs {
                         UnBuildebleFieldHexagonObjectsType.LongTurnRoad => LongTurnRoadPrefabs,
                         UnBuildebleFieldHexagonObjectsType.NearTurnRoad => NearTurnRoadPrefabs,
                         UnBuildebleFieldHexagonObjectsType.HardWay => HardWayPrefabs,
-                        _ => throw new System.ArgumentOutOfRangeException(nameof(unBuildableFieldType), "Invalid unBuildableField type")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {unBuildableFieldType} in the configuration file")
                     };
                 // break;
 
@@ -297,7 +302,7 @@ namespace GameConfigs {
                     return coreType switch {
                         CoreHexagonObjectsType.MainCore => MainCorePrefabs,
                         CoreHexagonObjectsType.ShieldCore => ShieldCorePrefabs,
-                        _ => throw new System.ArgumentOutOfRangeException(nameof(coreType), "Invalid core type")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {coreType} in the configuration file")
                     };
                 // break;
 
@@ -306,7 +311,7 @@ namespace GameConfigs {
                         HeapHexagonObjectsType.NormalObjects => NormalObjectsPrefabs,
                         HeapHexagonObjectsType.Lake => LakePrefabs,
                         HeapHexagonObjectsType.QuestObjects => QuestObjectsPrefabs,
-                        _ => throw new System.ArgumentOutOfRangeException(nameof(heapType), "Invalid heap type")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {heapType} in the configuration file")
                     };
                 // break;
 
@@ -321,12 +326,12 @@ namespace GameConfigs {
                         RiverHexagonObjectsType.StraightDangerousRiver => StraightDangerousRiverPrefabs,
                         RiverHexagonObjectsType.LongTurnDangerousRiver => LongTurnDangerousRiverPrefabs,
                         RiverHexagonObjectsType.NearTurnDangerousRiver => NearTurnDangerousRiverPrefabs,
-                        _ => throw new System.ArgumentOutOfRangeException(nameof(riverType), "Invalid river type")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {riverType} in the configuration file")
                     };
                 // break;
 
                 default:
-                    throw new System.ArgumentOutOfRangeException("Invalid hexagonObject type");
+                    throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs type of {type} in the configuration file");
                 // break;
             }
         }

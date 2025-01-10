@@ -9,16 +9,19 @@ namespace GameConfigs {
         [field: SerializeField] public float MaxTimeForAutoHexagonRotate { get; private set; }
         [field: SerializeField] public int MinNumberRotationsForHexagon { get; private set; }
         [field: SerializeField] public int MaxNumberRotationsForHexagon { get; private set; }
+        [field: Space(50)]
 
         [field: Header("Color hexagon type settings")]
         [field: SerializeField] public Color DefaultHexagonColor { get; private set; }
         [field: SerializeField] public Color ShadowHexagonColor { get; private set; }
         [field: SerializeField] public Color RandomHexagonColor { get; private set; }
         [field: SerializeField] public Color TemporaryHexagonColor { get; private set; }
+        [field: Space(50)]
 
         [field: Header("Unit on hexagon settings")]
         [field: SerializeField] public float MinTimeUnitInAreaForHexagon { get; private set; }
         [field: SerializeField] public float MaxTimeUnitInAreaForHexagon { get; private set; }
+        [field: Space(50)]
         
         [field: Header("Destroy settings")]
         [field: SerializeField] public float ForcePlannedExplosion { get; private set; }

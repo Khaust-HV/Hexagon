@@ -1,12 +1,11 @@
 using System;
 using GameConfigs;
+using HexagonControl;
 using UnityEngine;
 using Zenject;
 
-namespace Hexagon {
+namespace HexagonControl {
     public sealed class HexagonController : MonoBehaviour, IHexagonControl {
-        private HexagonConfigs _hexagonConfigs;
-
         public event Action CameraLooking;
         public event Action<IHexagonControl> NeedHexagonObject;
 
@@ -21,6 +20,10 @@ namespace Hexagon {
         private HexagonSpawnAndDestroyControl _hexagonSpawnAndDestroyControl;
         private HexagonUnitAreaControl _hexagonUnitAreaControl;
         private HexagonSetObjectControl _hexagonSetObjectControl;
+
+        #region DI
+            private HexagonConfigs _hexagonConfigs;
+        #endregion
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs, MaterialConfigs materialConfigs) {
@@ -160,16 +163,16 @@ namespace Hexagon {
             return _isHexagonAlreadyUsed;
         }
     }
+}
 
-    public interface IHexagonControl {
-        public void SetHexagonPositionAndID(Vector3 position, int id);
-        public int GetHexagonID();
-        public void SetHexagonType(HexagonType hexagonType, bool rotateShadow = false);
-        public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl);
-        public event Action CameraLooking;
-        public bool IsHexagonControllerActive();
-        public event Action<IHexagonControl> NeedHexagonObject;
-        public bool IsHexagonControllerAlreadyUsed(); // To prevent re-subscription to events
-        public IHexagonObjectControl GetHexagonObjectController();
-    }
+public interface IHexagonControl {
+    public void SetHexagonPositionAndID(Vector3 position, int id);
+    public int GetHexagonID();
+    public void SetHexagonType(HexagonType hexagonType, bool rotateShadow = false);
+    public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl);
+    public event Action CameraLooking;
+    public bool IsHexagonControllerActive();
+    public event Action<IHexagonControl> NeedHexagonObject;
+    public bool IsHexagonControllerAlreadyUsed(); // To prevent re-subscription to events
+    public IHexagonObjectControl GetHexagonObjectController();
 }

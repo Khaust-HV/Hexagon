@@ -4,12 +4,14 @@ using GameConfigs;
 using UnityEngine;
 using Zenject;
 
-namespace Hexagon {
+namespace HexagonControl {
     public sealed class HexagonRotationControl : MonoBehaviour {
-        private HexagonConfigs _hexagonConfigs;
-
         public event Action HexagonRandomRotation;
         public bool IsHexagonRotation { get; private set; }
+
+        #region DI
+            private HexagonConfigs _hexagonConfigs;
+        #endregion
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {

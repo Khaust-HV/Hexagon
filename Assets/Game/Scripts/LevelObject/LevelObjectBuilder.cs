@@ -1,122 +1,112 @@
-using LevelObjectsPool;
 using Zenject;
+using LevelObjectType;
 
-public sealed class LevelObjectBuilder : IBuilder {
-    #region DI
-        private IBuildingsPool _iBuildingsPool;
-        private IUnitsPool _iUnitsPool;
-    #endregion
+namespace LevelObject {
+    public sealed class LevelObjectBuilder : IBuilder {
+        #region DI
+            private IBuildingsPool _iBuildingsPool;
+            private IUnitsPool _iUnitsPool;
+        #endregion
 
-    [Inject]
-    private void Construct(IBuildingsPool iBuildingsPool, IUnitsPool iUnitsPool) {
-        // Set DI
-        _iBuildingsPool = iBuildingsPool;
-        _iUnitsPool = iUnitsPool;
-    }
+        [Inject]
+        private void Construct(IBuildingsPool iBuildingsPool, IUnitsPool iUnitsPool) {
+            // Set DI
+            _iBuildingsPool = iBuildingsPool;
+            _iUnitsPool = iUnitsPool;
+        }
 
-    public IHexagonObjectControl CreateHexagonObject<T>(T type) where T : System.Enum {
-        switch (type) {
-            case MineHexagonObjectsType mineType:
-                IHexagonObjectElement mainObject = _iBuildingsPool.GetDisableHexagonObjectElement(mineType);
+        public IHexagonObjectControl CreateHexagonObject<T>(T type) where T : System.Enum {
+            switch (type) {
+                case MineHexagonObjectsType mineType:
+                    IHexagonObjectElement mainObject = _iBuildingsPool.GetDisableHexagonObjectElement(mineType);
 
-                DecorationHexagonObjectsType decorationType = mineType switch {
-                    MineHexagonObjectsType.TreeSource => DecorationHexagonObjectsType.TreeBiome,
-                    MineHexagonObjectsType.StoneSource => DecorationHexagonObjectsType.StoneBiome,
-                    MineHexagonObjectsType.MetalSource => DecorationHexagonObjectsType.MetalBiome,
-                    MineHexagonObjectsType.ElectricitySource => DecorationHexagonObjectsType.ElectricityBiome,
-                    MineHexagonObjectsType.OilSource => DecorationHexagonObjectsType.OilBiome,
-                    MineHexagonObjectsType.RedCrystalSource => DecorationHexagonObjectsType.RedCrystalBiome,
-                    MineHexagonObjectsType.BlueCrystalSource => DecorationHexagonObjectsType.BlueCrystalBiome,
-                    MineHexagonObjectsType.GreenCrystalSource => DecorationHexagonObjectsType.GreenCrystalBiome,
-                    MineHexagonObjectsType.GlitcheSource => DecorationHexagonObjectsType.GlitcheBiome,
-                    _ => throw new System.ArgumentOutOfRangeException(nameof(mineType), "Invalid mine type")
-                };
+                    DecorationHexagonObjectsType decorationType = mineType switch {
+                        MineHexagonObjectsType.TreeSource => DecorationHexagonObjectsType.TreeBiome,
+                        MineHexagonObjectsType.StoneSource => DecorationHexagonObjectsType.StoneBiome,
+                        MineHexagonObjectsType.MetalSource => DecorationHexagonObjectsType.MetalBiome,
+                        MineHexagonObjectsType.ElectricitySource => DecorationHexagonObjectsType.ElectricityBiome,
+                        MineHexagonObjectsType.OilSource => DecorationHexagonObjectsType.OilBiome,
+                        MineHexagonObjectsType.RedCrystalSource => DecorationHexagonObjectsType.RedCrystalBiome,
+                        MineHexagonObjectsType.BlueCrystalSource => DecorationHexagonObjectsType.BlueCrystalBiome,
+                        MineHexagonObjectsType.GreenCrystalSource => DecorationHexagonObjectsType.GreenCrystalBiome,
+                        MineHexagonObjectsType.GlitcheSource => DecorationHexagonObjectsType.GlitcheBiome,
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"Failed to create a hexagonObject subtype of {mineType}")
+                    };
 
-                IHexagonObjectElement decorationObject = _iBuildingsPool.GetDisableHexagonObjectElement(decorationType);
+                    IHexagonObjectElement decorationObject = _iBuildingsPool.GetDisableHexagonObjectElement(decorationType);
 
-                if (mainObject == null || decorationObject == null) return null;
+                    IHexagonObjectControl hexagonObject = _iBuildingsPool.GetDisableHexagonObjectController();
+                    hexagonObject.SetHexagonObjectType(type);
+                    hexagonObject.SetMainObject(mainObject);
+                    hexagonObject.SetDecorationObject(decorationObject);
 
-                IHexagonObjectControl hexagonObject = _iBuildingsPool.GetDisableHexagonObjectController();
-                hexagonObject.SetHexagonObjectType(type);
-                hexagonObject.SetMainObject(mainObject);
-                hexagonObject.SetDecorationObject(decorationObject);
+                    return hexagonObject;
+                // break;
 
-                return hexagonObject;
-            // break;
+                case HeapHexagonObjectsType heapType:
+                    mainObject = _iBuildingsPool.GetDisableHexagonObjectElement(heapType);
+                    
+                    decorationType = heapType switch {
+                        HeapHexagonObjectsType.NormalObjects => DecorationHexagonObjectsType.Biome,
+                        HeapHexagonObjectsType.QuestObjects => DecorationHexagonObjectsType.LakeBiome,
+                        HeapHexagonObjectsType.Lake => DecorationHexagonObjectsType.Biome,
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"Failed to create a hexagonObject subtype of {heapType}")
+                    };
 
-            case HeapHexagonObjectsType heapType:
-                mainObject = _iBuildingsPool.GetDisableHexagonObjectElement(heapType);
-                
-                decorationType = heapType switch {
-                    HeapHexagonObjectsType.NormalObjects => DecorationHexagonObjectsType.Biome,
-                    HeapHexagonObjectsType.QuestObjects => DecorationHexagonObjectsType.LakeBiome,
-                    HeapHexagonObjectsType.Lake => DecorationHexagonObjectsType.Biome,
-                    _ => throw new System.ArgumentOutOfRangeException(nameof(heapType), "Invalid heap type")
-                };
+                    decorationObject = _iBuildingsPool.GetDisableHexagonObjectElement(decorationType);
 
-                decorationObject = _iBuildingsPool.GetDisableHexagonObjectElement(decorationType);
+                    hexagonObject = _iBuildingsPool.GetDisableHexagonObjectController();
+                    hexagonObject.SetHexagonObjectType(type);
+                    hexagonObject.SetMainObject(mainObject);
+                    hexagonObject.SetDecorationObject(decorationObject);
 
-                if (mainObject == null || decorationObject == null) return null;
+                    return hexagonObject;
+                // break;
 
-                hexagonObject = _iBuildingsPool.GetDisableHexagonObjectController();
-                hexagonObject.SetHexagonObjectType(type);
-                hexagonObject.SetMainObject(mainObject);
-                hexagonObject.SetDecorationObject(decorationObject);
+                case CoreHexagonObjectsType coreType:
+                    mainObject = _iBuildingsPool.GetDisableHexagonObjectElement(coreType);
 
-                return hexagonObject;
-            // break;
+                    hexagonObject = _iBuildingsPool.GetDisableHexagonObjectController();
+                    hexagonObject.SetHexagonObjectType(type);
+                    hexagonObject.SetMainObject(mainObject);
 
-            case CoreHexagonObjectsType coreType:
-                mainObject = _iBuildingsPool.GetDisableHexagonObjectElement(coreType);
+                    return hexagonObject;
+                // break;
 
-                if (mainObject == null) return null;
+                case BuildebleFieldHexagonObjectsType:
+                    decorationObject = _iBuildingsPool.GetDisableHexagonObjectElement(DecorationHexagonObjectsType.Biome);
 
-                hexagonObject = _iBuildingsPool.GetDisableHexagonObjectController();
-                hexagonObject.SetHexagonObjectType(type);
-                hexagonObject.SetMainObject(mainObject);
+                    hexagonObject = _iBuildingsPool.GetDisableHexagonObjectController();
+                    hexagonObject.SetHexagonObjectType(type);
+                    hexagonObject.SetDecorationObject(decorationObject);
 
-                return hexagonObject;
-            // break;
+                    return hexagonObject;
+                // break;
 
-            case BuildebleFieldHexagonObjectsType:
-                decorationObject = _iBuildingsPool.GetDisableHexagonObjectElement(DecorationHexagonObjectsType.Biome);
+                case UnBuildebleFieldHexagonObjectsType unBuildableFieldType:
+                    mainObject = _iBuildingsPool.GetDisableHexagonObjectElement(unBuildableFieldType);
 
-                if (decorationObject == null) return null;
+                    hexagonObject = _iBuildingsPool.GetDisableHexagonObjectController();
+                    hexagonObject.SetHexagonObjectType(type);
+                    hexagonObject.SetMainObject(mainObject);
 
-                hexagonObject = _iBuildingsPool.GetDisableHexagonObjectController();
-                hexagonObject.SetHexagonObjectType(type);
-                hexagonObject.SetDecorationObject(decorationObject);
+                    return hexagonObject;
+                // break;
 
-                return hexagonObject;
-            // break;
+                case RiverHexagonObjectsType riverType:
+                    mainObject = _iBuildingsPool.GetDisableHexagonObjectElement(riverType);
 
-            case UnBuildebleFieldHexagonObjectsType unBuildableFieldType:
-                mainObject = _iBuildingsPool.GetDisableHexagonObjectElement(unBuildableFieldType);
+                    hexagonObject = _iBuildingsPool.GetDisableHexagonObjectController();
+                    hexagonObject.SetHexagonObjectType(type);
+                    hexagonObject.SetMainObject(mainObject);
 
-                if (mainObject == null) return null;
+                    return hexagonObject;
+                // break;
 
-                hexagonObject = _iBuildingsPool.GetDisableHexagonObjectController();
-                hexagonObject.SetHexagonObjectType(type);
-                hexagonObject.SetMainObject(mainObject);
-
-                return hexagonObject;
-            // break;
-
-            case RiverHexagonObjectsType riverType:
-                mainObject = _iBuildingsPool.GetDisableHexagonObjectElement(riverType);
-
-                if (mainObject == null) return null;
-
-                hexagonObject = _iBuildingsPool.GetDisableHexagonObjectController();
-                hexagonObject.SetHexagonObjectType(type);
-                hexagonObject.SetMainObject(mainObject);
-
-                return hexagonObject;
-            // break;
-
-            default:
-                throw new System.ArgumentOutOfRangeException("Invalid hexagonObject type");
-            // break;
+                default:
+                    throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"Failed to create a hexagonObject type of {type}");
+                // break;
+            }
         }
     }
 }

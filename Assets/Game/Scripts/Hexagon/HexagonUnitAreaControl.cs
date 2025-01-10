@@ -4,10 +4,8 @@ using GameConfigs;
 using UnityEngine;
 using Zenject;
 
-namespace Hexagon {
+namespace HexagonControl {
     public sealed class HexagonUnitAreaControl : MonoBehaviour {
-        private HexagonConfigs _hexagonConfigs;
-
         public event Action<bool> DestroyHexagon;
 
         private HexagonUnitDetectionArea _hexagonUnitDetectionArea;
@@ -15,6 +13,10 @@ namespace Hexagon {
         private IEnumerator _iEDestroyBecauseSquad;
 
         public int HexagonID { get; private set; }
+
+        #region DI
+            private HexagonConfigs _hexagonConfigs;
+        #endregion
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {

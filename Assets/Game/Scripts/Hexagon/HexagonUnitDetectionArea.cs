@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Hexagon {
+namespace HexagonControl {
     public sealed class HexagonUnitDetectionArea : MonoBehaviour {
         public event Action<bool> UnitDetected;
 

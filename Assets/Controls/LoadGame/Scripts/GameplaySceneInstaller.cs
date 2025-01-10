@@ -1,7 +1,9 @@
-using LevelObjectsPool;
+using LevelObject;
 using GameConfigs;
 using UnityEngine;
 using Zenject;
+using CameraControl;
+using Managers;
 
 public sealed class GameplaySceneInstaller : MonoInstaller {
     [Header("Configurations")]

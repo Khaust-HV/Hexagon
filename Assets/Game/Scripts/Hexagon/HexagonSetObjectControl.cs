@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Hexagon {
+namespace HexagonControl {
     public sealed class HexagonSetObjectControl : MonoBehaviour {
         [Header("Hexagon object points")]
         [SerializeField] private Transform _firstObjectPoint;

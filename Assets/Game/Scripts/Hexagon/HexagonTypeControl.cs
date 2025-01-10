@@ -2,7 +2,7 @@ using GameConfigs;
 using UnityEngine;
 using Zenject;
 
-namespace Hexagon {
+namespace HexagonControl {
     public sealed class HexagonTypeControl : MonoBehaviour {
         [Header("HexagonLP settings")]
         [SerializeField] private GameObject _hexagonLP;
@@ -12,14 +12,16 @@ namespace Hexagon {
         [Header("FragileHexagon settings")]
         [SerializeField] private MeshRenderer[] _mrDestroyedHexagonParts;
 
-        private HexagonConfigs _hexagonConfigs;
-
         private MeshRenderer _mrHexagonLP;
 
         public bool IsRotation { get; private set; }
         public bool IsCollapses { get; private set; }
         public bool IsFragile { get; private set; }
         public EfficiencyOfBuildingsType EfficiencyOfBuildings { get; private set; }
+
+        #region DI
+            private HexagonConfigs _hexagonConfigs;
+        #endregion
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs) {

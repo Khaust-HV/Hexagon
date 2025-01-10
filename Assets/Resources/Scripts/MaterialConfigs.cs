@@ -4,11 +4,15 @@ namespace GameConfigs {
     [CreateAssetMenu(menuName = "Configs/MaterialConfigs", fileName = "LevelMaterialConfigs")]
     public sealed class MaterialConfigs : ScriptableObject {
         [field: Header("BaseMaterial settings")]
-        [field: SerializeField] public Shader DissolveShaderEffectNonUV { get; private set; }
-        [field: SerializeField] public Shader DissolveShaderEffectWithUV { get; private set; }
         [field: SerializeField] public float BaseMetallic { get; private set; }
         [field: SerializeField] public float BaseSmoothness { get; private set; }
+        [field: Space(50)]
         
+        [field: Header("Dissolve base settings")]
+        [field: SerializeField] public Shader DissolveShaderEffectNonUV { get; private set; }
+        [field: SerializeField] public Shader DissolveShaderEffectWithUV { get; private set; }
+        [field: Space(15)]
+
         [field: Header("Dissolve for spawn effect settings")]
         [field: SerializeField] public float SpawnEffectTime { get; private set; }
         [field: SerializeField] public float SpawnNoiseScale { get; private set; }
@@ -18,6 +22,7 @@ namespace GameConfigs {
         [field: SerializeField] public float SpawnEdgeWidth { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color SpawnEdgeColor { get; private set; }
+        [field: Space(15)]
 
         [field: Header("Dissolve for destroy effect settings")]
         [field: SerializeField] public float DestroyEffectTime { get; private set; }
@@ -28,6 +33,7 @@ namespace GameConfigs {
         [field: SerializeField] public float DestroyEdgeWidth { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color DestroyEdgeColor { get; private set; }
+        [field: Space(50)]
 
         [field: Header("Hologram and dissolve for spawn effect settings")]
         [field: SerializeField] public Shader HologramAndDissolveShaderEffect { get; private set; }
@@ -44,5 +50,31 @@ namespace GameConfigs {
         [field: SerializeField] public Color HologramFresnelColor { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color HologramEdgeColor { get; private set; }
+        [field: Space(50)]
+
+        [field: Header("Emission one texture settings")]
+        [field: SerializeField] public Shader DissolveShaderEffectWithUVAndEmission { get; private set; }
+        [field: SerializeField] public Texture2D RedCrystalEmissionTexture { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color RedCrystalEmissionColor { get; private set; }
+        [field: SerializeField] public Texture2D BlueCrystalEmissionTexture { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color BlueCrystalEmissionColor { get; private set; }
+        [field: SerializeField] public Texture2D GreenCrystalEmissionTexture { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color GreenCrystalEmissionColor { get; private set; }
+        [field: Space(15)]
+
+        [field: Header("Emission more texture settings")]
+        [field: SerializeField] public Shader DissolveShaderEffectWithUVAndEmission3Textures { get; private set; }
+        [field: SerializeField] public Texture2D FirstGlitcheEmissionTexture { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color FirstGlitcheEmissionColor { get; private set; }
+        [field: SerializeField] public Texture2D SecondGlitcheEmissionTexture { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color SecondGlitcheEmissionColor { get; private set; }
+        [field: SerializeField] public Texture2D ThirdGlitcheEmissionTexture { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color ThirdGlitcheEmissionColor { get; private set; }
     }
 }

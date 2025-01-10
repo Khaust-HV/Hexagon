@@ -1,178 +1,179 @@
 using System;
 using System.Collections;
 using GameConfigs;
-using LevelObjectsPool;
 using UnityEngine;
 using Zenject;
+using LevelObjectType;
 
-public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectControl {
-    private MaterialConfigs _materialConfigs;
+namespace HexagonObjectControl {
+    public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectControl {
+        private bool _isHexagonObjectActive;
+        private bool _isItImprovedYet;
+        private Enum _hexagonObjectType;
+        private IHexagonObjectElement _mainObject;
+        private IHexagonObjectElement _decorationObject;
+        private IHexagonObjectElement _hologramObject;
 
-    private bool _isHexagonObjectActive;
-    private bool _isItImprovedYet;
-    private Enum _hexagonObjectType;
-    private IHexagonObjectElement _mainObject;
-    private IHexagonObjectElement _decorationObject;
-    private IHexagonObjectElement _hologramObject;
+        #region DI
+            private IStorageTransformPool _iStorageTransformPool;
+            private MaterialConfigs _materialConfigs;
+        #endregion
 
-    #region DI
-        IStorageTransformPool _iStorageTransformPool;
-    #endregion
+        [Inject]
+        private void Construct(IStorageTransformPool iStorageTransformPool, MaterialConfigs materialConfigs) {
+            // Set DI
+            _iStorageTransformPool = iStorageTransformPool;
 
-    [Inject]
-    private void Construct(IStorageTransformPool iStorageTransformPool, MaterialConfigs materialConfigs) {
-        // Set DI
-        _iStorageTransformPool = iStorageTransformPool;
-
-        // Set configurations
-        _materialConfigs = materialConfigs;
-    }
-
-    public void SetParentObject(Transform parentObject) {
-        _isHexagonObjectActive = true;
-
-        gameObject.SetActive(true);
-
-        transform.SetParent(parentObject);
-
-        transform.position = Vector3.zero;
-        transform.rotation = Quaternion.identity;
-    }
-
-    public void SetHexagonObjectType(Enum type) {
-        _hexagonObjectType = type;
-
-        switch (_hexagonObjectType) {
-            
-            case HeapHexagonObjectsType:
-            case RiverHexagonObjectsType:
-            case UnBuildebleFieldHexagonObjectsType:
-            case CoreHexagonObjectsType:
-                _isItImprovedYet = true;
-            break;
-
-            case BuildebleFieldHexagonObjectsType:
-            case MineHexagonObjectsType:
-                _isItImprovedYet = false;
-            break;
+            // Set configurations
+            _materialConfigs = materialConfigs;
         }
-    }
 
-    public Enum GetHexagonObjectType() {
-        return _hexagonObjectType;
-    }
+        public void SetParentObject(Transform parentObject) {
+            _isHexagonObjectActive = true;
 
-    public bool IsItImprovedYet() {
-        return _isItImprovedYet;
-    }
+            gameObject.SetActive(true);
 
-    public void SetMainObject(IHexagonObjectElement mainObject) {
-        _mainObject = mainObject;
+            transform.SetParent(parentObject);
 
-        _mainObject.SetParentObject(transform);
-    }
+            transform.position = Vector3.zero;
+            transform.rotation = Quaternion.identity;
+        }
 
-    public void SetDecorationObject(IHexagonObjectElement decorationObject) {
-        _decorationObject = decorationObject;
+        public void SetHexagonObjectType(Enum type) {
+            _hexagonObjectType = type;
 
-        _decorationObject.SetParentObject(transform);
-    }
-    
-    public void SetHexagonObjectHologram(IHexagonObjectElement hologramObject) {
-        RestoreHologramObject();
+            switch (_hexagonObjectType) {
+                
+                case HeapHexagonObjectsType:
+                case RiverHexagonObjectsType:
+                case UnBuildebleFieldHexagonObjectsType:
+                case CoreHexagonObjectsType:
+                    _isItImprovedYet = true;
+                break;
 
-        _hologramObject = hologramObject;
+                case BuildebleFieldHexagonObjectsType:
+                case MineHexagonObjectsType:
+                    _isItImprovedYet = false;
+                break;
+            }
+        }
 
-        _hologramObject.SetParentObject(transform);
+        public Enum GetHexagonObjectType() {
+            return _hexagonObjectType;
+        }
 
-        _hologramObject.MakeObjectHologram();
+        public bool IsItImprovedYet() {
+            return _isItImprovedYet;
+        }
 
-        _hologramObject.HologramSpawnEffectEnable();
-    }
+        public void SetMainObject(IHexagonObjectElement mainObject) {
+            _mainObject = mainObject;
 
-    public void SetMainObjectFromHexagonObjectHologram() {
-        if (_mainObject != null) _mainObject.DestroyEffectEnable();
+            _mainObject.SetParentObject(transform);
+        }
 
-        _hologramObject.MakeObjectBase();
+        public void SetDecorationObject(IHexagonObjectElement decorationObject) {
+            _decorationObject = decorationObject;
 
-        _mainObject = _hologramObject;
+            _decorationObject.SetParentObject(transform);
+        }
+        
+        public void SetHexagonObjectHologram(IHexagonObjectElement hologramObject) {
+            RestoreHologramObject();
 
-        _hologramObject = null;
+            _hologramObject = hologramObject;
 
-        _mainObject.SpawnEffectEnable();
-    }
+            _hologramObject.SetParentObject(transform);
 
-    public void RestoreHologramObject() {
-        if (_hologramObject != null) {
-            _hologramObject.RestoreAndHide();
+            _hologramObject.MakeObjectHologram();
+
+            _hologramObject.HologramSpawnEffectEnable();
+        }
+
+        public void SetMainObjectFromHexagonObjectHologram() {
+            if (_mainObject != null) _mainObject.DestroyEffectEnable();
+
+            _hologramObject.MakeObjectBase();
+
+            _mainObject = _hologramObject;
 
             _hologramObject = null;
+
+            _mainObject.SpawnEffectEnable();
         }
-    }
 
-    public void SetObjectActive(bool isActive) {
-        switch (_hexagonObjectType) {
-            case MineHexagonObjectsType:
-            case HeapHexagonObjectsType:
-            case RiverHexagonObjectsType:
-                if (isActive) {
-                    _mainObject.SpawnEffectEnable();
-                    _decorationObject.SpawnEffectEnable();
-                } else {
-                    _mainObject.DestroyEffectEnable();
+        public void RestoreHologramObject() {
+            if (_hologramObject != null) {
+                _hologramObject.RestoreAndHide();
 
-                    _decorationObject.DestroyEffectEnable();
+                _hologramObject = null;
+            }
+        }
 
-                    StartCoroutine(RestoreAndHide());
-                }
-            break;
-
-            case UnBuildebleFieldHexagonObjectsType:
-            case CoreHexagonObjectsType:
-                if (isActive) {
-                    _mainObject.SpawnEffectEnable();
-                } else {
-                    _mainObject.DestroyEffectEnable();
-
-                    StartCoroutine(RestoreAndHide());
-                }
-            break;
-
-            case BuildebleFieldHexagonObjectsType:
-                if (isActive) {
-                    _decorationObject.SpawnEffectEnable();
-                } else {
-                    if (_mainObject != null) {
+        public void SetObjectActive(bool isActive) {
+            switch (_hexagonObjectType) {
+                case MineHexagonObjectsType:
+                case HeapHexagonObjectsType:
+                case RiverHexagonObjectsType:
+                    if (isActive) {
+                        _mainObject.SpawnEffectEnable();
+                        _decorationObject.SpawnEffectEnable();
+                    } else {
                         _mainObject.DestroyEffectEnable();
+
+                        _decorationObject.DestroyEffectEnable();
+
+                        StartCoroutine(RestoreAndHide());
                     }
+                break;
 
-                    _decorationObject.DestroyEffectEnable();
+                case UnBuildebleFieldHexagonObjectsType:
+                case CoreHexagonObjectsType:
+                    if (isActive) {
+                        _mainObject.SpawnEffectEnable();
+                    } else {
+                        _mainObject.DestroyEffectEnable();
 
-                    StartCoroutine(RestoreAndHide());
-                }
-            break;
+                        StartCoroutine(RestoreAndHide());
+                    }
+                break;
+
+                case BuildebleFieldHexagonObjectsType:
+                    if (isActive) {
+                        _decorationObject.SpawnEffectEnable();
+                    } else {
+                        if (_mainObject != null) {
+                            _mainObject.DestroyEffectEnable();
+                        }
+
+                        _decorationObject.DestroyEffectEnable();
+
+                        StartCoroutine(RestoreAndHide());
+                    }
+                break;
+            }
         }
-    }
 
-    private IEnumerator RestoreAndHide() {
-        RestoreHologramObject();
+        private IEnumerator RestoreAndHide() {
+            RestoreHologramObject();
 
-        yield return new WaitForSeconds(_materialConfigs.DestroyEffectTime);
+            yield return new WaitForSeconds(_materialConfigs.DestroyEffectTime);
 
-        _mainObject = null;
-        _decorationObject = null;
+            _mainObject = null;
+            _decorationObject = null;
 
-        gameObject.SetActive(false);
+            gameObject.SetActive(false);
 
-        transform.SetParent(_iStorageTransformPool.GetHexagonObjectTransformPool());
-        transform.position = Vector3.zero;
-        transform.rotation = Quaternion.identity;
+            transform.SetParent(_iStorageTransformPool.GetHexagonObjectTransformPool());
+            transform.position = Vector3.zero;
+            transform.rotation = Quaternion.identity;
 
-        _isHexagonObjectActive = false;
-    }
+            _isHexagonObjectActive = false;
+        }
 
-    public bool IsHexagonObjectControllerActive() {
-        return _isHexagonObjectActive;
+        public bool IsHexagonObjectControllerActive() {
+            return _isHexagonObjectActive;
+        }
     }
 }
 

@@ -4,7 +4,7 @@ using GameConfigs;
 using UnityEngine;
 using Zenject;
 
-namespace Hexagon {
+namespace HexagonControl {
     public sealed class HexagonSpawnAndDestroyControl : MonoBehaviour {
         [Header("HexagonLP settings")]
         [SerializeField] private GameObject _hexagonLP;
@@ -15,9 +15,6 @@ namespace Hexagon {
         [Header("Destroyed hexagon settings")]
         [SerializeField] private GameObject _destroyedHexagon;
         [SerializeField] private Transform[] _trDestroyedHexagonParts;
-
-        private HexagonConfigs _hexagonConfigs;
-        private MaterialConfigs _materialConfigs;
 
         public event Action HexagonSpawnFinished;
         public event Action RestoreHexagon;
@@ -31,6 +28,11 @@ namespace Hexagon {
 
         // Destroyed hexagon settings
         private Rigidbody[] _rbDestroyedHexagonParts;
+
+        #region DI
+            private HexagonConfigs _hexagonConfigs;
+            private MaterialConfigs _materialConfigs;
+        #endregion
 
         [Inject]
         private void Construct(HexagonConfigs hexagonConfigs, MaterialConfigs materialConfigs) {
