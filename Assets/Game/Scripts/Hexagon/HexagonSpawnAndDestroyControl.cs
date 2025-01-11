@@ -174,6 +174,7 @@ namespace HexagonControl {
             }
 
             transform.position = Vector3.zero;
+            transform.rotation = Quaternion.identity;
 
             gameObject.SetActive(false);
 
