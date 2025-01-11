@@ -30,6 +30,8 @@ namespace HexagonControl {
 
         public void StopAllActions() {
             StopAllCoroutines();
+
+            IsHexagonRotation = false;
         }
 
         public void StartRandomRotation() {

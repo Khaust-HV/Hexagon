@@ -23,6 +23,5 @@ MonoBehaviour:
   <TemporaryHexagonColor>k__BackingField: {r: 0.745283, g: 0, b: 0, a: 0}
   <MinTimeUnitInAreaForHexagon>k__BackingField: 10
   <MaxTimeUnitInAreaForHexagon>k__BackingField: 45
-  <TimeToRestoreAndHideParts>k__BackingField: 2
   <ForcePlannedExplosion>k__BackingField: 1000
   <ForceNonPlannedExplosion>k__BackingField: 2500

@@ -135,21 +135,21 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] IgnitionBlasterPrefabs { get; private set; }
         [field: Space(15)]
 
-        [field: Header("WarriorHallOfTimber settings <BuildebleField> <Units>")]
+        [field: Header("WarriorHallOfTimber settings <BuildebleField> <HireUnits>")]
         [field: SerializeField] public GameObject[] WarriorHallOfTimberPrefabs { get; private set; }
-        [field: Header("StoneforgeBarracks settings <BuildebleField> <Units>")]
+        [field: Header("StoneforgeBarracks settings <BuildebleField> <HireUnits>")]
         [field: SerializeField] public GameObject[] StoneforgeBarracksPrefabs { get; private set; }
-        [field: Header("IronVanguardCitadel settings <BuildebleField> <Units>")]
+        [field: Header("IronVanguardCitadel settings <BuildebleField> <HireUnits>")]
         [field: SerializeField] public GameObject[] MetalVanguardCitadelPrefabs { get; private set; }
-        [field: Header("ElectrospireComplex settings <BuildebleField> <Units>")]
+        [field: Header("ElectrospireComplex settings <BuildebleField> <HireUnits>")]
         [field: SerializeField] public GameObject[] ElectrospireComplexPrefabs { get; private set; }
-        [field: Header("OiledMechanismHub settings <BuildebleField> <Units>")]
+        [field: Header("OiledMechanismHub settings <BuildebleField> <HireUnits>")]
         [field: SerializeField] public GameObject[] OiledMechanismHubPrefabs { get; private set; }
-        [field: Header("InfernalArcaneForge settings <BuildebleField> <Units>")]
+        [field: Header("InfernalArcaneForge settings <BuildebleField> <HireUnits>")]
         [field: SerializeField] public GameObject[] InfernalArcaneForgePrefabs { get; private set; }
-        [field: Header("VerdantEnclaveOfNature settings <BuildebleField> <Units>")]
+        [field: Header("VerdantEnclaveOfNature settings <BuildebleField> <HireUnits>")]
         [field: SerializeField] public GameObject[] VerdantEnclaveOfNaturePrefabs { get; private set; }
-        [field: Header("FrostwovenSanctum settings <BuildebleField> <Units>")]
+        [field: Header("FrostwovenSanctum settings <BuildebleField> <HireUnits>")]
         [field: SerializeField] public GameObject[] FrostwovenSanctumPrefabs { get; private set; }
         [field: Space(50)]
 
