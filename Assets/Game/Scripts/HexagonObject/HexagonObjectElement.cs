@@ -5,10 +5,12 @@ using Zenject;
 
 namespace HexagonObjectControl {
     public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
-        [field: SerializeField] protected MeshRenderer MRBaseObject { get; private set; }
+        [field: SerializeField] protected MeshRenderer[] MRBaseObject { get; private set; }
         [field: SerializeField] protected bool IsObjectHaveAnimation { get; private set; }
-        [field: SerializeField] protected Animator AnimBaseObject { get; private set; }
+        [field: SerializeField] protected Animator[] AnimBaseObject { get; private set; }
         [field: SerializeField] protected bool IsObjectHaveEmission { get; private set; }
+
+        protected System.Enum _hexagonObjectType;
 
         protected float _spawnEffectTime;
 
@@ -42,26 +44,38 @@ namespace HexagonObjectControl {
             _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUV);
             _baseMaterial.SetFloat("_Metallic", _materialConfigs.BaseMetallic);
             _baseMaterial.SetFloat("_Smoothness", _materialConfigs.BaseSmoothness);
-            MRBaseObject.material = _baseMaterial;
+
+            foreach (var mrObject in MRBaseObject) {
+                mrObject.material = _baseMaterial;
+            }
         }
 
-        protected virtual void SetHexagonObjectWorkActive(bool isActive) {
+        protected virtual void SetHexagonObjectWorkActive(bool isActive) { // Override and implement the object activity switching functionality
             if (IsObjectHaveAnimation && _isObjectHologram) {
-                AnimBaseObject.Play("IdleNonEffect");
+                foreach (var animObject in AnimBaseObject) {
+                    animObject.enabled = true;
+                    animObject.Play("IdleNonEffect");
+                }
                 
                 return;
             } else if (_isObjectHologram) return;
 
-            // Override and implement the object activity switching functionality
-            Debug.Log($"Base WorkActive {isActive} {gameObject.name}");
-
             if (isActive) {
-                if (IsObjectHaveAnimation) AnimBaseObject.Play("IdleWithEffect");
+                if (IsObjectHaveAnimation) foreach (var animObject in AnimBaseObject) {
+                    animObject.enabled = true;
+                    animObject.Play("IdleWithEffect");
+                }
             } else {
                 StopAllCoroutines();
 
-                if (IsObjectHaveAnimation) AnimBaseObject.Play("Nothing");
+                if (IsObjectHaveAnimation) foreach (var animObject in AnimBaseObject) {
+                    animObject.enabled = false;
+                }
             }
+        }
+
+        public void SetHexagonObjectType<T>(T type) where T : System.Enum {
+            _hexagonObjectType = type;
         }
 
         public void SetParentObject(Transform parentObject) {
@@ -69,8 +83,8 @@ namespace HexagonObjectControl {
 
             transform.SetParent(parentObject);
 
-            transform.position = Vector3.zero;
-            transform.rotation = Quaternion.identity;
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
 
             gameObject.SetActive(true);
         }
@@ -92,7 +106,9 @@ namespace HexagonObjectControl {
         }
 
         private IEnumerator SpawnEffectStarted(Material material, float spawnEffectTime) {
-            if (IsObjectHaveAnimation) AnimBaseObject.Play("Nothing");
+            if (IsObjectHaveAnimation) foreach (var animObject in AnimBaseObject) {
+                    animObject.enabled = false;
+                }
 
             float elapsedTime = 0f;
 
@@ -155,27 +171,36 @@ namespace HexagonObjectControl {
                 _hologramMaterial.SetColor("_EdgeColor", _materialConfigs.HologramEdgeColor);
             }
 
-            MRBaseObject.material = _hologramMaterial;
+            foreach (var mrObject in MRBaseObject) {
+                mrObject.material = _hologramMaterial;
+            }
+
             _isObjectHologram = true;
         }
 
         public void MakeObjectBase() {
-            MRBaseObject.material = _baseMaterial;
+            foreach (var mrObject in MRBaseObject) {
+                mrObject.material = _baseMaterial;
+            }
+
             _isObjectHologram = false;
         }
 
         public void RestoreAndHide() {
             gameObject.SetActive(false);
 
-            MRBaseObject.material = _baseMaterial;
+            foreach (var mrObject in MRBaseObject) {
+                mrObject.material = _baseMaterial;
+            }
+            
             _isObjectHologram = false;
 
             transform.SetParent(_iStorageTransformPool.GetHexagonObjectTransformPool());
-            transform.position = Vector3.zero;
-            transform.rotation = Quaternion.identity;
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
 
             _baseMaterial.SetFloat("_CutoffHeight", 1f);
-            _hologramMaterial.SetFloat("_CutoffHeight", 1f);
+            if (_hologramMaterial != null) _hologramMaterial.SetFloat("_CutoffHeight", 1f);
 
             _isHexagonObjectElementActive = false;
         }
@@ -188,6 +213,7 @@ namespace HexagonObjectControl {
 
 public interface IHexagonObjectElement {
     public bool IsHexagonObjectElementActive();
+    public void SetHexagonObjectType<T>(T type) where T : System.Enum;
     public void SetParentObject(Transform parentObject);
     public void SpawnEffectEnable();
     public void DestroyEffectEnable();

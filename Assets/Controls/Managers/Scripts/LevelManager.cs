@@ -3,6 +3,7 @@ using GameConfigs;
 using UnityEngine;
 using Zenject;
 using System.Threading.Tasks;
+using LevelObjectType;
 
 namespace Managers {
     public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
@@ -10,16 +11,22 @@ namespace Managers {
             private IBuildingsPool _iBuildingsPool;
             private IUnitsPool _iUnitsPool;
             private IInteractingWithObject _iInteractingWithObject;
+            private IBuilder _iBuilder;
             private LevelConfigs _levelConfigs;
         #endregion
 
         [Inject]
-        private void Construct(IBuildingsPool iBuildingsPool, IUnitsPool iUnitsPool, IInteractingWithObject iInteractingWithObject, LevelConfigs levelConfigs) {
+        private void Construct (
+            IBuildingsPool iBuildingsPool, 
+            IUnitsPool iUnitsPool, 
+            IInteractingWithObject iInteractingWithObject,
+            IBuilder iBuilder, 
+            LevelConfigs levelConfigs) {
             // Set DI
             _iBuildingsPool = iBuildingsPool;
             _iUnitsPool = iUnitsPool;
             _iInteractingWithObject = iInteractingWithObject;
-
+            _iBuilder = iBuilder;
             // Set configurations
             _levelConfigs = levelConfigs;
         }
@@ -39,11 +46,14 @@ namespace Managers {
 
         public async void GenerateLevel() {
             SpreadHexagons();
-            await RandomSetHexagonTypeAsync(); // FIX IT !
+            await SetRandomHexagonTypeAsync(); // FIX IT !
         }
 
         private void CreateNewHexagonObjectForHexagon(IHexagonControl iHexagonControl) {
-            // Create new hexagonObject
+            var hexagonObject = _iBuilder.CreateHexagonObject(GetRandomHexagonObjectType()); // FIX IT !
+            // var hexagonObject = _iBuilder.CreateHexagonObject(MineHexagonObjectsType.TreeSource); // FIX IT !
+
+            iHexagonControl.SetHexagonObject(hexagonObject);
         }
 
         private void SpreadHexagons() {
@@ -77,7 +87,20 @@ namespace Managers {
             }
         }
 
-        public async Task RandomSetHexagonTypeAsync() { // FIX IT !
+        private System.Enum GetRandomHexagonObjectType() { // FIX IT !
+            int randomNumberHexagonObjectType = Random.Range(0, 6);
+            return randomNumberHexagonObjectType switch {
+                0 => (MineHexagonObjectsType)Random.Range(0, 9),
+                1 => BuildebleFieldHexagonObjectsType.FlamingRainTower,
+                2 => (UnBuildebleFieldHexagonObjectsType)Random.Range(0, 5),
+                3 => (CoreHexagonObjectsType)Random.Range(0, 2),
+                4 => (HeapHexagonObjectsType)Random.Range(0, 3),
+                5 => (RiverHexagonObjectsType)Random.Range(0, 8),
+                _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType)
+            };
+        }
+
+        private async Task SetRandomHexagonTypeAsync() { // FIX IT !
             for (int i = 0; i < _iBuildingsPool.GetNumberHexagonControllers(); i++) {
                 if (!_iBuildingsPool.GetHexagonControllerByID(i)?.IsHexagonControllerActive() ?? false) continue;
 

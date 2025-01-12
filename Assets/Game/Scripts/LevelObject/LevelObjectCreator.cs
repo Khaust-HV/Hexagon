@@ -4,7 +4,7 @@ using Zenject;
 using LevelObjectType;
 
 namespace LevelObject {
-    public sealed class LevelObjectCreator : IBuildingsCreate, IUnitsCreate, IProjectilesCreate {
+    public sealed class LevelObjectCreator : ICreator {
         #region DI
             private ILevelObjectFactory _iLevelObjectFactory;
             private IBuildingsPool _iBuildingsPool;
@@ -66,7 +66,7 @@ namespace LevelObject {
         public IHexagonObjectElement CreateSomeHexagonObjectElements<T>(T type) where T : System.Enum {
             var prefabs = _hexagonObjectConfigs.GetHexagonObjectPrefabs(type);
 
-            List<IHexagonObjectElement> hexagonObjectsList;
+            List<IHexagonObjectElement> hexagonObjectElementsList;
 
             int numberObjects = type switch {
                 CoreHexagonObjectsType.MainCore => 1,
@@ -74,14 +74,14 @@ namespace LevelObject {
             };
 
             if (prefabs.Length == 1) {
-                hexagonObjectsList = _iLevelObjectFactory.CreateObjects<IHexagonObjectElement> (
+                hexagonObjectElementsList = _iLevelObjectFactory.CreateObjects<IHexagonObjectElement> (
                     prefab: prefabs[0], 
                     number: numberObjects, 
                     trParentObject: _iStorageTransformPool.GetHexagonObjectTransformPool(),
                     size: _levelConfigs.HexagonObjectSize
                 );
             } else {
-                hexagonObjectsList = _iLevelObjectFactory.CreateRandomObjects<IHexagonObjectElement> (
+                hexagonObjectElementsList = _iLevelObjectFactory.CreateRandomObjects<IHexagonObjectElement> (
                     prefabs: prefabs, 
                     number: numberObjects, 
                     trParentObject: _iStorageTransformPool.GetHexagonObjectTransformPool(),
@@ -89,23 +89,19 @@ namespace LevelObject {
                 );
             }
 
-            _iBuildingsPool.AddNewHexagonObjectElementsInPool(type, hexagonObjectsList);
+            foreach (var hexagonObjectElement in hexagonObjectElementsList) {
+                hexagonObjectElement.SetHexagonObjectType(type);
+            }
 
-            return hexagonObjectsList[0];
+            _iBuildingsPool.AddNewHexagonObjectElementsInPool(type, hexagonObjectElementsList);
+
+            return hexagonObjectElementsList[0];
         }
     }
 }
 
-public interface IBuildingsCreate {
+public interface ICreator {
     public IHexagonControl CreateSomeHexagonControllers();
     public IHexagonObjectElement CreateSomeHexagonObjectElements<T>(T type) where T : System.Enum;
     public IHexagonObjectControl CreateSomeHexagonObjectControllers();
-}
-
-public interface IUnitsCreate {
-    
-}
-
-public interface IProjectilesCreate {
-    
 }

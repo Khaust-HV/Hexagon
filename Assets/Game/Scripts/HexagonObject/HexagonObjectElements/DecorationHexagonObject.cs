@@ -51,6 +51,10 @@ namespace HexagonObjectControl {
 
             _baseMaterial.SetFloat("_Metallic", _materialConfigs.BaseMetallic);
             _baseMaterial.SetFloat("_Smoothness", _materialConfigs.BaseSmoothness);
+
+            foreach (var mrObject in MRBaseObject) {
+                mrObject.material = _baseMaterial;
+            }
         }
     }
 }

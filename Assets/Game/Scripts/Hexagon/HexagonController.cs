@@ -119,8 +119,6 @@ namespace HexagonControl {
             CameraLooking?.Invoke(); // If a player has taken a focus but the hexagon is rotation
 
             NeedHexagonObject?.Invoke(this); // Request to levelManager for a new object
-
-            _hexagonRotationControl.StartRotation(); // FIX IT !
         }
 
         public IHexagonObjectControl GetHexagonObjectController() {

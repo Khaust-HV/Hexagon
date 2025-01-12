@@ -173,8 +173,8 @@ namespace HexagonControl {
                 _trDestroyedHexagonParts[i].localRotation = Quaternion.identity;
             }
 
-            transform.position = Vector3.zero;
-            transform.rotation = Quaternion.identity;
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
 
             gameObject.SetActive(false);
 

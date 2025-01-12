@@ -4,17 +4,13 @@ using Zenject;
 public sealed class Bootstrap : MonoBehaviour {
     #region DI
         IGenerateLevel _iGenerateLevel;
-        IBuildingsCreate _iBuildingsCreate;
-        IUnitsCreate _iUnitsCreate;
         ISwitchGameplayInput _iSwitchGameplayInput;
     #endregion
 
     [Inject]
-    private void Construct(IGenerateLevel iGenerateLevel, IBuildingsCreate iBuildingsCreate, IUnitsCreate iUnitsCreate, ISwitchGameplayInput iSwitchGameplayInput) {
+    private void Construct(IGenerateLevel iGenerateLevel, ISwitchGameplayInput iSwitchGameplayInput) {
         // Set DI
         _iGenerateLevel = iGenerateLevel;
-        _iBuildingsCreate = iBuildingsCreate;
-        _iUnitsCreate = iUnitsCreate;
         _iSwitchGameplayInput = iSwitchGameplayInput;
     }
 

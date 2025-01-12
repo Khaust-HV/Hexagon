@@ -35,8 +35,8 @@ namespace HexagonObjectControl {
 
             transform.SetParent(parentObject);
 
-            transform.position = Vector3.zero;
-            transform.rotation = Quaternion.identity;
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
         }
 
         public void SetHexagonObjectType(Enum type) {
@@ -114,7 +114,6 @@ namespace HexagonObjectControl {
             switch (_hexagonObjectType) {
                 case MineHexagonObjectsType:
                 case HeapHexagonObjectsType:
-                case RiverHexagonObjectsType:
                     if (isActive) {
                         _mainObject.SpawnEffectEnable();
                         _decorationObject.SpawnEffectEnable();
@@ -129,6 +128,7 @@ namespace HexagonObjectControl {
 
                 case UnBuildebleFieldHexagonObjectsType:
                 case CoreHexagonObjectsType:
+                case RiverHexagonObjectsType:
                     if (isActive) {
                         _mainObject.SpawnEffectEnable();
                     } else {

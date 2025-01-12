@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21089c4c9551e465abe2111274de4dd4, type: 3}
   m_Name: ForestLevelHexagonConfigs
   m_EditorClassIdentifier: 
-  <RotationTime>k__BackingField: 1.5
+  <RotationTime>k__BackingField: 2
   <MinTimeForAutoHexagonRotate>k__BackingField: 4
   <MaxTimeForAutoHexagonRotate>k__BackingField: 6
   <MinNumberRotationsForHexagon>k__BackingField: 2

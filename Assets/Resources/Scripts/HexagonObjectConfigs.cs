@@ -201,11 +201,26 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] LongTurnDangerousRiverPrefabs { get; private set; }
         [field: Header("NearTurnDangerousRiver settings <River> <DangerousRiver>")]
         [field: SerializeField] public GameObject[] NearTurnDangerousRiverPrefabs { get; private set; }
+        [field: Space(50)]
+
+        [field: Header("EmptyHexagonObjects")]
+        [field: SerializeField] public GameObject[] MainEmpty { get; private set; }
+        [field: SerializeField] public GameObject[] DecorationEmpty { get; private set; }
+        
+        [field: Space(15)]
+        [field: SerializeField] public Color DecorationTypeTextColor { get; private set; }
+        [field: SerializeField] public Color MineTypeTextColor { get; private set; }
+        [field: SerializeField] public Color BuildebleFieldTypeTextColor { get; private set; }
+        [field: SerializeField] public Color UnBuildebleFieldTypeTextColor { get; private set; }
+        [field: SerializeField] public Color CoreTypeTextColor { get; private set; }
+        [field: SerializeField] public Color HeapTypeTextColor { get; private set; }
+        [field: SerializeField] public Color RiverTypeTextColor { get; private set; }
+
 
         public GameObject[] GetHexagonObjectPrefabs<T>(T type) where T : System.Enum {
             switch (type) {
                 case DecorationHexagonObjectsType decorationType:
-                    return decorationType switch {
+                    var prefabs =  decorationType switch {
                         DecorationHexagonObjectsType.Biome => BiomePrefabs,
                         DecorationHexagonObjectsType.LakeBiome => LakeBiomePrefabs,
                         DecorationHexagonObjectsType.TreeBiome => TreeBiomePrefabs,
@@ -219,10 +234,14 @@ namespace GameConfigs {
                         DecorationHexagonObjectsType.GlitcheBiome => GlitcheBiomePrefabs,
                         _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {decorationType} in the configuration file")
                     };
+
+                    if (prefabs.Length == 0) return DecorationEmpty;
+
+                    return prefabs;
                 // break;
 
                 case MineHexagonObjectsType mineType:
-                    return mineType switch {
+                    prefabs =  mineType switch {
                         MineHexagonObjectsType.TreeSource => TreeSourcePrefabs,
                         MineHexagonObjectsType.StoneSource => StoneSourcePrefabs,
                         MineHexagonObjectsType.MetalSource => MetalSourcePrefabs,
@@ -244,10 +263,14 @@ namespace GameConfigs {
                         MineHexagonObjectsType.GlitcheMining => GlitcheMiningPrefabs,
                         _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {mineType} in the configuration file")
                     };
+
+                    if (prefabs.Length == 0) return MainEmpty;
+
+                    return prefabs;
                 // break;
 
                 case BuildebleFieldHexagonObjectsType buildableFieldType:
-                    return buildableFieldType switch {
+                    prefabs = buildableFieldType switch {
                         BuildebleFieldHexagonObjectsType.FlamingRainTower => FlamingRainTowerPrefabs,
                         BuildebleFieldHexagonObjectsType.VineEnsnareTower => VineEnsnareTowerPrefabs,
                         BuildebleFieldHexagonObjectsType.FrostArrowTree => FrostArrowTreePrefabs,
@@ -285,10 +308,14 @@ namespace GameConfigs {
                         BuildebleFieldHexagonObjectsType.FrostwovenSanctum => FrostwovenSanctumPrefabs,
                         _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {buildableFieldType} in the configuration file")
                     };
+
+                    if (prefabs.Length == 0) return MainEmpty;
+
+                    return prefabs;
                 // break;
 
                 case UnBuildebleFieldHexagonObjectsType unBuildableFieldType:
-                    return unBuildableFieldType switch {
+                    prefabs = unBuildableFieldType switch {
                         UnBuildebleFieldHexagonObjectsType.StartOrFinishRoad => StartOrFinishRoadPrefabs,
                         UnBuildebleFieldHexagonObjectsType.StraightRoad => StraightRoadPrefabs,
                         UnBuildebleFieldHexagonObjectsType.LongTurnRoad => LongTurnRoadPrefabs,
@@ -296,27 +323,39 @@ namespace GameConfigs {
                         UnBuildebleFieldHexagonObjectsType.HardWay => HardWayPrefabs,
                         _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {unBuildableFieldType} in the configuration file")
                     };
+
+                    if (prefabs.Length == 0) return MainEmpty;
+
+                    return prefabs;
                 // break;
 
                 case CoreHexagonObjectsType coreType:
-                    return coreType switch {
+                    prefabs = coreType switch {
                         CoreHexagonObjectsType.MainCore => MainCorePrefabs,
                         CoreHexagonObjectsType.ShieldCore => ShieldCorePrefabs,
                         _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {coreType} in the configuration file")
                     };
+
+                    if (prefabs.Length == 0) return MainEmpty;
+
+                    return prefabs;
                 // break;
 
                 case HeapHexagonObjectsType heapType:
-                    return heapType switch {
+                    prefabs = heapType switch {
                         HeapHexagonObjectsType.NormalObjects => NormalObjectsPrefabs,
                         HeapHexagonObjectsType.Lake => LakePrefabs,
                         HeapHexagonObjectsType.QuestObjects => QuestObjectsPrefabs,
                         _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {heapType} in the configuration file")
                     };
+
+                    if (prefabs.Length == 0) return MainEmpty;
+
+                    return prefabs;
                 // break;
 
                 case RiverHexagonObjectsType riverType:
-                    return riverType switch {
+                    prefabs = riverType switch {
                         RiverHexagonObjectsType.StartOrFinishSafeRiver => StartOrFinishSafeRiverPrefabs,
                         RiverHexagonObjectsType.StraightSafeRiver => StraightSafeRiverPrefabs,
                         RiverHexagonObjectsType.LongTurnSafeRiver => LongTurnSafeRiverPrefabs,
@@ -328,6 +367,10 @@ namespace GameConfigs {
                         RiverHexagonObjectsType.NearTurnDangerousRiver => NearTurnDangerousRiverPrefabs,
                         _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {riverType} in the configuration file")
                     };
+
+                    if (prefabs.Length == 0) return MainEmpty;
+
+                    return prefabs;
                 // break;
 
                 default:

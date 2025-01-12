@@ -45,29 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b65b067cff6c34d16ab44308f22b0e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camera: {fileID: 6234340480555759298}
-  _raycastUIDistance: 0.3
-  _UILayer:
-    serializedVersion: 2
-    m_Bits: 32
-  _raycastHexagonDistance: 215
-  _HexagonLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  _movementSmoothSpeed: 0.125
-  _rotationSmoothSpeed: 5
-  _sensitivityMove: 4
-  _sensitivityZoom: 150
-  _timeToStopMoveing: 1.75
-  _orbitRadius: 15
-  _orbitHeight: 20
-  _satelliteSpeed: 10
-  _maxHeight: 75
-  _minHeight: 20
-  _westBorder: -190
-  _eastBorder: 190
-  _northBorder: 190
-  _southBorder: -190
 --- !u!1 &8609619185474201752
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,7 +161,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0

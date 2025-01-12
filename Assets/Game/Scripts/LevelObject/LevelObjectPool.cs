@@ -18,17 +18,13 @@ namespace LevelObject {
         private List<IHexagonControl> _squadsList = new();
 
         #region DI 
-            private IBuildingsCreate _iBuildingsCreate;
-            private IUnitsCreate _iUnitsCreate;
-            private IProjectilesCreate _iProjectilesCreate;
+            private ICreator _iCreator;
         #endregion
 
         [Inject]
-        private void Construct(IBuildingsCreate iBuildingsCreate, IUnitsCreate iUnitsCreate, IProjectilesCreate iProjectilesCreate) {
+        private void Construct(ICreator iCreator) {
             // Set DI
-            _iBuildingsCreate = iBuildingsCreate;
-            _iUnitsCreate = iUnitsCreate;
-            _iProjectilesCreate = iProjectilesCreate;
+            _iCreator = iCreator;
 
             // Set component
             Transform objectPool = new GameObject("LevelObjectPool").transform;
@@ -56,7 +52,7 @@ namespace LevelObject {
                 }
             }
 
-            return _iBuildingsCreate.CreateSomeHexagonControllers();
+            return _iCreator.CreateSomeHexagonControllers();
         }
 
         public void AddNewHexagonControllersInPool(List<IHexagonControl> hexagonControllersList) {
@@ -72,16 +68,14 @@ namespace LevelObject {
         }
 
         public IHexagonObjectElement GetDisableHexagonObjectElement<T>(T type) where T : System.Enum {
-            if (_hexagonObjectsStorage.TryGetValue(typeof(T), out var typeStorage) && 
-                typeStorage.TryGetValue(type, out var elements)) {
-                    foreach (var element in elements) {
-                        if (!element.IsHexagonObjectElementActive()) return element;
-                    }
-
-                return _iBuildingsCreate.CreateSomeHexagonObjectElements(type);
+            if (_hexagonObjectsStorage.TryGetValue(typeof(T), out var typeStorage) 
+            && typeStorage.TryGetValue(type, out var elements)) {
+                foreach (var element in elements) {
+                    if (!element.IsHexagonObjectElementActive()) return element;
+                }
             }
 
-            return null;
+            return _iCreator.CreateSomeHexagonObjectElements(type);
         }
 
         public void AddNewHexagonObjectElementsInPool<T>(T type, List<IHexagonObjectElement> hexagonObjectList) where T : System.Enum {
@@ -103,7 +97,7 @@ namespace LevelObject {
                 if (!hexagonObjectController.IsHexagonObjectControllerActive()) return hexagonObjectController;
             }
 
-            return _iBuildingsCreate.CreateSomeHexagonObjectControllers();
+            return _iCreator.CreateSomeHexagonObjectControllers();
         }
 
         public void AddNewHexagonObjectControllersInPool(List<IHexagonObjectControl> hexagonObjectContrlollersList) {

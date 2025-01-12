@@ -48,8 +48,8 @@ namespace LevelObject {
                     
                     decorationType = heapType switch {
                         HeapHexagonObjectsType.NormalObjects => DecorationHexagonObjectsType.Biome,
-                        HeapHexagonObjectsType.QuestObjects => DecorationHexagonObjectsType.LakeBiome,
-                        HeapHexagonObjectsType.Lake => DecorationHexagonObjectsType.Biome,
+                        HeapHexagonObjectsType.QuestObjects => DecorationHexagonObjectsType.Biome,
+                        HeapHexagonObjectsType.Lake => DecorationHexagonObjectsType.LakeBiome,
                         _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"Failed to create a hexagonObject subtype of {heapType}")
                     };
 
