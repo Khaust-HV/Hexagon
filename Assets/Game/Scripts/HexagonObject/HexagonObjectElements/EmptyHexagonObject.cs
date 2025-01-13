@@ -51,11 +51,7 @@ public class EmptyHexagonObject : HexagonObjectElement {
             _text.text = _hexagonObjectType.ToString();
 
             StartCoroutine(TextRotation());
-        } else {
-            StopAllCoroutines();
-            
-            _text.text = "";
-        }
+        } else _text.text = "";
     }
 
     private IEnumerator TextRotation() {

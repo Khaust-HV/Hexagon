@@ -4,12 +4,11 @@ using Zenject;
 using LevelObjectType;
 
 namespace LevelObject {
-    public sealed class LevelObjectCreator : ICreator {
+    public sealed class LevelObjectCreator : IBuildingsCreator, IUnitsCreator, IProjectilesCreator {
         #region DI
             private ILevelObjectFactory _iLevelObjectFactory;
             private IBuildingsPool _iBuildingsPool;
             private IUnitsPool _iUnitsPool;
-            private IProjectilesPool _iProjectilesPool;
             private IStorageTransformPool _iStorageTransformPool;
             private LevelConfigs _levelConfigs;
             private HexagonObjectConfigs _hexagonObjectConfigs;
@@ -19,7 +18,6 @@ namespace LevelObject {
         private void Construct (
             IBuildingsPool iBuildingsPool, 
             IUnitsPool iUnitsPool, 
-            IProjectilesPool iProjectilesPool, 
             ILevelObjectFactory iLevelObjectFactory,
             IStorageTransformPool iStorageTransformPool, 
             LevelConfigs levelConfigs,
@@ -28,7 +26,6 @@ namespace LevelObject {
             // Set DI
             _iBuildingsPool = iBuildingsPool;
             _iUnitsPool = iUnitsPool;
-            _iProjectilesPool = iProjectilesPool;
             _iLevelObjectFactory = iLevelObjectFactory;
             _iStorageTransformPool = iStorageTransformPool;
 
@@ -63,15 +60,12 @@ namespace LevelObject {
             return hexagonObjectControllersList[0];
         }
 
-        public IHexagonObjectElement CreateSomeHexagonObjectElements<T>(T type) where T : System.Enum {
+        public IHexagonObjectElement CreateSomeHexagonObjectElements<T>(T type, int numberObjects = 0) where T : System.Enum {
             var prefabs = _hexagonObjectConfigs.GetHexagonObjectPrefabs(type);
 
             List<IHexagonObjectElement> hexagonObjectElementsList;
 
-            int numberObjects = type switch {
-                CoreHexagonObjectsType.MainCore => 1,
-                _ => _levelConfigs.NumberObjectsCreatedInCaseOfShortage
-            };
+            if (numberObjects == 0) numberObjects = _levelConfigs.NumberObjectsCreatedInCaseOfShortage;
 
             if (prefabs.Length == 1) {
                 hexagonObjectElementsList = _iLevelObjectFactory.CreateObjects<IHexagonObjectElement> (
@@ -100,8 +94,16 @@ namespace LevelObject {
     }
 }
 
-public interface ICreator {
+public interface IBuildingsCreator {
     public IHexagonControl CreateSomeHexagonControllers();
-    public IHexagonObjectElement CreateSomeHexagonObjectElements<T>(T type) where T : System.Enum;
+    public IHexagonObjectElement CreateSomeHexagonObjectElements<T>(T type, int numberObjects = 0) where T : System.Enum;
     public IHexagonObjectControl CreateSomeHexagonObjectControllers();
+}
+
+public interface IUnitsCreator {
+
+}
+
+public interface IProjectilesCreator {
+
 }

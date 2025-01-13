@@ -3,7 +3,7 @@ using UnityEngine;
 using Zenject;
 
 namespace LevelObject {
-    public sealed class LevelObjectPool : IBuildingsPool, IUnitsPool, IProjectilesPool, IStorageTransformPool {
+    public sealed class LevelObjectPool : IBuildingsPool, IUnitsPool, IStorageTransformPool {
         #region Transform Pools
             private Transform _trHexagonsPool;
             private Transform _trHexagonObjectsPool;
@@ -18,13 +18,13 @@ namespace LevelObject {
         private List<IHexagonControl> _squadsList = new();
 
         #region DI 
-            private ICreator _iCreator;
+            private IBuildingsCreator _iBuildingsCreator;
         #endregion
 
         [Inject]
-        private void Construct(ICreator iCreator) {
+        private void Construct(IBuildingsCreator iBuildingsCreator) {
             // Set DI
-            _iCreator = iCreator;
+            _iBuildingsCreator = iBuildingsCreator;
 
             // Set component
             Transform objectPool = new GameObject("LevelObjectPool").transform;
@@ -52,7 +52,7 @@ namespace LevelObject {
                 }
             }
 
-            return _iCreator.CreateSomeHexagonControllers();
+            return _iBuildingsCreator.CreateSomeHexagonControllers();
         }
 
         public void AddNewHexagonControllersInPool(List<IHexagonControl> hexagonControllersList) {
@@ -75,7 +75,7 @@ namespace LevelObject {
                 }
             }
 
-            return _iCreator.CreateSomeHexagonObjectElements(type);
+            return _iBuildingsCreator.CreateSomeHexagonObjectElements(type);
         }
 
         public void AddNewHexagonObjectElementsInPool<T>(T type, List<IHexagonObjectElement> hexagonObjectList) where T : System.Enum {
@@ -97,7 +97,7 @@ namespace LevelObject {
                 if (!hexagonObjectController.IsHexagonObjectControllerActive()) return hexagonObjectController;
             }
 
-            return _iCreator.CreateSomeHexagonObjectControllers();
+            return _iBuildingsCreator.CreateSomeHexagonObjectControllers();
         }
 
         public void AddNewHexagonObjectControllersInPool(List<IHexagonObjectControl> hexagonObjectContrlollersList) {
@@ -120,10 +120,6 @@ public interface IBuildingsPool {
 
 public interface IUnitsPool {
     
-}
-
-public interface IProjectilesPool {
-
 }
 
 public interface IStorageTransformPool {

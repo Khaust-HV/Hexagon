@@ -15,7 +15,7 @@ namespace HexagonObjectControl {
         protected float _spawnEffectTime;
 
         private bool _isHexagonObjectElementActive;
-        protected bool _isObjectHologram;
+        private bool _isObjectHologram;
 
         protected Material _baseMaterial;
         private Material _hologramMaterial;
@@ -51,27 +51,15 @@ namespace HexagonObjectControl {
         }
 
         protected virtual void SetHexagonObjectWorkActive(bool isActive) { // Override and implement the object activity switching functionality
-            if (IsObjectHaveAnimation && _isObjectHologram) {
-                foreach (var animObject in AnimBaseObject) {
+            if (_isObjectHologram) {
+                if (IsObjectHaveAnimation) foreach (var animObject in AnimBaseObject) {
                     animObject.enabled = true;
-                    animObject.Play("IdleNonEffect");
                 }
-                
+
                 return;
-            } else if (_isObjectHologram) return;
-
-            if (isActive) {
-                if (IsObjectHaveAnimation) foreach (var animObject in AnimBaseObject) {
-                    animObject.enabled = true;
-                    animObject.Play("IdleWithEffect");
-                }
-            } else {
-                StopAllCoroutines();
-
-                if (IsObjectHaveAnimation) foreach (var animObject in AnimBaseObject) {
-                    animObject.enabled = false;
-                }
             }
+
+            if (!isActive) StopAllCoroutines();
         }
 
         public void SetHexagonObjectType<T>(T type) where T : System.Enum {
@@ -107,8 +95,8 @@ namespace HexagonObjectControl {
 
         private IEnumerator SpawnEffectStarted(Material material, float spawnEffectTime) {
             if (IsObjectHaveAnimation) foreach (var animObject in AnimBaseObject) {
-                    animObject.enabled = false;
-                }
+                animObject.enabled = true;
+            }
 
             float elapsedTime = 0f;
 
@@ -153,6 +141,10 @@ namespace HexagonObjectControl {
             }
 
             _baseMaterial.SetFloat("_CutoffHeight", _materialConfigs.DestroyFinishCutoffHeight);
+
+            if (IsObjectHaveAnimation) foreach (var animObject in AnimBaseObject) {
+                animObject.enabled = false;
+            }
 
             RestoreAndHide();
         }
