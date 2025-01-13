@@ -104,6 +104,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d06f90aa74f9d8a0063c892c64b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnStartCutoffHeight: -0.9
+  _spawnFinishCutoffHeight: 1
+  _destroyStartCutoffHeight: -0.9
+  _destroyFinishCutoffHeight: -8.25
   _hexagonLP: {fileID: 1303727265733846629}
   _fragileHexagon: {fileID: 2782782960443438268}
   _trFragileHexagonParts:
@@ -270,6 +274,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5882350393136574488}
     m_Modifications:
+    - target: {fileID: -9180347623167863502, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -9180347623167863502, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     - target: {fileID: -8679921383154817045, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
@@ -310,6 +322,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4915896012703061797, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4915896012703061797, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: -2894260893500903042, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2894260893500903042, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: -1518288534659111135, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1518288534659111135, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: -1218175054569520462, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1218175054569520462, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: -894969342645245903, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -894969342645245903, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     - target: {fileID: 919132149155446097, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
       propertyPath: m_Name
       value: DestroyedHexagon
@@ -318,6 +370,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9012556187152643060, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9012556187152643060, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -875,6 +935,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3f76ef63eb27d4a14a6373473a0633eb, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 3f76ef63eb27d4a14a6373473a0633eb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     - target: {fileID: 919132149155446097, guid: 3f76ef63eb27d4a14a6373473a0633eb, type: 3}
       propertyPath: m_Name
       value: HexagonLP
@@ -993,6 +1061,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4960818366636175662, guid: 2ed47005dfc83418cabbae49cdf64d77, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4960818366636175662, guid: 2ed47005dfc83418cabbae49cdf64d77, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: -3230401344590184522, guid: 2ed47005dfc83418cabbae49cdf64d77, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -3230401344590184522, guid: 2ed47005dfc83418cabbae49cdf64d77, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     - target: {fileID: 919132149155446097, guid: 2ed47005dfc83418cabbae49cdf64d77, type: 3}
       propertyPath: m_Name
       value: FragileHexagon
@@ -1001,6 +1085,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7809810179863099124, guid: 2ed47005dfc83418cabbae49cdf64d77, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7809810179863099124, guid: 2ed47005dfc83418cabbae49cdf64d77, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+    - target: {fileID: 7915525710614377576, guid: 2ed47005dfc83418cabbae49cdf64d77, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7915525710614377576, guid: 2ed47005dfc83418cabbae49cdf64d77, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

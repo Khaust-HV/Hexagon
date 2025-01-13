@@ -6,12 +6,16 @@ using Zenject;
 
 namespace HexagonControl {
     public sealed class HexagonSpawnAndDestroyControl : MonoBehaviour {
+        [Header("Dissolve effect settings")]
+        [SerializeField] private float _spawnStartCutoffHeight;
+        [SerializeField] private float _spawnFinishCutoffHeight;
+        [SerializeField] private float _destroyStartCutoffHeight;
+        [SerializeField] private float _destroyFinishCutoffHeight;
         [Header("HexagonLP settings")]
         [SerializeField] private GameObject _hexagonLP;
         [Header("Fragile hexagon settings")]
         [SerializeField] private GameObject _fragileHexagon;
         [SerializeField] private Transform[] _trFragileHexagonParts;
-
         [Header("Destroyed hexagon settings")]
         [SerializeField] private GameObject _destroyedHexagon;
         [SerializeField] private Transform[] _trDestroyedHexagonParts;
@@ -59,7 +63,7 @@ namespace HexagonControl {
         public void SpawnEffectEnable(Material material) {
             material.SetFloat("_NoiseScale", _materialConfigs.SpawnNoiseScale);
             material.SetFloat("_NoiseStrength", _materialConfigs.SpawnNoiseStrength);
-            material.SetFloat("_CutoffHeight", _materialConfigs.SpawnStartCutoffHeight);
+            material.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
             material.SetFloat("_EdgeWidth", _materialConfigs.SpawnEdgeWidth);
             material.SetColor("_EdgeColor", _materialConfigs.SpawnEdgeColor);
 
@@ -70,7 +74,7 @@ namespace HexagonControl {
             float elapsedTime = 0f;
 
             while (elapsedTime < _materialConfigs.SpawnEffectTime) {
-                float currentValue = Mathf.Lerp(_materialConfigs.SpawnStartCutoffHeight, _materialConfigs.SpawnFinishCutoffHeight, elapsedTime / _materialConfigs.SpawnEffectTime);
+                float currentValue = Mathf.Lerp(_spawnStartCutoffHeight, _spawnFinishCutoffHeight, elapsedTime / _materialConfigs.SpawnEffectTime);
 
                 material.SetFloat("_CutoffHeight", currentValue);
 
@@ -79,7 +83,7 @@ namespace HexagonControl {
                 yield return null;
             }
 
-            material.SetFloat("_CutoffHeight", _materialConfigs.SpawnFinishCutoffHeight);
+            material.SetFloat("_CutoffHeight", _spawnFinishCutoffHeight);
 
             HexagonSpawnFinished?.Invoke();
         }
@@ -87,7 +91,7 @@ namespace HexagonControl {
         public void DestroyEffectEnable(Material material) {
             material.SetFloat("_NoiseScale", _materialConfigs.DestroyNoiseScale);
             material.SetFloat("_NoiseStrength", _materialConfigs.DestroyNoiseStrength);
-            material.SetFloat("_CutoffHeight", _materialConfigs.DestroyStartCutoffHeight);
+            material.SetFloat("_CutoffHeight", _destroyStartCutoffHeight);
             material.SetFloat("_EdgeWidth", _materialConfigs.DestroyEdgeWidth);
             material.SetColor("_EdgeColor", _materialConfigs.DestroyEdgeColor);
 
@@ -98,7 +102,7 @@ namespace HexagonControl {
             float elapsedTime = 0f;
 
             while (elapsedTime < _materialConfigs.DestroyEffectTime) {
-                float currentValue = Mathf.Lerp(_materialConfigs.DestroyStartCutoffHeight, _materialConfigs.DestroyFinishCutoffHeight, elapsedTime / _materialConfigs.DestroyEffectTime);
+                float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / _materialConfigs.DestroyEffectTime);
 
                 material.SetFloat("_CutoffHeight", currentValue);
 
@@ -107,7 +111,7 @@ namespace HexagonControl {
                 yield return null;
             }
 
-            material.SetFloat("_CutoffHeight", _materialConfigs.DestroyFinishCutoffHeight);
+            material.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
 
             RestoreAndHide();
         }

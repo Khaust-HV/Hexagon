@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ForestLevelHexagonConfigs
   m_EditorClassIdentifier: 
   <RotationTime>k__BackingField: 2
-  <MinTimeForAutoHexagonRotate>k__BackingField: 4
-  <MaxTimeForAutoHexagonRotate>k__BackingField: 6
+  <MinTimeForAutoHexagonRotate>k__BackingField: 5
+  <MaxTimeForAutoHexagonRotate>k__BackingField: 10
   <MinNumberRotationsForHexagon>k__BackingField: 2
   <MaxNumberRotationsForHexagon>k__BackingField: 5
   <DefaultHexagonColor>k__BackingField: {r: 1, g: 1, b: 1, a: 0}

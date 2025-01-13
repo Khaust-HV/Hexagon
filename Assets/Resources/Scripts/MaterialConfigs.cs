@@ -17,8 +17,6 @@ namespace GameConfigs {
         [field: SerializeField] public float SpawnEffectTime { get; private set; }
         [field: SerializeField] public float SpawnNoiseScale { get; private set; }
         [field: SerializeField] public float SpawnNoiseStrength { get; private set; }
-        [field: SerializeField] public float SpawnStartCutoffHeight { get; private set; }
-        [field: SerializeField] public float SpawnFinishCutoffHeight { get; private set; }
         [field: SerializeField] public float SpawnEdgeWidth { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color SpawnEdgeColor { get; private set; }
@@ -28,8 +26,6 @@ namespace GameConfigs {
         [field: SerializeField] public float DestroyEffectTime { get; private set; }
         [field: SerializeField] public float DestroyNoiseScale { get; private set; }
         [field: SerializeField] public float DestroyNoiseStrength { get; private set; }
-        [field: SerializeField] public float DestroyStartCutoffHeight { get; private set; }
-        [field: SerializeField] public float DestroyFinishCutoffHeight { get; private set; }
         [field: SerializeField] public float DestroyEdgeWidth { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color DestroyEdgeColor { get; private set; }

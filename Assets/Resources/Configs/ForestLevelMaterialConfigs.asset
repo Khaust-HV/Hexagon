@@ -16,20 +16,16 @@ MonoBehaviour:
   <BaseSmoothness>k__BackingField: 0.5
   <DissolveShaderEffectNonUV>k__BackingField: {fileID: -6465566751694194690, guid: 3fb7e3973b1634093837d3b5907d284c, type: 3}
   <DissolveShaderEffectWithUV>k__BackingField: {fileID: -6465566751694194690, guid: a07e660a7a06b4cd4b4245217e045a76, type: 3}
-  <SpawnEffectTime>k__BackingField: 4
+  <SpawnEffectTime>k__BackingField: 2
   <SpawnNoiseScale>k__BackingField: 75
   <SpawnNoiseStrength>k__BackingField: 1
-  <SpawnStartCutoffHeight>k__BackingField: -1.5
-  <SpawnFinishCutoffHeight>k__BackingField: 2.1
   <SpawnEdgeWidth>k__BackingField: 1
-  <SpawnEdgeColor>k__BackingField: {r: 0, g: 5.992157, b: 5.9921575, a: 0}
-  <DestroyEffectTime>k__BackingField: 1
+  <SpawnEdgeColor>k__BackingField: {r: 0, g: 11.984314, b: 11.984315, a: 0}
+  <DestroyEffectTime>k__BackingField: 2
   <DestroyNoiseScale>k__BackingField: 75
   <DestroyNoiseStrength>k__BackingField: 10
-  <DestroyStartCutoffHeight>k__BackingField: 1
-  <DestroyFinishCutoffHeight>k__BackingField: -8.5
   <DestroyEdgeWidth>k__BackingField: 0.1
-  <DestroyEdgeColor>k__BackingField: {r: 0, g: 5.9921575, b: 5.9921575, a: 0}
+  <DestroyEdgeColor>k__BackingField: {r: 0, g: 11.984315, b: 11.984315, a: 0}
   <HologramAndDissolveShaderEffect>k__BackingField: {fileID: -6465566751694194690, guid: d78e243118bd94c00a914015b4709837, type: 3}
   <HologramMetallic>k__BackingField: 0.3
   <HologramSmoothness>k__BackingField: 0.5

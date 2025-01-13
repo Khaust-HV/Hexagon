@@ -45,11 +45,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62d872ec11d0b41bebf63caf3b4f38f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MRBaseObject>k__BackingField:
+  _spawnStartCutoffHeight: -0.55
+  _spawnFinishCutoffHeight: 1.42
+  _destroyStartCutoffHeight: -2.84
+  _destroyFinishCutoffHeight: -7.9
+  _mrBaseObject:
   - {fileID: 5913293886287681971}
-  <IsObjectHaveAnimation>k__BackingField: 0
-  <AnimBaseObject>k__BackingField: []
-  <IsObjectHaveEmission>k__BackingField: 0
+  _isObjectHaveAnimation: 0
+  _animBaseObject: []
+  _isObjectHaveEmission: 0
   _decorationHexagonObjectType: 0
 --- !u!1001 &5030987889283433783
 PrefabInstance:
@@ -97,6 +101,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 207b9a0ba0b9148cfb799e964115bf42, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 207b9a0ba0b9148cfb799e964115bf42, type: 3}
+      propertyPath: m_Materials.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 207b9a0ba0b9148cfb799e964115bf42, type: 3}

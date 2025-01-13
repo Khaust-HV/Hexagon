@@ -8,7 +8,7 @@ namespace HexagonObjectControl {
         protected override void SetBaseConfiguration() {
             _spawnEffectTime = _materialConfigs.SpawnEffectTime;
 
-            if (IsObjectHaveEmission) {
+            if (_isObjectHaveEmission) {
                 switch (_decorationHexagonObjectType) {
                     case DecorationHexagonObjectsType.RedCrystalBiome:
                         _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUVAndEmission);
@@ -52,7 +52,7 @@ namespace HexagonObjectControl {
             _baseMaterial.SetFloat("_Metallic", _materialConfigs.BaseMetallic);
             _baseMaterial.SetFloat("_Smoothness", _materialConfigs.BaseSmoothness);
 
-            foreach (var mrObject in MRBaseObject) {
+            foreach (var mrObject in _mrBaseObject) {
                 mrObject.material = _baseMaterial;
             }
         }

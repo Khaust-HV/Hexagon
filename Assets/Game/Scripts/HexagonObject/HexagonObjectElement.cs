@@ -5,10 +5,17 @@ using Zenject;
 
 namespace HexagonObjectControl {
     public class HexagonObjectElement : MonoBehaviour, IHexagonObjectElement {
-        [field: SerializeField] protected MeshRenderer[] MRBaseObject { get; private set; }
-        [field: SerializeField] protected bool IsObjectHaveAnimation { get; private set; }
-        [field: SerializeField] protected Animator[] AnimBaseObject { get; private set; }
-        [field: SerializeField] protected bool IsObjectHaveEmission { get; private set; }
+        [Header("Dissolve effect settings")]
+        [SerializeField] private float _spawnStartCutoffHeight;
+        [SerializeField] private float _spawnFinishCutoffHeight;
+        [SerializeField] private float _destroyStartCutoffHeight;
+        [SerializeField] private float _destroyFinishCutoffHeight;
+        [SerializeField] protected MeshRenderer[] _mrBaseObject;
+        [Header("Animation settings")]
+        [SerializeField] protected bool _isObjectHaveAnimation;
+        [SerializeField] protected Animator[] _animBaseObject;
+        [Header("Emission settings")]
+        [SerializeField] protected bool _isObjectHaveEmission;
 
         protected System.Enum _hexagonObjectType;
 
@@ -45,14 +52,14 @@ namespace HexagonObjectControl {
             _baseMaterial.SetFloat("_Metallic", _materialConfigs.BaseMetallic);
             _baseMaterial.SetFloat("_Smoothness", _materialConfigs.BaseSmoothness);
 
-            foreach (var mrObject in MRBaseObject) {
+            foreach (var mrObject in _mrBaseObject) {
                 mrObject.material = _baseMaterial;
             }
         }
 
         protected virtual void SetHexagonObjectWorkActive(bool isActive) { // Override and implement the object activity switching functionality
             if (_isObjectHologram) {
-                if (IsObjectHaveAnimation) foreach (var animObject in AnimBaseObject) {
+                if (_isObjectHaveAnimation) foreach (var animObject in _animBaseObject) {
                     animObject.enabled = true;
                 }
 
@@ -80,7 +87,7 @@ namespace HexagonObjectControl {
         public void SpawnEffectEnable() {
             _baseMaterial.SetFloat("_NoiseScale", _materialConfigs.SpawnNoiseScale);
             _baseMaterial.SetFloat("_NoiseStrength", _materialConfigs.SpawnNoiseStrength);
-            _baseMaterial.SetFloat("_CutoffHeight", _materialConfigs.SpawnStartCutoffHeight);
+            _baseMaterial.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
             _baseMaterial.SetFloat("_EdgeWidth", _materialConfigs.SpawnEdgeWidth);
             _baseMaterial.SetColor("_EdgeColor", _materialConfigs.SpawnEdgeColor);
 
@@ -88,20 +95,20 @@ namespace HexagonObjectControl {
         }
 
         public void HologramSpawnEffectEnable() {
-            _hologramMaterial.SetFloat("_CutoffHeight", _materialConfigs.SpawnStartCutoffHeight);
+            _hologramMaterial.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
 
             StartCoroutine(SpawnEffectStarted(_hologramMaterial, _materialConfigs.HologramSpawnEffectTime));
         }
 
         private IEnumerator SpawnEffectStarted(Material material, float spawnEffectTime) {
-            if (IsObjectHaveAnimation) foreach (var animObject in AnimBaseObject) {
+            if (_isObjectHaveAnimation) foreach (var animObject in _animBaseObject) {
                 animObject.enabled = true;
             }
 
             float elapsedTime = 0f;
 
             while (elapsedTime < spawnEffectTime) {
-                float currentValue = Mathf.Lerp(_materialConfigs.SpawnStartCutoffHeight, _materialConfigs.SpawnFinishCutoffHeight, elapsedTime / spawnEffectTime);
+                float currentValue = Mathf.Lerp(_spawnStartCutoffHeight, _spawnFinishCutoffHeight, elapsedTime / spawnEffectTime);
 
                 material.SetFloat("_CutoffHeight", currentValue);
 
@@ -110,7 +117,7 @@ namespace HexagonObjectControl {
                 yield return null;
             }
 
-            material.SetFloat("_CutoffHeight", _materialConfigs.SpawnFinishCutoffHeight);
+            material.SetFloat("_CutoffHeight", _spawnFinishCutoffHeight);
 
             SetHexagonObjectWorkActive(true);
         }
@@ -120,7 +127,7 @@ namespace HexagonObjectControl {
 
             _baseMaterial.SetFloat("_NoiseScale", _materialConfigs.DestroyNoiseScale);
             _baseMaterial.SetFloat("_NoiseStrength", _materialConfigs.DestroyNoiseStrength);
-            _baseMaterial.SetFloat("_CutoffHeight", _materialConfigs.DestroyStartCutoffHeight);
+            _baseMaterial.SetFloat("_CutoffHeight", _destroyStartCutoffHeight);
             _baseMaterial.SetFloat("_EdgeWidth", _materialConfigs.DestroyEdgeWidth);
             _baseMaterial.SetColor("_EdgeColor", _materialConfigs.DestroyEdgeColor);
 
@@ -131,7 +138,7 @@ namespace HexagonObjectControl {
             float elapsedTime = 0f;
 
             while (elapsedTime < _materialConfigs.DestroyEffectTime) {
-                float currentValue = Mathf.Lerp(_materialConfigs.DestroyStartCutoffHeight, _materialConfigs.DestroyFinishCutoffHeight, elapsedTime / _materialConfigs.DestroyEffectTime);
+                float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / _materialConfigs.DestroyEffectTime);
 
                 _baseMaterial.SetFloat("_CutoffHeight", currentValue);
 
@@ -140,9 +147,9 @@ namespace HexagonObjectControl {
                 yield return null;
             }
 
-            _baseMaterial.SetFloat("_CutoffHeight", _materialConfigs.DestroyFinishCutoffHeight);
+            _baseMaterial.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
 
-            if (IsObjectHaveAnimation) foreach (var animObject in AnimBaseObject) {
+            if (_isObjectHaveAnimation) foreach (var animObject in _animBaseObject) {
                 animObject.enabled = false;
             }
 
@@ -163,7 +170,7 @@ namespace HexagonObjectControl {
                 _hologramMaterial.SetColor("_EdgeColor", _materialConfigs.HologramEdgeColor);
             }
 
-            foreach (var mrObject in MRBaseObject) {
+            foreach (var mrObject in _mrBaseObject) {
                 mrObject.material = _hologramMaterial;
             }
 
@@ -171,7 +178,7 @@ namespace HexagonObjectControl {
         }
 
         public void MakeObjectBase() {
-            foreach (var mrObject in MRBaseObject) {
+            foreach (var mrObject in _mrBaseObject) {
                 mrObject.material = _baseMaterial;
             }
 
@@ -181,7 +188,7 @@ namespace HexagonObjectControl {
         public void RestoreAndHide() {
             gameObject.SetActive(false);
 
-            foreach (var mrObject in MRBaseObject) {
+            foreach (var mrObject in _mrBaseObject) {
                 mrObject.material = _baseMaterial;
             }
             
