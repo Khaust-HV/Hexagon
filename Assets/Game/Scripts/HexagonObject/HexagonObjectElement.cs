@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using GameConfigs;
 using UnityEngine;
@@ -16,6 +17,8 @@ namespace HexagonObjectControl {
         [SerializeField] protected Animator[] _animBaseObject;
         [Header("Emission settings")]
         [SerializeField] protected bool _isObjectHaveEmission;
+
+        public event Action HexagonObjectElementIsRestore;
 
         protected System.Enum _hexagonObjectType;
 
@@ -177,7 +180,7 @@ namespace HexagonObjectControl {
             _isObjectHologram = true;
         }
 
-        public void MakeObjectBase() {
+        public void MakeObjectNormal() {
             foreach (var mrObject in _mrBaseObject) {
                 mrObject.material = _baseMaterial;
             }
@@ -188,18 +191,19 @@ namespace HexagonObjectControl {
         public void RestoreAndHide() {
             gameObject.SetActive(false);
 
-            foreach (var mrObject in _mrBaseObject) {
-                mrObject.material = _baseMaterial;
+            if (_isObjectHologram) {
+                foreach (var mrObject in _mrBaseObject) {
+                    mrObject.material = _baseMaterial;
+                }
+
+                _isObjectHologram = false;
             }
-            
-            _isObjectHologram = false;
 
             transform.SetParent(_iStorageTransformPool.GetHexagonObjectTransformPool());
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
 
-            _baseMaterial.SetFloat("_CutoffHeight", 1f);
-            if (_hologramMaterial != null) _hologramMaterial.SetFloat("_CutoffHeight", 1f);
+            HexagonObjectElementIsRestore?.Invoke();
 
             _isHexagonObjectElementActive = false;
         }
@@ -211,6 +215,7 @@ namespace HexagonObjectControl {
 }
 
 public interface IHexagonObjectElement {
+    public event Action HexagonObjectElementIsRestore;
     public bool IsHexagonObjectElementActive();
     public void SetHexagonObjectType<T>(T type) where T : System.Enum;
     public void SetParentObject(Transform parentObject);
@@ -218,6 +223,6 @@ public interface IHexagonObjectElement {
     public void DestroyEffectEnable();
     public void RestoreAndHide();
     public void MakeObjectHologram();
-    public void MakeObjectBase();
+    public void MakeObjectNormal();
     public void HologramSpawnEffectEnable();
 }

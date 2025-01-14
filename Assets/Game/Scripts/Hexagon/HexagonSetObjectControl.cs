@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace HexagonControl {
@@ -7,6 +8,8 @@ namespace HexagonControl {
         [SerializeField] private Transform _secondObjectPoint;
 
         public IHexagonObjectControl CurrentObject { get; private set; }
+
+        public event Action HexagonControllerIsRestore;
 
         private bool _isHexagonUpsideDown;
 
@@ -24,8 +27,20 @@ namespace HexagonControl {
         }
 
         public void DestroyCurrentHexagonObject() {
-            if (CurrentObject != null) CurrentObject.SetObjectActive(false);
-            
+            if (CurrentObject != null) {
+                CurrentObject.SetObjectActive(false);
+
+                CurrentObject.HexagonControllerIsRestore += LastHexagonControllerIsRestore;
+            }
+        }
+
+        private void LastHexagonControllerIsRestore() {
+            CurrentObject.HexagonControllerIsRestore -= LastHexagonControllerIsRestore;
+
+            HexagonControllerIsRestore?.Invoke();
+
+            CurrentObject = null;
+
             _isHexagonUpsideDown = false;
         }
     }

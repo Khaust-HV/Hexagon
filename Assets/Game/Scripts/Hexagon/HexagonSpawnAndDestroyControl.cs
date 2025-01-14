@@ -21,7 +21,6 @@ namespace HexagonControl {
         [SerializeField] private Transform[] _trDestroyedHexagonParts;
 
         public event Action HexagonSpawnFinished;
-        public event Action RestoreHexagon;
 
         // HexagonLP settings
         private MeshRenderer _mrHexagonLP;
@@ -88,17 +87,19 @@ namespace HexagonControl {
             HexagonSpawnFinished?.Invoke();
         }
 
-        public void DestroyEffectEnable(Material material) {
+        public void DestroyEffectEnable(Material material, bool isHexagonAutoRestore) {
             material.SetFloat("_NoiseScale", _materialConfigs.DestroyNoiseScale);
             material.SetFloat("_NoiseStrength", _materialConfigs.DestroyNoiseStrength);
             material.SetFloat("_CutoffHeight", _destroyStartCutoffHeight);
             material.SetFloat("_EdgeWidth", _materialConfigs.DestroyEdgeWidth);
             material.SetColor("_EdgeColor", _materialConfigs.DestroyEdgeColor);
 
-            StartCoroutine(DestroyEffectStarted(material));
+            _hexagonLP.SetActive(false);
+
+            StartCoroutine(DestroyEffectStarted(material, isHexagonAutoRestore));
         }
 
-        private IEnumerator DestroyEffectStarted(Material material) {
+        private IEnumerator DestroyEffectStarted(Material material, bool isHexagonAutoRestore) {
             float elapsedTime = 0f;
 
             while (elapsedTime < _materialConfigs.DestroyEffectTime) {
@@ -113,12 +114,10 @@ namespace HexagonControl {
 
             material.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
 
-            RestoreAndHide();
+            if (!isHexagonAutoRestore) RestoreAndHide();
         }
 
         public void DestroyPlannedHexagon() {
-            _hexagonLP.SetActive(false);
-
             for (int i = 0; i < _mcFragileHexagonParts.Length; i++) {
                 _mcFragileHexagonParts[i].enabled = true;
                 _rbFragileHexagonParts[i].isKinematic = false;
@@ -133,7 +132,6 @@ namespace HexagonControl {
         }
 
         public void DestroyNonPlannedHexagon() {
-            _hexagonLP.SetActive(false);
             _fragileHexagon.SetActive(false);
             _destroyedHexagon.SetActive(true);
 
@@ -152,7 +150,9 @@ namespace HexagonControl {
             StopAllCoroutines();
         }
 
-        private void RestoreAndHide() {
+        public void RestoreAndHide() {
+            gameObject.SetActive(false);
+
             // HexagonLP restore
             _mrHexagonLP.enabled = true;
 
@@ -179,10 +179,6 @@ namespace HexagonControl {
 
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
-
-            gameObject.SetActive(false);
-
-            RestoreHexagon?.Invoke();
         }
     }
 }

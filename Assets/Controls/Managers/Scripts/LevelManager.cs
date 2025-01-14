@@ -36,8 +36,10 @@ namespace Managers {
         }
 
         public void SetThisHexagonTargetActive(int hexagonID, bool isActive) {
-            if (isActive) _iBuildingsPool.GetHexagonControllerByID(hexagonID).CameraLooking += HexagonDestroyOrRotation;
-            else _iBuildingsPool.GetHexagonControllerByID(hexagonID).CameraLooking -= HexagonDestroyOrRotation;
+            if (_iBuildingsPool.GetHexagonControllerByID(hexagonID, out IHexagonControl hexagonController)) {
+                if (isActive) hexagonController.CameraLooking += HexagonDestroyOrRotation;
+                else hexagonController.CameraLooking -= HexagonDestroyOrRotation;
+            }
         }
 
         private void HexagonDestroyOrRotation() {
@@ -65,9 +67,7 @@ namespace Managers {
 
                     int hexagonNumber = 0;
 
-                    var hexagonController = _iBuildingsPool.GetDisableHexagonController();
-                    if (!hexagonController.IsHexagonControllerAlreadyUsed()) hexagonController.NeedHexagonObject += CreateNewHexagonObjectForHexagon;
-                    hexagonController.SetHexagonPositionAndID(Vector3.zero, hexagonNumber++);
+                    _iBuildingsPool.GetDisableHexagonController().SetHexagonPositionAndID(Vector3.zero, hexagonNumber++);
 
                     for (int ring = 1; ring <= _levelConfigs.NumberOfRings; ring++) {
                         for (int side = 0; side < 6; side++) {
@@ -77,9 +77,7 @@ namespace Managers {
 
                                 Vector3 offset = new Vector3(x, 0, z);
 
-                                hexagonController = _iBuildingsPool.GetDisableHexagonController();
-                                if (!hexagonController.IsHexagonControllerAlreadyUsed()) hexagonController.NeedHexagonObject += CreateNewHexagonObjectForHexagon;
-                                hexagonController.SetHexagonPositionAndID(offset, hexagonNumber++);
+                                _iBuildingsPool.GetDisableHexagonController().SetHexagonPositionAndID(offset, hexagonNumber++);
                             }
                         }
                     }
@@ -102,12 +100,13 @@ namespace Managers {
 
         private async Task SetRandomHexagonTypeAsync() { // FIX IT !
             for (int i = 0; i < _iBuildingsPool.GetNumberHexagonControllers(); i++) {
-                if (!_iBuildingsPool.GetHexagonControllerByID(i)?.IsHexagonControllerActive() ?? false) continue;
+                if (_iBuildingsPool.GetHexagonControllerByID(i, out IHexagonControl hexagonController)) {
+                    int randomType = Random.Range(0, 5);
 
-                int randomType = Random.Range(0, 5);
+                    hexagonController.NeedHexagonObject += CreateNewHexagonObjectForHexagon;
 
-                _iBuildingsPool.GetHexagonControllerByID(i)?.SetHexagonType((HexagonType)randomType);
-
+                    hexagonController.SetHexagonType((HexagonType)randomType);
+                }
                 await Task.Delay(15);
             }   
         }   

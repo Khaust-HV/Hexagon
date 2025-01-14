@@ -37,12 +37,18 @@ namespace LevelObject {
             return _trHexagonsPool;
         }
 
-        public IHexagonControl GetHexagonControllerByID(int hexagonID) {
+        public bool GetHexagonControllerByID(int hexagonID, out IHexagonControl iHexagonControl) {
             foreach (var hexagonController in _hexagonControllersList) {
-                if (hexagonController.GetHexagonID() == hexagonID) return hexagonController;
+                if (hexagonController.GetHexagonID() == hexagonID) {
+                    iHexagonControl = hexagonController;
+
+                    return true;
+                }
             }
 
-            return null;
+            iHexagonControl = null;
+
+            return false;
         }
 
         public IHexagonControl GetDisableHexagonController() {
@@ -107,7 +113,7 @@ namespace LevelObject {
 }
 
 public interface IBuildingsPool {
-    public IHexagonControl GetHexagonControllerByID(int hexagonID);
+    public bool GetHexagonControllerByID(int hexagonID, out IHexagonControl iHexagonControl);
     public IHexagonControl GetDisableHexagonController();
     public int GetNumberHexagonControllers();
     public void AddNewHexagonControllersInPool(List<IHexagonControl> hexagonControllersList);
