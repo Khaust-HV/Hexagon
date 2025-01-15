@@ -233,7 +233,7 @@ MonoBehaviour:
   - {fileID: 4666638925473710571}
   - {fileID: 1691863025766758871}
   - {fileID: 4910103024205582460}
-  _isObjectHaveAnimation: 0
+  _isObjectHaveAnimation: 1
   _animBaseObject:
   - {fileID: 7841641630711591740}
   _isObjectHaveEmission: 0

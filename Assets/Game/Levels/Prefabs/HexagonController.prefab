@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnStartCutoffHeight: -0.9
-  _spawnFinishCutoffHeight: 1.1
+  _spawnFinishCutoffHeight: 1
   _destroyStartCutoffHeight: -0.9
   _destroyFinishCutoffHeight: -8.25
   _hexagonLP: {fileID: 1303727265733846629}
