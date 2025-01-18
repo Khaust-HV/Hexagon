@@ -34,7 +34,7 @@ namespace HexagonControl {
             IsHexagonRotation = false;
         }
 
-        public void StartRandomRotation() {
+        public void StartRotationFromTime() {
             StartCoroutine(RandomHexagonRotation());
         }
 
@@ -48,7 +48,7 @@ namespace HexagonControl {
             }
         }
 
-        public void StartRotation() {
+        public void StartRandomRotation() {
             StartCoroutine(HexagonRotation());
         }
 
@@ -78,5 +78,53 @@ namespace HexagonControl {
 
             IsHexagonRotation = false;
         }
+
+        public void StartDirectionalRotation(DirectionalRotationType directionalRotationType) {
+            StartCoroutine(HexagonRotation(directionalRotationType));
+        }
+
+        private IEnumerator HexagonRotation(DirectionalRotationType directionalRotationType) {
+            IsHexagonRotation = true;
+
+            Vector3 edgeDirection = (directionalRotationType switch {
+                DirectionalRotationType.TopRightSide => edgeCenters[3],
+                DirectionalRotationType.RightSide => edgeCenters[4],
+                DirectionalRotationType.BottomRightSide => edgeCenters[5],
+                DirectionalRotationType.BottomLeftSide => edgeCenters[0],
+                DirectionalRotationType.LeftSide => edgeCenters[1],
+                DirectionalRotationType.TopLeftSife => edgeCenters[2],
+                _ => throw new ArgumentOutOfRangeException(nameof(directionalRotationType), "Invalid hexagon rotation type")
+            }).normalized;
+
+            Vector3 rotationAxis = Vector3.Cross(Vector3.up, edgeDirection);
+
+            Quaternion startRotation = transform.rotation;
+            Quaternion endRotation = Quaternion.AngleAxis(180f, rotationAxis) * startRotation;
+
+            float elapsedTime = 0f;
+
+            while (elapsedTime < _hexagonConfigs.RotationTime) {
+                elapsedTime += Time.deltaTime;
+
+                float t = elapsedTime / _hexagonConfigs.RotationTime;
+
+                transform.rotation = Quaternion.Lerp(startRotation, endRotation, t);
+
+                yield return null;
+            }
+
+            transform.rotation = endRotation;
+
+            IsHexagonRotation = false;
+        }
     }
+}
+
+public enum DirectionalRotationType {
+    TopRightSide,
+    RightSide,
+    BottomRightSide,
+    BottomLeftSide,
+    LeftSide,
+    TopLeftSife
 }

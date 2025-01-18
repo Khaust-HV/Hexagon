@@ -12,7 +12,6 @@ namespace HexagonControl {
         private HexagonType _hexagonType;
         private int _currentAvailableNumberRotations;
         private bool _isHexagonUsed;
-        private bool _isNotFirstRotation;
         private bool _isHexagonDestroyed;
         private Material _material;
 
@@ -76,18 +75,45 @@ namespace HexagonControl {
             } else DestroyHexagon(false);
         }
 
-        public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl) {
+        public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl, bool setWithoutRotation = false) {
             if (_hexagonRotationControl.IsHexagonRotation) return false; // Prevent set a new object during rotation
 
-            if (_isNotFirstRotation) {
+            if (setWithoutRotation) _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl, true);
+            else {
                 _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl);
 
-                _hexagonRotationControl.StartRotation();
-            } else {
-                _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl, true);
-
-                _isNotFirstRotation = true;
+                _hexagonRotationControl.StartRandomRotation();
             }
+
+            switch (_hexagonType) {
+                case HexagonType.Default:
+                    iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.StandardPower);
+                break;
+
+                case HexagonType.Shadow:
+                    if (_hexagonTypeControl.IsRotation) iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.StandardPower);
+                    else iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.LowPower);
+                break;
+
+                case HexagonType.Temporary:
+                    iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.ReallyHighPower);
+                break;
+
+                case HexagonType.Random:
+                case HexagonType.Fragile:
+                    iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.HighPower);
+                break;
+            }
+
+            return true;
+        }
+
+        public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl, DirectionalRotationType directionalRotationType) {
+            if (_hexagonRotationControl.IsHexagonRotation) return false; // Prevent set a new object during rotation
+
+            _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl);
+
+            _hexagonRotationControl.StartDirectionalRotation(directionalRotationType);
 
             switch (_hexagonType) {
                 case HexagonType.Default:
@@ -115,7 +141,7 @@ namespace HexagonControl {
         private void HexagonEnable() {
             switch (_hexagonType) {
                 case HexagonType.Random:
-                    _hexagonRotationControl.StartRandomRotation();
+                    _hexagonRotationControl.StartRotationFromTime();
                 break;
 
                 case HexagonType.Fragile:
@@ -123,7 +149,7 @@ namespace HexagonControl {
                 break;
 
                 case HexagonType.Temporary:
-                    _hexagonRotationControl.StartRandomRotation();
+                    _hexagonRotationControl.StartRotationFromTime();
                     _hexagonUnitAreaControl.SetUnitAreaActive(true);
                 break;
             }
@@ -215,6 +241,7 @@ public interface IHexagonControl {
     public void SetHexagonPositionAndID(Vector3 position, int id);
     public void SetHexagonType(HexagonType hexagonType, bool rotateShadow = false);
     public int GetHexagonID();
-    public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl);
+    public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl, bool setWithRandomRotation = false);
+    public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl, DirectionalRotationType directionalRotationType);
     public bool GetHexagonObjectController(out IHexagonObjectControl iHexagonObjectControl);
 }
