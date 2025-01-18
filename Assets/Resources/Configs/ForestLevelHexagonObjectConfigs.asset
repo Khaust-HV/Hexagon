@@ -24,33 +24,76 @@ MonoBehaviour:
   - {fileID: 8650379385992943049, guid: 85e87713120894af9aeeb7d7604ff9f1, type: 3}
   - {fileID: 2549813238184511667, guid: ce95a3881801947e7814a2a47f92ee2c, type: 3}
   <LakeBiomePrefabs>k__BackingField: []
-  <TreeBiomePrefabs>k__BackingField: []
+  <TreeBiomePrefabs>k__BackingField:
+  - {fileID: 3350490365343818053, guid: 60541104522164c78b112ccb221e77d9, type: 3}
+  - {fileID: 473377749920346032, guid: 7a1a96ff7f0404790b2b6a0c5a87713b, type: 3}
+  - {fileID: 3930724295783731209, guid: 0b0ffed6bba0d47798d39113fe87ea89, type: 3}
   <StoneBiomePrefabs>k__BackingField: []
   <MetalBiomePrefabs>k__BackingField: []
-  <ElectricityBiomePrefabs>k__BackingField: []
+  <ElectricalBiomePrefabs>k__BackingField: []
   <OilBiomePrefabs>k__BackingField: []
   <RedCrystalBiomePrefabs>k__BackingField: []
   <BlueCrystalBiomePrefabs>k__BackingField: []
   <GreenCrystalBiomePrefabs>k__BackingField: []
   <GlitcheBiomePrefabs>k__BackingField: []
-  <TreeSourcePrefabs>k__BackingField: []
+  <TreeSourcePrefabs>k__BackingField:
+  - {fileID: 597876458584889305, guid: 67a79f2d47780415592ecb27a8ff919b, type: 3}
+  - {fileID: 1578767683047429222, guid: 2d3f55327514248ba82cb6b74e306b0c, type: 3}
+  - {fileID: 4864950995422146001, guid: 139e56d35c5114ec187cf60d3af1564e, type: 3}
   <StoneSourcePrefabs>k__BackingField: []
   <MetalSourcePrefabs>k__BackingField: []
-  <ElectricitySourcePrefabs>k__BackingField: []
+  <ElectricalSourcePrefabs>k__BackingField: []
   <OilSourcePrefabs>k__BackingField: []
   <RedCrystalSourcePrefabs>k__BackingField: []
   <BlueCrystalSourcePrefabs>k__BackingField: []
   <GreenCrystalSourcePrefabs>k__BackingField: []
   <GlitcheSourcePrefabs>k__BackingField: []
-  <TreeMiningPrefabs>k__BackingField: []
+  <TreeMiningPrefabs>k__BackingField:
+  - {fileID: 1642738461317001850, guid: 71c50e00b9d1844859e0ef2668e27883, type: 3}
+  <TreeMiningTimeSpawn>k__BackingField: 10
+  <TreeMiningResourceCreationTime>k__BackingField: 60
+  <TreeMiningMinResourceNumber>k__BackingField: 5
+  <TreeMiningMaxResourceNumber>k__BackingField: 15
   <StoneMiningPrefabs>k__BackingField: []
+  <StoneMiningTimeSpawn>k__BackingField: 0
+  <StoneMiningResourceCreationTime>k__BackingField: 0
+  <StoneMiningMinResourceNumber>k__BackingField: 0
+  <StoneMiningMaxResourceNumber>k__BackingField: 0
   <MetalMiningPrefabs>k__BackingField: []
-  <ElectricityMinigPrefabs>k__BackingField: []
+  <MetalMiningTimeSpawn>k__BackingField: 0
+  <MetalMiningResourceCreationTime>k__BackingField: 0
+  <MetalMiningMinResourceNumber>k__BackingField: 0
+  <MetalMiningMaxResourceNumber>k__BackingField: 0
+  <ElectricalMinigPrefabs>k__BackingField: []
+  <ElectricalMiningTimeSpawn>k__BackingField: 0
+  <ElectricalMiningResourceCreationTime>k__BackingField: 0
+  <ElectricalMiningMinResourceNumber>k__BackingField: 0
+  <ElectricalMiningMaxResourceNumber>k__BackingField: 0
   <OilMiningPrefabs>k__BackingField: []
+  <OilMiningTimeSpawn>k__BackingField: 0
+  <OilMiningResourceCreationTime>k__BackingField: 0
+  <OilMiningMinResourceNumber>k__BackingField: 0
+  <OilMiningMaxResourceNumber>k__BackingField: 0
   <RedCrystalMiningPrefabs>k__BackingField: []
+  <RedCrystalMiningTimeSpawn>k__BackingField: 0
+  <RedCrystalMiningResourceCreationTime>k__BackingField: 0
+  <RedCrystalMiningMinResourceNumber>k__BackingField: 0
+  <RedCrystalMiningMaxResourceNumber>k__BackingField: 0
   <BlueCrystalMiningPrefabs>k__BackingField: []
+  <BlueCrystalMiningTimeSpawn>k__BackingField: 0
+  <BlueCrystalMiningResourceCreationTime>k__BackingField: 0
+  <BlueCrystalMiningMinResourceNumber>k__BackingField: 0
+  <BlueCrystalMiningMaxResourceNumber>k__BackingField: 0
   <GreenCrystalMiningPrefabs>k__BackingField: []
+  <GreenCrystalMiningTimeSpawn>k__BackingField: 0
+  <GreenCrystalMiningResourceCreationTime>k__BackingField: 0
+  <GreenCrystalMiningMinResourceNumber>k__BackingField: 0
+  <GreenCrystalMiningMaxResourceNumber>k__BackingField: 0
   <GlitcheMiningPrefabs>k__BackingField: []
+  <GlitcheMiningTimeSpawn>k__BackingField: 0
+  <GlitcheMiningResourceCreationTime>k__BackingField: 0
+  <GlitcheMiningMinResourceNumber>k__BackingField: 0
+  <GlitcheMiningMaxResourceNumber>k__BackingField: 0
   <FlamingRainTowerPrefabs>k__BackingField: []
   <VineEnsnareTowerPrefabs>k__BackingField: []
   <FrostArrowTreePrefabs>k__BackingField: []
@@ -101,10 +144,32 @@ MonoBehaviour:
   <StraightDangerousRiverPrefabs>k__BackingField: []
   <LongTurnDangerousRiverPrefabs>k__BackingField: []
   <NearTurnDangerousRiverPrefabs>k__BackingField: []
+  <FireAuraPrefabs>k__BackingField: []
+  <FrostAuraPrefabs>k__BackingField: []
+  <ElectricAuraPrefabs>k__BackingField: []
+  <NatureAuraPrefabs>k__BackingField: []
+  <ShieldAuraPrefabs>k__BackingField: []
+  <AttackRangePositiveAuraPrefabs>k__BackingField: []
+  <AttackRangeNegativeAuraPrefabs>k__BackingField: []
+  <CamoAuraPrefabs>k__BackingField: []
+  <AttackStrengthPositiveAuraPrefabs>k__BackingField: []
+  <AttackStrengthNegativeAuraPrefabs>k__BackingField: []
+  <GlobalHealingAuraPrefabs>k__BackingField: []
+  <AttackSpeedPositioveAuraPrefabs>k__BackingField: []
+  <AttackSpeedNegativeAuraPrefabs>k__BackingField: []
+  <BuildingEfficiencyPositiveAuraPrefabs>k__BackingField: []
+  <BuildingEfficiencyNegativeAuraPrefabs>k__BackingField: []
+  <ConstructionSpeedPositiveAuraPrefabs>k__BackingField: []
+  <ConstructionSpeedNegativeAuraPrefabs>k__BackingField: []
+  <MovementSpeedPositiveAuraPrefabs>k__BackingField: []
+  <MovementSpeedNegativeAuraPrefabs>k__BackingField: []
+  <FlightDisableAuraPrefabs>k__BackingField: []
   <MainEmpty>k__BackingField:
   - {fileID: 3136211043041264818, guid: b500790ff4908454c8181c55413f420a, type: 3}
   <DecorationEmpty>k__BackingField:
   - {fileID: 8272071067488688298, guid: afc45382ecba145eb98341285b0203f1, type: 3}
+  <AuraEmpty>k__BackingField:
+  - {fileID: 5943321880451901659, guid: c3a296e526ac64b6dab682c122e321e3, type: 3}
   <DecorationTypeTextColor>k__BackingField: {r: 0.022774577, g: 1, b: 0, a: 1}
   <MineTypeTextColor>k__BackingField: {r: 1, g: 0.7529205, b: 0, a: 1}
   <BuildebleFieldTypeTextColor>k__BackingField: {r: 1, g: 0, b: 0.93442965, a: 1}
@@ -112,3 +177,7 @@ MonoBehaviour:
   <CoreTypeTextColor>k__BackingField: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
   <HeapTypeTextColor>k__BackingField: {r: 0.5, g: 0.20274526, b: 0.06839624, a: 1}
   <RiverTypeTextColor>k__BackingField: {r: 0, g: 0.47177935, b: 1, a: 1}
+  <ElementAuraTypeTextColor>k__BackingField: {r: 1, g: 0, b: 0, a: 1}
+  <StatsAuraTypeTextColor>k__BackingField: {r: 0, g: 0.43023157, b: 1, a: 1}
+  <BuildAuraTypeTextColor>k__BackingField: {r: 0.4946947, g: 0, b: 1, a: 1}
+  <TrailAuraTypeTextColor>k__BackingField: {r: 1, g: 0.51204026, b: 0, a: 1}

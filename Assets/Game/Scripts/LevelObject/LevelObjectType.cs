@@ -8,7 +8,7 @@ namespace LevelObjectType {
             TreeBiome,
             StoneBiome,
             MetalBiome,
-            ElectricityBiome,
+            ElectricalBiome,
             OilBiome,
             RedCrystalBiome,
             BlueCrystalBiome,
@@ -24,7 +24,7 @@ namespace LevelObjectType {
             TreeSource,
             StoneSource,
             MetalSource,
-            ElectricitySource,
+            ElectricalSource,
             OilSource,
             RedCrystalSource,
             BlueCrystalSource,
@@ -35,7 +35,7 @@ namespace LevelObjectType {
             TreeMining,
             StoneMining,
             MetalMining,
-            ElectricityMining,
+            ElectricalMining,
             OilMining,
             RedCrystalMining,
             BlueCrystalMining,
@@ -121,6 +121,38 @@ namespace LevelObjectType {
             StraightDangerousRiver,
             LongTurnDangerousRiver,
             NearTurnDangerousRiver
+        }
+
+        public enum ElementAuraType {
+            FireAura,
+            FrostAura,
+            ElectricAura,
+            NatureAura
+        }
+
+        public enum StatsAuraType {
+            ShieldAura,
+            AttackRangePositiveAura,
+            AttackRangeNegativeAura,
+            CamoAura,
+            AttackStrengthPositiveAura,
+            AttackStrengthNegativeAura,
+            GlobalHealingAura,
+            AttackSpeedPositioveAura,
+            AttackSpeedNegativeAura
+        }
+
+        public enum BuildAuraType {
+            BuildingEfficiencyPositiveAura,
+            BuildingEfficiencyNegativeAura,
+            ConstructionSpeedPositiveAura,
+            ConstructionSpeedNegativeAura
+        }
+
+        public enum TrailAuraType {
+            MovementSpeedPositiveAura,
+            MovementSpeedNegativeAura,
+            FlightDisableAura
         }
     #endregion
 

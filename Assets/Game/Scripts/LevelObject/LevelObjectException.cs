@@ -12,5 +12,5 @@ public class LevelObjectException : System.Exception {
 
 public enum LevelObjectErrorType {
     InvalidObjectsCreation,
-    InvalidHexagonObjectType,
+    InvalidHexagonObjectPartType,
 }

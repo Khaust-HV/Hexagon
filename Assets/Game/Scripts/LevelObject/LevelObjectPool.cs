@@ -11,7 +11,7 @@ namespace LevelObject {
             private Transform _trSquadsPool;
         #endregion
 
-        private Dictionary<System.Type, Dictionary<System.Enum, List<IHexagonObjectElement>>> _hexagonObjectsStorage = new();
+        private Dictionary<System.Type, Dictionary<System.Enum, List<IHexagonObjectPart>>> _hexagonObjectsStorage = new();
 
         private List<IHexagonControl> _hexagonControllersList = new();
         private List<IHexagonObjectControl> _hexagonObjectContrlollersList = new();
@@ -53,7 +53,7 @@ namespace LevelObject {
 
         public IHexagonControl GetDisableHexagonController() {
             foreach (var hexagonController in _hexagonControllersList) {
-                if (!hexagonController.IsHexagonControllerActive()) {
+                if (!hexagonController.IsHexagonControllerUsed()) {
                     return hexagonController;
                 }
             }
@@ -73,41 +73,41 @@ namespace LevelObject {
             return _trHexagonObjectsPool;
         }
 
-        public IHexagonObjectElement GetDisableHexagonObjectElement<T>(T type) where T : System.Enum {
+        public IHexagonObjectPart GetDisableHexagonObjectPart<T>(T type) where T : System.Enum {
             if (_hexagonObjectsStorage.TryGetValue(typeof(T), out var typeStorage) 
-            && typeStorage.TryGetValue(type, out var elements)) {
-                foreach (var element in elements) {
-                    if (!element.IsHexagonObjectElementActive()) return element;
+            && typeStorage.TryGetValue(type, out var parts)) {
+                foreach (var part in parts) {
+                    if (!part.IsHexagonObjectPartUsed()) return part;
                 }
             }
 
-            return _iBuildingsCreator.CreateSomeHexagonObjectElements(type);
+            return _iBuildingsCreator.CreateSomeHexagonObjectParts(type);
         }
 
-        public void AddNewHexagonObjectElementsInPool<T>(T type, List<IHexagonObjectElement> hexagonObjectList) where T : System.Enum {
+        public void AddNewHexagonObjectPartsInPool<T>(T type, List<IHexagonObjectPart> hexagonObjectPartsList) where T : System.Enum {
             if (!_hexagonObjectsStorage.TryGetValue(typeof(T), out var typeStorage)) {
-                typeStorage = new Dictionary<System.Enum, List<IHexagonObjectElement>>();
+                typeStorage = new Dictionary<System.Enum, List<IHexagonObjectPart>>();
                 _hexagonObjectsStorage[typeof(T)] = typeStorage;
             }
 
-            if (!typeStorage.TryGetValue(type, out var elements)) {
-                elements = new List<IHexagonObjectElement>();
-                typeStorage[type] = elements;
+            if (!typeStorage.TryGetValue(type, out var parts)) {
+                parts = new List<IHexagonObjectPart>();
+                typeStorage[type] = parts;
             }
 
-            elements.AddRange(hexagonObjectList);
+            parts.AddRange(hexagonObjectPartsList);
         }
 
         public IHexagonObjectControl GetDisableHexagonObjectController() {
             foreach (var hexagonObjectController in _hexagonObjectContrlollersList) {
-                if (!hexagonObjectController.IsHexagonObjectControllerActive()) return hexagonObjectController;
+                if (!hexagonObjectController.IsHexagonObjectControllerUsed()) return hexagonObjectController;
             }
 
             return _iBuildingsCreator.CreateSomeHexagonObjectControllers();
         }
 
-        public void AddNewHexagonObjectControllersInPool(List<IHexagonObjectControl> hexagonObjectContrlollersList) {
-            _hexagonObjectContrlollersList.AddRange(hexagonObjectContrlollersList);
+        public void AddNewHexagonObjectControllersInPool(List<IHexagonObjectControl> hexagonObjectControllersList) {
+            _hexagonObjectContrlollersList.AddRange(hexagonObjectControllersList);
         }
     }
 }
@@ -118,10 +118,10 @@ public interface IBuildingsPool {
     public int GetNumberHexagonControllers();
     public void AddNewHexagonControllersInPool(List<IHexagonControl> hexagonControllersList);
 
-    public IHexagonObjectElement GetDisableHexagonObjectElement<T>(T type) where T : System.Enum;
-    public void AddNewHexagonObjectElementsInPool<T>(T type, List<IHexagonObjectElement> hexagonObjectList) where T : System.Enum;
+    public IHexagonObjectPart GetDisableHexagonObjectPart<T>(T type) where T : System.Enum;
+    public void AddNewHexagonObjectPartsInPool<T>(T type, List<IHexagonObjectPart> hexagonObjectPartsList) where T : System.Enum;
     public IHexagonObjectControl GetDisableHexagonObjectController();
-    public void AddNewHexagonObjectControllersInPool(List<IHexagonObjectControl> hexagonObjectContrlollersList);
+    public void AddNewHexagonObjectControllersInPool(List<IHexagonObjectControl> hexagonObjectControllersList);
 }
 
 public interface IUnitsPool {

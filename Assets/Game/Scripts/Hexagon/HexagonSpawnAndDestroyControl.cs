@@ -21,6 +21,7 @@ namespace HexagonControl {
         [SerializeField] private Transform[] _trDestroyedHexagonParts;
 
         public event Action HexagonSpawnFinished;
+        public event Action HexagonIsRestoreAndHide;
 
         // HexagonLP settings
         private MeshRenderer _mrHexagonLP;
@@ -94,6 +95,8 @@ namespace HexagonControl {
             material.SetFloat("_EdgeWidth", _materialConfigs.DestroyEdgeWidth);
             material.SetColor("_EdgeColor", _materialConfigs.DestroyEdgeColor);
 
+            StopAllCoroutines();
+
             _hexagonLP.SetActive(false);
 
             StartCoroutine(DestroyEffectStarted(material, isHexagonAutoRestore));
@@ -146,11 +149,9 @@ namespace HexagonControl {
             }
         }
 
-        public void StopAllActions() {
-            StopAllCoroutines();
-        }
-
         public void RestoreAndHide() {
+            StopAllCoroutines();
+
             gameObject.SetActive(false);
 
             // HexagonLP restore
@@ -179,6 +180,8 @@ namespace HexagonControl {
 
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
+
+            HexagonIsRestoreAndHide?.Invoke();
         }
     }
 }

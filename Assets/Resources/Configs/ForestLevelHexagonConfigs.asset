@@ -24,4 +24,8 @@ MonoBehaviour:
   <MinTimeUnitInAreaForHexagon>k__BackingField: 10
   <MaxTimeUnitInAreaForHexagon>k__BackingField: 45
   <ForcePlannedExplosion>k__BackingField: 1000
-  <ForceNonPlannedExplosion>k__BackingField: 2500
+  <ForceNonPlannedExplosion>k__BackingField: 3000
+  <LowPower>k__BackingField: 0.5
+  <StandardPower>k__BackingField: 1
+  <HighPower>k__BackingField: 2
+  <ReallyHighPower>k__BackingField: 5

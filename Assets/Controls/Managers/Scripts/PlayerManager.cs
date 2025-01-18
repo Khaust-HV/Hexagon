@@ -5,7 +5,7 @@ using Zenject;
 using CameraControl;
 
 namespace Managers {
-    public sealed class PlayerManager : IPlayerManagerInput, IInteractingWithObject, IDisposable {
+    public sealed class PlayerManager : IPlayerManagerInput, IInteractingWithObject, IWorkingWithHexagonObject, IDisposable {
         private PlayerState _playerState;
         private int _currentTargetID;
 
@@ -76,6 +76,10 @@ namespace Managers {
             }        
         }
 
+        public void ResourceCredit(ResourceType resource, int number) {
+            Debug.Log($"Resource received {resource}, {number}"); // FIX IT !
+        }
+
         private void StartChoosingToBuildOrImprove(Vector3 position) {
             _iHexagonTarget.SetThisHexagonTargetActive(_currentTargetID, true);
 
@@ -127,4 +131,8 @@ public interface IPlayerManagerInput {
 
 public interface IInteractingWithObject {
     public void CancelChoosingToBuildOrImprove();
+}
+
+public interface IWorkingWithHexagonObject {
+    public void ResourceCredit(ResourceType resource, int number);
 }

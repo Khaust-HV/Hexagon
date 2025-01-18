@@ -13,15 +13,20 @@ namespace HexagonControl {
 
         private bool _isHexagonUpsideDown;
 
-        public void SetHexagonObject(IHexagonObjectControl iHexagonObjectControl) {
+        public void SetHexagonObject(IHexagonObjectControl iHexagonObjectControl, bool setOnTheCurrentSide = false) {
             if (CurrentObject != null) CurrentObject.SetObjectActive(false);
 
             CurrentObject = iHexagonObjectControl;
 
-            if (_isHexagonUpsideDown) CurrentObject.SetParentObject(_firstObjectPoint);
-            else CurrentObject.SetParentObject(_secondObjectPoint);
+            if (setOnTheCurrentSide) {
+                if (_isHexagonUpsideDown) CurrentObject.SetParentObject(_secondObjectPoint);
+                else CurrentObject.SetParentObject(_firstObjectPoint);
+            } else {
+                if (_isHexagonUpsideDown) CurrentObject.SetParentObject(_firstObjectPoint);
+                else CurrentObject.SetParentObject(_secondObjectPoint);
 
-            _isHexagonUpsideDown = !_isHexagonUpsideDown;
+                _isHexagonUpsideDown = !_isHexagonUpsideDown;
+            }
 
             CurrentObject.SetObjectActive(true);
         }

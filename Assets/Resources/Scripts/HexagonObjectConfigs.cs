@@ -21,7 +21,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] MetalBiomePrefabs { get; private set; }
 
         [field: Header("ElectricityBiome settings <Decoration>")]
-        [field: SerializeField] public GameObject[] ElectricityBiomePrefabs { get; private set; }
+        [field: SerializeField] public GameObject[] ElectricalBiomePrefabs { get; private set; }
 
         [field: Header("OilBiome settings <Decoration>")]
         [field: SerializeField] public GameObject[] OilBiomePrefabs { get; private set; }
@@ -47,7 +47,7 @@ namespace GameConfigs {
         [field: Header("MetalSource settings <Mine> <Source>")]
         [field: SerializeField] public GameObject[] MetalSourcePrefabs { get; private set; }
         [field: Header("ElectricitySource settings <Mine> <Source>")]
-        [field: SerializeField] public GameObject[] ElectricitySourcePrefabs { get; private set; }
+        [field: SerializeField] public GameObject[] ElectricalSourcePrefabs { get; private set; }
         [field: Header("OilSource settings <Mine> <Source>")]
         [field: SerializeField] public GameObject[] OilSourcePrefabs { get; private set; }
         [field: Header("RedCrystalSource settings <Mine> <Source>")]
@@ -58,26 +58,62 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] GreenCrystalSourcePrefabs { get; private set; }
         [field: Header("GlitcheSource settings <Mine> <Source>")]
         [field: SerializeField] public GameObject[] GlitcheSourcePrefabs { get; private set; }
-        [field: Header("TreeMining settings <Mine> <Source>")]
-        [field: SerializeField] public GameObject[] TreeMiningPrefabs { get; private set; }
         [field: Space(15)]
 
+        [field: Header("TreeMining settings <Mine> <Mining>")]
+        [field: SerializeField] public GameObject[] TreeMiningPrefabs { get; private set; }
+        [field: SerializeField] public float TreeMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float TreeMiningResourceCreationTime { get; private set; }
+        [field: SerializeField] public int TreeMiningMinResourceNumber { get; private set; }
+        [field: SerializeField] public int TreeMiningMaxResourceNumber { get; private set; }
         [field: Header("StoneMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] StoneMiningPrefabs { get; private set; }
+        [field: SerializeField] public float StoneMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float StoneMiningResourceCreationTime { get; private set; }
+        [field: SerializeField] public int StoneMiningMinResourceNumber { get; private set; }
+        [field: SerializeField] public int StoneMiningMaxResourceNumber { get; private set; }
         [field: Header("MetalMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] MetalMiningPrefabs { get; private set; }
+        [field: SerializeField] public float MetalMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float MetalMiningResourceCreationTime { get; private set; }
+        [field: SerializeField] public int MetalMiningMinResourceNumber { get; private set; }
+        [field: SerializeField] public int MetalMiningMaxResourceNumber { get; private set; }
         [field: Header("ElectricityMinig settings <Mine> <Mining>")]
-        [field: SerializeField] public GameObject[] ElectricityMinigPrefabs { get; private set; }
+        [field: SerializeField] public GameObject[] ElectricalMinigPrefabs { get; private set; }
+        [field: SerializeField] public float ElectricalMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float ElectricalMiningResourceCreationTime { get; private set; }
+        [field: SerializeField] public int ElectricalMiningMinResourceNumber { get; private set; }
+        [field: SerializeField] public int ElectricalMiningMaxResourceNumber { get; private set; }
         [field: Header("OilMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] OilMiningPrefabs { get; private set; }
+        [field: SerializeField] public float OilMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float OilMiningResourceCreationTime { get; private set; }
+        [field: SerializeField] public int OilMiningMinResourceNumber { get; private set; }
+        [field: SerializeField] public int OilMiningMaxResourceNumber { get; private set; }
         [field: Header("RedCrystalMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] RedCrystalMiningPrefabs { get; private set; }
+        [field: SerializeField] public float RedCrystalMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float RedCrystalMiningResourceCreationTime { get; private set; }
+        [field: SerializeField] public int RedCrystalMiningMinResourceNumber { get; private set; }
+        [field: SerializeField] public int RedCrystalMiningMaxResourceNumber { get; private set; }
         [field: Header("BlueCrystalMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] BlueCrystalMiningPrefabs { get; private set; }
+        [field: SerializeField] public float BlueCrystalMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float BlueCrystalMiningResourceCreationTime { get; private set; }
+        [field: SerializeField] public int BlueCrystalMiningMinResourceNumber { get; private set; }
+        [field: SerializeField] public int BlueCrystalMiningMaxResourceNumber { get; private set; }
         [field: Header("GreenCrystalMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] GreenCrystalMiningPrefabs { get; private set; }
+        [field: SerializeField] public float GreenCrystalMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float GreenCrystalMiningResourceCreationTime { get; private set; }
+        [field: SerializeField] public int GreenCrystalMiningMinResourceNumber { get; private set; }
+        [field: SerializeField] public int GreenCrystalMiningMaxResourceNumber { get; private set; }
         [field: Header("GlitcheMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] GlitcheMiningPrefabs { get; private set; }
+        [field: SerializeField] public float GlitcheMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float GlitcheMiningResourceCreationTime { get; private set; }
+        [field: SerializeField] public int GlitcheMiningMinResourceNumber { get; private set; }
+        [field: SerializeField] public int GlitcheMiningMaxResourceNumber { get; private set; }
         [field: Space(50)]
 
         // Category of BuildebleField
@@ -203,9 +239,63 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] NearTurnDangerousRiverPrefabs { get; private set; }
         [field: Space(50)]
 
+        // Category of ElementAuraType
+        [field: Header("Fire settings <ElementAuraType>")]
+        [field: SerializeField] public GameObject[] FireAuraPrefabs { get; private set; }
+        [field: Header("Frost settings <ElementAuraType>")]
+        [field: SerializeField] public GameObject[] FrostAuraPrefabs { get; private set; }
+        [field: Header("Electric settings <ElementAuraType>")]
+        [field: SerializeField] public GameObject[] ElectricAuraPrefabs { get; private set; }
+        [field: Header("Nature settings <ElementAuraType>")]
+        [field: SerializeField] public GameObject[] NatureAuraPrefabs { get; private set; }
+        [field: Space(50)]
+
+        // Category of StatsAuraType
+        [field: Header("Shield settings <StatsAuraType>")]
+        [field: SerializeField] public GameObject[] ShieldAuraPrefabs { get; private set; }
+        [field: Header("AttackRangePositive settings <StatsAuraType>")]
+        [field: SerializeField] public GameObject[] AttackRangePositiveAuraPrefabs { get; private set; }
+        [field: Header("AttackRangeNegative settings <StatsAuraType>")]
+        [field: SerializeField] public GameObject[] AttackRangeNegativeAuraPrefabs { get; private set; }
+        [field: Header("Camo settings <StatsAuraType>")]
+        [field: SerializeField] public GameObject[] CamoAuraPrefabs { get; private set; }
+        [field: Header("AttackStrengthPositive settings <StatsAuraType>")]
+        [field: SerializeField] public GameObject[] AttackStrengthPositiveAuraPrefabs { get; private set; }
+        [field: Header("AttackStrengthNegative settings <StatsAuraType>")]
+        [field: SerializeField] public GameObject[] AttackStrengthNegativeAuraPrefabs { get; private set; }
+        [field: Header("GlobalHealing settings <StatsAuraType>")]
+        [field: SerializeField] public GameObject[] GlobalHealingAuraPrefabs { get; private set; }
+        [field: Header("AttackSpeedPositiove settings <StatsAuraType>")]
+        [field: SerializeField] public GameObject[] AttackSpeedPositioveAuraPrefabs { get; private set; }
+        [field: Header("AttackSpeedNegative settings <StatsAuraType>")]
+        [field: SerializeField] public GameObject[] AttackSpeedNegativeAuraPrefabs { get; private set; }
+        [field: Space(50)]
+
+        // Category of BuildAuraType
+        [field: Header("BuildingEfficiencyPositive settings <BuildAuraType>")]
+        [field: SerializeField] public GameObject[] BuildingEfficiencyPositiveAuraPrefabs { get; private set; }
+        [field: Header("BuildingEfficiencyNegative settings <BuildAuraType>")]
+        [field: SerializeField] public GameObject[] BuildingEfficiencyNegativeAuraPrefabs { get; private set; }
+        [field: Header("ConstructionSpeedPositive settings <BuildAuraType>")]
+        [field: SerializeField] public GameObject[] ConstructionSpeedPositiveAuraPrefabs { get; private set; }
+        [field: Header("ConstructionSpeedNegative settings <BuildAuraType>")]
+        [field: SerializeField] public GameObject[] ConstructionSpeedNegativeAuraPrefabs { get; private set; }
+        [field: Space(50)]
+
+        // Category of TrailAuraType
+        [field: Header("MovementSpeedPositive settings <TrailAuraType>")]
+        [field: SerializeField] public GameObject[] MovementSpeedPositiveAuraPrefabs { get; private set; }
+        [field: Header("MovementSpeedNegative settings <TrailAuraType>")]
+        [field: SerializeField] public GameObject[] MovementSpeedNegativeAuraPrefabs { get; private set; }
+        [field: Header("FlightDisable settings <TrailAuraType>")]
+        [field: SerializeField] public GameObject[] FlightDisableAuraPrefabs { get; private set; }
+        [field: Space(50)]
+
+        // EmptyObject
         [field: Header("EmptyHexagonObjects")]
         [field: SerializeField] public GameObject[] MainEmpty { get; private set; }
         [field: SerializeField] public GameObject[] DecorationEmpty { get; private set; }
+        [field: SerializeField] public GameObject[] AuraEmpty { get; private set; }
         
         [field: Space(15)]
         [field: SerializeField] public Color DecorationTypeTextColor { get; private set; }
@@ -215,7 +305,11 @@ namespace GameConfigs {
         [field: SerializeField] public Color CoreTypeTextColor { get; private set; }
         [field: SerializeField] public Color HeapTypeTextColor { get; private set; }
         [field: SerializeField] public Color RiverTypeTextColor { get; private set; }
-
+        [field: Space(15)]
+        [field: SerializeField] public Color ElementAuraTypeTextColor { get; private set; }
+        [field: SerializeField] public Color StatsAuraTypeTextColor { get; private set; }
+        [field: SerializeField] public Color BuildAuraTypeTextColor { get; private set; }
+        [field: SerializeField] public Color TrailAuraTypeTextColor { get; private set; }
 
         public GameObject[] GetHexagonObjectPrefabs<T>(T type) where T : System.Enum {
             switch (type) {
@@ -226,13 +320,13 @@ namespace GameConfigs {
                         DecorationHexagonObjectsType.TreeBiome => TreeBiomePrefabs,
                         DecorationHexagonObjectsType.StoneBiome => StoneBiomePrefabs,
                         DecorationHexagonObjectsType.MetalBiome => MetalBiomePrefabs,
-                        DecorationHexagonObjectsType.ElectricityBiome => ElectricityBiomePrefabs,
+                        DecorationHexagonObjectsType.ElectricalBiome => ElectricalBiomePrefabs,
                         DecorationHexagonObjectsType.OilBiome => OilBiomePrefabs,
                         DecorationHexagonObjectsType.RedCrystalBiome => RedCrystalBiomePrefabs,
                         DecorationHexagonObjectsType.BlueCrystalBiome => BlueCrystalBiomePrefabs,
                         DecorationHexagonObjectsType.GreenCrystalBiome => GreenCrystalBiomePrefabs,
                         DecorationHexagonObjectsType.GlitcheBiome => GlitcheBiomePrefabs,
-                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {decorationType} in the configuration file")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"No prefabs subtype of {decorationType} in the configuration file")
                     };
 
                     if (prefabs.Length == 0) return DecorationEmpty;
@@ -245,7 +339,7 @@ namespace GameConfigs {
                         MineHexagonObjectsType.TreeSource => TreeSourcePrefabs,
                         MineHexagonObjectsType.StoneSource => StoneSourcePrefabs,
                         MineHexagonObjectsType.MetalSource => MetalSourcePrefabs,
-                        MineHexagonObjectsType.ElectricitySource => ElectricitySourcePrefabs,
+                        MineHexagonObjectsType.ElectricalSource => ElectricalSourcePrefabs,
                         MineHexagonObjectsType.OilSource => OilSourcePrefabs,
                         MineHexagonObjectsType.RedCrystalSource => RedCrystalSourcePrefabs,
                         MineHexagonObjectsType.BlueCrystalSource => BlueCrystalSourcePrefabs,
@@ -255,13 +349,13 @@ namespace GameConfigs {
                         MineHexagonObjectsType.TreeMining => TreeMiningPrefabs,
                         MineHexagonObjectsType.StoneMining => StoneMiningPrefabs,
                         MineHexagonObjectsType.MetalMining => MetalMiningPrefabs,
-                        MineHexagonObjectsType.ElectricityMining => ElectricityMinigPrefabs,
+                        MineHexagonObjectsType.ElectricalMining => ElectricalMinigPrefabs,
                         MineHexagonObjectsType.OilMining => OilMiningPrefabs,
                         MineHexagonObjectsType.RedCrystalMining => RedCrystalMiningPrefabs,
                         MineHexagonObjectsType.BlueCrystalMining => BlueCrystalMiningPrefabs,
                         MineHexagonObjectsType.GreenCrystalMining => GreenCrystalMiningPrefabs,
                         MineHexagonObjectsType.GlitcheMining => GlitcheMiningPrefabs,
-                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {mineType} in the configuration file")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"No prefabs subtype of {mineType} in the configuration file")
                     };
 
                     if (prefabs.Length == 0) return MainEmpty;
@@ -306,7 +400,7 @@ namespace GameConfigs {
                         BuildebleFieldHexagonObjectsType.InfernalArcaneForge => InfernalArcaneForgePrefabs,
                         BuildebleFieldHexagonObjectsType.VerdantEnclaveOfNature => VerdantEnclaveOfNaturePrefabs,
                         BuildebleFieldHexagonObjectsType.FrostwovenSanctum => FrostwovenSanctumPrefabs,
-                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {buildableFieldType} in the configuration file")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"No prefabs subtype of {buildableFieldType} in the configuration file")
                     };
 
                     if (prefabs.Length == 0) return MainEmpty;
@@ -321,7 +415,7 @@ namespace GameConfigs {
                         UnBuildebleFieldHexagonObjectsType.LongTurnRoad => LongTurnRoadPrefabs,
                         UnBuildebleFieldHexagonObjectsType.NearTurnRoad => NearTurnRoadPrefabs,
                         UnBuildebleFieldHexagonObjectsType.HardWay => HardWayPrefabs,
-                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {unBuildableFieldType} in the configuration file")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"No prefabs subtype of {unBuildableFieldType} in the configuration file")
                     };
 
                     if (prefabs.Length == 0) return MainEmpty;
@@ -333,7 +427,7 @@ namespace GameConfigs {
                     prefabs = coreType switch {
                         CoreHexagonObjectsType.MainCore => MainCorePrefabs,
                         CoreHexagonObjectsType.ShieldCore => ShieldCorePrefabs,
-                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {coreType} in the configuration file")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"No prefabs subtype of {coreType} in the configuration file")
                     };
 
                     if (prefabs.Length == 0) return MainEmpty;
@@ -346,7 +440,7 @@ namespace GameConfigs {
                         HeapHexagonObjectsType.NormalObjects => NormalObjectsPrefabs,
                         HeapHexagonObjectsType.Lake => LakePrefabs,
                         HeapHexagonObjectsType.QuestObjects => QuestObjectsPrefabs,
-                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {heapType} in the configuration file")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"No prefabs subtype of {heapType} in the configuration file")
                     };
 
                     if (prefabs.Length == 0) return MainEmpty;
@@ -365,7 +459,7 @@ namespace GameConfigs {
                         RiverHexagonObjectsType.StraightDangerousRiver => StraightDangerousRiverPrefabs,
                         RiverHexagonObjectsType.LongTurnDangerousRiver => LongTurnDangerousRiverPrefabs,
                         RiverHexagonObjectsType.NearTurnDangerousRiver => NearTurnDangerousRiverPrefabs,
-                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs subtype of {riverType} in the configuration file")
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"No prefabs subtype of {riverType} in the configuration file")
                     };
 
                     if (prefabs.Length == 0) return MainEmpty;
@@ -373,8 +467,68 @@ namespace GameConfigs {
                     return prefabs;
                 // break;
 
+                case ElementAuraType elementAuraType:
+                    prefabs = elementAuraType switch {
+                        ElementAuraType.FireAura => FireAuraPrefabs,
+                        ElementAuraType.FrostAura => FrostAuraPrefabs,
+                        ElementAuraType.ElectricAura => ElectricAuraPrefabs,
+                        ElementAuraType.NatureAura => NatureAuraPrefabs,
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"No prefabs subtype of {elementAuraType} in the configuration file")
+                    };
+
+                    if (prefabs.Length == 0) return AuraEmpty;
+
+                    return prefabs;
+                // break;
+
+                case StatsAuraType statsAuraType:
+                    prefabs = statsAuraType switch {
+                        StatsAuraType.ShieldAura => ShieldAuraPrefabs,
+                        StatsAuraType.AttackRangePositiveAura => AttackRangePositiveAuraPrefabs,
+                        StatsAuraType.AttackRangeNegativeAura => AttackRangeNegativeAuraPrefabs,
+                        StatsAuraType.CamoAura => CamoAuraPrefabs,
+                        StatsAuraType.AttackStrengthPositiveAura => AttackStrengthPositiveAuraPrefabs,
+                        StatsAuraType.AttackStrengthNegativeAura => AttackStrengthNegativeAuraPrefabs,
+                        StatsAuraType.GlobalHealingAura => GlobalHealingAuraPrefabs,
+                        StatsAuraType.AttackSpeedPositioveAura => AttackSpeedPositioveAuraPrefabs,
+                        StatsAuraType.AttackSpeedNegativeAura => AttackSpeedNegativeAuraPrefabs,
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"No prefabs subtype of {statsAuraType} in the configuration file")
+                    };
+
+                    if (prefabs.Length == 0) return AuraEmpty;
+
+                    return prefabs;
+                // break;
+
+                case BuildAuraType buildAuraType:
+                    prefabs = buildAuraType switch {
+                        BuildAuraType.BuildingEfficiencyPositiveAura => BuildingEfficiencyPositiveAuraPrefabs,
+                        BuildAuraType.BuildingEfficiencyNegativeAura => BuildingEfficiencyNegativeAuraPrefabs,
+                        BuildAuraType.ConstructionSpeedPositiveAura => ConstructionSpeedPositiveAuraPrefabs,
+                        BuildAuraType.ConstructionSpeedNegativeAura => ConstructionSpeedNegativeAuraPrefabs,
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"No prefabs subtype of {buildAuraType} in the configuration file")
+                    };
+
+                    if (prefabs.Length == 0) return AuraEmpty;
+
+                    return prefabs;
+                // break;
+
+                case TrailAuraType trailAuraType:
+                    prefabs = trailAuraType switch {
+                        TrailAuraType.MovementSpeedPositiveAura => MovementSpeedPositiveAuraPrefabs,
+                        TrailAuraType.MovementSpeedNegativeAura => MovementSpeedNegativeAuraPrefabs,
+                        TrailAuraType.FlightDisableAura => FlightDisableAuraPrefabs,
+                        _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"No prefabs subtype of {trailAuraType} in the configuration file")
+                    };
+
+                    if (prefabs.Length == 0) return AuraEmpty;
+
+                    return prefabs;
+                // break;
+
                 default:
-                    throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType, $"No prefabs type of {type} in the configuration file");
+                    throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"No prefabs type of {type} in the configuration file");
                 // break;
             }
         }

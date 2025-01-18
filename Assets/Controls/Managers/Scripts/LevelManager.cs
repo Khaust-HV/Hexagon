@@ -31,14 +31,45 @@ namespace Managers {
             _levelConfigs = levelConfigs;
         }
 
-        public bool IsMakeThisHexagonAsTarget(int hexagonID) {
-            return true; // FIX IT !
+        public bool IsMakeThisHexagonAsTarget(int hexagonID) { // FIX IT !
+            if (_iBuildingsPool.GetHexagonControllerByID(hexagonID, out IHexagonControl iHexagonControl)) {
+                if (iHexagonControl.GetHexagonObjectController(out IHexagonObjectControl iHexagonObjectControl)) {
+                    if (!iHexagonObjectControl.IsItImprovedYet()) {
+                        switch (iHexagonObjectControl.GetHexagonObjectType()) {
+                            // case HeapHexagonObjectsType:
+
+                            // break;
+
+                            case MineHexagonObjectsType mineType:
+                                switch (mineType) {
+                                    case MineHexagonObjectsType.TreeSource:
+                                        var hexagonObjectPart = _iBuildingsPool.GetDisableHexagonObjectPart(MineHexagonObjectsType.TreeMining);
+
+                                        iHexagonObjectControl.SetHologramObject(hexagonObjectPart);
+
+                                        return true;
+                                    // break;
+                                }
+                            break;
+                        }
+                    } else return true;
+                }
+            }
+
+            return false;
         }
 
         public void SetThisHexagonTargetActive(int hexagonID, bool isActive) {
             if (_iBuildingsPool.GetHexagonControllerByID(hexagonID, out IHexagonControl hexagonController)) {
                 if (isActive) hexagonController.CameraLooking += HexagonDestroyOrRotation;
-                else hexagonController.CameraLooking -= HexagonDestroyOrRotation;
+                else {
+                    hexagonController.CameraLooking -= HexagonDestroyOrRotation;
+                    if (hexagonController.GetHexagonObjectController(out IHexagonObjectControl iHexagonObjectControl)) { // FIX IT !
+                        if (!iHexagonObjectControl.IsItImprovedYet()) {
+                            iHexagonObjectControl.SetMainObjectFromHologramObject();
+                        }
+                    }
+                }
             }
         }
 
@@ -52,8 +83,8 @@ namespace Managers {
         }
 
         private void CreateNewHexagonObjectForHexagon(IHexagonControl iHexagonControl) {
-            var hexagonObject = _iBuilder.CreateHexagonObject(GetRandomHexagonObjectType()); // FIX IT !
-            // var hexagonObject = _iBuilder.CreateHexagonObject(MineHexagonObjectsType.TreeSource); // FIX IT !
+            var hexagonObject = _iBuilder.CreateHexagonObject(GetRandomHexagonObjectElementType(), GetRandomHexagonObjectAuraType()); // FIX IT !
+            // var hexagonObject = _iBuilder.CreateHexagonObject(MineHexagonObjectsType.TreeSource, GetRandomHexagonObjectAuraType()); // FIX IT !
 
             iHexagonControl.SetHexagonObject(hexagonObject);
         }
@@ -85,16 +116,27 @@ namespace Managers {
             }
         }
 
-        private System.Enum GetRandomHexagonObjectType() { // FIX IT !
-            int randomNumberHexagonObjectType = Random.Range(0, 6);
-            return randomNumberHexagonObjectType switch {
+        private System.Enum GetRandomHexagonObjectAuraType() { // FIX IT !
+            int randomNumberHexagonObjectAuraType = Random.Range(0, 4);
+            return randomNumberHexagonObjectAuraType switch {
+                0 => (ElementAuraType)Random.Range(0, 4),
+                1 => (StatsAuraType)Random.Range(0, 9),
+                2 => (BuildAuraType)Random.Range(0, 4),
+                3 => (TrailAuraType)Random.Range(0, 3),
+                _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType)
+            };
+        }
+
+        private System.Enum GetRandomHexagonObjectElementType() { // FIX IT !
+            int randomNumberHexagonObjectElementType = Random.Range(0, 6);
+            return randomNumberHexagonObjectElementType switch {
                 0 => (MineHexagonObjectsType)Random.Range(0, 9),
                 1 => BuildebleFieldHexagonObjectsType.FlamingRainTower,
                 2 => (UnBuildebleFieldHexagonObjectsType)Random.Range(0, 5),
                 3 => (CoreHexagonObjectsType)Random.Range(0, 2),
                 4 => (HeapHexagonObjectsType)Random.Range(0, 3),
                 5 => (RiverHexagonObjectsType)Random.Range(0, 8),
-                _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectType)
+                _ => throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType)
             };
         }
 
@@ -106,9 +148,21 @@ namespace Managers {
                     hexagonController.NeedHexagonObject += CreateNewHexagonObjectForHexagon;
 
                     hexagonController.SetHexagonType((HexagonType)randomType);
+
+                    hexagonController.SetHexagonActive(true);
                 }
                 await Task.Delay(15);
             }   
+
+            // for (int i = 0; i < _iBuildingsPool.GetNumberHexagonControllers(); i++) {
+            //     if (_iBuildingsPool.GetHexagonControllerByID(i, out IHexagonControl hexagonController)) {
+
+            //         if (!hexagonController.IsHexagonControllerUsed()) continue;
+
+            //         hexagonController.SetHexagonActive(false);
+            //     }
+            //     await Task.Delay(25);
+            // } 
         }   
     }
 

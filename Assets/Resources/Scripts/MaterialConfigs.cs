@@ -50,6 +50,9 @@ namespace GameConfigs {
 
         [field: Header("Emission one texture settings")]
         [field: SerializeField] public Shader DissolveShaderEffectWithUVAndEmission { get; private set; }
+        [field: SerializeField] public Texture2D ElectricalEmissionTexture { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color ElectricalEmissionColor { get; private set; }
         [field: SerializeField] public Texture2D RedCrystalEmissionTexture { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color RedCrystalEmissionColor { get; private set; }

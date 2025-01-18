@@ -5,15 +5,16 @@ using LevelObjectType;
 
 namespace HexagonObjectControl {
     public sealed class HexagonObjectController : MonoBehaviour, IHexagonObjectControl {
-        private bool _isHexagonObjectActive;
+        private bool _isHexagonObjectUsed;
         private bool _isItImprovedYet;
         
         public event Action HexagonControllerIsRestore;
         private Enum _hexagonObjectType;
 
-        private IHexagonObjectElement _mainObject;
-        private IHexagonObjectElement _decorationObject;
-        private IHexagonObjectElement _hologramObject;
+        private IHexagonObjectPart _mainObject;
+        private IHexagonObjectPart _decorationObject;
+        private IHexagonObjectPart _hologramObject;
+        private IHexagonObjectPart _auraObject;
 
         #region DI
             private IStorageTransformPool _iStorageTransformPool;
@@ -26,8 +27,6 @@ namespace HexagonObjectControl {
         }
 
         public void SetParentObject(Transform parentObject) {
-            _isHexagonObjectActive = true;
-
             gameObject.SetActive(true);
 
             transform.SetParent(parentObject);
@@ -38,6 +37,8 @@ namespace HexagonObjectControl {
 
         public void SetHexagonObjectType(Enum type) {
             _hexagonObjectType = type;
+
+            _isHexagonObjectUsed = true;
 
             switch (_hexagonObjectType) {
                 
@@ -63,23 +64,37 @@ namespace HexagonObjectControl {
             return _isItImprovedYet;
         }
 
-        public void SetMainObject(IHexagonObjectElement mainObject) {
+        public void SetMainObject(IHexagonObjectPart mainObject) {
             _mainObject = mainObject;
 
-            _mainObject.HexagonObjectElementIsRestore += MainObjectIsRestore;
+            _mainObject.HexagonObjectPartIsRestore += MainObjectIsRestore;
 
             _mainObject.SetParentObject(transform);
         }
 
-        public void SetDecorationObject(IHexagonObjectElement decorationObject) {
+        public void SetDecorationObject(IHexagonObjectPart decorationObject) {
             _decorationObject = decorationObject;
 
-            _decorationObject.HexagonObjectElementIsRestore += DecorationObjectIsRestore;
+            _decorationObject.HexagonObjectPartIsRestore += DecorationObjectIsRestore;
 
             _decorationObject.SetParentObject(transform);
         }
+
+        public void SetAuraObject(IHexagonObjectPart auraObject) {
+            _auraObject = auraObject;
+
+            _auraObject.HexagonObjectPartIsRestore += AuraObjectIsRestore;
+
+            _auraObject.SetHexagonObjectType(_hexagonObjectType);
+
+            _auraObject.SetParentObject(transform);
+        }
+
+        public void SetPowerTheAura(float power) {
+            if (_auraObject != null) _auraObject.SetPowerTheAura(power);
+        }
         
-        public void SetHologramObject(IHexagonObjectElement hologramObject) {
+        public void SetHologramObject(IHexagonObjectPart hologramObject) {
             RestoreHologramObject();
 
             _hologramObject = hologramObject;
@@ -92,11 +107,21 @@ namespace HexagonObjectControl {
         }
 
         public void SetMainObjectFromHologramObject() {
-            if (_mainObject != null) _mainObject.DestroyEffectEnable();
+            if (_mainObject != null) {
+                _mainObject.HexagonObjectPartIsRestore -= MainObjectIsRestore;
+
+                _mainObject.DestroyEffectEnable();
+            }
 
             _hologramObject.MakeObjectNormal();
 
             _mainObject = _hologramObject;
+
+            _mainObject.HexagonObjectPartIsRestore += MainObjectIsRestore;
+
+            if (_auraObject != null) _auraObject.ApplyAuraToHexagonObjectElement(_mainObject);
+
+            _isItImprovedYet = true;
 
             _hologramObject = null;
 
@@ -105,6 +130,8 @@ namespace HexagonObjectControl {
 
         public void RestoreHologramObject() {
             if (_hologramObject != null) {
+                _hologramObject.MakeObjectNormal();
+                
                 _hologramObject.RestoreAndHide();
 
                 _hologramObject = null;
@@ -117,11 +144,16 @@ namespace HexagonObjectControl {
                 case HeapHexagonObjectsType:
                     if (isActive) {
                         _mainObject.SpawnEffectEnable();
+                        
                         _decorationObject.SpawnEffectEnable();
+
+                        AuraObjectSetActive(true);
                     } else {
                         _mainObject.DestroyEffectEnable();
 
                         _decorationObject.DestroyEffectEnable();
+
+                        AuraObjectSetActive(false);
 
                         RestoreHologramObject();
                     }
@@ -132,8 +164,12 @@ namespace HexagonObjectControl {
                 case RiverHexagonObjectsType:
                     if (isActive) {
                         _mainObject.SpawnEffectEnable();
+
+                        AuraObjectSetActive(true);
                     } else {
                         _mainObject.DestroyEffectEnable();
+
+                        AuraObjectSetActive(false);
 
                         RestoreHologramObject();
                     }
@@ -142,12 +178,14 @@ namespace HexagonObjectControl {
                 case BuildebleFieldHexagonObjectsType:
                     if (isActive) {
                         _decorationObject.SpawnEffectEnable();
+
+                        AuraObjectSetActive(true);
                     } else {
-                        if (_mainObject != null) {
-                            _mainObject.DestroyEffectEnable();
-                        }
+                        if (_mainObject != null) _mainObject.DestroyEffectEnable();
 
                         _decorationObject.DestroyEffectEnable();
+
+                        AuraObjectSetActive(false);
 
                         RestoreHologramObject();
                     }
@@ -155,8 +193,23 @@ namespace HexagonObjectControl {
             }
         }
 
+        private void AuraObjectSetActive(bool isActive) {
+            if (_auraObject != null) {
+                if (isActive) {
+                    if (_mainObject != null) _auraObject.ApplyAuraToHexagonObjectElement(_mainObject);
+
+                    _auraObject.SpawnEffectEnable();
+                }
+                else {
+                    _auraObject.DestroyEffectEnable();   
+
+                    _auraObject = null;
+                }
+            }
+        }
+
         private void MainObjectIsRestore() {
-            _mainObject.HexagonObjectElementIsRestore -= MainObjectIsRestore;
+            _mainObject.HexagonObjectPartIsRestore -= MainObjectIsRestore;
 
             _mainObject = null;
 
@@ -164,15 +217,23 @@ namespace HexagonObjectControl {
         }
 
         private void DecorationObjectIsRestore() {
-            _decorationObject.HexagonObjectElementIsRestore -= DecorationObjectIsRestore;
+            _decorationObject.HexagonObjectPartIsRestore -= DecorationObjectIsRestore;
 
             _decorationObject = null;
 
             RestoreAndHide();
         }
 
+        private void AuraObjectIsRestore() {
+            _auraObject.HexagonObjectPartIsRestore -= AuraObjectIsRestore;
+
+            _auraObject = null;
+
+            RestoreAndHide();
+        }
+
         private void RestoreAndHide() {
-            if (_mainObject != null || _decorationObject != null) return;
+            if (_mainObject != null || _decorationObject != null || _auraObject != null) return;
 
             gameObject.SetActive(false);
 
@@ -182,25 +243,29 @@ namespace HexagonObjectControl {
 
             HexagonControllerIsRestore?.Invoke();
 
-            _isHexagonObjectActive = false;
+            _isItImprovedYet = false;
+
+            _isHexagonObjectUsed = false;
         }
 
-        public bool IsHexagonObjectControllerActive() {
-            return _isHexagonObjectActive;
+        public bool IsHexagonObjectControllerUsed() {
+            return _isHexagonObjectUsed;
         }
     }
 }
 
 public interface IHexagonObjectControl {
     public event Action HexagonControllerIsRestore;
-    public bool IsHexagonObjectControllerActive();
+    public bool IsHexagonObjectControllerUsed();
     public void SetParentObject(Transform parentObject);
     public void SetHexagonObjectType(Enum type);
     public Enum GetHexagonObjectType();
     public bool IsItImprovedYet();
-    public void SetMainObject(IHexagonObjectElement mainObject);
-    public void SetDecorationObject(IHexagonObjectElement decorationObject);
-    public void SetHologramObject(IHexagonObjectElement hologramObject);
+    public void SetMainObject(IHexagonObjectPart mainObject);
+    public void SetDecorationObject(IHexagonObjectPart decorationObject);
+    public void SetAuraObject(IHexagonObjectPart auraObject);
+    public void SetPowerTheAura(float power);
+    public void SetHologramObject(IHexagonObjectPart hologramObject);
     public void SetMainObjectFromHologramObject();
     public void RestoreHologramObject();
     public void SetObjectActive(bool isActive);

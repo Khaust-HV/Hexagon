@@ -26,5 +26,12 @@ namespace GameConfigs {
         [field: Header("Destroy settings")]
         [field: SerializeField] public float ForcePlannedExplosion { get; private set; }
         [field: SerializeField] public float ForceNonPlannedExplosion { get; private set; }
+        [field: Space(50)]
+        
+        [field: Header("Hexagon aura power settings")]
+        [field: SerializeField] public float LowPower { get; private set; }
+        [field: SerializeField] public float StandardPower { get; private set; }
+        [field: SerializeField] public float HighPower { get; private set; }
+        [field: SerializeField] public float ReallyHighPower { get; private set; }
     }
 }

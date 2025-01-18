@@ -17,7 +17,6 @@ namespace HexagonControl {
         public bool IsRotation { get; private set; }
         public bool IsCollapses { get; private set; }
         public bool IsFragile { get; private set; }
-        public EfficiencyOfBuildingsType EfficiencyOfBuildings { get; private set; }
 
         #region DI
             private HexagonConfigs _hexagonConfigs;
@@ -32,79 +31,56 @@ namespace HexagonControl {
         }
 
         public void SetHexagonType(Material material, HexagonType hexagonType, bool rotateShadow = false) {
+            _mrHexagonLP.material = material;
+
+            foreach (var mrFragileHexagonPart in _mrFragileHexagonParts) {
+                mrFragileHexagonPart.material = material;
+            }
+
+            foreach (var mrDestroyedHexagonPart in _mrDestroyedHexagonParts) {
+                mrDestroyedHexagonPart.material = material;
+            }
+
+            _hexagonLP.SetActive(true);
+
             switch (hexagonType) {
                 case HexagonType.Default:
-                    _hexagonLP.SetActive(true);
                     material.SetColor("_BaseColor", _hexagonConfigs.DefaultHexagonColor);
-                    _mrHexagonLP.material = material;
-                    for (int i = 0; i < _mrDestroyedHexagonParts.Length; i++) {
-                        _mrDestroyedHexagonParts[i].material = material;
-                    }
                     IsRotation = true;
                     IsCollapses = true;
                     IsFragile = false;
-                    EfficiencyOfBuildings = EfficiencyOfBuildingsType.Standard;
                 break;
 
                 case HexagonType.Shadow:
-                    _hexagonLP.SetActive(true);
                     material.SetColor("_BaseColor", _hexagonConfigs.ShadowHexagonColor);
-                    _mrHexagonLP.material = material;
-                    for (int i = 0; i < _mrDestroyedHexagonParts.Length; i++) {
-                        _mrDestroyedHexagonParts[i].material = material;
-                    }
                     IsRotation = rotateShadow;
                     IsCollapses = false;
                     IsFragile = false;
-                    if (rotateShadow) EfficiencyOfBuildings = EfficiencyOfBuildingsType.Standard;
-                    else EfficiencyOfBuildings = EfficiencyOfBuildingsType.Low;
                 break;
 
                 case HexagonType.Random:
-                    _hexagonLP.SetActive(true);
                     material.SetColor("_BaseColor", _hexagonConfigs.RandomHexagonColor);
-                    _mrHexagonLP.material = material;
-                    for (int i = 0; i < _mrDestroyedHexagonParts.Length; i++) {
-                        _mrDestroyedHexagonParts[i].material = material;
-                    }
                     IsRotation = true;
                     IsCollapses = true;
                     IsFragile = false;
-                    EfficiencyOfBuildings = EfficiencyOfBuildingsType.High;
                 break;
 
                 case HexagonType.Fragile:
-                    _hexagonLP.SetActive(true);
                     _mrHexagonLP.enabled = false;
                     _fragileHexagon.SetActive(true);
                     material.SetColor("_BaseColor", _hexagonConfigs.DefaultHexagonColor);
-                    for (int i = 0; i < _mrFragileHexagonParts.Length; i++) {
-                        _mrFragileHexagonParts[i].material = material;
-                    }
-                    for (int i = 0; i < _mrDestroyedHexagonParts.Length; i++) {
-                        _mrDestroyedHexagonParts[i].material = material;
-                    }
                     IsRotation = true;
                     IsCollapses = true;
                     IsFragile = true;
-                    EfficiencyOfBuildings = EfficiencyOfBuildingsType.High;
                 break;
 
                 case HexagonType.Temporary:
-                    _hexagonLP.SetActive(true);
                     _mrHexagonLP.enabled = false;
                     _fragileHexagon.SetActive(true);
                     material.SetColor("_BaseColor", _hexagonConfigs.TemporaryHexagonColor);
-                    for (int i = 0; i < _mrFragileHexagonParts.Length; i++) {
-                        _mrFragileHexagonParts[i].material = material;
-                    }
-                    for (int i = 0; i < _mrDestroyedHexagonParts.Length; i++) {
-                        _mrDestroyedHexagonParts[i].material = material;
-                    }
                     IsRotation = true;
                     IsCollapses = true;
                     IsFragile = true;
-                    EfficiencyOfBuildings = EfficiencyOfBuildingsType.VeryHigh;
                 break;
             }
             material.SetFloat("_CutoffHeight", 1f);
@@ -117,12 +93,5 @@ namespace HexagonControl {
         Random,
         Fragile,
         Temporary
-    }
-
-    public enum EfficiencyOfBuildingsType {
-        Low,
-        Standard,
-        High,
-        VeryHigh
     }
 }

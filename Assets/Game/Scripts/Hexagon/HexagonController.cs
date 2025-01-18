@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using GameConfigs;
 using HexagonControl;
 using UnityEngine;
@@ -12,7 +11,9 @@ namespace HexagonControl {
 
         private HexagonType _hexagonType;
         private int _currentAvailableNumberRotations;
-        private bool _isHexagonActive;
+        private bool _isHexagonUsed;
+        private bool _isNotFirstRotation;
+        private bool _isHexagonDestroyed;
         private Material _material;
 
         private HexagonTypeControl _hexagonTypeControl;
@@ -43,6 +44,7 @@ namespace HexagonControl {
 
             _hexagonRotationControl.HexagonRandomRotation += CheckingBeforeRotate;
             _hexagonSpawnAndDestroyControl.HexagonSpawnFinished += HexagonEnable;
+            _hexagonSpawnAndDestroyControl.HexagonIsRestoreAndHide += HexagonIsRestoreAndHide;
             _hexagonSetObjectControl.HexagonControllerIsRestore += HexagonControllerIsRestore;
             _hexagonUnitAreaControl.DestroyHexagon += DestroyHexagon;
         }
@@ -51,8 +53,7 @@ namespace HexagonControl {
             transform.position = position;
             _hexagonUnitAreaControl.SetHexagonID(id);
 
-            _isHexagonActive = true;
-            gameObject.SetActive(true);
+            _isHexagonUsed = true;
         }
 
         public int GetHexagonID() {
@@ -65,16 +66,48 @@ namespace HexagonControl {
             _hexagonTypeControl.SetHexagonType(_material, hexagonType, rotateShadow);
 
             _currentAvailableNumberRotations = UnityEngine.Random.Range(_hexagonConfigs.MinNumberRotationsForHexagon, _hexagonConfigs.MaxNumberRotationsForHexagon);
+        }
 
-            _hexagonSpawnAndDestroyControl.SpawnEffectEnable(_material);
+        public void SetHexagonActive(bool isActive) {
+            if (isActive) {
+                gameObject.SetActive(true);
+
+                _hexagonSpawnAndDestroyControl.SpawnEffectEnable(_material);
+            } else DestroyHexagon(false);
         }
 
         public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl) {
             if (_hexagonRotationControl.IsHexagonRotation) return false; // Prevent set a new object during rotation
 
-            _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl);
+            if (_isNotFirstRotation) {
+                _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl);
 
-            _hexagonRotationControl.StartRotation();
+                _hexagonRotationControl.StartRotation();
+            } else {
+                _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl, true);
+
+                _isNotFirstRotation = true;
+            }
+
+            switch (_hexagonType) {
+                case HexagonType.Default:
+                    iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.StandardPower);
+                break;
+
+                case HexagonType.Shadow:
+                    if (_hexagonTypeControl.IsRotation) iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.StandardPower);
+                    else iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.LowPower);
+                break;
+
+                case HexagonType.Temporary:
+                    iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.ReallyHighPower);
+                break;
+
+                case HexagonType.Random:
+                case HexagonType.Fragile:
+                    iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.HighPower);
+                break;
+            }
 
             return true;
         }
@@ -120,15 +153,26 @@ namespace HexagonControl {
             NeedHexagonObject?.Invoke(this); // Request to levelManager for a new object
         }
 
-        public IHexagonObjectControl GetHexagonObjectController() {
-            return _hexagonSetObjectControl.CurrentObject;
+        public bool GetHexagonObjectController(out IHexagonObjectControl iHexagonObjectControl) {
+            if (_hexagonSetObjectControl.CurrentObject != null) {
+                iHexagonObjectControl = _hexagonSetObjectControl.CurrentObject;
+
+                return true;
+            }
+
+            iHexagonObjectControl = null;
+
+            return false;
         }
 
         private void DestroyHexagon(bool isPlanned) {
+            if (_isHexagonDestroyed) return;
+
+            _isHexagonDestroyed = true;
+
             CameraLooking?.Invoke(); // If a player has taken a focus but the hexagon is destroyed
 
             _hexagonRotationControl.StopAllActions();
-            _hexagonSpawnAndDestroyControl.StopAllActions();
 
             switch (_hexagonType) {
                 case HexagonType.Fragile:
@@ -152,8 +196,13 @@ namespace HexagonControl {
             _hexagonSpawnAndDestroyControl.RestoreAndHide();
         }
 
-        public bool IsHexagonControllerActive() {
-            return _isHexagonActive;
+        private void HexagonIsRestoreAndHide() {
+            _isHexagonDestroyed = false;
+            _isHexagonUsed = false;
+        }
+
+        public bool IsHexagonControllerUsed() {
+            return _isHexagonUsed;
         }
     }
 }
@@ -161,10 +210,11 @@ namespace HexagonControl {
 public interface IHexagonControl {
     public event Action CameraLooking;
     public event Action<IHexagonControl> NeedHexagonObject;
-    public bool IsHexagonControllerActive();
+    public bool IsHexagonControllerUsed();
+    public void SetHexagonActive(bool isActive);
     public void SetHexagonPositionAndID(Vector3 position, int id);
     public void SetHexagonType(HexagonType hexagonType, bool rotateShadow = false);
     public int GetHexagonID();
     public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl);
-    public IHexagonObjectControl GetHexagonObjectController();
+    public bool GetHexagonObjectController(out IHexagonObjectControl iHexagonObjectControl);
 }
