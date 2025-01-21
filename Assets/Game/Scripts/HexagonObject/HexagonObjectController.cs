@@ -110,7 +110,7 @@ namespace HexagonObjectControl {
             if (_mainObject != null) {
                 _mainObject.HexagonObjectPartIsRestore -= MainObjectIsRestore;
 
-                _mainObject.DestroyEffectEnable();
+                _mainObject.DestroyEffectEnable(false);
             }
 
             _hologramObject.MakeObjectNormal();
@@ -138,7 +138,7 @@ namespace HexagonObjectControl {
             }
         }
 
-        public void SetObjectActive(bool isActive) {
+        public void SetObjectActive(bool isActive, bool _isFastDestroy = false) {
             switch (_hexagonObjectType) {
                 case MineHexagonObjectsType:
                 case HeapHexagonObjectsType:
@@ -149,11 +149,11 @@ namespace HexagonObjectControl {
 
                         AuraObjectSetActive(true);
                     } else {
-                        _mainObject.DestroyEffectEnable();
+                        _mainObject.DestroyEffectEnable(_isFastDestroy);
 
-                        _decorationObject.DestroyEffectEnable();
+                        _decorationObject.DestroyEffectEnable(_isFastDestroy);
 
-                        AuraObjectSetActive(false);
+                        AuraObjectSetActive(false, _isFastDestroy);
 
                         RestoreHologramObject();
                     }
@@ -167,9 +167,9 @@ namespace HexagonObjectControl {
 
                         AuraObjectSetActive(true);
                     } else {
-                        _mainObject.DestroyEffectEnable();
+                        _mainObject.DestroyEffectEnable(_isFastDestroy);
 
-                        AuraObjectSetActive(false);
+                        AuraObjectSetActive(false, _isFastDestroy);
 
                         RestoreHologramObject();
                     }
@@ -181,11 +181,11 @@ namespace HexagonObjectControl {
 
                         AuraObjectSetActive(true);
                     } else {
-                        if (_mainObject != null) _mainObject.DestroyEffectEnable();
+                        if (_mainObject != null) _mainObject.DestroyEffectEnable(_isFastDestroy);
 
-                        _decorationObject.DestroyEffectEnable();
+                        _decorationObject.DestroyEffectEnable(_isFastDestroy);
 
-                        AuraObjectSetActive(false);
+                        AuraObjectSetActive(false, _isFastDestroy);
 
                         RestoreHologramObject();
                     }
@@ -193,7 +193,7 @@ namespace HexagonObjectControl {
             }
         }
 
-        private void AuraObjectSetActive(bool isActive) {
+        private void AuraObjectSetActive(bool isActive, bool _isFastDestroy = false) {
             if (_auraObject != null) {
                 if (isActive) {
                     if (_mainObject != null) _auraObject.ApplyAuraToHexagonObjectElement(_mainObject);
@@ -201,7 +201,7 @@ namespace HexagonObjectControl {
                     _auraObject.SpawnEffectEnable();
                 }
                 else {
-                    _auraObject.DestroyEffectEnable();   
+                    _auraObject.DestroyEffectEnable(_isFastDestroy);   
 
                     _auraObject = null;
                 }
@@ -268,5 +268,5 @@ public interface IHexagonObjectControl {
     public void SetHologramObject(IHexagonObjectPart hologramObject);
     public void SetMainObjectFromHologramObject();
     public void RestoreHologramObject();
-    public void SetObjectActive(bool isActive);
+    public void SetObjectActive(bool isActive, bool _isFastDestroy = false);
 }

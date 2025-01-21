@@ -33,7 +33,7 @@ namespace HexagonControl {
 
         public void DestroyCurrentHexagonObject() {
             if (CurrentObject != null) {
-                CurrentObject.SetObjectActive(false);
+                CurrentObject.SetObjectActive(false, true);
 
                 CurrentObject.HexagonControllerIsRestore += LastHexagonControllerIsRestore;
             }

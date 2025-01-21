@@ -37,8 +37,6 @@ namespace HexagonObjectControl {
 
                 case DecorationHexagonObjectsType.GlitcheBiome:
                     _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUVAndEmission3Textures);
-                    _baseMaterial.SetFloat("_Metallic", _materialConfigs.BaseMetallic);
-                    _baseMaterial.SetFloat("_Smoothness", _materialConfigs.BaseSmoothness);
 
                     _baseMaterial.SetTexture("FirstEmissionTexture", _materialConfigs.FirstGlitcheEmissionTexture);
                     _baseMaterial.SetColor("FirstEmissionColor", _materialConfigs.FirstGlitcheEmissionColor);

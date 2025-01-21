@@ -25,9 +25,9 @@ MonoBehaviour:
   <SensitivityMove>k__BackingField: 4
   <SensitivityZoom>k__BackingField: 150
   <TimeToStopMoveing>k__BackingField: 1.75
-  <OrbitRadius>k__BackingField: 20
-  <OrbitHeight>k__BackingField: 25
-  <SatelliteSpeed>k__BackingField: 10
+  <OrbitRadius>k__BackingField: 12.5
+  <OrbitHeight>k__BackingField: 17.5
+  <SatelliteSpeed>k__BackingField: 12.5
   <MaxHeight>k__BackingField: 75
   <MinHeight>k__BackingField: 20
   <WestBorder>k__BackingField: -190

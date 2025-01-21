@@ -2,15 +2,15 @@ using System;
 using System.Collections;
 using GameConfigs;
 using UnityEngine;
+using UnityEngine.VFX;
 using Zenject;
 
 namespace HexagonObjectControl {
+    [RequireComponent(typeof(VisualEffect))]
     public class HexagonObjectAura : MonoBehaviour, IHexagonObjectPart {
         [Header("Renderer settings")]
         [SerializeField] protected MeshRenderer[] _mrBaseObject;
-        [Header("Animation settings")]
         [SerializeField] protected bool _isObjectHaveAnimation;
-        [SerializeField] protected Animator[] _animBaseObject;
 
         public event Action HexagonObjectPartIsRestore;
 
@@ -47,8 +47,20 @@ namespace HexagonObjectControl {
             }
         }
 
+        public virtual void SetPowerTheAura(float power) {
+            // Overridden by an heir
+        }
+
+        public virtual void ApplyAuraToHexagonObjectElement(IHexagonObjectPart iHexagonObjectPart) {
+            // Overridden by an heir
+        }
+
+        protected virtual void AuraEffectEnable(AuraVFXEffectType auraVFXEffectType) {
+            // Overridden by an heir
+        }
+
         protected virtual void SetHexagonObjectWorkActive(bool isActive) {
-            // Override and implement the object activity switching functionality
+            // Overridden by an heir
 
             if (!isActive) StopAllCoroutines();
         }
@@ -74,21 +86,9 @@ namespace HexagonObjectControl {
 
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
-
-            gameObject.SetActive(true);
-        }
-
-        public virtual void SetPowerTheAura(float power) {
-            // Overridden by an heir
-        }
-
-        public virtual void ApplyAuraToHexagonObjectElement(IHexagonObjectPart iHexagonObjectPart) {
-            // Overridden by an heir
         }
 
         public void SpawnEffectEnable() {
-            // Enable spawn effect VFX Graph
-
             foreach (var mrObject in _mrBaseObject) {
                 mrObject.enabled = false;
             }
@@ -105,15 +105,15 @@ namespace HexagonObjectControl {
                 mrObject.enabled = true;
             }
 
+            AuraEffectEnable(AuraVFXEffectType.SpawnEffect);
+
             SetHexagonObjectWorkActive(true);
         }
 
-        public void DestroyEffectEnable() {
-            // Enable destroy effect VFX Graph
+        public void DestroyEffectEnable(bool _isFastDestroy) {
+            AuraEffectEnable(AuraVFXEffectType.DestroyEffect);
 
             SetHexagonObjectWorkActive(false);
-
-            StopAllCoroutines();
 
             RestoreAndHide();
         }
@@ -139,5 +139,10 @@ namespace HexagonObjectControl {
         public void HologramSpawnEffectEnable() {
             throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"Aura cannot become a hologram {gameObject.name}");
         }
+    }
+
+    public enum AuraVFXEffectType {
+        SpawnEffect,
+        DestroyEffect
     }
 }

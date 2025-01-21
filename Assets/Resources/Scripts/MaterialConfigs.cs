@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.VFX;
 
 namespace GameConfigs {
     [CreateAssetMenu(menuName = "Configs/MaterialConfigs", fileName = "LevelMaterialConfigs")]
@@ -29,6 +30,15 @@ namespace GameConfigs {
         [field: SerializeField] public float DestroyEdgeWidth { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color DestroyEdgeColor { get; private set; }
+        [field: Space(50)]
+
+        [field: Header("Destroy hexagon or hexagonObject VFX effect settings")]
+        [field: SerializeField] public VisualEffectAsset DestroyHexagonOrHexagonObjectVFXEffect { get; private set; }
+        [field: SerializeField] public float DestroyVFXCutoffHeight { get; private set; }
+        [field: SerializeField] public int DestroyVFXNumberParticles { get; private set; }
+        [field: SerializeField] public Mesh DestroyVFXParticleMesh { get; private set; }
+        [field: SerializeField] public float DestroyVFXMinParticleLifeTime { get; private set; }
+        [field: SerializeField] public float DestroyVFXMaxParticleLifeTime { get; private set; }
         [field: Space(50)]
 
         [field: Header("Hologram and dissolve for spawn effect settings")]

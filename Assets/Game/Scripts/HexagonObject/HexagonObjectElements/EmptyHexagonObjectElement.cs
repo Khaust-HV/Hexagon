@@ -9,11 +9,13 @@ namespace HexagonObjectControl {
         [SerializeField] private TextMeshPro _text;
 
         private Transform _trCamera;
+        private Animator _animator;
 
         protected override void SetBaseConfiguration() {
             base.SetBaseConfiguration();
 
             _trCamera = GameObject.FindGameObjectWithTag("MainCamera").transform;
+            _animator = GetComponent<Animator>();
 
             SetTextColor();
         }
@@ -52,6 +54,13 @@ namespace HexagonObjectControl {
                     throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType);
                 // break;
             }
+        }
+
+        protected override void SetAnimationActive(bool isActive) {
+            if (!_isObjectHaveAnimation) return;
+
+            if (isActive) _animator.enabled = true;
+            else _animator.enabled = false;
         }
 
         protected override void SetHexagonObjectWorkActive(bool isActive) {

@@ -12,6 +12,8 @@ namespace HexagonObjectControl {
         private int _maxResourceNumber;
         private float _creationTime;
 
+        private Animator _animator;
+
         #region DI
             private IWorkingWithHexagonObject _iWorkingWithHexagonObject;
         #endregion
@@ -20,6 +22,9 @@ namespace HexagonObjectControl {
         private void Construct(IWorkingWithHexagonObject iWorkingWithHexagonObject) {
             // Set DI
             _iWorkingWithHexagonObject = iWorkingWithHexagonObject;
+
+            // Set componenets
+            _animator = GetComponent<Animator>();
         }
 
         protected override void SetBaseConfiguration() {
@@ -180,12 +185,17 @@ namespace HexagonObjectControl {
             }
         }
 
-        protected override void SetHexagonObjectWorkActive(bool isActive) {
-            if (_isSource) return;
+        protected override void SetAnimationActive(bool isActive) {
+            if (!_isObjectHaveAnimation) return;
 
+            if (isActive) _animator.enabled = true;
+            else _animator.enabled = false;
+        }
+
+        protected override void SetHexagonObjectWorkActive(bool isActive) {
             base.SetHexagonObjectWorkActive(isActive);
 
-            if (_isObjectHologram) return;
+            if (_isSource || _isObjectHologram) return;
 
             if (isActive) StartCoroutine(StartToCreateResource());
         }

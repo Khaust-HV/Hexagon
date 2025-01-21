@@ -21,11 +21,17 @@ MonoBehaviour:
   <SpawnNoiseStrength>k__BackingField: 1
   <SpawnEdgeWidth>k__BackingField: 1
   <SpawnEdgeColor>k__BackingField: {r: 0, g: 11.984314, b: 11.984315, a: 0}
-  <DestroyEffectTime>k__BackingField: 1
+  <DestroyEffectTime>k__BackingField: 2
   <DestroyNoiseScale>k__BackingField: 75
   <DestroyNoiseStrength>k__BackingField: 10
   <DestroyEdgeWidth>k__BackingField: 0.1
   <DestroyEdgeColor>k__BackingField: {r: 0, g: 11.984315, b: 11.984315, a: 0}
+  <DestroyHexagonOrHexagonObjectVFXEffect>k__BackingField: {fileID: 8926484042661614526, guid: 749e8cb9578c541f1b0e5279b87e2016, type: 3}
+  <DestroyVFXCutoffHeight>k__BackingField: -0.54
+  <DestroyVFXNumberParticles>k__BackingField: 100
+  <DestroyVFXParticleMesh>k__BackingField: {fileID: 5435148003225361832, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
+  <DestroyVFXMinParticleLifeTime>k__BackingField: 0.5
+  <DestroyVFXMaxParticleLifeTime>k__BackingField: 2
   <HologramAndDissolveShaderEffect>k__BackingField: {fileID: -6465566751694194690, guid: d78e243118bd94c00a914015b4709837, type: 3}
   <HologramMetallic>k__BackingField: 0.3
   <HologramSmoothness>k__BackingField: 0.5
@@ -38,6 +44,8 @@ MonoBehaviour:
   <HologramFresnelColor>k__BackingField: {r: 2.9960787, g: 2.9960787, b: 2.9960787, a: 0}
   <HologramEdgeColor>k__BackingField: {r: 0, g: 766.9961, b: 766.9961, a: 0}
   <DissolveShaderEffectWithUVAndEmission>k__BackingField: {fileID: 0}
+  <ElectricalEmissionTexture>k__BackingField: {fileID: 0}
+  <ElectricalEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
   <RedCrystalEmissionTexture>k__BackingField: {fileID: 0}
   <RedCrystalEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
   <BlueCrystalEmissionTexture>k__BackingField: {fileID: 0}

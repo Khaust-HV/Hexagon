@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using GameConfigs;
 using UnityEngine;
+using UnityEngine.VFX;
 using Zenject;
 
 namespace HexagonControl {
@@ -23,6 +24,8 @@ namespace HexagonControl {
         public event Action HexagonSpawnFinished;
         public event Action HexagonIsRestoreAndHide;
 
+        private bool _isObjectWaitingToSpawn;
+
         // HexagonLP settings
         private MeshRenderer _mrHexagonLP;
 
@@ -33,18 +36,22 @@ namespace HexagonControl {
         // Destroyed hexagon settings
         private Rigidbody[] _rbDestroyedHexagonParts;
 
+        private VisualEffect _visualEffect;
+
         #region DI
             private HexagonConfigs _hexagonConfigs;
             private MaterialConfigs _materialConfigs;
+            private LevelConfigs _levelConfigs;
         #endregion
 
         [Inject]
-        private void Construct(HexagonConfigs hexagonConfigs, MaterialConfigs materialConfigs) {
+        private void Construct(HexagonConfigs hexagonConfigs, MaterialConfigs materialConfigs, LevelConfigs levelConfigs) {
             // Set configurations
             _hexagonConfigs = hexagonConfigs;
             _materialConfigs = materialConfigs;
+            _levelConfigs = levelConfigs;
 
-            // Set component
+            // Set components
             _mrHexagonLP = _hexagonLP.GetComponent<MeshRenderer>();
 
             _rbFragileHexagonParts = new Rigidbody[_trFragileHexagonParts.Length];
@@ -58,6 +65,27 @@ namespace HexagonControl {
             for (int i = 0; i < _trDestroyedHexagonParts.Length; i++) {
                 _rbDestroyedHexagonParts[i] = _trDestroyedHexagonParts[i].GetComponent<Rigidbody>();
             }
+
+            _visualEffect = GetComponent<VisualEffect>();
+            
+            SetDestroyHexagonObjectVFXConfiguration();
+        }
+
+        private void SetDestroyHexagonObjectVFXConfiguration() {
+            _visualEffect.visualEffectAsset = _materialConfigs.DestroyHexagonOrHexagonObjectVFXEffect;
+            _visualEffect.SetInt("NumberParticles", _materialConfigs.DestroyVFXNumberParticles);
+            _visualEffect.SetMesh("ParticleMesh", _materialConfigs.DestroyVFXParticleMesh);
+            _visualEffect.SetMesh("ObjectMesh", _mrHexagonLP.GetComponent<MeshFilter>().sharedMesh);
+            _visualEffect.SetFloat("MinParticleLifeTime", _materialConfigs.DestroyVFXMinParticleLifeTime);
+            _visualEffect.SetFloat("MaxParticleLifeTime", _materialConfigs.DestroyVFXMaxParticleLifeTime);
+            _visualEffect.SetFloat("ObjectSize", _levelConfigs.HexagonObjectSize);
+            _visualEffect.SetFloat("Metallic", _materialConfigs.BaseMetallic);
+            _visualEffect.SetFloat("Smoothness", _materialConfigs.BaseSmoothness);
+            _visualEffect.SetFloat("NoiseScale", _materialConfigs.SpawnNoiseScale);
+            _visualEffect.SetFloat("NoiseStrength", _materialConfigs.SpawnNoiseStrength);
+            _visualEffect.SetFloat("CutoffHeight", _materialConfigs.DestroyVFXCutoffHeight);
+            _visualEffect.SetFloat("EdgeWidth", _materialConfigs.SpawnEdgeWidth);
+            _visualEffect.SetVector4("EdgeColor", _materialConfigs.SpawnEdgeColor);
         }
 
         public void SpawnEffectEnable(Material material) {
@@ -71,6 +99,8 @@ namespace HexagonControl {
         }
 
         private IEnumerator SpawnEffectStarted(Material material) {
+            _isObjectWaitingToSpawn = true;
+
             float elapsedTime = 0f;
 
             while (elapsedTime < _materialConfigs.SpawnEffectTime) {
@@ -86,36 +116,52 @@ namespace HexagonControl {
             material.SetFloat("_CutoffHeight", _spawnFinishCutoffHeight);
 
             HexagonSpawnFinished?.Invoke();
+
+            _isObjectWaitingToSpawn = false;
         }
 
         public void DestroyEffectEnable(Material material, bool isHexagonAutoRestore) {
+            StopAllCoroutines();
+
             material.SetFloat("_NoiseScale", _materialConfigs.DestroyNoiseScale);
             material.SetFloat("_NoiseStrength", _materialConfigs.DestroyNoiseStrength);
-            material.SetFloat("_CutoffHeight", _destroyStartCutoffHeight);
             material.SetFloat("_EdgeWidth", _materialConfigs.DestroyEdgeWidth);
             material.SetColor("_EdgeColor", _materialConfigs.DestroyEdgeColor);
 
-            StopAllCoroutines();
+            if (_isObjectWaitingToSpawn) {
+                material.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
 
-            _hexagonLP.SetActive(false);
+                _visualEffect.SendEvent("DestroyEffect");
 
-            StartCoroutine(DestroyEffectStarted(material, isHexagonAutoRestore));
+                _isObjectWaitingToSpawn = false;
+
+                StartCoroutine(DestroyEffectStarted(material, isHexagonAutoRestore, true));
+            } else {
+                material.SetFloat("_CutoffHeight", _destroyStartCutoffHeight);
+
+                _hexagonLP.SetActive(false);
+
+                StartCoroutine(DestroyEffectStarted(material, isHexagonAutoRestore, false));
+            }
         }
 
-        private IEnumerator DestroyEffectStarted(Material material, bool isHexagonAutoRestore) {
-            float elapsedTime = 0f;
+        private IEnumerator DestroyEffectStarted(Material material, bool isHexagonAutoRestore, bool _isFastDestroy) {
+            if (_isFastDestroy) yield return new WaitForSeconds(_materialConfigs.DestroyEffectTime);
+            else {
+                float elapsedTime = 0f;
 
-            while (elapsedTime < _materialConfigs.DestroyEffectTime) {
-                float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / _materialConfigs.DestroyEffectTime);
+                while (elapsedTime < _materialConfigs.DestroyEffectTime) {
+                    float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / _materialConfigs.DestroyEffectTime);
 
-                material.SetFloat("_CutoffHeight", currentValue);
+                    material.SetFloat("_CutoffHeight", currentValue);
 
-                elapsedTime += Time.deltaTime;
+                    elapsedTime += Time.deltaTime;
 
-                yield return null;
+                    yield return null;
+                }
+
+                material.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
             }
-
-            material.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
 
             if (!isHexagonAutoRestore) RestoreAndHide();
         }

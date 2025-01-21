@@ -78,7 +78,7 @@ namespace HexagonControl {
         public bool SetHexagonObject(IHexagonObjectControl iHexagonObjectControl, bool setWithoutRotation = false) {
             if (_hexagonRotationControl.IsHexagonRotation) return false; // Prevent set a new object during rotation
 
-            if (setWithoutRotation) _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl, true);
+            if (setWithoutRotation) _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl, setWithoutRotation);
             else {
                 _hexagonSetObjectControl.SetHexagonObject(iHexagonObjectControl);
 
@@ -158,6 +158,8 @@ namespace HexagonControl {
         }
 
         private void CheckingBeforeRotate() {
+            if (_hexagonRotationControl.IsHexagonRotation) throw new Exception($"The Hexagon {_hexagonUnitAreaControl.HexagonID} is already rotating");
+
             switch (_hexagonType) {
                 case HexagonType.Shadow:
                     if (!_hexagonTypeControl.IsRotation) return;
