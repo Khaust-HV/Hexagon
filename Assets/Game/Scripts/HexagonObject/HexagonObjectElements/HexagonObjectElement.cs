@@ -27,6 +27,8 @@ namespace HexagonObjectControl {
         protected bool _isObjectHologram;
         private bool _isObjectWaitingToSpawn;
 
+        private IEnumerator _spawnEffectStarted;
+
         protected Material _baseMaterial;
         private Material _hologramMaterial;
 
@@ -36,18 +38,16 @@ namespace HexagonObjectControl {
             private IStorageTransformPool _iStorageTransformPool;
             protected MaterialConfigs _materialConfigs;
             protected HexagonObjectConfigs _hexagonObjectConfigs;
-            private LevelConfigs _levelConfigs;
         #endregion
 
         [Inject]
-        private void Construct(IStorageTransformPool iStorageTransformPool, MaterialConfigs materialConfigs, HexagonObjectConfigs hexagonObjectConfigs, LevelConfigs levelConfigs) {
+        private void Construct(IStorageTransformPool iStorageTransformPool, MaterialConfigs materialConfigs, HexagonObjectConfigs hexagonObjectConfigs) {
             // Set DI
             _iStorageTransformPool = iStorageTransformPool;
 
             // Set configurations
             _materialConfigs = materialConfigs;
             _hexagonObjectConfigs = hexagonObjectConfigs;
-            _levelConfigs = levelConfigs;
 
             // Set components
             _visualEffect = GetComponent<VisualEffect>();
@@ -62,7 +62,7 @@ namespace HexagonObjectControl {
             _visualEffect.SetMesh("ObjectMesh", _mrBaseObject[0].GetComponent<MeshFilter>().sharedMesh);
             _visualEffect.SetFloat("MinParticleLifeTime", _materialConfigs.DestroyVFXMinParticleLifeTime);
             _visualEffect.SetFloat("MaxParticleLifeTime", _materialConfigs.DestroyVFXMaxParticleLifeTime);
-            _visualEffect.SetFloat("ObjectSize", _levelConfigs.HexagonObjectSize);
+            _visualEffect.SetFloat("ObjectSize", transform.localScale.x);
             _visualEffect.SetFloat("Metallic", _materialConfigs.BaseMetallic);
             _visualEffect.SetFloat("Smoothness", _materialConfigs.BaseSmoothness);
             _visualEffect.SetFloat("NoiseScale", _materialConfigs.SpawnNoiseScale);
@@ -90,8 +90,6 @@ namespace HexagonObjectControl {
 
         protected virtual void SetHexagonObjectWorkActive(bool isActive) {
             // Overridden by an heir
-
-            if (!isActive) StopAllCoroutines();
         }
 
         public void SetHexagonObjectPartType<T>(T type) where T : Enum {
@@ -130,7 +128,9 @@ namespace HexagonObjectControl {
             _baseMaterial.SetFloat("_EdgeWidth", _materialConfigs.SpawnEdgeWidth);
             _baseMaterial.SetColor("_EdgeColor", _materialConfigs.SpawnEdgeColor);
 
-            StartCoroutine(SpawnEffectStarted(_baseMaterial, _spawnEffectTime));
+            if (_isObjectWaitingToSpawn) StopCoroutine(_spawnEffectStarted);
+
+            StartCoroutine(_spawnEffectStarted = SpawnEffectStarted(_baseMaterial, _spawnEffectTime));
         }
 
         public void HologramSpawnEffectEnable() {
@@ -138,7 +138,9 @@ namespace HexagonObjectControl {
 
             _hologramMaterial.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
 
-            StartCoroutine(SpawnEffectStarted(_hologramMaterial, _materialConfigs.HologramSpawnEffectTime));
+            if (_isObjectWaitingToSpawn) StopCoroutine(_spawnEffectStarted);
+
+            StartCoroutine(_spawnEffectStarted = SpawnEffectStarted(_hologramMaterial, _materialConfigs.HologramSpawnEffectTime));
         }
 
         private IEnumerator SpawnEffectStarted(Material material, float spawnEffectTime) {
@@ -178,7 +180,11 @@ namespace HexagonObjectControl {
 
                 _visualEffect.SendEvent("DestroyEffect");
 
-                _isObjectWaitingToSpawn = false;
+                if (_isObjectWaitingToSpawn) {
+                    StopCoroutine(_spawnEffectStarted);
+
+                    _isObjectWaitingToSpawn = false;
+                }
 
                 SetAnimationActive(false);
 

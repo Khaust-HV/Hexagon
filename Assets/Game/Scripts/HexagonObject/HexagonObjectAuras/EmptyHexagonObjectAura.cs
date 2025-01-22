@@ -48,11 +48,15 @@ namespace HexagonObjectControl {
             if (isActive) {
                 _text.text = _hexagonObjectPartType.ToString();
 
-                StartCoroutine(StartTextLooked());
-            } else _text.text = "";
+                StartCoroutine(TextLookedStarted());
+            } else {
+                _text.text = "";
+
+                StopAllCoroutines();
+            }
         }
 
-        private IEnumerator StartTextLooked() {
+        private IEnumerator TextLookedStarted() {
             while (true) {
                 _trText.transform.LookAt(_trCamera);
                 

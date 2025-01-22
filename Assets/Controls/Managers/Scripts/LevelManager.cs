@@ -49,6 +49,14 @@ namespace Managers {
 
                                         return true;
                                     // break;
+
+                                    case MineHexagonObjectsType.StoneSource:
+                                        hexagonObjectPart = _iBuildingsPool.GetDisableHexagonObjectPart(MineHexagonObjectsType.StoneMining);
+
+                                        iHexagonObjectControl.SetHologramObject(hexagonObjectPart);
+
+                                        return true;
+                                    // break;
                                 }
                             break;
                         }
@@ -86,7 +94,7 @@ namespace Managers {
             var hexagonObject = _iBuilder.CreateHexagonObject(GetRandomHexagonObjectElementType(), GetRandomHexagonObjectAuraType()); // FIX IT !
             // var hexagonObject = _iBuilder.CreateHexagonObject(MineHexagonObjectsType.TreeSource, GetRandomHexagonObjectAuraType()); // FIX IT !
 
-            iHexagonControl.SetHexagonObject(hexagonObject);
+            iHexagonControl.SetHexagonObject(hexagonObject, false);
         }
 
         private void SpreadHexagons() {

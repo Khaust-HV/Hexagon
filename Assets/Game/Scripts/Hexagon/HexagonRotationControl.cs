@@ -34,11 +34,11 @@ namespace HexagonControl {
             IsHexagonRotation = false;
         }
 
-        public void StartRotationFromTime() {
-            StartCoroutine(RandomHexagonRotation());
+        public void RotationFromTimeEnable() {
+            StartCoroutine(HexagonRotationFromTimeStarted());
         }
 
-        private IEnumerator RandomHexagonRotation() {
+        private IEnumerator HexagonRotationFromTimeStarted() {
             while (true) {
                 float timeToRotate = UnityEngine.Random.Range(_hexagonConfigs.MinTimeForAutoHexagonRotate, _hexagonConfigs.MaxTimeForAutoHexagonRotate);
 
@@ -48,45 +48,15 @@ namespace HexagonControl {
             }
         }
 
-        public void StartRandomRotation() {
-            StartCoroutine(HexagonRotation());
+        public void HexagonRotationEnable(DirectionalRotationType directionalRotationType) {
+            StartCoroutine(HexagonRotationStarted(directionalRotationType));
         }
 
-        private IEnumerator HexagonRotation() {
-            IsHexagonRotation = true;
-
-            Vector3 edgeDirection = edgeCenters[UnityEngine.Random.Range(0, edgeCenters.Length)].normalized;
-
-            Vector3 rotationAxis = Vector3.Cross(Vector3.up, edgeDirection);
-
-            Quaternion startRotation = transform.rotation;
-            Quaternion endRotation = Quaternion.AngleAxis(180f, rotationAxis) * startRotation;
-
-            float elapsedTime = 0f;
-
-            while (elapsedTime < _hexagonConfigs.RotationTime) {
-                elapsedTime += Time.deltaTime;
-
-                float t = elapsedTime / _hexagonConfigs.RotationTime;
-
-                transform.rotation = Quaternion.Lerp(startRotation, endRotation, t);
-
-                yield return null;
-            }
-
-            transform.rotation = endRotation;
-
-            IsHexagonRotation = false;
-        }
-
-        public void StartDirectionalRotation(DirectionalRotationType directionalRotationType) {
-            StartCoroutine(HexagonRotation(directionalRotationType));
-        }
-
-        private IEnumerator HexagonRotation(DirectionalRotationType directionalRotationType) {
+        private IEnumerator HexagonRotationStarted(DirectionalRotationType directionalRotationType) {
             IsHexagonRotation = true;
 
             Vector3 edgeDirection = (directionalRotationType switch {
+                DirectionalRotationType.Random => edgeCenters[UnityEngine.Random.Range(0, edgeCenters.Length)],
                 DirectionalRotationType.TopRightSide => edgeCenters[3],
                 DirectionalRotationType.RightSide => edgeCenters[4],
                 DirectionalRotationType.BottomRightSide => edgeCenters[5],
@@ -121,6 +91,7 @@ namespace HexagonControl {
 }
 
 public enum DirectionalRotationType {
+    Random,
     TopRightSide,
     RightSide,
     BottomRightSide,

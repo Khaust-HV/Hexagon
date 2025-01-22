@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4507290442348792807}
-  - component: {fileID: 1067867997105426215}
   - component: {fileID: -3222649455871454269}
+  - component: {fileID: 1067867997105426215}
   - component: {fileID: 7698569967154800341}
   m_Layer: 0
   m_Name: Forest_Mine_TreeSource_3
@@ -35,25 +35,6 @@ Transform:
   - {fileID: 1711200413351214660}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1067867997105426215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4864950995422146001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7a75ec06e2634a3da371a2d1d1f79d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mrBaseObject:
-  - {fileID: 573165967015871787}
-  _isObjectHaveAnimation: 0
-  _spawnStartCutoffHeight: -0.52
-  _spawnFinishCutoffHeight: 1.38
-  _destroyStartCutoffHeight: -2.62
-  _destroyFinishCutoffHeight: -5.63
 --- !u!2083052967 &-3222649455871454269
 VisualEffect:
   m_ObjectHideFlags: 0
@@ -92,6 +73,25 @@ VisualEffect:
       m_Array: []
     m_Bool:
       m_Array: []
+--- !u!114 &1067867997105426215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4864950995422146001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7a75ec06e2634a3da371a2d1d1f79d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mrBaseObject:
+  - {fileID: 573165967015871787}
+  _isObjectHaveAnimation: 0
+  _spawnStartCutoffHeight: -0.52
+  _spawnFinishCutoffHeight: 1.38
+  _destroyStartCutoffHeight: -2.62
+  _destroyFinishCutoffHeight: -5.63
 --- !u!73398921 &7698569967154800341
 VFXRenderer:
   serializedVersion: 1

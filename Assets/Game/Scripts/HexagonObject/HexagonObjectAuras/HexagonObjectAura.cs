@@ -18,6 +18,9 @@ namespace HexagonObjectControl {
         protected Enum _hexagonObjectType;
 
         private bool _isHexagonObjectPartUsed;
+        private bool _isObjectWaitingToSpawn;
+
+        private IEnumerator _spawnEffectStarted;
 
         protected Material _baseMaterial;
 
@@ -61,8 +64,6 @@ namespace HexagonObjectControl {
 
         protected virtual void SetHexagonObjectWorkActive(bool isActive) {
             // Overridden by an heir
-
-            if (!isActive) StopAllCoroutines();
         }
 
         public bool IsHexagonObjectPartUsed() {
@@ -95,10 +96,14 @@ namespace HexagonObjectControl {
 
             gameObject.SetActive(true);
 
-            StartCoroutine(SpawnEffectStarted());
+            if (_isObjectWaitingToSpawn) StopCoroutine(_spawnEffectStarted);
+
+            StartCoroutine(_spawnEffectStarted = SpawnEffectStarted());
         }
 
         private IEnumerator SpawnEffectStarted() {
+            _isObjectWaitingToSpawn = true;
+
             yield return new WaitForSeconds(_materialConfigs.SpawnEffectTime);
 
             foreach (var mrObject in _mrBaseObject) {
@@ -108,12 +113,20 @@ namespace HexagonObjectControl {
             AuraEffectEnable(AuraVFXEffectType.SpawnEffect);
 
             SetHexagonObjectWorkActive(true);
+
+            _isObjectWaitingToSpawn = false;
         }
 
         public void DestroyEffectEnable(bool _isFastDestroy) {
             AuraEffectEnable(AuraVFXEffectType.DestroyEffect);
 
             SetHexagonObjectWorkActive(false);
+
+            if (_isObjectWaitingToSpawn) {
+                StopCoroutine(_spawnEffectStarted);
+
+                _isObjectWaitingToSpawn = false;
+            }
 
             RestoreAndHide();
         }

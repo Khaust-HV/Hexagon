@@ -41,15 +41,13 @@ namespace HexagonControl {
         #region DI
             private HexagonConfigs _hexagonConfigs;
             private MaterialConfigs _materialConfigs;
-            private LevelConfigs _levelConfigs;
         #endregion
 
         [Inject]
-        private void Construct(HexagonConfigs hexagonConfigs, MaterialConfigs materialConfigs, LevelConfigs levelConfigs) {
+        private void Construct(HexagonConfigs hexagonConfigs, MaterialConfigs materialConfigs) {
             // Set configurations
             _hexagonConfigs = hexagonConfigs;
             _materialConfigs = materialConfigs;
-            _levelConfigs = levelConfigs;
 
             // Set components
             _mrHexagonLP = _hexagonLP.GetComponent<MeshRenderer>();
@@ -78,7 +76,7 @@ namespace HexagonControl {
             _visualEffect.SetMesh("ObjectMesh", _mrHexagonLP.GetComponent<MeshFilter>().sharedMesh);
             _visualEffect.SetFloat("MinParticleLifeTime", _materialConfigs.DestroyVFXMinParticleLifeTime);
             _visualEffect.SetFloat("MaxParticleLifeTime", _materialConfigs.DestroyVFXMaxParticleLifeTime);
-            _visualEffect.SetFloat("ObjectSize", _levelConfigs.HexagonObjectSize);
+            _visualEffect.SetFloat("ObjectSize", transform.localScale.x);
             _visualEffect.SetFloat("Metallic", _materialConfigs.BaseMetallic);
             _visualEffect.SetFloat("Smoothness", _materialConfigs.BaseSmoothness);
             _visualEffect.SetFloat("NoiseScale", _materialConfigs.SpawnNoiseScale);

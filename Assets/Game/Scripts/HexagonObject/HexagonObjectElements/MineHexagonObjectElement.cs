@@ -193,14 +193,13 @@ namespace HexagonObjectControl {
         }
 
         protected override void SetHexagonObjectWorkActive(bool isActive) {
-            base.SetHexagonObjectWorkActive(isActive);
-
             if (_isSource || _isObjectHologram) return;
 
-            if (isActive) StartCoroutine(StartToCreateResource());
+            if (isActive) StartCoroutine(CreateResourceStarted());
+            else StopAllCoroutines();
         }
 
-        private IEnumerator StartToCreateResource() {
+        private IEnumerator CreateResourceStarted() {
             while (true) {
                 yield return new WaitForSeconds(_creationTime);
 

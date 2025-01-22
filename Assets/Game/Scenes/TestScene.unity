@@ -145,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1131078191774577411, guid: b9c36ecd629044b728ae15a3d19da442, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1303727265733846629, guid: b9c36ecd629044b728ae15a3d19da442, type: 3}
       propertyPath: m_IsActive
@@ -161,7 +161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4231735260694950808, guid: b9c36ecd629044b728ae15a3d19da442, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5882350393136574488, guid: b9c36ecd629044b728ae15a3d19da442, type: 3}
       propertyPath: m_LocalScale.x
@@ -563,9 +563,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShieldAura
       objectReference: {fileID: 0}
-    - target: {fileID: 5987491382444927288, guid: 42274d8a2a35146e797bf1eab1d3da51, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 8342239345582722539, guid: 42274d8a2a35146e797bf1eab1d3da51, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

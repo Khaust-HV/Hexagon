@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Forest_Mine_TreeMine_1_IdleAnimation
+  m_Name: Forest_Mine_TreeMine_IdleAnimation
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0

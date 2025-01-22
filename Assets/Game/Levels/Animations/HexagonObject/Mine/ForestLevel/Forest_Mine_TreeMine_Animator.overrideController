@@ -6,7 +6,7 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Forest_Mine_TreeMine_1_Animator
+  m_Name: Forest_Mine_TreeMine_Animator
   m_Controller: {fileID: 9100000, guid: 28d7e6cedd7ac4c9895918a5ac1d71b9, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 93f2ba78031db4d78b3c4826f6f28dca, type: 2}

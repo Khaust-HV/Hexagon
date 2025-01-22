@@ -28,7 +28,7 @@ MonoBehaviour:
   <DestroyEdgeColor>k__BackingField: {r: 0, g: 11.984315, b: 11.984315, a: 0}
   <DestroyHexagonOrHexagonObjectVFXEffect>k__BackingField: {fileID: 8926484042661614526, guid: 749e8cb9578c541f1b0e5279b87e2016, type: 3}
   <DestroyVFXCutoffHeight>k__BackingField: -0.54
-  <DestroyVFXNumberParticles>k__BackingField: 100
+  <DestroyVFXNumberParticles>k__BackingField: 200
   <DestroyVFXParticleMesh>k__BackingField: {fileID: 5435148003225361832, guid: 3446543ae70fd4e7c90513d670b92bcb, type: 3}
   <DestroyVFXMinParticleLifeTime>k__BackingField: 0.5
   <DestroyVFXMaxParticleLifeTime>k__BackingField: 2

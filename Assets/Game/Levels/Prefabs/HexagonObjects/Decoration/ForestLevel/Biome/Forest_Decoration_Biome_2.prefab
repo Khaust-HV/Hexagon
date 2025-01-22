@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 565331870945964016}
-  - component: {fileID: 1439879914590060284}
   - component: {fileID: 8648220916543668785}
+  - component: {fileID: 1439879914590060284}
   - component: {fileID: -5192942979007453899}
   m_Layer: 0
   m_Name: Forest_Decoration_Biome_2
@@ -35,25 +35,6 @@ Transform:
   - {fileID: 8342973806168246533}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1439879914590060284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4736487006627466778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62d872ec11d0b41bebf63caf3b4f38f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mrBaseObject:
-  - {fileID: 7170608729666351722}
-  _isObjectHaveAnimation: 0
-  _spawnStartCutoffHeight: -0.58
-  _spawnFinishCutoffHeight: 1.31
-  _destroyStartCutoffHeight: -1.66
-  _destroyFinishCutoffHeight: -5.91
 --- !u!2083052967 &8648220916543668785
 VisualEffect:
   m_ObjectHideFlags: 0
@@ -92,6 +73,25 @@ VisualEffect:
       m_Array: []
     m_Bool:
       m_Array: []
+--- !u!114 &1439879914590060284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4736487006627466778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62d872ec11d0b41bebf63caf3b4f38f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mrBaseObject:
+  - {fileID: 7170608729666351722}
+  _isObjectHaveAnimation: 0
+  _spawnStartCutoffHeight: -0.58
+  _spawnFinishCutoffHeight: 1.31
+  _destroyStartCutoffHeight: -1.66
+  _destroyFinishCutoffHeight: -5.91
 --- !u!73398921 &-5192942979007453899
 VFXRenderer:
   serializedVersion: 1
