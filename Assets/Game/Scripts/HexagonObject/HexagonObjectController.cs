@@ -90,8 +90,8 @@ namespace HexagonObjectControl {
             _auraObject.SetParentObject(transform);
         }
 
-        public void SetPowerTheAura(float power) {
-            if (_auraObject != null) _auraObject.SetPowerTheAura(power);
+        public void SetAuraEfficiency(AuraEfficiencyType auraEfficiencyType) {
+            if (_auraObject != null) _auraObject.SetAuraEfficiency(auraEfficiencyType);
         }
         
         public void SetHologramObject(IHexagonObjectPart hologramObject) {
@@ -200,11 +200,7 @@ namespace HexagonObjectControl {
 
                     _auraObject.SpawnEffectEnable();
                 }
-                else {
-                    _auraObject.DestroyEffectEnable(_isFastDestroy);   
-
-                    _auraObject = null;
-                }
+                else _auraObject.DestroyEffectEnable(_isFastDestroy);   
             }
         }
 
@@ -264,7 +260,7 @@ public interface IHexagonObjectControl {
     public void SetMainObject(IHexagonObjectPart mainObject);
     public void SetDecorationObject(IHexagonObjectPart decorationObject);
     public void SetAuraObject(IHexagonObjectPart auraObject);
-    public void SetPowerTheAura(float power);
+    public void SetAuraEfficiency(AuraEfficiencyType auraEfficiencyType);
     public void SetHologramObject(IHexagonObjectPart hologramObject);
     public void SetMainObjectFromHologramObject();
     public void RestoreHologramObject();

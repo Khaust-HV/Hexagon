@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace GameConfigs {
-    [CreateAssetMenu(menuName = "Configs/CameraConfigs", fileName = "LevelCameraConfigs")]
+    [CreateAssetMenu(menuName = "Configs/CameraConfigs", fileName = "CameraConfigs")]
     public sealed class CameraConfigs : ScriptableObject {
         [field: Header("Camera raycast settings")]
         [field: SerializeField] public float RaycastUIDistance { get; private set; }

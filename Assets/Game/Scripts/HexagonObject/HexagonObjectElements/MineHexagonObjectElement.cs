@@ -37,35 +37,35 @@ namespace HexagonObjectControl {
             switch (_hexagonObjectPartType) {
                 case MineHexagonObjectsType.RedCrystalSource:
                 case MineHexagonObjectsType.RedCrystalMining:
-                    _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUVAndEmission);
+                    _baseMaterial = new Material(_materialConfigs.DissolveAndEmissionTextureWithUV);
                     _baseMaterial.SetTexture("EmissionTexture", _materialConfigs.RedCrystalEmissionTexture);
                     _baseMaterial.SetColor("EmissionColor", _materialConfigs.RedCrystalEmissionColor);
                 break;
 
                 case MineHexagonObjectsType.BlueCrystalSource:
                 case MineHexagonObjectsType.BlueCrystalMining:
-                    _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUVAndEmission);
+                    _baseMaterial = new Material(_materialConfigs.DissolveAndEmissionTextureWithUV);
                     _baseMaterial.SetTexture("EmissionTexture", _materialConfigs.BlueCrystalEmissionTexture);
                     _baseMaterial.SetColor("EmissionColor", _materialConfigs.BlueCrystalEmissionColor);
                 break;
 
                 case MineHexagonObjectsType.GreenCrystalSource:
                 case MineHexagonObjectsType.GreenCrystalMining:
-                    _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUVAndEmission);
+                    _baseMaterial = new Material(_materialConfigs.DissolveAndEmissionTextureWithUV);
                     _baseMaterial.SetTexture("EmissionTexture", _materialConfigs.GreenCrystalEmissionTexture);
                     _baseMaterial.SetColor("EmissionColor", _materialConfigs.GreenCrystalEmissionColor);
                 break;
 
                 case MineHexagonObjectsType.ElectricalSource:
                 case MineHexagonObjectsType.ElectricalMining:
-                    _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUVAndEmission);
+                    _baseMaterial = new Material(_materialConfigs.DissolveAndEmissionTextureWithUV);
                     _baseMaterial.SetTexture("EmissionTexture", _materialConfigs.ElectricalEmissionTexture);
                     _baseMaterial.SetColor("EmissionColor", _materialConfigs.ElectricalEmissionColor);
                 break;
 
                 case MineHexagonObjectsType.GlitcheSource:
                 case MineHexagonObjectsType.GlitcheMining:
-                    _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUVAndEmission3Textures);
+                    _baseMaterial = new Material(_materialConfigs.DissolveAndEmission3TexturesWithUV);
                     _baseMaterial.SetFloat("_Metallic", _materialConfigs.BaseMetallic);
                     _baseMaterial.SetFloat("_Smoothness", _materialConfigs.BaseSmoothness);
 
@@ -80,7 +80,7 @@ namespace HexagonObjectControl {
                 break;
 
                 default:
-                    _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUV);
+                    _baseMaterial = new Material(_materialConfigs.DissolveWithUV);
                 break;
             }
 

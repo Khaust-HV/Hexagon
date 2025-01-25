@@ -1,18 +1,22 @@
 using UnityEngine;
-using UnityEngine.VFX;
 
 namespace GameConfigs {
-    [CreateAssetMenu(menuName = "Configs/MaterialConfigs", fileName = "LevelMaterialConfigs")]
+    [CreateAssetMenu(menuName = "Configs/MaterialConfigs", fileName = "MaterialConfigs")]
     public sealed class MaterialConfigs : ScriptableObject {
         [field: Header("BaseMaterial settings")]
         [field: SerializeField] public float BaseMetallic { get; private set; }
         [field: SerializeField] public float BaseSmoothness { get; private set; }
         [field: Space(50)]
         
-        [field: Header("Dissolve base settings")]
-        [field: SerializeField] public Shader DissolveShaderEffectNonUV { get; private set; }
-        [field: SerializeField] public Shader DissolveShaderEffectWithUV { get; private set; }
-        [field: Space(15)]
+        [field: Header("General shaders settings")]
+        [field: SerializeField] public Shader DissolveNonUV { get; private set; }
+        [field: SerializeField] public Shader DissolveWithUV { get; private set; }
+        [field: SerializeField] public Shader DissolveAndEmissionTextureWithUV { get; private set; }
+        [field: SerializeField] public Shader DissolveAndEmission3TexturesWithUV { get; private set; }
+        [field: SerializeField] public Shader HologramAndDissolve { get; private set; }
+        [field: SerializeField] public Shader EmissionFullObject { get; private set; }
+        [field: SerializeField] public Shader DissolveAndEmissionFullObjectAndVerticalNoice { get; private set; }
+        [field: Space(50)]
 
         [field: Header("Dissolve for spawn effect settings")]
         [field: SerializeField] public float SpawnEffectTime { get; private set; }
@@ -21,7 +25,7 @@ namespace GameConfigs {
         [field: SerializeField] public float SpawnEdgeWidth { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color SpawnEdgeColor { get; private set; }
-        [field: Space(15)]
+        [field: Space(50)]
 
         [field: Header("Dissolve for destroy effect settings")]
         [field: SerializeField] public float DestroyEffectTime { get; private set; }
@@ -32,17 +36,7 @@ namespace GameConfigs {
         [field: SerializeField] public Color DestroyEdgeColor { get; private set; }
         [field: Space(50)]
 
-        [field: Header("Destroy hexagon or hexagonObject VFX effect settings")]
-        [field: SerializeField] public VisualEffectAsset DestroyHexagonOrHexagonObjectVFXEffect { get; private set; }
-        [field: SerializeField] public float DestroyVFXCutoffHeight { get; private set; }
-        [field: SerializeField] public int DestroyVFXNumberParticles { get; private set; }
-        [field: SerializeField] public Mesh DestroyVFXParticleMesh { get; private set; }
-        [field: SerializeField] public float DestroyVFXMinParticleLifeTime { get; private set; }
-        [field: SerializeField] public float DestroyVFXMaxParticleLifeTime { get; private set; }
-        [field: Space(50)]
-
         [field: Header("Hologram and dissolve for spawn effect settings")]
-        [field: SerializeField] public Shader HologramAndDissolveShaderEffect { get; private set; }
         [field: SerializeField] public float HologramMetallic { get; private set; }
         [field: SerializeField] public float HologramSmoothness { get; private set; }
         [field: SerializeField] public float HologramSpawnEffectTime { get; private set; }
@@ -58,8 +52,7 @@ namespace GameConfigs {
         [field: SerializeField] public Color HologramEdgeColor { get; private set; }
         [field: Space(50)]
 
-        [field: Header("Emission one texture settings")]
-        [field: SerializeField] public Shader DissolveShaderEffectWithUVAndEmission { get; private set; }
+        [field: Header("Blue/Red/Green crystals shader settings")]
         [field: SerializeField] public Texture2D ElectricalEmissionTexture { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color ElectricalEmissionColor { get; private set; }
@@ -72,10 +65,9 @@ namespace GameConfigs {
         [field: SerializeField] public Texture2D GreenCrystalEmissionTexture { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color GreenCrystalEmissionColor { get; private set; }
-        [field: Space(15)]
+        [field: Space(50)]
 
-        [field: Header("Emission more texture settings")]
-        [field: SerializeField] public Shader DissolveShaderEffectWithUVAndEmission3Textures { get; private set; }
+        [field: Header("Glitche shader settings")]
         [field: SerializeField] public Texture2D FirstGlitcheEmissionTexture { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color FirstGlitcheEmissionColor { get; private set; }
@@ -85,5 +77,22 @@ namespace GameConfigs {
         [field: SerializeField] public Texture2D ThirdGlitcheEmissionTexture { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color ThirdGlitcheEmissionColor { get; private set; }
+        [field: Space(50)]
+
+        [field: Header("ShieldAura shader  settings")]
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color ShieldAuraEmissionFresnelColor { get; private set; }
+        [field: SerializeField] public float ShieldAuraEmissionFresnelPower { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color ShieldAuraEmissionColor { get; private set; }
+        [field: SerializeField] public float ShieldAuraVerticalNoiceScale { get; private set; }
+        [field: SerializeField] public float ShieldAuraHeightLowEfficiency { get; private set; }
+        [field: SerializeField] public float ShieldAuraHeightStandardEfficiency { get; private set; }
+        [field: SerializeField] public float ShieldAuraHeightHighEfficiency { get; private set; }
+        [field: SerializeField] public float ShieldAuraHeightReallyHighEfficiency { get; private set; }
+        [field: SerializeField] public float ShieldAuraSpawnTime { get; private set; }
+        [field: SerializeField] public float ShieldAuraDestroyTime { get; private set; }
+        [field: SerializeField] public float ShieldAuraStartCutoffHeight { get; private set; }
+        [field: SerializeField] public float ShieldAuraFinishCutoffHeight { get; private set; }
     }
 }

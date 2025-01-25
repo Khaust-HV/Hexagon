@@ -2,7 +2,7 @@ using UnityEngine;
 using LevelObjectType;
 
 namespace GameConfigs {
-    [CreateAssetMenu(menuName = "Configs/HexagonObjectConfigs", fileName = "LevelHexagonObjectConfigs")]
+    [CreateAssetMenu(menuName = "Configs/HexagonObjectConfigs", fileName = "HexagonObjectConfigs")]
     public sealed class HexagonObjectConfigs : ScriptableObject {
         // Category of Decorations
         [field: Header("Biome settings <Decoration>")]
@@ -239,6 +239,13 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] NearTurnDangerousRiverPrefabs { get; private set; }
         [field: Space(50)]
 
+        [field: Header("Aura efficiency settings")]
+        [field: SerializeField] public float LowEfficiency { get; private set; }
+        [field: SerializeField] public float StandardEfficiency { get; private set; }
+        [field: SerializeField] public float HighEfficiency { get; private set; }
+        [field: SerializeField] public float ReallyHighEfficiency { get; private set; }
+        [field: Space(50)]
+
         // Category of ElementAuraType
         [field: Header("Fire settings <ElementAuraType>")]
         [field: SerializeField] public GameObject[] FireAuraPrefabs { get; private set; }
@@ -253,6 +260,20 @@ namespace GameConfigs {
         // Category of StatsAuraType
         [field: Header("Shield settings <StatsAuraType>")]
         [field: SerializeField] public GameObject[] ShieldAuraPrefabs { get; private set; }
+        [field: Space(15)]
+        [field: SerializeField] public Vector3 OneShieldPosition { get; private set; }
+        [field: SerializeField] public Vector3[] TwoShieldsPosition { get; private set; }
+        [field: SerializeField] public Vector3[] ThreeShieldsPosition { get; private set; }
+        [field: SerializeField] public float OrbitSpeedShieldAura{ get; private set; }
+        [field: SerializeField] public float OrbitRadiusShieldAura{ get; private set; }
+        [field: SerializeField] public float VerticalSpeedShieldAura{ get; private set; }
+        [field: SerializeField] public float MinHeightShieldAura{ get; private set; }
+        [field: SerializeField] public float MaxHeightShieldAuraLowEfficiency{ get; private set; }
+        [field: SerializeField] public float MaxHeightShieldAuraStandardEfficiency{ get; private set; }
+        [field: SerializeField] public float MaxHeightShieldAuraHighEfficiency{ get; private set; }
+        [field: SerializeField] public float MaxHeightShieldAuraReallyHighEfficiency{ get; private set; }
+        [field: Space(15)]
+        
         [field: Header("AttackRangePositive settings <StatsAuraType>")]
         [field: SerializeField] public GameObject[] AttackRangePositiveAuraPrefabs { get; private set; }
         [field: Header("AttackRangeNegative settings <StatsAuraType>")]

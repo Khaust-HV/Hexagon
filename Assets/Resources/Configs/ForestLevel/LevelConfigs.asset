@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8873a9fafec694d55bd5f027ec737b9b, type: 3}
-  m_Name: ForestLevelConfigs
+  m_Name: LevelConfigs
   m_EditorClassIdentifier: 
   <HexagonControllerPrefab>k__BackingField: {fileID: 1131078191774577411, guid: b9c36ecd629044b728ae15a3d19da442, type: 3}
   <HexagonSize>k__BackingField: 10

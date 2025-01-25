@@ -224,9 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5261b9c1663a941578aeac84cfe0dcb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mrBaseObject:
-  - {fileID: 6295957578844783148}
-  _isObjectHaveAnimation: 0
+  _mrAura: {fileID: 6295957578844783148}
   _text: {fileID: 1582612147057799700}
   _trText: {fileID: 2895956727501554477}
 --- !u!2083052967 &-1948247293323760757

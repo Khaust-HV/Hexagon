@@ -30,7 +30,7 @@ namespace HexagonControl {
             // Set configurations
             _hexagonConfigs = hexagonConfigs;
 
-            _material = new Material(materialConfigs.DissolveShaderEffectNonUV);
+            _material = new Material(materialConfigs.DissolveNonUV);
             _material.SetFloat("_Metallic", materialConfigs.BaseMetallic);
             _material.SetFloat("_Smoothness", materialConfigs.BaseSmoothness);
 
@@ -89,25 +89,7 @@ namespace HexagonControl {
                 _hexagonRotationControl.HexagonRotationEnable(directionalRotationType);
             }
 
-            switch (_hexagonType) {
-                case HexagonType.Default:
-                    iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.StandardPower);
-                break;
-
-                case HexagonType.Shadow:
-                    if (_hexagonTypeControl.IsRotation) iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.StandardPower);
-                    else iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.LowPower);
-                break;
-
-                case HexagonType.Temporary:
-                    iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.ReallyHighPower);
-                break;
-
-                case HexagonType.Random:
-                case HexagonType.Fragile:
-                    iHexagonObjectControl.SetPowerTheAura(_hexagonConfigs.HighPower);
-                break;
-            }
+            iHexagonObjectControl.SetAuraEfficiency(_hexagonTypeControl.AuraEfficiency);
 
             return true;
         }

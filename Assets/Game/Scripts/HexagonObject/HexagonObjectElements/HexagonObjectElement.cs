@@ -37,17 +37,27 @@ namespace HexagonObjectControl {
         #region DI
             private IStorageTransformPool _iStorageTransformPool;
             protected MaterialConfigs _materialConfigs;
+            protected VisualEffectConfigs _visualEffectConfigs;
             protected HexagonObjectConfigs _hexagonObjectConfigs;
+            protected LevelConfigs _levelConfigs;
         #endregion
 
         [Inject]
-        private void Construct(IStorageTransformPool iStorageTransformPool, MaterialConfigs materialConfigs, HexagonObjectConfigs hexagonObjectConfigs) {
+        private void Construct (
+            IStorageTransformPool iStorageTransformPool, 
+            MaterialConfigs materialConfigs, 
+            HexagonObjectConfigs hexagonObjectConfigs,
+            VisualEffectConfigs visualEffectConfigs,
+            LevelConfigs levelConfigs
+            ) {
             // Set DI
             _iStorageTransformPool = iStorageTransformPool;
 
             // Set configurations
             _materialConfigs = materialConfigs;
+            _visualEffectConfigs = visualEffectConfigs;
             _hexagonObjectConfigs = hexagonObjectConfigs;
+            _levelConfigs = levelConfigs;
 
             // Set components
             _visualEffect = GetComponent<VisualEffect>();
@@ -56,18 +66,17 @@ namespace HexagonObjectControl {
         }
 
         private void SetDestroyHexagonObjectVFXConfiguration() {
-            _visualEffect.visualEffectAsset = _materialConfigs.DestroyHexagonOrHexagonObjectVFXEffect;
-            _visualEffect.SetInt("NumberParticles", _materialConfigs.DestroyVFXNumberParticles);
-            _visualEffect.SetMesh("ParticleMesh", _materialConfigs.DestroyVFXParticleMesh);
+            _visualEffect.visualEffectAsset = _visualEffectConfigs.DestroyHexagonOrHexagonObjectVFXEffect;
+            _visualEffect.SetInt("NumberParticles", _visualEffectConfigs.DestroyVFXNumberParticles);
+            _visualEffect.SetMesh("ParticleMesh", _visualEffectConfigs.DestroyVFXParticleMesh);
             _visualEffect.SetMesh("ObjectMesh", _mrBaseObject[0].GetComponent<MeshFilter>().sharedMesh);
-            _visualEffect.SetFloat("MinParticleLifeTime", _materialConfigs.DestroyVFXMinParticleLifeTime);
-            _visualEffect.SetFloat("MaxParticleLifeTime", _materialConfigs.DestroyVFXMaxParticleLifeTime);
-            _visualEffect.SetFloat("ObjectSize", transform.localScale.x);
+            _visualEffect.SetFloat("LifeTimeParticle", _materialConfigs.DestroyEffectTime);
+            _visualEffect.SetFloat("SizeParticle", _levelConfigs.HexagonObjectSize);
             _visualEffect.SetFloat("Metallic", _materialConfigs.BaseMetallic);
             _visualEffect.SetFloat("Smoothness", _materialConfigs.BaseSmoothness);
             _visualEffect.SetFloat("NoiseScale", _materialConfigs.SpawnNoiseScale);
             _visualEffect.SetFloat("NoiseStrength", _materialConfigs.SpawnNoiseStrength);
-            _visualEffect.SetFloat("CutoffHeight", _materialConfigs.DestroyVFXCutoffHeight);
+            _visualEffect.SetFloat("CutoffHeight", _visualEffectConfigs.DestroyVFXCutoffHeight);
             _visualEffect.SetFloat("EdgeWidth", _materialConfigs.SpawnEdgeWidth);
             _visualEffect.SetVector4("EdgeColor", _materialConfigs.SpawnEdgeColor);
         }
@@ -75,7 +84,7 @@ namespace HexagonObjectControl {
         protected virtual void SetBaseConfiguration() {
             _spawnEffectTime = _materialConfigs.SpawnEffectTime;
 
-            _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUV);
+            _baseMaterial = new Material(_materialConfigs.DissolveWithUV);
             _baseMaterial.SetFloat("_Metallic", _materialConfigs.BaseMetallic);
             _baseMaterial.SetFloat("_Smoothness", _materialConfigs.BaseSmoothness);
 
@@ -111,7 +120,7 @@ namespace HexagonObjectControl {
             transform.localRotation = Quaternion.identity;
         }
 
-        public void SetPowerTheAura(float power){
+        public void SetAuraEfficiency(AuraEfficiencyType auraEfficiencyType){
             throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"HexagonObjectElement is not aura {gameObject.name}");
         }
 
@@ -201,8 +210,10 @@ namespace HexagonObjectControl {
             else {
                 float elapsedTime = 0f;
 
-                while (elapsedTime < _materialConfigs.DestroyEffectTime) {
-                    float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / _materialConfigs.DestroyEffectTime);
+                float destroyEffectTime = _materialConfigs.DestroyEffectTime;
+
+                while (elapsedTime <destroyEffectTime) {
+                    float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / destroyEffectTime);
 
                     _baseMaterial.SetFloat("_CutoffHeight", currentValue);
 
@@ -221,7 +232,7 @@ namespace HexagonObjectControl {
 
         public void MakeObjectHologram() {
             if (_hologramMaterial == null) {
-                _hologramMaterial = new Material(_materialConfigs.HologramAndDissolveShaderEffect);
+                _hologramMaterial = new Material(_materialConfigs.HologramAndDissolve);
                 _hologramMaterial.SetFloat("_Metallic", _materialConfigs.HologramMetallic);
                 _hologramMaterial.SetFloat("_Smoothness", _materialConfigs.HologramSmoothness);
                 _hologramMaterial.SetFloat("_NoiseScale", _materialConfigs.HologramNoiseScale);
@@ -280,7 +291,7 @@ public interface IHexagonObjectPart {
     public void SetHexagonObjectPartType<T>(T type) where T : Enum;
     public void SetHexagonObjectType<T>(T type) where T : Enum;
     public void SetParentObject(Transform parentObject);
-    public void SetPowerTheAura(float power);
+    public void SetAuraEfficiency(AuraEfficiencyType auraEfficiencyType);
     public void ApplyAuraToHexagonObjectElement(IHexagonObjectPart iHexagonObjectPart);
     public void SpawnEffectEnable();
     public void DestroyEffectEnable(bool _isFastDestroy);

@@ -92,6 +92,7 @@ namespace Managers {
 
         private void CreateNewHexagonObjectForHexagon(IHexagonControl iHexagonControl) {
             var hexagonObject = _iBuilder.CreateHexagonObject(GetRandomHexagonObjectElementType(), GetRandomHexagonObjectAuraType()); // FIX IT !
+            // var hexagonObject = _iBuilder.CreateHexagonObject(GetRandomHexagonObjectElementType(), StatsAuraType.ShieldAura); // FIX IT !
             // var hexagonObject = _iBuilder.CreateHexagonObject(MineHexagonObjectsType.TreeSource, GetRandomHexagonObjectAuraType()); // FIX IT !
 
             iHexagonControl.SetHexagonObject(hexagonObject, false);
@@ -156,6 +157,7 @@ namespace Managers {
                     hexagonController.NeedHexagonObject += CreateNewHexagonObjectForHexagon;
 
                     hexagonController.SetHexagonType((HexagonType)randomType);
+                    // hexagonController.SetHexagonType(HexagonType.Random);
 
                     hexagonController.SetHexagonActive(true);
                 }

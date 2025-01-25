@@ -12,31 +12,31 @@ namespace HexagonObjectControl {
         private void SetMaterial() {
             switch (_hexagonObjectPartType) {
                 case DecorationHexagonObjectsType.RedCrystalBiome:
-                    _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUVAndEmission);
+                    _baseMaterial = new Material(_materialConfigs.DissolveAndEmissionTextureWithUV);
                     _baseMaterial.SetTexture("EmissionTexture", _materialConfigs.RedCrystalEmissionTexture);
                     _baseMaterial.SetColor("EmissionColor", _materialConfigs.RedCrystalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.BlueCrystalBiome:
-                    _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUVAndEmission);
+                    _baseMaterial = new Material(_materialConfigs.DissolveAndEmissionTextureWithUV);
                     _baseMaterial.SetTexture("EmissionTexture", _materialConfigs.BlueCrystalEmissionTexture);
                     _baseMaterial.SetColor("EmissionColor", _materialConfigs.BlueCrystalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.GreenCrystalBiome:
-                    _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUVAndEmission);
+                    _baseMaterial = new Material(_materialConfigs.DissolveAndEmissionTextureWithUV);
                     _baseMaterial.SetTexture("EmissionTexture", _materialConfigs.GreenCrystalEmissionTexture);
                     _baseMaterial.SetColor("EmissionColor", _materialConfigs.GreenCrystalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.ElectricalBiome:
-                    _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUVAndEmission);
+                    _baseMaterial = new Material(_materialConfigs.DissolveAndEmissionTextureWithUV);
                     _baseMaterial.SetTexture("EmissionTexture", _materialConfigs.ElectricalEmissionTexture);
                     _baseMaterial.SetColor("EmissionColor", _materialConfigs.ElectricalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.GlitcheBiome:
-                    _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUVAndEmission3Textures);
+                    _baseMaterial = new Material(_materialConfigs.DissolveAndEmission3TexturesWithUV);
 
                     _baseMaterial.SetTexture("FirstEmissionTexture", _materialConfigs.FirstGlitcheEmissionTexture);
                     _baseMaterial.SetColor("FirstEmissionColor", _materialConfigs.FirstGlitcheEmissionColor);
@@ -49,7 +49,7 @@ namespace HexagonObjectControl {
                 break;
 
                 default:
-                    _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUV);
+                    _baseMaterial = new Material(_materialConfigs.DissolveWithUV);
                 break;
             }
 

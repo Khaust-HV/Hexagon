@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 407cbdf16d48748f7bef40153006b6b3, type: 3}
-  m_Name: ForestLevelHexagonObjectConfigs
+  m_Name: HexagonObjectConfigs
   m_EditorClassIdentifier: 
   <BiomePrefabs>k__BackingField:
   - {fileID: 225636284078643703, guid: cc3cfa707523049048a580d02e60c3f7, type: 3}
@@ -151,11 +151,32 @@ MonoBehaviour:
   <StraightDangerousRiverPrefabs>k__BackingField: []
   <LongTurnDangerousRiverPrefabs>k__BackingField: []
   <NearTurnDangerousRiverPrefabs>k__BackingField: []
+  <LowEfficiency>k__BackingField: 0.5
+  <StandardEfficiency>k__BackingField: 1
+  <HighEfficiency>k__BackingField: 2
+  <ReallyHighEfficiency>k__BackingField: 5
   <FireAuraPrefabs>k__BackingField: []
   <FrostAuraPrefabs>k__BackingField: []
   <ElectricAuraPrefabs>k__BackingField: []
   <NatureAuraPrefabs>k__BackingField: []
-  <ShieldAuraPrefabs>k__BackingField: []
+  <ShieldAuraPrefabs>k__BackingField:
+  - {fileID: 5987491382444927288, guid: 42274d8a2a35146e797bf1eab1d3da51, type: 3}
+  <OneShieldPosition>k__BackingField: {x: -0.8, y: 1, z: 0}
+  <TwoShieldsPosition>k__BackingField:
+  - {x: -0.8, y: 1, z: 0}
+  - {x: 0.8, y: 1, z: 0}
+  <ThreeShieldsPosition>k__BackingField:
+  - {x: -0.8, y: 1, z: 0}
+  - {x: 0.4, y: 1, z: 0.693}
+  - {x: 0.4, y: 1, z: -0.693}
+  <OrbitSpeedShieldAura>k__BackingField: 30
+  <OrbitRadiusShieldAura>k__BackingField: 0.95
+  <VerticalSpeedShieldAura>k__BackingField: 0.1
+  <MinHeightShieldAura>k__BackingField: 0
+  <MaxHeightShieldAuraLowEfficiency>k__BackingField: 0.255
+  <MaxHeightShieldAuraStandardEfficiency>k__BackingField: 0.476
+  <MaxHeightShieldAuraHighEfficiency>k__BackingField: 0.953
+  <MaxHeightShieldAuraReallyHighEfficiency>k__BackingField: 1.245
   <AttackRangePositiveAuraPrefabs>k__BackingField: []
   <AttackRangeNegativeAuraPrefabs>k__BackingField: []
   <CamoAuraPrefabs>k__BackingField: []

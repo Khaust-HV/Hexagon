@@ -8,10 +8,6 @@ using Zenject;
 namespace HexagonObjectControl {
     [RequireComponent(typeof(VisualEffect))]
     public class HexagonObjectAura : MonoBehaviour, IHexagonObjectPart {
-        [Header("Renderer settings")]
-        [SerializeField] protected MeshRenderer[] _mrBaseObject;
-        [SerializeField] protected bool _isObjectHaveAnimation;
-
         public event Action HexagonObjectPartIsRestore;
 
         protected Enum _hexagonObjectPartType;
@@ -22,8 +18,6 @@ namespace HexagonObjectControl {
 
         private IEnumerator _spawnEffectStarted;
 
-        protected Material _baseMaterial;
-
         #region DI
             private IStorageTransformPool _iStorageTransformPool;
             protected MaterialConfigs _materialConfigs;
@@ -31,7 +25,11 @@ namespace HexagonObjectControl {
         #endregion
 
         [Inject]
-        private void Construct(IStorageTransformPool iStorageTransformPool, MaterialConfigs materialConfigs, HexagonObjectConfigs hexagonObjectConfigs) {
+        private void Construct (
+            IStorageTransformPool iStorageTransformPool, 
+            MaterialConfigs materialConfigs, 
+            HexagonObjectConfigs hexagonObjectConfigs
+            ) {
             // Set DI
             _iStorageTransformPool = iStorageTransformPool;
 
@@ -41,24 +39,14 @@ namespace HexagonObjectControl {
         }
 
         protected virtual void SetBaseConfiguration() {
-            _baseMaterial = new Material(_materialConfigs.DissolveShaderEffectWithUV);
-            _baseMaterial.SetFloat("_Metallic", _materialConfigs.BaseMetallic);
-            _baseMaterial.SetFloat("_Smoothness", _materialConfigs.BaseSmoothness);
-
-            foreach (var mrObject in _mrBaseObject) {
-                mrObject.material = _baseMaterial;
-            }
+            // Overridden by an heir
         }
 
-        public virtual void SetPowerTheAura(float power) {
+        public virtual void SetAuraEfficiency(AuraEfficiencyType auraEfficiencyType) {
             // Overridden by an heir
         }
 
         public virtual void ApplyAuraToHexagonObjectElement(IHexagonObjectPart iHexagonObjectPart) {
-            // Overridden by an heir
-        }
-
-        protected virtual void AuraEffectEnable(AuraVFXEffectType auraVFXEffectType) {
             // Overridden by an heir
         }
 
@@ -90,10 +78,6 @@ namespace HexagonObjectControl {
         }
 
         public void SpawnEffectEnable() {
-            foreach (var mrObject in _mrBaseObject) {
-                mrObject.enabled = false;
-            }
-
             gameObject.SetActive(true);
 
             if (_isObjectWaitingToSpawn) StopCoroutine(_spawnEffectStarted);
@@ -106,20 +90,12 @@ namespace HexagonObjectControl {
 
             yield return new WaitForSeconds(_materialConfigs.SpawnEffectTime);
 
-            foreach (var mrObject in _mrBaseObject) {
-                mrObject.enabled = true;
-            }
-
-            AuraEffectEnable(AuraVFXEffectType.SpawnEffect);
-
             SetHexagonObjectWorkActive(true);
 
             _isObjectWaitingToSpawn = false;
         }
 
         public void DestroyEffectEnable(bool _isFastDestroy) {
-            AuraEffectEnable(AuraVFXEffectType.DestroyEffect);
-
             SetHexagonObjectWorkActive(false);
 
             if (_isObjectWaitingToSpawn) {
@@ -127,6 +103,12 @@ namespace HexagonObjectControl {
 
                 _isObjectWaitingToSpawn = false;
             }
+
+            StartCoroutine(DestroyEffectStarted());
+        }
+
+        private IEnumerator DestroyEffectStarted() {
+            yield return new WaitForSeconds(_materialConfigs.DestroyEffectTime);
 
             RestoreAndHide();
         }
@@ -158,4 +140,11 @@ namespace HexagonObjectControl {
         SpawnEffect,
         DestroyEffect
     }
+}
+
+public enum AuraEfficiencyType {
+    LowEfficiency,
+    StandardEfficiency,
+    HighEfficiency,
+    ReallyHighEfficiency
 }

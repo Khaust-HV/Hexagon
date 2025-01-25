@@ -17,6 +17,7 @@ namespace HexagonControl {
         public bool IsRotation { get; private set; }
         public bool IsCollapses { get; private set; }
         public bool IsFragile { get; private set; }
+        public AuraEfficiencyType AuraEfficiency { get; private set; }
 
         #region DI
             private HexagonConfigs _hexagonConfigs;
@@ -49,6 +50,7 @@ namespace HexagonControl {
                     IsRotation = true;
                     IsCollapses = true;
                     IsFragile = false;
+                    AuraEfficiency = AuraEfficiencyType.StandardEfficiency;
                 break;
 
                 case HexagonType.Shadow:
@@ -56,6 +58,8 @@ namespace HexagonControl {
                     IsRotation = rotateShadow;
                     IsCollapses = false;
                     IsFragile = false;
+                    if (rotateShadow) AuraEfficiency = AuraEfficiencyType.StandardEfficiency;
+                    else AuraEfficiency = AuraEfficiencyType.LowEfficiency;
                 break;
 
                 case HexagonType.Random:
@@ -63,6 +67,7 @@ namespace HexagonControl {
                     IsRotation = true;
                     IsCollapses = true;
                     IsFragile = false;
+                    AuraEfficiency = AuraEfficiencyType.HighEfficiency;
                 break;
 
                 case HexagonType.Fragile:
@@ -72,6 +77,7 @@ namespace HexagonControl {
                     IsRotation = true;
                     IsCollapses = true;
                     IsFragile = true;
+                    AuraEfficiency = AuraEfficiencyType.HighEfficiency;
                 break;
 
                 case HexagonType.Temporary:
@@ -81,6 +87,7 @@ namespace HexagonControl {
                     IsRotation = true;
                     IsCollapses = true;
                     IsFragile = true;
+                    AuraEfficiency = AuraEfficiencyType.ReallyHighEfficiency;
                 break;
             }
             material.SetFloat("_CutoffHeight", 1f);
