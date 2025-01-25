@@ -36,8 +36,7 @@ namespace HexagonObjectControl {
 
         #region DI
             private IStorageTransformPool _iStorageTransformPool;
-            protected MaterialConfigs _materialConfigs;
-            protected VisualEffectConfigs _visualEffectConfigs;
+            protected VisualEffectsConfigs _visualEffectsConfigs;
             protected HexagonObjectConfigs _hexagonObjectConfigs;
             protected LevelConfigs _levelConfigs;
         #endregion
@@ -45,17 +44,15 @@ namespace HexagonObjectControl {
         [Inject]
         private void Construct (
             IStorageTransformPool iStorageTransformPool, 
-            MaterialConfigs materialConfigs, 
+            VisualEffectsConfigs visualEffectsConfigs, 
             HexagonObjectConfigs hexagonObjectConfigs,
-            VisualEffectConfigs visualEffectConfigs,
             LevelConfigs levelConfigs
             ) {
             // Set DI
             _iStorageTransformPool = iStorageTransformPool;
 
             // Set configurations
-            _materialConfigs = materialConfigs;
-            _visualEffectConfigs = visualEffectConfigs;
+            _visualEffectsConfigs = visualEffectsConfigs;
             _hexagonObjectConfigs = hexagonObjectConfigs;
             _levelConfigs = levelConfigs;
 
@@ -66,27 +63,25 @@ namespace HexagonObjectControl {
         }
 
         private void SetDestroyHexagonObjectVFXConfiguration() {
-            _visualEffect.visualEffectAsset = _visualEffectConfigs.DestroyHexagonOrHexagonObjectVFXEffect;
-            _visualEffect.SetInt("NumberParticles", _visualEffectConfigs.DestroyVFXNumberParticles);
-            _visualEffect.SetMesh("ParticleMesh", _visualEffectConfigs.DestroyVFXParticleMesh);
+            _visualEffect.visualEffectAsset = _visualEffectsConfigs.DestroyHexagonOrHexagonObjectVFXEffect;
+            _visualEffect.SetInt("NumberParticles", _visualEffectsConfigs.DefaultDestroyVFXNumberParticles);
+            _visualEffect.SetMesh("ObjectFragmentMesh", _visualEffectsConfigs.DefaultDestroyVFXParticleMesh);
             _visualEffect.SetMesh("ObjectMesh", _mrBaseObject[0].GetComponent<MeshFilter>().sharedMesh);
-            _visualEffect.SetFloat("LifeTimeParticle", _materialConfigs.DestroyEffectTime);
-            _visualEffect.SetFloat("SizeParticle", _levelConfigs.HexagonObjectSize);
-            _visualEffect.SetFloat("Metallic", _materialConfigs.BaseMetallic);
-            _visualEffect.SetFloat("Smoothness", _materialConfigs.BaseSmoothness);
-            _visualEffect.SetFloat("NoiseScale", _materialConfigs.SpawnNoiseScale);
-            _visualEffect.SetFloat("NoiseStrength", _materialConfigs.SpawnNoiseStrength);
-            _visualEffect.SetFloat("CutoffHeight", _visualEffectConfigs.DestroyVFXCutoffHeight);
-            _visualEffect.SetFloat("EdgeWidth", _materialConfigs.SpawnEdgeWidth);
-            _visualEffect.SetVector4("EdgeColor", _materialConfigs.SpawnEdgeColor);
+            _visualEffect.SetFloat("LifeTimeParticle", _levelConfigs.DefaultDestroyTimeAllObject);
+            _visualEffect.SetFloat("SizeParticle", _levelConfigs.SizeAllObject * _levelConfigs.SizeObjectFragment);
+            _visualEffect.SetFloat("Metallic", _visualEffectsConfigs.DefaultMetallic);
+            _visualEffect.SetFloat("Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            _visualEffect.SetVector4("FresnelColor", _visualEffectsConfigs.DefaultDestroyVFXFresnelColor);
+            _visualEffect.SetFloat("FresnelPower", _visualEffectsConfigs.DefaultDestroyVFXFresnelPower);
+            _visualEffect.SetVector4("EmissionColor", _visualEffectsConfigs.DefaultSpawnEdgeColor);
         }
 
         protected virtual void SetBaseConfiguration() {
-            _spawnEffectTime = _materialConfigs.SpawnEffectTime;
+            _spawnEffectTime = _levelConfigs.DefaultSpawnTimeAllObject;
 
-            _baseMaterial = new Material(_materialConfigs.DissolveWithUV);
-            _baseMaterial.SetFloat("_Metallic", _materialConfigs.BaseMetallic);
-            _baseMaterial.SetFloat("_Smoothness", _materialConfigs.BaseSmoothness);
+            _baseMaterial = new Material(_visualEffectsConfigs.DissolveWithUV);
+            _baseMaterial.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
+            _baseMaterial.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
 
             foreach (var mrObject in _mrBaseObject) {
                 mrObject.material = _baseMaterial;
@@ -131,11 +126,11 @@ namespace HexagonObjectControl {
         public void SpawnEffectEnable() {
             gameObject.SetActive(true);
 
-            _baseMaterial.SetFloat("_NoiseScale", _materialConfigs.SpawnNoiseScale);
-            _baseMaterial.SetFloat("_NoiseStrength", _materialConfigs.SpawnNoiseStrength);
+            _baseMaterial.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultSpawnNoiseScale);
+            _baseMaterial.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultSpawnNoiseStrength);
             _baseMaterial.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
-            _baseMaterial.SetFloat("_EdgeWidth", _materialConfigs.SpawnEdgeWidth);
-            _baseMaterial.SetColor("_EdgeColor", _materialConfigs.SpawnEdgeColor);
+            _baseMaterial.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultSpawnEdgeWidth);
+            _baseMaterial.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultSpawnEdgeColor);
 
             if (_isObjectWaitingToSpawn) StopCoroutine(_spawnEffectStarted);
 
@@ -149,7 +144,7 @@ namespace HexagonObjectControl {
 
             if (_isObjectWaitingToSpawn) StopCoroutine(_spawnEffectStarted);
 
-            StartCoroutine(_spawnEffectStarted = SpawnEffectStarted(_hologramMaterial, _materialConfigs.HologramSpawnEffectTime));
+            StartCoroutine(_spawnEffectStarted = SpawnEffectStarted(_hologramMaterial, _levelConfigs.DefaultHologramSpawnTimeAllObject));
         }
 
         private IEnumerator SpawnEffectStarted(Material material, float spawnEffectTime) {
@@ -179,10 +174,10 @@ namespace HexagonObjectControl {
         public void DestroyEffectEnable(bool _isFastDestroy) {
             SetHexagonObjectWorkActive(false);
 
-            _baseMaterial.SetFloat("_NoiseScale", _materialConfigs.DestroyNoiseScale);
-            _baseMaterial.SetFloat("_NoiseStrength", _materialConfigs.DestroyNoiseStrength);
-            _baseMaterial.SetFloat("_EdgeWidth", _materialConfigs.DestroyEdgeWidth);
-            _baseMaterial.SetColor("_EdgeColor", _materialConfigs.DestroyEdgeColor);
+            _baseMaterial.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultDestroyNoiseScale);
+            _baseMaterial.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultDestroyNoiseStrength);
+            _baseMaterial.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultDestroyEdgeWidth);
+            _baseMaterial.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultDestroyEdgeColor);
 
             if (_isFastDestroy || _isObjectWaitingToSpawn) {
                 _baseMaterial.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
@@ -206,11 +201,11 @@ namespace HexagonObjectControl {
         }
 
         private IEnumerator DestroyEffectStarted(bool _isFastDestroy) {
-            if (_isFastDestroy) yield return new WaitForSeconds(_materialConfigs.DestroyEffectTime);
+            if (_isFastDestroy) yield return new WaitForSeconds(_levelConfigs.DefaultDestroyTimeAllObject);
             else {
                 float elapsedTime = 0f;
 
-                float destroyEffectTime = _materialConfigs.DestroyEffectTime;
+                float destroyEffectTime = _levelConfigs.DefaultDestroyTimeAllObject;
 
                 while (elapsedTime <destroyEffectTime) {
                     float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / destroyEffectTime);
@@ -232,16 +227,16 @@ namespace HexagonObjectControl {
 
         public void MakeObjectHologram() {
             if (_hologramMaterial == null) {
-                _hologramMaterial = new Material(_materialConfigs.HologramAndDissolve);
-                _hologramMaterial.SetFloat("_Metallic", _materialConfigs.HologramMetallic);
-                _hologramMaterial.SetFloat("_Smoothness", _materialConfigs.HologramSmoothness);
-                _hologramMaterial.SetFloat("_NoiseScale", _materialConfigs.HologramNoiseScale);
-                _hologramMaterial.SetFloat("_NoiseStrength", _materialConfigs.HologramNoiseStrength);
-                _hologramMaterial.SetFloat("_EdgeWidth", _materialConfigs.HologramEdgeWidth);
-                _hologramMaterial.SetFloat("_AnimationSpeed", _materialConfigs.HologramAnimationSpeed);
-                _hologramMaterial.SetColor("_BaseColor", _materialConfigs.HologramBaseColor);
-                _hologramMaterial.SetColor("_FresnelColor", _materialConfigs.HologramFresnelColor);
-                _hologramMaterial.SetColor("_EdgeColor", _materialConfigs.HologramEdgeColor);
+                _hologramMaterial = new Material(_visualEffectsConfigs.HologramAndDissolve);
+                _hologramMaterial.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
+                _hologramMaterial.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+                _hologramMaterial.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultSpawnNoiseScale);
+                _hologramMaterial.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultSpawnNoiseStrength);
+                _hologramMaterial.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultHologramEdgeWidth);
+                _hologramMaterial.SetFloat("_AnimationSpeed", _visualEffectsConfigs.DefaultHologramAnimationSpeed);
+                _hologramMaterial.SetColor("_BaseColor", _visualEffectsConfigs.DefaultHologramColor);
+                _hologramMaterial.SetColor("_FresnelColor", _visualEffectsConfigs.DefaultHologramFresnelColor);
+                _hologramMaterial.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultHologramEdgeColor);
             }
 
             foreach (var mrObject in _mrBaseObject) {

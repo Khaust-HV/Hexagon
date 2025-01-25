@@ -39,7 +39,7 @@ namespace LevelObject {
                 prefab: _levelConfigs.HexagonControllerPrefab, 
                 number: _levelConfigs.NumberObjectsCreatedInCaseOfShortage, 
                 trParentObject: _iStorageTransformPool.GetHexagonTransformPool(),
-                size: _levelConfigs.HexagonSize
+                size: _levelConfigs.SizeAllObject
             );
 
             _iBuildingsPool.AddNewHexagonControllersInPool(hexagonControllersList);
@@ -52,7 +52,7 @@ namespace LevelObject {
                 prefab: _levelConfigs.HexagonObjectsControllerPrefab, 
                 number: _levelConfigs.NumberObjectsCreatedInCaseOfShortage, 
                 trParentObject: _iStorageTransformPool.GetHexagonObjectTransformPool(),
-                size: _levelConfigs.HexagonObjectSize
+                size: _levelConfigs.SizeAllObject
             );
 
             _iBuildingsPool.AddNewHexagonObjectControllersInPool(hexagonObjectControllersList);
@@ -72,14 +72,14 @@ namespace LevelObject {
                     prefab: prefabs[0], 
                     number: numberObjects, 
                     trParentObject: _iStorageTransformPool.GetHexagonObjectTransformPool(),
-                    size: _levelConfigs.HexagonObjectSize
+                    size: _levelConfigs.SizeAllObject
                 );
             } else {
                 hexagonObjectPartsList = _iLevelObjectFactory.CreateRandomObjects<IHexagonObjectPart> (
                     prefabs: prefabs, 
                     number: numberObjects, 
                     trParentObject: _iStorageTransformPool.GetHexagonObjectTransformPool(),
-                    size: _levelConfigs.HexagonObjectSize
+                    size: _levelConfigs.SizeAllObject
                 );
             }
 

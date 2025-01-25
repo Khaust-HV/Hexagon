@@ -26,13 +26,13 @@ namespace HexagonControl {
         #endregion
 
         [Inject]
-        private void Construct(HexagonConfigs hexagonConfigs, MaterialConfigs materialConfigs) {
+        private void Construct(HexagonConfigs hexagonConfigs, VisualEffectsConfigs visualEffectsConfigs) {
             // Set configurations
             _hexagonConfigs = hexagonConfigs;
 
-            _material = new Material(materialConfigs.DissolveNonUV);
-            _material.SetFloat("_Metallic", materialConfigs.BaseMetallic);
-            _material.SetFloat("_Smoothness", materialConfigs.BaseSmoothness);
+            _material = new Material(visualEffectsConfigs.DissolveNonUV);
+            _material.SetFloat("_Metallic", visualEffectsConfigs.DefaultMetallic);
+            _material.SetFloat("_Smoothness", visualEffectsConfigs.DefaultSmoothness);
 
             // Set component
             _hexagonTypeControl = GetComponent<HexagonTypeControl>();

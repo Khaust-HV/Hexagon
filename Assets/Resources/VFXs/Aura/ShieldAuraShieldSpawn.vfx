@@ -230,8 +230,8 @@ MonoBehaviour:
     max: Infinity
     enumValues: []
     descendantCount: 0
-  - name: ShieldFragmentMesh
-    path: ShieldFragmentMesh
+  - name: ObjectFragmentMesh
+    path: ObjectFragmentMesh
     tooltip: 
     space: -1
     spaceable: 0
@@ -316,7 +316,7 @@ MonoBehaviour:
   categories: []
   uiBounds:
     serializedVersion: 2
-    x: 376
+    x: 377
     y: 160
     width: 2366
     height: 2106
@@ -812,7 +812,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.Vector, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"vector":{"x":-1.0,"y":0.0,"z":0.0}}'
+      m_SerializableObject: '{"vector":{"x":-0.5,"y":0.0,"z":0.0}}'
     m_Space: 0
   m_Property:
     name: _Velocity
@@ -5536,7 +5536,7 @@ MonoBehaviour:
   m_InputSlots: []
   m_OutputSlots:
   - {fileID: 8926484042661615311}
-  m_ExposedName: ShieldFragmentMesh
+  m_ExposedName: ObjectFragmentMesh
   m_Exposed: 1
   m_Order: 10
   m_Category: 
@@ -6532,7 +6532,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.25
+      m_SerializableObject: 5
     m_Space: -1
   m_Property:
     name: Intensity
@@ -6566,7 +6566,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.5
+      m_SerializableObject: 0.25
     m_Space: -1
   m_Property:
     name: Drag
@@ -6600,7 +6600,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
+      m_SerializableObject: 5
     m_Space: -1
   m_Property:
     name: frequency

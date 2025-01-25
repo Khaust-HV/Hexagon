@@ -10,8 +10,7 @@ public sealed class GameplaySceneInstaller : MonoInstaller {
     [SerializeField] private LevelConfigs _levelConfigs;
     [SerializeField] private HexagonConfigs _hexagonConfigs;
     [SerializeField] private CameraConfigs _cameraConfigs;
-    [SerializeField] private MaterialConfigs _materialConfigs;
-    [SerializeField] private VisualEffectConfigs _visualEffectConfigs;
+    [SerializeField] private VisualEffectsConfigs _visualEffectsConfigs;
     [SerializeField] private HexagonObjectConfigs _hexagonObjectConfigs;
     [Header("DI prefabs")]
     [SerializeField] private GameObject _cameraControllerPrefab;
@@ -30,8 +29,7 @@ public sealed class GameplaySceneInstaller : MonoInstaller {
         Container.Bind<LevelConfigs>().FromInstance(_levelConfigs).AsSingle().NonLazy();
         Container.Bind<HexagonConfigs>().FromInstance(_hexagonConfigs).AsSingle().NonLazy();
         Container.Bind<CameraConfigs>().FromInstance(_cameraConfigs).AsSingle().NonLazy();
-        Container.Bind<MaterialConfigs>().FromInstance(_materialConfigs).AsSingle().NonLazy();
-        Container.Bind<VisualEffectConfigs>().FromInstance(_visualEffectConfigs).AsSingle().NonLazy();
+        Container.Bind<VisualEffectsConfigs>().FromInstance(_visualEffectsConfigs).AsSingle().NonLazy();
         Container.Bind<HexagonObjectConfigs>().FromInstance(_hexagonObjectConfigs).AsSingle().NonLazy();
     }
 

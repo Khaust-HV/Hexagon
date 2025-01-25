@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8873a9fafec694d55bd5f027ec737b9b, type: 3}
   m_Name: LevelConfigs
   m_EditorClassIdentifier: 
-  <HexagonControllerPrefab>k__BackingField: {fileID: 1131078191774577411, guid: b9c36ecd629044b728ae15a3d19da442, type: 3}
-  <HexagonSize>k__BackingField: 10
+  <SizeAllObject>k__BackingField: 10
+  <SizeObjectFragment>k__BackingField: 1.5
+  <DefaultSpawnTimeAllObject>k__BackingField: 1.5
+  <DefaultDestroyTimeAllObject>k__BackingField: 2
+  <DefaultHologramSpawnTimeAllObject>k__BackingField: 0.5
   <AlgorithmOfLevelBuilding>k__BackingField: 0
   <NumberOfRings>k__BackingField: 10
+  <HexagonControllerPrefab>k__BackingField: {fileID: 1131078191774577411, guid: b9c36ecd629044b728ae15a3d19da442, type: 3}
   <HexagonObjectsControllerPrefab>k__BackingField: {fileID: 2657531671477894403, guid: 6b15a1e372bbd493db8bfc8bb94b6b1a, type: 3}
   <NumberObjectsCreatedInCaseOfShortage>k__BackingField: 10
-  <HexagonObjectSize>k__BackingField: 10

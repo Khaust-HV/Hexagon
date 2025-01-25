@@ -101,7 +101,7 @@ namespace Managers {
         private void SpreadHexagons() {
             switch (_levelConfigs.AlgorithmOfLevelBuilding) {
                 case AlgorithmOfLevelBuilding.Circular:
-                    float hexagonRadius = _levelConfigs.HexagonSize * 1.2f;
+                    float hexagonRadius = _levelConfigs.SizeAllObject * 1.2f;
                     float xOffset = hexagonRadius * 1.5f;
                     float zOffset = hexagonRadius * Mathf.Sqrt(3) * 0.86f;
 

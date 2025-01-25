@@ -40,22 +40,19 @@ namespace HexagonControl {
 
         #region DI
             private HexagonConfigs _hexagonConfigs;
-            private MaterialConfigs _materialConfigs;
-            private VisualEffectConfigs _visualEffectConfigs;
+            private VisualEffectsConfigs _visualEffectsConfigs;
             private LevelConfigs _levelConfigs;
         #endregion
 
         [Inject]
         private void Construct (
             HexagonConfigs hexagonConfigs, 
-            MaterialConfigs materialConfigs, 
-            VisualEffectConfigs visualEffectConfigs,
+            VisualEffectsConfigs visualEffectsConfigs, 
             LevelConfigs levelConfigs
             ) {
             // Set configurations
             _hexagonConfigs = hexagonConfigs;
-            _materialConfigs = materialConfigs;
-            _visualEffectConfigs = visualEffectConfigs;
+            _visualEffectsConfigs = visualEffectsConfigs;
             _levelConfigs = levelConfigs;
 
             // Set components
@@ -79,27 +76,25 @@ namespace HexagonControl {
         }
 
         private void SetDestroyHexagonObjectVFXConfiguration() {
-            _visualEffect.visualEffectAsset = _visualEffectConfigs.DestroyHexagonOrHexagonObjectVFXEffect;
-            _visualEffect.SetInt("NumberParticles", _visualEffectConfigs.DestroyVFXNumberParticles);
-            _visualEffect.SetMesh("ParticleMesh", _visualEffectConfigs.DestroyVFXParticleMesh);
+            _visualEffect.visualEffectAsset = _visualEffectsConfigs.DestroyHexagonOrHexagonObjectVFXEffect;
+            _visualEffect.SetInt("NumberParticles", _visualEffectsConfigs.DefaultDestroyVFXNumberParticles);
+            _visualEffect.SetMesh("ObjectFragmentMesh", _visualEffectsConfigs.DefaultDestroyVFXParticleMesh);
             _visualEffect.SetMesh("ObjectMesh", _mrHexagonLP.GetComponent<MeshFilter>().sharedMesh);
-            _visualEffect.SetFloat("LifeTimeParticle", _materialConfigs.DestroyEffectTime);
-            _visualEffect.SetFloat("SizeParticle", _levelConfigs.HexagonSize);
-            _visualEffect.SetFloat("Metallic", _materialConfigs.BaseMetallic);
-            _visualEffect.SetFloat("Smoothness", _materialConfigs.BaseSmoothness);
-            _visualEffect.SetFloat("NoiseScale", _materialConfigs.SpawnNoiseScale);
-            _visualEffect.SetFloat("NoiseStrength", _materialConfigs.SpawnNoiseStrength);
-            _visualEffect.SetFloat("CutoffHeight", _visualEffectConfigs.DestroyVFXCutoffHeight);
-            _visualEffect.SetFloat("EdgeWidth", _materialConfigs.SpawnEdgeWidth);
-            _visualEffect.SetVector4("EdgeColor", _materialConfigs.SpawnEdgeColor);
+            _visualEffect.SetFloat("LifeTimeParticle", _levelConfigs.DefaultDestroyTimeAllObject);
+            _visualEffect.SetFloat("SizeParticle", _levelConfigs.SizeAllObject * _levelConfigs.SizeObjectFragment);
+            _visualEffect.SetFloat("Metallic", _visualEffectsConfigs.DefaultMetallic);
+            _visualEffect.SetFloat("Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            _visualEffect.SetVector4("FresnelColor", _visualEffectsConfigs.DefaultDestroyVFXFresnelColor);
+            _visualEffect.SetFloat("FresnelPower", _visualEffectsConfigs.DefaultDestroyVFXFresnelPower);
+            _visualEffect.SetVector4("EmissionColor", _visualEffectsConfigs.DefaultSpawnEdgeColor);
         }
 
         public void SpawnEffectEnable(Material material) {
-            material.SetFloat("_NoiseScale", _materialConfigs.SpawnNoiseScale);
-            material.SetFloat("_NoiseStrength", _materialConfigs.SpawnNoiseStrength);
+            material.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultSpawnNoiseScale);
+            material.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultSpawnNoiseStrength);
             material.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
-            material.SetFloat("_EdgeWidth", _materialConfigs.SpawnEdgeWidth);
-            material.SetColor("_EdgeColor", _materialConfigs.SpawnEdgeColor);
+            material.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultSpawnEdgeWidth);
+            material.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultSpawnEdgeColor);
 
             StartCoroutine(SpawnEffectStarted(material));
         }
@@ -109,7 +104,7 @@ namespace HexagonControl {
 
             float elapsedTime = 0f;
 
-            float spawnEffectTime = _materialConfigs.SpawnEffectTime;
+            float spawnEffectTime = _levelConfigs.DefaultSpawnTimeAllObject;
 
             while (elapsedTime < spawnEffectTime) {
                 float currentValue = Mathf.Lerp(_spawnStartCutoffHeight, _spawnFinishCutoffHeight, elapsedTime / spawnEffectTime);
@@ -131,10 +126,10 @@ namespace HexagonControl {
         public void DestroyEffectEnable(Material material, bool isHexagonAutoRestore) {
             StopAllCoroutines();
 
-            material.SetFloat("_NoiseScale", _materialConfigs.DestroyNoiseScale);
-            material.SetFloat("_NoiseStrength", _materialConfigs.DestroyNoiseStrength);
-            material.SetFloat("_EdgeWidth", _materialConfigs.DestroyEdgeWidth);
-            material.SetColor("_EdgeColor", _materialConfigs.DestroyEdgeColor);
+            material.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultDestroyNoiseScale);
+            material.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultDestroyNoiseStrength);
+            material.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultDestroyEdgeWidth);
+            material.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultDestroyEdgeColor);
 
             if (_isObjectWaitingToSpawn) {
                 material.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
@@ -154,11 +149,11 @@ namespace HexagonControl {
         }
 
         private IEnumerator DestroyEffectStarted(Material material, bool isHexagonAutoRestore, bool _isFastDestroy) {
-            if (_isFastDestroy) yield return new WaitForSeconds(_materialConfigs.DestroyEffectTime);
+            if (_isFastDestroy) yield return new WaitForSeconds(_levelConfigs.DefaultDestroyTimeAllObject);
             else {
                 float elapsedTime = 0f;
 
-                float destroyEffectTime = _materialConfigs.DestroyEffectTime;
+                float destroyEffectTime = _levelConfigs.DefaultDestroyTimeAllObject;
 
                 while (elapsedTime < destroyEffectTime) {
                     float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / destroyEffectTime);

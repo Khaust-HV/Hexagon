@@ -6,6 +6,10 @@ using Zenject;
 
 namespace HexagonObjectControl {
     public sealed class ShieldAuraShieldControl : MonoBehaviour {
+        [Header("Dissolve effect settings")]
+        [SerializeField] private float _destroyStartCutoffHeight;
+        [SerializeField] private float _destroyFinishCutoffHeight;
+
         #region AuraConfigs
             private float _orbitSpeed;
             private float _orbitRadius;
@@ -21,22 +25,19 @@ namespace HexagonObjectControl {
         private IEnumerator _moveStarted;
 
         #region DI
-            private MaterialConfigs _materialConfigs;
-            private VisualEffectConfigs _visualEffectConfigs;
+            private VisualEffectsConfigs _visualEffectsConfigs;
             private LevelConfigs _levelConfigs;
         #endregion
 
         [Inject]
         private void Construct (
             HexagonObjectConfigs hexagonObjectConfigs,
-            MaterialConfigs materialConfigs, 
-            VisualEffectConfigs visualEffectConfigs,
+            VisualEffectsConfigs visualEffectsConfigs, 
             LevelConfigs levelConfigs
             ) {
             // Set configurations
 
-            _materialConfigs = materialConfigs;
-            _visualEffectConfigs = visualEffectConfigs;
+            _visualEffectsConfigs = visualEffectsConfigs;
             _levelConfigs = levelConfigs;
 
             _orbitSpeed = hexagonObjectConfigs.OrbitSpeedShieldAura;
@@ -49,19 +50,19 @@ namespace HexagonObjectControl {
         }
 
         private void SetShieldAuraShieldSpawnConfiguration() {
-            _visualEffect.visualEffectAsset = _visualEffectConfigs.ShieldAuraShieldSpawn;
-            _visualEffect.SetFloat("Metallic", _materialConfigs.BaseMetallic);
-            _visualEffect.SetFloat("Smoothness", _materialConfigs.BaseSmoothness);
-            _visualEffect.SetFloat("NoiseScale", _materialConfigs.DestroyNoiseScale);
-            _visualEffect.SetFloat("NoiseStrength", _materialConfigs.DestroyNoiseStrength);
-            _visualEffect.SetVector4("FresnelColor", _materialConfigs.ShieldAuraEmissionFresnelColor);
-            _visualEffect.SetFloat("FresnelPower", _materialConfigs.ShieldAuraEmissionFresnelPower);
-            _visualEffect.SetVector4("EmissionColor", _materialConfigs.ShieldAuraEmissionColor);
+            _visualEffect.visualEffectAsset = _visualEffectsConfigs.ShieldAuraShieldSpawn;
+            _visualEffect.SetFloat("Metallic", _visualEffectsConfigs.DefaultMetallic);
+            _visualEffect.SetFloat("Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            _visualEffect.SetFloat("NoiseScale", _visualEffectsConfigs.DefaultDestroyNoiseScale);
+            _visualEffect.SetFloat("NoiseStrength", _visualEffectsConfigs.DefaultDestroyNoiseStrength);
+            _visualEffect.SetVector4("FresnelColor", _visualEffectsConfigs.ShieldAuraEmissionFresnelColor);
+            _visualEffect.SetFloat("FresnelPower", _visualEffectsConfigs.ShieldAuraEmissionFresnelPower);
+            _visualEffect.SetVector4("EmissionColor", _visualEffectsConfigs.ShieldAuraEmissionColor);
             _visualEffect.SetMesh("ShieldMesh", GetComponent<MeshFilter>().sharedMesh);
-            _visualEffect.SetMesh("ShieldFragmentMesh", _visualEffectConfigs.DestroyVFXParticleMesh);
-            _visualEffect.SetFloat("SizeParticle", _levelConfigs.HexagonObjectSize * transform.localScale.x);
-            _visualEffect.SetFloat("LifeTimeParticle", _materialConfigs.DestroyEffectTime);
-            _visualEffect.SetInt("ParticlesNumberForShieldDestroy", _visualEffectConfigs.ShieldAuraParticlesNumberForShieldDestroy);
+            _visualEffect.SetMesh("ObjectFragmentMesh", _visualEffectsConfigs.DefaultDestroyVFXParticleMesh);
+            _visualEffect.SetFloat("SizeParticle", _levelConfigs.SizeAllObject * _levelConfigs.SizeObjectFragment);
+            _visualEffect.SetFloat("LifeTimeParticle", _levelConfigs.DefaultDestroyTimeAllObject);
+            _visualEffect.SetInt("ParticlesNumberForShieldDestroy", _visualEffectsConfigs.ShieldAuraParticlesNumberForShieldDestroy);
         }
 
         public void ShieldEffectEnable(ShieldAuraEffectType shieldAuraEffectType) {
@@ -83,13 +84,10 @@ namespace HexagonObjectControl {
         private IEnumerator DestroyShieldEffectStarted() {
             float elapsedTime = 0f;
 
-            float destroyEffectTime = _materialConfigs.DestroyEffectTime * 0.85f;
-
-            float destroyStartCutoffHeight = _visualEffectConfigs.ShieldAuraDestroyStartCutoffHeight;
-            float destroyFinishCutoffHeight = _visualEffectConfigs.ShieldAuraDestroyFinishCutoffHeight;
+            float destroyEffectTime = _levelConfigs.DefaultDestroyTimeAllObject;
 
             while (elapsedTime < destroyEffectTime) {
-                float currentValue = Mathf.Lerp(destroyStartCutoffHeight, destroyFinishCutoffHeight, elapsedTime / destroyEffectTime);
+                float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / destroyEffectTime);
 
                 _visualEffect.SetFloat("CutoffHeight", currentValue);
 
@@ -98,7 +96,7 @@ namespace HexagonObjectControl {
                 yield return null;
             }
 
-            _visualEffect.SetFloat("CutoffHeight", destroyFinishCutoffHeight);
+            _visualEffect.SetFloat("CutoffHeight", _destroyFinishCutoffHeight);
         }
 
         public void SetMoveActive(bool isActive, float maxHeightShieldAura = 0f) {

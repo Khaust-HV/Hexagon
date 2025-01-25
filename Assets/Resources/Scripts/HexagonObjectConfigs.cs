@@ -37,7 +37,7 @@ namespace GameConfigs {
         
         [field: Header("GlitcheBiome settings <Decoration>")]
         [field: SerializeField] public GameObject[] GlitcheBiomePrefabs { get; private set; }
-        [field: Space(50)]
+        [field: Space(25)]
 
         // Category of Mine
         [field: Header("TreeSource settings <Mine> <Source>")]
@@ -114,7 +114,7 @@ namespace GameConfigs {
         [field: SerializeField] public float GlitcheMiningResourceCreationTime { get; private set; }
         [field: SerializeField] public int GlitcheMiningMinResourceNumber { get; private set; }
         [field: SerializeField] public int GlitcheMiningMaxResourceNumber { get; private set; }
-        [field: Space(50)]
+        [field: Space(25)]
 
         // Category of BuildebleField
         [field: Header("FlamingRainTower settings <BuildebleField> <Tree>")]
@@ -187,7 +187,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] VerdantEnclaveOfNaturePrefabs { get; private set; }
         [field: Header("FrostwovenSanctum settings <BuildebleField> <HireUnits>")]
         [field: SerializeField] public GameObject[] FrostwovenSanctumPrefabs { get; private set; }
-        [field: Space(50)]
+        [field: Space(25)]
 
         // Category of UnBuildebleField
         [field: Header("StartOrFinishRoad settings <UnBuildebleField>")]
@@ -200,14 +200,14 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] NearTurnRoadPrefabs { get; private set; }
         [field: Header("HardWay settings <UnBuildebleField>")]
         [field: SerializeField] public GameObject[] HardWayPrefabs { get; private set; }
-        [field: Space(50)]
+        [field: Space(25)]
 
         // Category of Core
         [field: Header("MainCore settings <Core>")]
         [field: SerializeField] public GameObject[] MainCorePrefabs { get; private set; }
         [field: Header("ShieldCore settings <Core>")]
         [field: SerializeField] public GameObject[] ShieldCorePrefabs { get; private set; }
-        [field: Space(50)]
+        [field: Space(25)]
 
         // Category of Heap
         [field: Header("NormalObjects settings <Heap>")]
@@ -216,7 +216,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] LakePrefabs { get; private set; }
         [field: Header("QuestObjects settings <Heap>")]
         [field: SerializeField] public GameObject[] QuestObjectsPrefabs { get; private set; }
-        [field: Space(50)]
+        [field: Space(25)]
 
         // Category of River
         [field: Header("StartOrFinishSafeRiver settings <River> <SafeRiver>")]
@@ -237,14 +237,14 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] LongTurnDangerousRiverPrefabs { get; private set; }
         [field: Header("NearTurnDangerousRiver settings <River> <DangerousRiver>")]
         [field: SerializeField] public GameObject[] NearTurnDangerousRiverPrefabs { get; private set; }
-        [field: Space(50)]
+        [field: Space(25)]
 
         [field: Header("Aura efficiency settings")]
         [field: SerializeField] public float LowEfficiency { get; private set; }
         [field: SerializeField] public float StandardEfficiency { get; private set; }
         [field: SerializeField] public float HighEfficiency { get; private set; }
         [field: SerializeField] public float ReallyHighEfficiency { get; private set; }
-        [field: Space(50)]
+        [field: Space(25)]
 
         // Category of ElementAuraType
         [field: Header("Fire settings <ElementAuraType>")]
@@ -255,7 +255,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] ElectricAuraPrefabs { get; private set; }
         [field: Header("Nature settings <ElementAuraType>")]
         [field: SerializeField] public GameObject[] NatureAuraPrefabs { get; private set; }
-        [field: Space(50)]
+        [field: Space(25)]
 
         // Category of StatsAuraType
         [field: Header("Shield settings <StatsAuraType>")]
@@ -290,7 +290,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] AttackSpeedPositioveAuraPrefabs { get; private set; }
         [field: Header("AttackSpeedNegative settings <StatsAuraType>")]
         [field: SerializeField] public GameObject[] AttackSpeedNegativeAuraPrefabs { get; private set; }
-        [field: Space(50)]
+        [field: Space(25)]
 
         // Category of BuildAuraType
         [field: Header("BuildingEfficiencyPositive settings <BuildAuraType>")]
@@ -301,7 +301,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] ConstructionSpeedPositiveAuraPrefabs { get; private set; }
         [field: Header("ConstructionSpeedNegative settings <BuildAuraType>")]
         [field: SerializeField] public GameObject[] ConstructionSpeedNegativeAuraPrefabs { get; private set; }
-        [field: Space(50)]
+        [field: Space(25)]
 
         // Category of TrailAuraType
         [field: Header("MovementSpeedPositive settings <TrailAuraType>")]
@@ -310,7 +310,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] MovementSpeedNegativeAuraPrefabs { get; private set; }
         [field: Header("FlightDisable settings <TrailAuraType>")]
         [field: SerializeField] public GameObject[] FlightDisableAuraPrefabs { get; private set; }
-        [field: Space(50)]
+        [field: Space(25)]
 
         // EmptyObject
         [field: Header("EmptyHexagonObjects")]

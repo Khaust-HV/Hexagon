@@ -46,9 +46,9 @@ namespace HexagonObjectControl {
         }
 
         private void SetMaterial() {
-            Material baseMaterial = new Material(_materialConfigs.DissolveWithUV);
-            baseMaterial.SetFloat("_Metallic", _materialConfigs.BaseMetallic);
-            baseMaterial.SetFloat("_Smoothness", _materialConfigs.BaseSmoothness);
+            Material baseMaterial = new Material(_visualEffectsConfigs.DissolveWithUV);
+            baseMaterial.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
+            baseMaterial.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
 
             _mrAura.material = baseMaterial;
         }

@@ -20,22 +20,25 @@ namespace HexagonObjectControl {
 
         #region DI
             private IStorageTransformPool _iStorageTransformPool;
-            protected MaterialConfigs _materialConfigs;
+            protected VisualEffectsConfigs _visualEffectsConfigs;
             protected HexagonObjectConfigs _hexagonObjectConfigs;
+            protected LevelConfigs _levelConfigs;
         #endregion
 
         [Inject]
         private void Construct (
             IStorageTransformPool iStorageTransformPool, 
-            MaterialConfigs materialConfigs, 
-            HexagonObjectConfigs hexagonObjectConfigs
+            VisualEffectsConfigs visualEffectsConfigs, 
+            HexagonObjectConfigs hexagonObjectConfigs,
+            LevelConfigs levelConfigs
             ) {
             // Set DI
             _iStorageTransformPool = iStorageTransformPool;
 
             // Set configurations
-            _materialConfigs = materialConfigs;
+            _visualEffectsConfigs = visualEffectsConfigs;
             _hexagonObjectConfigs = hexagonObjectConfigs;
+            _levelConfigs = levelConfigs;
         }
 
         protected virtual void SetBaseConfiguration() {
@@ -88,7 +91,7 @@ namespace HexagonObjectControl {
         private IEnumerator SpawnEffectStarted() {
             _isObjectWaitingToSpawn = true;
 
-            yield return new WaitForSeconds(_materialConfigs.SpawnEffectTime);
+            yield return new WaitForSeconds(_levelConfigs.DefaultSpawnTimeAllObject);
 
             SetHexagonObjectWorkActive(true);
 
@@ -108,7 +111,7 @@ namespace HexagonObjectControl {
         }
 
         private IEnumerator DestroyEffectStarted() {
-            yield return new WaitForSeconds(_materialConfigs.DestroyEffectTime);
+            yield return new WaitForSeconds(_levelConfigs.DefaultDestroyTimeAllObject);
 
             RestoreAndHide();
         }

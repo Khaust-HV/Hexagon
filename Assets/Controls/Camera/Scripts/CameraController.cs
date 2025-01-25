@@ -7,6 +7,23 @@ using CameraControl;
 
 namespace CameraControl {
     public class CameraController : MonoBehaviour, ICameraMove, ICameraZoom, ICameraSatelliteMovement, ICameraRaycast {
+        #region CameraConfig
+            private float _movementSmoothSpeed;
+            private float _rotationSmoothSpeed;
+            private float _sensitivityMove;
+            private float _sensitivityZoom;
+            private float _timeToStopMoveing;
+            private float _orbitRadius;
+            private float _orbitHeigh;
+            private float _satelliteSpeed;
+            private float _maxHeight;
+            private float _minHeight;
+            private float _westBorder;
+            private float _eastBorder;
+            private float _northBorder;
+            private float _southBorder;
+        #endregion
+        
         // The camera moves from the player's input
         private Camera _camera;
         private CameraState _cameraState;
@@ -38,6 +55,20 @@ namespace CameraControl {
         private void Construct(CameraConfigs cameraConfigs) {
             // Set configurations
             _cameraConfigs = cameraConfigs;
+            _movementSmoothSpeed = _cameraConfigs.MovementSmoothSpeed;
+            _rotationSmoothSpeed = _cameraConfigs.RotationSmoothSpeed;
+            _sensitivityMove = _cameraConfigs.SensitivityMove;
+            _sensitivityZoom = _cameraConfigs.SensitivityZoom;
+            _timeToStopMoveing = _cameraConfigs.TimeToStopMoveing;
+            _orbitRadius = _cameraConfigs.OrbitRadius;
+            _orbitHeigh = _cameraConfigs.OrbitHeight;
+            _satelliteSpeed = _cameraConfigs.SatelliteSpeed;
+            _maxHeight = _cameraConfigs.MaxHeight;
+            _minHeight = _cameraConfigs.MinHeight;
+            _westBorder = _cameraConfigs.WestBorder;
+            _eastBorder = _cameraConfigs.EastBorder;
+            _northBorder = _cameraConfigs.NorthBorder;
+            _southBorder = _cameraConfigs.SouthBorder;
 
             // Set component
             _camera = transform.GetChild(0).GetComponent<Camera>();
@@ -50,7 +81,6 @@ namespace CameraControl {
         }
 
         private IEnumerator CameraMovementStart() {
-
             while (true) {
                 if (_isTimerToStopMovementActive && Time.time > _currentTimeToStopMoveing) CameraMovementStop();
 
@@ -86,14 +116,14 @@ namespace CameraControl {
 
         private IEnumerator SatelliteMovementStart() {
             while (true) {
-                _satelliteCurrentAngle += _cameraConfigs.SatelliteSpeed * Time.deltaTime;
+                _satelliteCurrentAngle += _satelliteSpeed * Time.deltaTime;
 
                 _satelliteCurrentAngle %= 360f;
 
                 Vector3 stepPosition = new Vector3(
-                    Mathf.Cos(_satelliteCurrentAngle * Mathf.Deg2Rad) * _cameraConfigs.OrbitRadius,
-                    _cameraConfigs.OrbitHeight,
-                    Mathf.Sin(_satelliteCurrentAngle * Mathf.Deg2Rad) * _cameraConfigs.OrbitRadius
+                    Mathf.Cos(_satelliteCurrentAngle * Mathf.Deg2Rad) * _orbitRadius,
+                    _orbitHeigh,
+                    Mathf.Sin(_satelliteCurrentAngle * Mathf.Deg2Rad) * _orbitRadius
                 );
 
                 _satellitePosition = _targetPosition + stepPosition;
@@ -103,13 +133,13 @@ namespace CameraControl {
         }
 
         private void MoveingCamera() {
-            Vector3 stepPosition = Vector3.Lerp(transform.position, _newMovePosition, _cameraConfigs.MovementSmoothSpeed);
+            Vector3 stepPosition = Vector3.Lerp(transform.position, _newMovePosition, _movementSmoothSpeed);
 
             transform.position = stepPosition;
         }
 
         private void ZoomingCamera() {
-            Vector3 stepPosition = Vector3.Lerp(transform.position, _newZoomPosition, _cameraConfigs.MovementSmoothSpeed);
+            Vector3 stepPosition = Vector3.Lerp(transform.position, _newZoomPosition, _movementSmoothSpeed);
 
             transform.position = stepPosition;
 
@@ -129,11 +159,11 @@ namespace CameraControl {
                 break;
 
                 case CameraState.CameraMoveingToDefault:
-                    Vector3 stepPosition = Vector3.Lerp(transform.position, _defaultPosition, _cameraConfigs.MovementSmoothSpeed);
+                    Vector3 stepPosition = Vector3.Lerp(transform.position, _defaultPosition, _movementSmoothSpeed);
 
                     transform.position = stepPosition;
 
-                    Quaternion stepRotation = Quaternion.Lerp(_trCamera.rotation, _defaultRotation, _cameraConfigs.RotationSmoothSpeed * 2 * Time.deltaTime);
+                    Quaternion stepRotation = Quaternion.Lerp(_trCamera.rotation, _defaultRotation, _rotationSmoothSpeed * 2 * Time.deltaTime);
 
                     _trCamera.rotation = stepRotation;
 
@@ -148,7 +178,7 @@ namespace CameraControl {
         }
 
         private void OrbitingCameraSetPosition() {
-            Vector3 stepPosition = Vector3.Lerp(transform.position, _satellitePosition, _cameraConfigs.MovementSmoothSpeed);
+            Vector3 stepPosition = Vector3.Lerp(transform.position, _satellitePosition, _movementSmoothSpeed);
 
             transform.position = stepPosition;
 
@@ -156,22 +186,22 @@ namespace CameraControl {
 
             Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
 
-            Quaternion stepRotation = Quaternion.Lerp(_trCamera.rotation, targetRotation, _cameraConfigs.RotationSmoothSpeed * Time.deltaTime);
+            Quaternion stepRotation = Quaternion.Lerp(_trCamera.rotation, targetRotation, _rotationSmoothSpeed * Time.deltaTime);
 
             _trCamera.rotation = stepRotation;
         }
 
         private void SetSensitivityWithHeight() {
-            float percentageOfMaxHeight = transform.position.y * 100 / _cameraConfigs.MaxHeight;
+            float percentageOfMaxHeight = transform.position.y * 100 / _maxHeight;
 
-            _currentSensitivityZoom = _cameraConfigs.SensitivityZoom * percentageOfMaxHeight / 100;
-            _currentSensitivityMove = _cameraConfigs.SensitivityMove * percentageOfMaxHeight / 100;
+            _currentSensitivityZoom = _sensitivityZoom * percentageOfMaxHeight / 100;
+            _currentSensitivityMove = _sensitivityMove * percentageOfMaxHeight / 100;
         }
 
         private Vector3 CheckMapBorder(Vector3 cameraPosition) {
-            float x = Mathf.Clamp(cameraPosition.x, _cameraConfigs.WestBorder, _cameraConfigs.EastBorder);
-            float y = Mathf.Clamp (cameraPosition.y, _cameraConfigs.MinHeight, _cameraConfigs.MaxHeight);
-            float z = Mathf.Clamp(cameraPosition.z, _cameraConfigs.SouthBorder, _cameraConfigs.NorthBorder);
+            float x = Mathf.Clamp(cameraPosition.x, _westBorder, _eastBorder);
+            float y = Mathf.Clamp (cameraPosition.y, _minHeight, _maxHeight);
+            float z = Mathf.Clamp(cameraPosition.z, _southBorder, _northBorder);
 
             return new Vector3(x, y, z);
         }
@@ -181,7 +211,7 @@ namespace CameraControl {
         }
 
         public void SetNewZoomPosition(Vector3 vec3) {
-            if (_newZoomPosition.y == _cameraConfigs.MaxHeight && vec3.y > 0 || _newZoomPosition.y == _cameraConfigs.MinHeight && vec3.y < 0) return;
+            if (_newZoomPosition.y == _maxHeight && vec3.y > 0 || _newZoomPosition.y == _minHeight && vec3.y < 0) return;
 
             _newZoomPosition = CheckMapBorder(_newZoomPosition + vec3 * _currentSensitivityZoom * Time.deltaTime);
         }
@@ -191,7 +221,7 @@ namespace CameraControl {
 
             Vector3 directionToCamera = (transform.position - _targetPosition).normalized;
 
-            Vector3 satellitePosition = _targetPosition + directionToCamera * _cameraConfigs.OrbitRadius;
+            Vector3 satellitePosition = _targetPosition + directionToCamera * _orbitRadius;
 
             Vector3 flatDirectionToSatellite = new Vector3 (
                 satellitePosition.x - _targetPosition.x,
@@ -226,7 +256,7 @@ namespace CameraControl {
             }
             else {
                 if (!_isTimerToStopMovementActive) {
-                    _currentTimeToStopMoveing = Time.time + _cameraConfigs.TimeToStopMoveing;
+                    _currentTimeToStopMoveing = Time.time + _timeToStopMoveing;
                     _isTimerToStopMovementActive = true;
                 } 
             }
@@ -265,10 +295,10 @@ namespace CameraControl {
         private void OnDrawGizmos() {
             Gizmos.color = Color.red;
 
-            Vector3 topLeft = new Vector3(_cameraConfigs.WestBorder, 0, _cameraConfigs.NorthBorder);
-            Vector3 topRight = new Vector3(_cameraConfigs.EastBorder, 0, _cameraConfigs.NorthBorder);
-            Vector3 bottomLeft = new Vector3(_cameraConfigs.WestBorder, 0, _cameraConfigs.SouthBorder);
-            Vector3 bottomRight = new Vector3(_cameraConfigs.EastBorder, 0, _cameraConfigs.SouthBorder);
+            Vector3 topLeft = new Vector3(_westBorder, 0, _northBorder);
+            Vector3 topRight = new Vector3(_eastBorder, 0, _northBorder);
+            Vector3 bottomLeft = new Vector3(_westBorder, 0, _southBorder);
+            Vector3 bottomRight = new Vector3(_eastBorder, 0, _southBorder);
 
             Gizmos.DrawLine(topLeft, topRight);
             Gizmos.DrawLine(topRight, bottomRight);
