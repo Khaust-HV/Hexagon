@@ -30,7 +30,9 @@ namespace HexagonObjectControl {
         private IEnumerator _spawnEffectStarted;
 
         protected Material _baseMaterial;
+        protected MaterialPropertyBlock _baseMaterialPropertyBlock;
         private Material _hologramMaterial;
+        protected MaterialPropertyBlock _hologramMaterialPropertyBlock;
 
         private VisualEffect _visualEffect;
 
@@ -77,12 +79,14 @@ namespace HexagonObjectControl {
         protected virtual void SetBaseConfiguration() {
             _spawnEffectTime = _levelConfigs.DefaultSpawnTimeAllObject;
 
-            _baseMaterial = new Material(_visualEffectsConfigs.DissolveWithUV);
-            _baseMaterial.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
-            _baseMaterial.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            _baseMaterial = _visualEffectsConfigs.DissolveWithUV;
+            _baseMaterialPropertyBlock = new MaterialPropertyBlock();
+            _baseMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
+            _baseMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
 
             foreach (var mrObject in _mrBaseObject) {
                 mrObject.material = _baseMaterial;
+                mrObject.SetPropertyBlock(_baseMaterialPropertyBlock);
             }
         }
 
@@ -124,28 +128,36 @@ namespace HexagonObjectControl {
         public void SpawnEffectEnable() {
             gameObject.SetActive(true);
 
-            _baseMaterial.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultSpawnNoiseScale);
-            _baseMaterial.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultSpawnNoiseStrength);
-            _baseMaterial.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
-            _baseMaterial.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultSpawnEdgeWidth);
-            _baseMaterial.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultSpawnEdgeColor);
+            _baseMaterialPropertyBlock.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultSpawnNoiseScale);
+            _baseMaterialPropertyBlock.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultSpawnNoiseStrength);
+            _baseMaterialPropertyBlock.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
+            _baseMaterialPropertyBlock.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultSpawnEdgeWidth);
+            _baseMaterialPropertyBlock.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultSpawnEdgeColor);
+
+            foreach (var mrObject in _mrBaseObject) {
+                mrObject.SetPropertyBlock(_baseMaterialPropertyBlock);
+            }
 
             if (_isObjectWaitingToSpawn) StopCoroutine(_spawnEffectStarted);
 
-            StartCoroutine(_spawnEffectStarted = SpawnEffectStarted(_baseMaterial, _spawnEffectTime));
+            StartCoroutine(_spawnEffectStarted = SpawnEffectStarted(_baseMaterialPropertyBlock, _spawnEffectTime));
         }
 
         public void HologramSpawnEffectEnable() {
             gameObject.SetActive(true);
 
-            _hologramMaterial.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
+            _hologramMaterialPropertyBlock.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
+
+            foreach (var mrObject in _mrBaseObject) {
+                mrObject.SetPropertyBlock(_hologramMaterialPropertyBlock);
+            }
 
             if (_isObjectWaitingToSpawn) StopCoroutine(_spawnEffectStarted);
 
-            StartCoroutine(_spawnEffectStarted = SpawnEffectStarted(_hologramMaterial, _levelConfigs.DefaultHologramSpawnTimeAllObject));
+            StartCoroutine(_spawnEffectStarted = SpawnEffectStarted(_hologramMaterialPropertyBlock, _levelConfigs.DefaultHologramSpawnTimeAllObject));
         }
 
-        private IEnumerator SpawnEffectStarted(Material material, float spawnEffectTime) {
+        private IEnumerator SpawnEffectStarted(MaterialPropertyBlock materialPropertyBlock, float spawnEffectTime) {
             _isObjectWaitingToSpawn = true;
 
             SetAnimationActive(true);
@@ -155,14 +167,22 @@ namespace HexagonObjectControl {
             while (elapsedTime < spawnEffectTime) {
                 float currentValue = Mathf.Lerp(_spawnStartCutoffHeight, _spawnFinishCutoffHeight, elapsedTime / spawnEffectTime);
 
-                material.SetFloat("_CutoffHeight", currentValue);
+                materialPropertyBlock.SetFloat("_CutoffHeight", currentValue);
+
+                foreach (var mrObject in _mrBaseObject) {
+                    mrObject.SetPropertyBlock(materialPropertyBlock);
+                }
 
                 elapsedTime += Time.deltaTime;
 
                 yield return null;
             }
 
-            material.SetFloat("_CutoffHeight", _spawnFinishCutoffHeight);
+            materialPropertyBlock.SetFloat("_CutoffHeight", _spawnFinishCutoffHeight);
+
+            foreach (var mrObject in _mrBaseObject) {
+                mrObject.SetPropertyBlock(materialPropertyBlock);
+            }
 
             SetHexagonObjectWorkActive(true);
 
@@ -172,13 +192,13 @@ namespace HexagonObjectControl {
         public void DestroyEffectEnable(bool _isFastDestroy) {
             SetHexagonObjectWorkActive(false);
 
-            _baseMaterial.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultDestroyNoiseScale);
-            _baseMaterial.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultDestroyNoiseStrength);
-            _baseMaterial.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultDestroyEdgeWidth);
-            _baseMaterial.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultDestroyEdgeColor);
+            _baseMaterialPropertyBlock.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultDestroyNoiseScale);
+            _baseMaterialPropertyBlock.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultDestroyNoiseStrength);
+            _baseMaterialPropertyBlock.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultDestroyEdgeWidth);
+            _baseMaterialPropertyBlock.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultDestroyEdgeColor);
 
             if (_isFastDestroy || _isObjectWaitingToSpawn) {
-                _baseMaterial.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
+                _baseMaterialPropertyBlock.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
 
                 _visualEffect.SendEvent("DestroyEffect");
 
@@ -190,9 +210,17 @@ namespace HexagonObjectControl {
 
                 SetAnimationActive(false);
 
+                foreach (var mrObject in _mrBaseObject) {
+                    mrObject.SetPropertyBlock(_baseMaterialPropertyBlock);
+                }
+
                 StartCoroutine(DestroyEffectStarted(true));
             } else {
-                _baseMaterial.SetFloat("_CutoffHeight", _destroyStartCutoffHeight);
+                _baseMaterialPropertyBlock.SetFloat("_CutoffHeight", _destroyStartCutoffHeight);
+
+                foreach (var mrObject in _mrBaseObject) {
+                    mrObject.SetPropertyBlock(_baseMaterialPropertyBlock);
+                }
 
                 StartCoroutine(DestroyEffectStarted(false));
             }
@@ -208,14 +236,22 @@ namespace HexagonObjectControl {
                 while (elapsedTime <destroyEffectTime) {
                     float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / destroyEffectTime);
 
-                    _baseMaterial.SetFloat("_CutoffHeight", currentValue);
+                    _baseMaterialPropertyBlock.SetFloat("_CutoffHeight", currentValue);
+
+                    foreach (var mrObject in _mrBaseObject) {
+                        mrObject.SetPropertyBlock(_baseMaterialPropertyBlock);
+                    }
 
                     elapsedTime += Time.deltaTime;
 
                     yield return null;
                 }
 
-                _baseMaterial.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
+                _baseMaterialPropertyBlock.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
+
+                foreach (var mrObject in _mrBaseObject) {
+                    mrObject.SetPropertyBlock(_baseMaterialPropertyBlock);
+                }
 
                 SetAnimationActive(false);
             }
@@ -224,21 +260,23 @@ namespace HexagonObjectControl {
         }
 
         public void MakeObjectHologram() {
-            if (_hologramMaterial == null) {
-                _hologramMaterial = new Material(_visualEffectsConfigs.HologramAndDissolve);
-                _hologramMaterial.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
-                _hologramMaterial.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
-                _hologramMaterial.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultSpawnNoiseScale);
-                _hologramMaterial.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultSpawnNoiseStrength);
-                _hologramMaterial.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultHologramEdgeWidth);
-                _hologramMaterial.SetFloat("_AnimationSpeed", _visualEffectsConfigs.DefaultHologramAnimationSpeed);
-                _hologramMaterial.SetColor("_BaseColor", _visualEffectsConfigs.DefaultHologramColor);
-                _hologramMaterial.SetColor("_FresnelColor", _visualEffectsConfigs.DefaultHologramFresnelColor);
-                _hologramMaterial.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultHologramEdgeColor);
+            if (_hologramMaterialPropertyBlock == null) {
+                _hologramMaterial = _visualEffectsConfigs.HologramAndDissolve;
+                _hologramMaterialPropertyBlock = new MaterialPropertyBlock();
+                _hologramMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
+                _hologramMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+                _hologramMaterialPropertyBlock.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultSpawnNoiseScale);
+                _hologramMaterialPropertyBlock.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultSpawnNoiseStrength);
+                _hologramMaterialPropertyBlock.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultHologramEdgeWidth);
+                _hologramMaterialPropertyBlock.SetFloat("_AnimationSpeed", _visualEffectsConfigs.DefaultHologramAnimationSpeed);
+                _hologramMaterialPropertyBlock.SetColor("_BaseColor", _visualEffectsConfigs.DefaultHologramColor);
+                _hologramMaterialPropertyBlock.SetColor("_FresnelColor", _visualEffectsConfigs.DefaultHologramFresnelColor);
+                _hologramMaterialPropertyBlock.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultHologramEdgeColor);
             }
 
             foreach (var mrObject in _mrBaseObject) {
                 mrObject.material = _hologramMaterial;
+                mrObject.SetPropertyBlock(_hologramMaterialPropertyBlock);
             }
 
             _isObjectHologram = true;
@@ -253,6 +291,8 @@ namespace HexagonObjectControl {
         }
 
         public void RestoreAndHide() {
+            gameObject.SetActive(false);
+
             if (_isObjectHologram) {
                 foreach (var mrObject in _mrBaseObject) {
                     mrObject.material = _baseMaterial;
@@ -266,8 +306,6 @@ namespace HexagonObjectControl {
             transform.localRotation = Quaternion.identity;
 
             HexagonObjectPartIsRestore?.Invoke();
-
-            gameObject.SetActive(false);
 
             _isHexagonObjectPartUsed = false;
         }

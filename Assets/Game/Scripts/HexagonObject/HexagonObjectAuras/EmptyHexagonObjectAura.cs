@@ -46,11 +46,12 @@ namespace HexagonObjectControl {
         }
 
         private void SetMaterial() {
-            Material baseMaterial = new Material(_visualEffectsConfigs.DissolveWithUV);
-            baseMaterial.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
-            baseMaterial.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            MaterialPropertyBlock _baseMaterialPropertyBlock = new MaterialPropertyBlock();
+            _baseMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
+            _baseMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
 
-            _mrAura.material = baseMaterial;
+            _mrAura.material = _visualEffectsConfigs.DissolveWithUV;
+            _mrAura.SetPropertyBlock(_baseMaterialPropertyBlock);
         }
 
         protected override void SetHexagonObjectWorkActive(bool isActive) {

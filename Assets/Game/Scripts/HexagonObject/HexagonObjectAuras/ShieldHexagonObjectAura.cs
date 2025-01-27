@@ -12,8 +12,7 @@ namespace HexagonObjectControl {
         private ShieldAuraShieldControl[] _shildsControl;
         private MeshRenderer[] _mrShilds;
 
-        private Material _shieldMaterial;
-        private Material _auraShieldMaterial;
+        private MaterialPropertyBlock _auraShieldMaterialPropertyBlock;
 
         private AuraEfficiencyType _auraEfficiencyType;
 
@@ -34,28 +33,32 @@ namespace HexagonObjectControl {
         }
 
         private void SetMaterial() {
-            _shieldMaterial = new Material(_visualEffectsConfigs.EmissionFullObject);
-            _shieldMaterial.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
-            _shieldMaterial.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
-            _shieldMaterial.SetColor("_FresnelColor", _visualEffectsConfigs.ShieldAuraEmissionFresnelColor);
-            _shieldMaterial.SetFloat("_FresnelPower", _visualEffectsConfigs.ShieldAuraEmissionFresnelPower);
-            _shieldMaterial.SetColor("_EmissionColor", _visualEffectsConfigs.ShieldAuraEmissionColor);
+            Material shieldMaterial = _visualEffectsConfigs.EmissionFullObject;
+            MaterialPropertyBlock _shieldMaterialPropertyBlock = new MaterialPropertyBlock();
+            _shieldMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
+            _shieldMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            _shieldMaterialPropertyBlock.SetColor("_FresnelColor", _visualEffectsConfigs.ShieldAuraEmissionFresnelColor);
+            _shieldMaterialPropertyBlock.SetFloat("_FresnelPower", _visualEffectsConfigs.ShieldAuraEmissionFresnelPower);
+            _shieldMaterialPropertyBlock.SetColor("_EmissionColor", _visualEffectsConfigs.ShieldAuraEmissionColor);
 
             foreach (var shield in _mrShilds) {
-                shield.material = _shieldMaterial;
+                shield.material = shieldMaterial;
+                shield.SetPropertyBlock(_shieldMaterialPropertyBlock);
             }
 
-            _auraShieldMaterial = new Material(_visualEffectsConfigs.DissolveAndEmissionFullObjectAndVerticalNoice);
-            _auraShieldMaterial.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
-            _auraShieldMaterial.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
-            _auraShieldMaterial.SetColor("_FresnelColor", _visualEffectsConfigs.ShieldAuraEmissionFresnelColor);
-            _auraShieldMaterial.SetFloat("_FresnelPower", _visualEffectsConfigs.ShieldAuraEmissionFresnelPower);
-            _auraShieldMaterial.SetColor("_EmissionColor", _visualEffectsConfigs.ShieldAuraEmissionColor);
-            _auraShieldMaterial.SetFloat("VerticalNoiceScale", _visualEffectsConfigs.ShieldAuraVerticalNoiceScale);
-            _auraShieldMaterial.SetFloat("DissolveNoiseScale", _visualEffectsConfigs.DefaultDestroyNoiseScale);
-            _auraShieldMaterial.SetFloat("NoiseStrength", _visualEffectsConfigs.DefaultDestroyNoiseStrength);
+            Material auraShieldMaterial = _visualEffectsConfigs.DissolveAndEmissionFullObjectAndVerticalNoice;
+            _auraShieldMaterialPropertyBlock = new MaterialPropertyBlock();
+            _auraShieldMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
+            _auraShieldMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            _auraShieldMaterialPropertyBlock.SetColor("_FresnelColor", _visualEffectsConfigs.ShieldAuraEmissionFresnelColor);
+            _auraShieldMaterialPropertyBlock.SetFloat("_FresnelPower", _visualEffectsConfigs.ShieldAuraEmissionFresnelPower);
+            _auraShieldMaterialPropertyBlock.SetColor("_EmissionColor", _visualEffectsConfigs.ShieldAuraEmissionColor);
+            _auraShieldMaterialPropertyBlock.SetFloat("VerticalNoiceScale", _visualEffectsConfigs.ShieldAuraVerticalNoiceScale);
+            _auraShieldMaterialPropertyBlock.SetFloat("DissolveNoiseScale", _visualEffectsConfigs.DefaultDestroyNoiseScale);
+            _auraShieldMaterialPropertyBlock.SetFloat("NoiseStrength", _visualEffectsConfigs.DefaultDestroyNoiseStrength);
 
-            _mrShieldAura.material = _auraShieldMaterial;
+            _mrShieldAura.material = auraShieldMaterial;
+            _mrShieldAura.SetPropertyBlock(_auraShieldMaterialPropertyBlock);
         }
 
         public override void SetAuraEfficiency(AuraEfficiencyType auraEfficiencyType) {
@@ -201,7 +204,9 @@ namespace HexagonObjectControl {
         }
 
         private IEnumerator RaiseTheShield(float shieldAuraHeight) {
-            _auraShieldMaterial.SetFloat("_CutoffHeight", _destroyStartCutoffHeight);
+            _auraShieldMaterialPropertyBlock.SetFloat("_CutoffHeight", _destroyStartCutoffHeight);
+
+            _mrShieldAura.SetPropertyBlock(_auraShieldMaterialPropertyBlock);
 
             float elapsedTime = 0f;
 
@@ -210,14 +215,18 @@ namespace HexagonObjectControl {
             while (elapsedTime < spawnEffectTime) {
                 float currentValue = Mathf.Lerp(0f, shieldAuraHeight, elapsedTime / spawnEffectTime);
 
-                _auraShieldMaterial.SetFloat("_AuraHeight", currentValue);
+                _auraShieldMaterialPropertyBlock.SetFloat("_AuraHeight", currentValue);
+
+                _mrShieldAura.SetPropertyBlock(_auraShieldMaterialPropertyBlock);
 
                 elapsedTime += Time.deltaTime;
 
                 yield return null;
             }
 
-            _auraShieldMaterial.SetFloat("_AuraHeight", shieldAuraHeight);
+            _auraShieldMaterialPropertyBlock.SetFloat("_AuraHeight", shieldAuraHeight);
+
+            _mrShieldAura.SetPropertyBlock(_auraShieldMaterialPropertyBlock);
         }
 
         private IEnumerator LowerTheShield() {
@@ -228,14 +237,18 @@ namespace HexagonObjectControl {
             while (elapsedTime < destroyEffectTime) {
                 float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / destroyEffectTime);
 
-                _auraShieldMaterial.SetFloat("_CutoffHeight", currentValue);
+                _auraShieldMaterialPropertyBlock.SetFloat("_CutoffHeight", currentValue);
+
+                _mrShieldAura.SetPropertyBlock(_auraShieldMaterialPropertyBlock);
 
                 elapsedTime += Time.deltaTime;
 
                 yield return null;
             }
 
-            _auraShieldMaterial.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
+            _auraShieldMaterialPropertyBlock.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
+
+            _mrShieldAura.SetPropertyBlock(_auraShieldMaterialPropertyBlock);
 
             _mrShieldAura.enabled = false;
         }

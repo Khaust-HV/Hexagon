@@ -99,13 +99,11 @@ namespace HexagonObjectControl {
         }
 
         public void DestroyEffectEnable(bool _isFastDestroy) {
-            SetHexagonObjectWorkActive(false);
-
             if (_isObjectWaitingToSpawn) {
                 StopCoroutine(_spawnEffectStarted);
 
                 _isObjectWaitingToSpawn = false;
-            }
+            } else SetHexagonObjectWorkActive(false);
 
             StartCoroutine(DestroyEffectStarted());
         }

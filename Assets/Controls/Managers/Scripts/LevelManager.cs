@@ -177,6 +177,16 @@ namespace Managers {
                     hexagonController.SetHexagonActive(true);
                 }
                 await Task.Delay(15);
+            }
+
+            while (true) {
+                int randomID = Random.Range(0, _iBuildingsPool.GetNumberHexagonControllers());
+
+                if (_iBuildingsPool.GetHexagonControllerByID(randomID, out IHexagonControl hexagonController) && hexagonController.IsHexagonControllerUsed()) {
+
+                    hexagonController.SetHexagonActive(false);
+                }
+                await Task.Delay(2000);
             }   
 
             // for (int i = 0; i < _iBuildingsPool.GetNumberHexagonControllers(); i++) {

@@ -922,7 +922,7 @@
     "m_Title": "Fresnel Effect",
     "m_Position": {
         "x": 821.0,
-        "y": -1865.0001220703125
+        "y": -1865.0
     }
 }
 
@@ -1936,8 +1936,8 @@
     "m_ObjectId": "3169d1168a5640f88ae970a95267a5b6",
     "m_Title": "Hologram Effect",
     "m_Position": {
-        "x": -939.5,
-        "y": -1335.9998779296875
+        "x": -939.5000610351563,
+        "y": -1336.0
     }
 }
 
@@ -3201,7 +3201,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Power",
     "m_StageCapability": 3,
-    "m_Value": 5.0,
+    "m_Value": 2.0,
     "m_DefaultValue": 1.0,
     "m_Labels": []
 }
@@ -4725,8 +4725,8 @@
     "m_ObjectId": "bf4715bb897e4022a21580d8084a337b",
     "m_Title": "Dissolve Effect",
     "m_Position": {
-        "x": -1365.0003662109375,
-        "y": -73.00000762939453
+        "x": -1365.0001220703125,
+        "y": -72.99998474121094
     }
 }
 

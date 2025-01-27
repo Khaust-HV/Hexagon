@@ -10,13 +10,13 @@ namespace GameConfigs {
         [field: Space(25)]
         
         [field: Header("Shaders pool")]
-        [field: SerializeField] public Shader DissolveNonUV { get; private set; }
-        [field: SerializeField] public Shader DissolveWithUV { get; private set; }
-        [field: SerializeField] public Shader DissolveAndEmissionTextureWithUV { get; private set; }
-        [field: SerializeField] public Shader DissolveAndEmission3TexturesWithUV { get; private set; }
-        [field: SerializeField] public Shader HologramAndDissolve { get; private set; }
-        [field: SerializeField] public Shader EmissionFullObject { get; private set; }
-        [field: SerializeField] public Shader DissolveAndEmissionFullObjectAndVerticalNoice { get; private set; }
+        [field: SerializeField] public Material DissolveNonUV { get; private set; }
+        [field: SerializeField] public Material DissolveWithUV { get; private set; }
+        [field: SerializeField] public Material DissolveAndEmissionTextureWithUV { get; private set; }
+        [field: SerializeField] public Material DissolveAndEmission3TexturesWithUV { get; private set; }
+        [field: SerializeField] public Material HologramAndDissolve { get; private set; }
+        [field: SerializeField] public Material EmissionFullObject { get; private set; }
+        [field: SerializeField] public Material DissolveAndEmissionFullObjectAndVerticalNoice { get; private set; }
         [field: Space(25)]
 
         [field: Header("Default dissolve settings for spawn effect")] // DissolveNonUV/WithUV shader

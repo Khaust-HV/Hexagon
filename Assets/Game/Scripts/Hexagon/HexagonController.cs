@@ -13,7 +13,6 @@ namespace HexagonControl {
         private int _currentAvailableNumberRotations;
         private bool _isHexagonUsed;
         private bool _isHexagonDestroyed;
-        private Material _material;
 
         private HexagonTypeControl _hexagonTypeControl;
         private HexagonRotationControl _hexagonRotationControl;
@@ -26,13 +25,9 @@ namespace HexagonControl {
         #endregion
 
         [Inject]
-        private void Construct(HexagonConfigs hexagonConfigs, VisualEffectsConfigs visualEffectsConfigs) {
+        private void Construct(HexagonConfigs hexagonConfigs) {
             // Set configurations
             _hexagonConfigs = hexagonConfigs;
-
-            _material = new Material(visualEffectsConfigs.DissolveNonUV);
-            _material.SetFloat("_Metallic", visualEffectsConfigs.DefaultMetallic);
-            _material.SetFloat("_Smoothness", visualEffectsConfigs.DefaultSmoothness);
 
             // Set component
             _hexagonTypeControl = GetComponent<HexagonTypeControl>();
@@ -62,7 +57,7 @@ namespace HexagonControl {
         public void SetHexagonType(HexagonType hexagonType, bool rotateShadow = false) {
             _hexagonType = hexagonType;
 
-            _hexagonTypeControl.SetHexagonType(_material, hexagonType, rotateShadow);
+            _hexagonTypeControl.SetHexagonType(hexagonType, rotateShadow);
 
             _currentAvailableNumberRotations = UnityEngine.Random.Range(_hexagonConfigs.MinNumberRotationsForHexagon, _hexagonConfigs.MaxNumberRotationsForHexagon);
         }
@@ -71,7 +66,7 @@ namespace HexagonControl {
             if (isActive) {
                 gameObject.SetActive(true);
 
-                _hexagonSpawnAndDestroyControl.SpawnEffectEnable(_material);
+                _hexagonSpawnAndDestroyControl.SpawnEffectEnable(_hexagonTypeControl.MaterialPropertyBlock);
             } else DestroyHexagon(false);
         }
 
@@ -168,9 +163,9 @@ namespace HexagonControl {
             if (isPlanned) _hexagonSpawnAndDestroyControl.DestroyPlannedHexagon();
             else _hexagonSpawnAndDestroyControl.DestroyNonPlannedHexagon();
 
-            if (_hexagonSetObjectControl.CurrentObject == null) _hexagonSpawnAndDestroyControl.DestroyEffectEnable(_material, false);
+            if (_hexagonSetObjectControl.CurrentObject == null) _hexagonSpawnAndDestroyControl.DestroyEffectEnable(_hexagonTypeControl.MaterialPropertyBlock, false);
             else {
-                _hexagonSpawnAndDestroyControl.DestroyEffectEnable(_material, true);
+                _hexagonSpawnAndDestroyControl.DestroyEffectEnable(_hexagonTypeControl.MaterialPropertyBlock, true);
 
                 _hexagonSetObjectControl.DestroyCurrentHexagonObject();
             }

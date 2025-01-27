@@ -10,54 +10,57 @@ namespace HexagonObjectControl {
         }
 
         private void SetMaterial() {
+            _baseMaterialPropertyBlock = new MaterialPropertyBlock();
+
             switch (_hexagonObjectPartType) {
                 case DecorationHexagonObjectsType.RedCrystalBiome:
-                    _baseMaterial = new Material(_visualEffectsConfigs.DissolveAndEmissionTextureWithUV);
-                    _baseMaterial.SetTexture("_EmissionTexture", _visualEffectsConfigs.RedCrystalEmissionTexture);
-                    _baseMaterial.SetColor("_EmissionTextureColor", _visualEffectsConfigs.RedCrystalEmissionColor);
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmissionTextureWithUV;
+                    _baseMaterialPropertyBlock.SetTexture("_EmissionTexture", _visualEffectsConfigs.RedCrystalEmissionTexture);
+                    _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.RedCrystalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.BlueCrystalBiome:
-                    _baseMaterial = new Material(_visualEffectsConfigs.DissolveAndEmissionTextureWithUV);
-                    _baseMaterial.SetTexture("_EmissionTexture", _visualEffectsConfigs.BlueCrystalEmissionTexture);
-                    _baseMaterial.SetColor("_EmissionTextureColor", _visualEffectsConfigs.BlueCrystalEmissionColor);
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmissionTextureWithUV;
+                    _baseMaterialPropertyBlock.SetTexture("_EmissionTexture", _visualEffectsConfigs.BlueCrystalEmissionTexture);
+                    _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.BlueCrystalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.GreenCrystalBiome:
-                    _baseMaterial = new Material(_visualEffectsConfigs.DissolveAndEmissionTextureWithUV);
-                    _baseMaterial.SetTexture("_EmissionTexture", _visualEffectsConfigs.GreenCrystalEmissionTexture);
-                    _baseMaterial.SetColor("_EmissionTextureColor", _visualEffectsConfigs.GreenCrystalEmissionColor);
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmissionTextureWithUV;
+                    _baseMaterialPropertyBlock.SetTexture("_EmissionTexture", _visualEffectsConfigs.GreenCrystalEmissionTexture);
+                    _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.GreenCrystalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.ElectricalBiome:
-                    _baseMaterial = new Material(_visualEffectsConfigs.DissolveAndEmissionTextureWithUV);
-                    _baseMaterial.SetTexture("_EmissionTexture", _visualEffectsConfigs.ElectricalEmissionTexture);
-                    _baseMaterial.SetColor("_EmissionTextureColor", _visualEffectsConfigs.ElectricalEmissionColor);
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmissionTextureWithUV;
+                    _baseMaterialPropertyBlock.SetTexture("_EmissionTexture", _visualEffectsConfigs.ElectricalEmissionTexture);
+                    _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.ElectricalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.GlitcheBiome:
-                    _baseMaterial = new Material(_visualEffectsConfigs.DissolveAndEmission3TexturesWithUV);
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission3TexturesWithUV;
 
-                    _baseMaterial.SetTexture("_FirstEmissionTexture", _visualEffectsConfigs.FirstGlitcheEmissionTexture);
-                    _baseMaterial.SetColor("_FirstEmissionColor", _visualEffectsConfigs.FirstGlitcheEmissionColor);
+                    _baseMaterialPropertyBlock.SetTexture("_FirstEmissionTexture", _visualEffectsConfigs.FirstGlitcheEmissionTexture);
+                    _baseMaterialPropertyBlock.SetColor("_FirstEmissionColor", _visualEffectsConfigs.FirstGlitcheEmissionColor);
 
-                    _baseMaterial.SetTexture("_SecondEmissionTexture", _visualEffectsConfigs.SecondGlitcheEmissionTexture);
-                    _baseMaterial.SetColor("_SecondEmissionColor", _visualEffectsConfigs.SecondGlitcheEmissionColor);
+                    _baseMaterialPropertyBlock.SetTexture("_SecondEmissionTexture", _visualEffectsConfigs.SecondGlitcheEmissionTexture);
+                    _baseMaterialPropertyBlock.SetColor("_SecondEmissionColor", _visualEffectsConfigs.SecondGlitcheEmissionColor);
 
-                    _baseMaterial.SetTexture("_ThirdEmissionTexture", _visualEffectsConfigs.ThirdGlitcheEmissionTexture);
-                    _baseMaterial.SetColor("_ThirdEmissionColor", _visualEffectsConfigs.ThirdGlitcheEmissionColor);
+                    _baseMaterialPropertyBlock.SetTexture("_ThirdEmissionTexture", _visualEffectsConfigs.ThirdGlitcheEmissionTexture);
+                    _baseMaterialPropertyBlock.SetColor("_ThirdEmissionColor", _visualEffectsConfigs.ThirdGlitcheEmissionColor);
                 break;
 
                 default:
-                    _baseMaterial = new Material(_visualEffectsConfigs.DissolveWithUV);
+                    _baseMaterial = _visualEffectsConfigs.DissolveWithUV;
                 break;
             }
-
-            _baseMaterial.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
-            _baseMaterial.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            
+            _baseMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
+            _baseMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
 
             foreach (var mrObject in _mrBaseObject) {
                 mrObject.material = _baseMaterial;
+                mrObject.SetPropertyBlock(_baseMaterialPropertyBlock);
             }
         }
     }
