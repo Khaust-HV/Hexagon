@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: LevelConfigs
   m_EditorClassIdentifier: 
   <SizeAllObject>k__BackingField: 10
+  <DefaultDestroyTextureParticle>k__BackingField: {fileID: 2800000, guid: 09531588890b0486cbe0a52ccb971925, type: 3}
+  <DefaultDestroySizeParticles>k__BackingField: 0.5
   <DefaultSpawnTimeAllObject>k__BackingField: 1.5
   <DefaultDestroyTimeAllObject>k__BackingField: 2
-  <DefaultHologramSpawnTimeAllObject>k__BackingField: 0.5
+  <DefaultHologramSpawnTimeAllObject>k__BackingField: 1
   <AlgorithmOfLevelBuilding>k__BackingField: 0
   <NumberOfRings>k__BackingField: 10
   <HexagonControllerPrefab>k__BackingField: {fileID: 1131078191774577411, guid: b9c36ecd629044b728ae15a3d19da442, type: 3}

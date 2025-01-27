@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: FirstTestMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: abf5124d6e8d54d4dbd4d998c40f38c6, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 0df69d76171304058814346b4f5c4a94, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -115,7 +115,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _CutoffHeight: 3.22
+    - _CutoffHeight: -7.99
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DissolveNoiseScale: 75

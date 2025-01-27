@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a93b93bf83b9e448fa47f2f86dca14eb, type: 3}
+  m_Script: {fileID: 0}
   m_Name: VisualEffectsConfigs
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp:GameConfigs:VisualEffectsConfigs
   <DefaultMetallic>k__BackingField: 0.3
   <DefaultSmoothness>k__BackingField: 0.5
   <DissolveNonUV>k__BackingField: {fileID: -6465566751694194690, guid: 3fb7e3973b1634093837d3b5907d284c, type: 3}
@@ -24,29 +24,27 @@ MonoBehaviour:
   <DefaultSpawnNoiseScale>k__BackingField: 75
   <DefaultSpawnNoiseStrength>k__BackingField: 1
   <DefaultSpawnEdgeWidth>k__BackingField: 1
-  <DefaultSpawnEdgeColor>k__BackingField: {r: 0, g: 5.992157, b: 5.9921575, a: 0}
+  <DefaultSpawnEdgeColor>k__BackingField: {r: 0, g: 11.984314, b: 11.984314, a: 0}
   <DefaultDestroyNoiseScale>k__BackingField: 75
   <DefaultDestroyNoiseStrength>k__BackingField: 10
   <DefaultDestroyEdgeWidth>k__BackingField: 0.1
-  <DefaultDestroyEdgeColor>k__BackingField: {r: 0, g: 5.992157, b: 5.992157, a: 0}
+  <DefaultDestroyEdgeColor>k__BackingField: {r: 0, g: 11.984314, b: 11.984314, a: 0}
   <DestroyHexagonOrHexagonObjectVFXEffect>k__BackingField: {fileID: 8926484042661614526, guid: 749e8cb9578c541f1b0e5279b87e2016, type: 3}
-  <DefaultDestroyVFXNumberParticles>k__BackingField: 50
-  <DefaultDestroyVFXSizeParticles>k__BackingField: 0.5
+  <DefaultDestroyVFXNumberParticles>k__BackingField: 25
   <DefaultDestroyVFXStartVelocity>k__BackingField: {x: 0, y: 2, z: 0}
   <DefaultDestroyVFXLinearDrag>k__BackingField: 1
-  <DefaultDestroyVFXBuildTextureParticle>k__BackingField: {fileID: 2800000, guid: 09531588890b0486cbe0a52ccb971925, type: 3}
-  <DefaultDestroyVFXEmissionColor>k__BackingField: {r: 0.9327415, g: 5.992157, b: 5.992157, a: 0}
+  <DefaultDestroyVFXEmissionColor>k__BackingField: {r: 0, g: 23.968628, b: 23.968628, a: 0}
   <DefaultHologramEdgeWidth>k__BackingField: 0.01
-  <DefaultHologramAnimationSpeed>k__BackingField: 0.15
-  <DefaultHologramColor>k__BackingField: {r: 0.15686275, g: 5.992157, b: 5.992157, a: 0}
-  <DefaultHologramFresnelColor>k__BackingField: {r: 2.9960787, g: 2.9960787, b: 2.9960787, a: 0}
-  <DefaultHologramEdgeColor>k__BackingField: {r: 0, g: 766.9957, b: 766.9957, a: 0}
+  <DefaultHologramAnimationSpeed>k__BackingField: 0.25
+  <DefaultHologramColor>k__BackingField: {r: 3.2613454, g: 5.9921575, b: 0, a: 0}
+  <DefaultHologramFresnelColor>k__BackingField: {r: 2, g: 2, b: 2, a: 0}
+  <DefaultHologramEdgeColor>k__BackingField: {r: 10.252741, g: 766.9961, b: 766.9961, a: 0}
   <ElectricalEmissionTexture>k__BackingField: {fileID: 0}
   <ElectricalEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
   <RedCrystalEmissionTexture>k__BackingField: {fileID: 0}
   <RedCrystalEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
   <BlueCrystalEmissionTexture>k__BackingField: {fileID: 2800000, guid: c810567a378a841288e525862dcee606, type: 3}
-  <BlueCrystalEmissionColor>k__BackingField: {r: 0, g: 1.9045451, b: 5.9921575, a: 0}
+  <BlueCrystalEmissionColor>k__BackingField: {r: 0, g: 0.6665988, b: 2, a: 0}
   <GreenCrystalEmissionTexture>k__BackingField: {fileID: 0}
   <GreenCrystalEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
   <FirstGlitcheEmissionTexture>k__BackingField: {fileID: 0}
@@ -55,19 +53,17 @@ MonoBehaviour:
   <SecondGlitcheEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
   <ThirdGlitcheEmissionTexture>k__BackingField: {fileID: 0}
   <ThirdGlitcheEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
-  <ShieldAuraEmissionFresnelColor>k__BackingField: {r: 0.90245634, g: 2.558313, b: 2.9433959, a: 0}
-  <ShieldAuraEmissionFresnelPower>k__BackingField: 6
-  <ShieldAuraEmissionColor>k__BackingField: {r: 0.16605625, g: 0.7490197, b: 0.6635855, a: 0}
-  <ShieldAuraVerticalNoiceScale>k__BackingField: 2
+  <ShieldAuraEmissionFresnelColor>k__BackingField: {r: 1.1454254, g: 2.3529413, b: 2.3529413, a: 0}
+  <ShieldAuraEmissionFresnelPower>k__BackingField: 7
+  <ShieldAuraEmissionColor>k__BackingField: {r: 0, g: 0.7490196, b: 0.7490196, a: 0}
+  <ShieldAuraVerticalNoiceScale>k__BackingField: 3
   <ShieldAuraHeightLowEfficiency>k__BackingField: 0.7
   <ShieldAuraHeightStandardEfficiency>k__BackingField: 1.7
   <ShieldAuraHeightHighEfficiency>k__BackingField: 2.7
   <ShieldAuraHeightReallyHighEfficiency>k__BackingField: 3.3
-  <ShieldAuraSpawnTime>k__BackingField: 0.5
+  <ShieldAuraSpawnTime>k__BackingField: 0.25
   <ShieldAuraDestroyTime>k__BackingField: 0.25
   <ShieldAuraShieldSpawn>k__BackingField: {fileID: 8926484042661614526, guid: 3d8d496aadf2540d49c372b6cf7dc6f5, type: 3}
   <ShieldAuraStartVelocity>k__BackingField: {x: -0.5, y: 0, z: 0}
   <ShieldAuraLinearDrag>k__BackingField: 0.25
-  <DestroyShieldTextureParticle>k__BackingField: {fileID: 2800000, guid: 00fa24fd5ec544f93b06483e6b0583cf, type: 3}
   <ShieldAuraParticlesNumberForShieldDestroy>k__BackingField: 10
-  <ShieldAuraSizeParticles>k__BackingField: 0.5
