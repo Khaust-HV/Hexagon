@@ -6,7 +6,8 @@ namespace GameConfigs {
     public sealed class LevelConfigs : ScriptableObject {
         [field: Header("Map settings")]
         [field: SerializeField] public float SizeAllObject { get; private set; }
-        [field: SerializeField] public float SizeObjectFragment { get; private set; }
+        [field: SerializeField] public Texture2D DefaultDestroyTextureParticle { get; private set; }
+        [field: SerializeField] public float DefaultDestroySizeParticles { get; private set; }
         [field: SerializeField] public float DefaultSpawnTimeAllObject { get; private set; }
         [field: SerializeField] public float DefaultDestroyTimeAllObject { get; private set; }
         [field: SerializeField] public float DefaultHologramSpawnTimeAllObject { get; private set; }

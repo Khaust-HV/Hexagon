@@ -81,6 +81,10 @@ namespace HexagonObjectControl {
             }
         }
 
+        public override void ApplyAuraToHexagonObjectElement(IHexagonObjectPart iHexagonObjectPart) {
+            
+        }
+
         protected override void SetHexagonObjectWorkActive(bool isActive) {
             if (isActive) {
                 switch (_auraEfficiencyType) {

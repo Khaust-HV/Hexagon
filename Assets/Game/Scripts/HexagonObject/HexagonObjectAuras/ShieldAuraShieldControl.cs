@@ -59,10 +59,13 @@ namespace HexagonObjectControl {
             _visualEffect.SetFloat("FresnelPower", _visualEffectsConfigs.ShieldAuraEmissionFresnelPower);
             _visualEffect.SetVector4("EmissionColor", _visualEffectsConfigs.ShieldAuraEmissionColor);
             _visualEffect.SetMesh("ShieldMesh", GetComponent<MeshFilter>().sharedMesh);
-            _visualEffect.SetMesh("ObjectFragmentMesh", _visualEffectsConfigs.DefaultDestroyVFXParticleMesh);
-            _visualEffect.SetFloat("SizeParticle", _levelConfigs.SizeAllObject * _levelConfigs.SizeObjectFragment);
+            _visualEffect.SetFloat("ShieldSizeParticle", _levelConfigs.SizeAllObject);
+            _visualEffect.SetFloat("FragmentSizeParticle", _levelConfigs.SizeAllObject * _levelConfigs.DefaultDestroySizeParticles);
             _visualEffect.SetFloat("LifeTimeParticle", _levelConfigs.DefaultDestroyTimeAllObject);
             _visualEffect.SetInt("ParticlesNumberForShieldDestroy", _visualEffectsConfigs.ShieldAuraParticlesNumberForShieldDestroy);
+            _visualEffect.SetTexture("DestroyShieldTextureParticle", _levelConfigs.DefaultDestroyTextureParticle);
+            _visualEffect.SetVector3("StartVelocity", _visualEffectsConfigs.ShieldAuraStartVelocity);
+            _visualEffect.SetFloat("LinearDrag", _visualEffectsConfigs.ShieldAuraLinearDrag);
         }
 
         public void ShieldEffectEnable(ShieldAuraEffectType shieldAuraEffectType) {

@@ -65,15 +65,13 @@ namespace HexagonObjectControl {
         private void SetDestroyHexagonObjectVFXConfiguration() {
             _visualEffect.visualEffectAsset = _visualEffectsConfigs.DestroyHexagonOrHexagonObjectVFXEffect;
             _visualEffect.SetInt("NumberParticles", _visualEffectsConfigs.DefaultDestroyVFXNumberParticles);
-            _visualEffect.SetMesh("ObjectFragmentMesh", _visualEffectsConfigs.DefaultDestroyVFXParticleMesh);
+            _visualEffect.SetTexture("DestroyBuildTextureParticle", _levelConfigs.DefaultDestroyTextureParticle);
             _visualEffect.SetMesh("ObjectMesh", _mrBaseObject[0].GetComponent<MeshFilter>().sharedMesh);
             _visualEffect.SetFloat("LifeTimeParticle", _levelConfigs.DefaultDestroyTimeAllObject);
-            _visualEffect.SetFloat("SizeParticle", _levelConfigs.SizeAllObject * _levelConfigs.SizeObjectFragment);
-            _visualEffect.SetFloat("Metallic", _visualEffectsConfigs.DefaultMetallic);
-            _visualEffect.SetFloat("Smoothness", _visualEffectsConfigs.DefaultSmoothness);
-            _visualEffect.SetVector4("FresnelColor", _visualEffectsConfigs.DefaultDestroyVFXFresnelColor);
-            _visualEffect.SetFloat("FresnelPower", _visualEffectsConfigs.DefaultDestroyVFXFresnelPower);
-            _visualEffect.SetVector4("EmissionColor", _visualEffectsConfigs.DefaultSpawnEdgeColor);
+            _visualEffect.SetFloat("SizeParticle", _levelConfigs.SizeAllObject * _levelConfigs.DefaultDestroySizeParticles);
+            _visualEffect.SetVector4("EmissionColor", _visualEffectsConfigs.DefaultDestroyVFXEmissionColor);
+            _visualEffect.SetVector3("StartVelocity", _visualEffectsConfigs.DefaultDestroyVFXStartVelocity);
+            _visualEffect.SetFloat("LinearDrag", _visualEffectsConfigs.DefaultDestroyVFXLinearDrag);
         }
 
         protected virtual void SetBaseConfiguration() {

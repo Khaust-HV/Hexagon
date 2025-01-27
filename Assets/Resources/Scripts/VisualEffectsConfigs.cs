@@ -35,13 +35,13 @@ namespace GameConfigs {
         [field: SerializeField] public Color DefaultDestroyEdgeColor { get; private set; }
         [field: Space(25)]
 
-        [field: Header("Destroy hexagon and hexagonObject effect settings")] // EmissionFullObjectForVFX shader
+        [field: Header("Destroy hexagon and hexagonObject effect settings")]
         [field: SerializeField] public VisualEffectAsset DestroyHexagonOrHexagonObjectVFXEffect { get; private set; }
         [field: SerializeField] public int DefaultDestroyVFXNumberParticles { get; private set; }
-        [field: SerializeField] public Mesh DefaultDestroyVFXParticleMesh { get; private set; }
+        [field: SerializeField] public Vector3 DefaultDestroyVFXStartVelocity { get; private set; }
+        [field: SerializeField] public float DefaultDestroyVFXLinearDrag { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
-        [field: SerializeField] public Color DefaultDestroyVFXFresnelColor { get; private set; }
-        [field: SerializeField] public float DefaultDestroyVFXFresnelPower{ get; private set; }
+        [field: SerializeField] public Color DefaultDestroyVFXEmissionColor { get; private set; }
         [field: Space(25)]
 
         [field: Header("Default hologram and dissolve settings for preview and spawn effect")] // HologramAndDissolve shader
@@ -55,7 +55,7 @@ namespace GameConfigs {
         [field: SerializeField] public Color DefaultHologramEdgeColor { get; private set; }
         [field: Space(25)]
 
-        [field: Header("Blue/Red/Green crystals emission effect settings")] // DissolveAndEmissionTextureWithUV shader
+        [field: Header("Blue/Red/Green crystals/electrical emission effect settings")] // DissolveAndEmissionTextureWithUV shader
         [field: SerializeField] public Texture2D ElectricalEmissionTexture { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color ElectricalEmissionColor { get; private set; }
@@ -97,7 +97,8 @@ namespace GameConfigs {
         [field: SerializeField] public float ShieldAuraDestroyTime { get; private set; }
         [field: Header("Shield spawn and destroy effect settings")] // EmissionFullObjectForVFX shader
         [field: SerializeField] public VisualEffectAsset ShieldAuraShieldSpawn { get; private set; }
-        [field: SerializeField] public Mesh ShieldAuraShieldFragmentMesh { get; private set; }
+        [field: SerializeField] public Vector3 ShieldAuraStartVelocity { get; private set; }
+        [field: SerializeField] public float ShieldAuraLinearDrag { get; private set; }
         [field: SerializeField] public int ShieldAuraParticlesNumberForShieldDestroy { get; private set; }
     }
 }

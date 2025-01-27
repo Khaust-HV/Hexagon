@@ -1,12 +1,12 @@
 # ninja log v5
-3	167	1733859419407397986	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	9b6fc3cada3b5ab5
-169	336	1733859419566371559	/Users/honcharenko/Documents/Unity/Projects/Hexagon/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/3wd4a4h5/obj/arm64-v8a/libswappywrapper.so	b84cfa2176ea35e2
-2	550	1733859419788350378	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	ae8f0a318e371a8e
-0	551	1733859419789774648	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	1eece91265d3de6e
-1	556	1733859419795298231	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	e6671c02ebe74df1
-2	561	1733859419800911645	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	e5ca88a5b7b6b978
-3	598	1733859419837621460	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	2b5de44dbf75227f
-1	604	1733859419844178985	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	9b9b20a92c5a558f
-1	651	1733859419889653874	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	df499d1a9ffe3b2f
-0	702	1733859419940053813	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	f9221aa944026a01
-702	822	1733859420055237471	/Users/honcharenko/Documents/Unity/Projects/Hexagon/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/3wd4a4h5/obj/arm64-v8a/libgame.so	2b3317c79613d3f1
+3	191	1737913347004365866	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	9b6fc3cada3b5ab5
+192	335	1737913347136692206	/Users/honcharenko/Documents/Unity/Projects/Hexagon/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/3wd4a4h5/obj/arm64-v8a/libswappywrapper.so	b84cfa2176ea35e2
+2	616	1737913347427716947	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	ae8f0a318e371a8e
+2	625	1737913347436104188	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	e6671c02ebe74df1
+1	626	1737913347439129407	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	1eece91265d3de6e
+3	627	1737913347439247366	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	e5ca88a5b7b6b978
+3	645	1737913347457623187	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	2b5de44dbf75227f
+1	665	1737913347478266349	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	9b9b20a92c5a558f
+2	725	1737913347537039741	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	df499d1a9ffe3b2f
+0	756	1737913347567817068	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	f9221aa944026a01
+756	869	1737913347675719773	/Users/honcharenko/Documents/Unity/Projects/Hexagon/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/3wd4a4h5/obj/arm64-v8a/libgame.so	2b3317c79613d3f1

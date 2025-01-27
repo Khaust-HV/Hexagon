@@ -4,6 +4,7 @@ using UnityEngine;
 using Zenject;
 using System.Threading.Tasks;
 using LevelObjectType;
+using System.Collections.Generic;
 
 namespace Managers {
     public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
@@ -14,6 +15,8 @@ namespace Managers {
             private IBuilder _iBuilder;
             private LevelConfigs _levelConfigs;
         #endregion
+
+        private List<IHexagonObjectControl> _hexagonControllersList = new(); // FIX IT !
 
         [Inject]
         private void Construct (
@@ -87,15 +90,27 @@ namespace Managers {
 
         public async void GenerateLevel() {
             SpreadHexagons();
+
+            for (int i = 0; i < _iBuildingsPool.GetNumberHexagonControllers() + 100; i++) {
+                _hexagonControllersList.Add(_iBuilder.CreateHexagonObject(GetRandomHexagonObjectElementType(), GetRandomHexagonObjectAuraType()));
+            }
+
             await SetRandomHexagonTypeAsync(); // FIX IT !
         }
 
-        private void CreateNewHexagonObjectForHexagon(IHexagonControl iHexagonControl) {
-            var hexagonObject = _iBuilder.CreateHexagonObject(GetRandomHexagonObjectElementType(), GetRandomHexagonObjectAuraType()); // FIX IT !
-            // var hexagonObject = _iBuilder.CreateHexagonObject(GetRandomHexagonObjectElementType(), StatsAuraType.ShieldAura); // FIX IT !
-            // var hexagonObject = _iBuilder.CreateHexagonObject(MineHexagonObjectsType.TreeSource, GetRandomHexagonObjectAuraType()); // FIX IT !
+        private void CreateNewHexagonObjectForHexagon(IHexagonControl iHexagonControl) { // FIX IT !
+            if (_hexagonControllersList.Count != 0) {
+                var hexagonObject = _hexagonControllersList[0];
 
-            iHexagonControl.SetHexagonObject(hexagonObject, false);
+                iHexagonControl.SetHexagonObject(hexagonObject, false);
+
+                _hexagonControllersList.Remove(hexagonObject);
+            } else {
+                var hexagonObject = _iBuilder.CreateHexagonObject(GetRandomHexagonObjectElementType(), GetRandomHexagonObjectAuraType());
+
+                iHexagonControl.SetHexagonObject(hexagonObject, false);
+            }
+
         }
 
         private void SpreadHexagons() {

@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: FirstTestMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: aa3d132472c234875891c59a10a61006, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: abf5124d6e8d54d4dbd4d998c40f38c6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -59,6 +59,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionTexture:
+        m_Texture: {fileID: 2800000, guid: c810567a378a841288e525862dcee606, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -111,13 +115,13 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _CutoffHeight: -7.02
+    - _CutoffHeight: 3.22
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DissolveNoiseScale: 75
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EdgeWidth: 0
+    - _EdgeWidth: 1
     - _EnvironmentReflections: 1
     - _FresnelPower: 5
     - _GlossMapScale: 0
@@ -143,8 +147,9 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EdgeColor: {r: 0, g: 766.9962, b: 681.8837, a: 0}
+    - _EdgeColor: {r: 0, g: 23.968632, b: 21.308867, a: 0}
     - _EmissionColor: {r: 0.46858317, g: 1.2264152, b: 1.1311902, a: 0}
+    - _EmissionTextureColor: {r: 0, g: 1.2787156, b: 5.992157, a: 0}
     - _FresnelColor: {r: 0, g: 19.139126, b: 23.968628, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
