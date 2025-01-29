@@ -431,7 +431,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a1082b95e693a49b0adbc1f795832004, type: 2}
     - target: {fileID: 919132149155446097, guid: 30f779955e30f44d4981870c8fb21850, type: 3}
       propertyPath: m_Name
-      value: MainObject
+      value: Forest_Mine_StoneMining
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

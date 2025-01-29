@@ -60,10 +60,10 @@ namespace HexagonObjectControl {
             _visualEffect.SetVector4("EmissionColor", _visualEffectsConfigs.ShieldAuraEmissionColor);
             _visualEffect.SetMesh("ShieldMesh", GetComponent<MeshFilter>().sharedMesh);
             _visualEffect.SetFloat("ShieldSizeParticle", _levelConfigs.SizeAllObject);
-            _visualEffect.SetFloat("FragmentSizeParticle", _levelConfigs.SizeAllObject * _levelConfigs.DefaultDestroySizeParticles);
+            _visualEffect.SetFloat("FragmentSizeParticle", _levelConfigs.SizeAllObject * _visualEffectsConfigs.DefaultDestroySizeParticles);
             _visualEffect.SetFloat("LifeTimeParticle", _levelConfigs.DefaultDestroyTimeAllObject);
             _visualEffect.SetInt("ParticlesNumberForShieldDestroy", _visualEffectsConfigs.ShieldAuraParticlesNumberForShieldDestroy);
-            _visualEffect.SetTexture("DestroyShieldTextureParticle", _levelConfigs.DefaultDestroyTextureParticle);
+            _visualEffect.SetTexture("DestroyShieldTextureParticle", _visualEffectsConfigs.DefaultDestroyTextureParticle);
             _visualEffect.SetVector3("StartVelocity", _visualEffectsConfigs.ShieldAuraStartVelocity);
             _visualEffect.SetFloat("LinearDrag", _visualEffectsConfigs.ShieldAuraLinearDrag);
         }

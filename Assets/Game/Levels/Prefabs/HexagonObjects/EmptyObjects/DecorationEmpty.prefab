@@ -191,7 +191,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7797606384754811364
 Transform:
   m_ObjectHideFlags: 0
@@ -217,8 +217,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3372468320648440873}
-  - component: {fileID: 1337952341721601878}
   - component: {fileID: 1002287641490957940}
+  - component: {fileID: 1337952341721601878}
   - component: {fileID: -7013827315814474836}
   m_Layer: 0
   m_Name: DecorationEmpty
@@ -244,27 +244,6 @@ Transform:
   - {fileID: 7797606384754811364}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1337952341721601878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8272071067488688298}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7d6b4ed02474436bbca4328b568b044, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _mrBaseObject:
-  - {fileID: 4683002145857849246}
-  _isObjectHaveAnimation: 0
-  _spawnStartCutoffHeight: -0.6
-  _spawnFinishCutoffHeight: 1.95
-  _destroyStartCutoffHeight: -1.63
-  _destroyFinishCutoffHeight: -6.9
-  _trText: {fileID: 7797606384754811364}
-  _text: {fileID: 4112111179953659108}
 --- !u!2083052967 &1002287641490957940
 VisualEffect:
   m_ObjectHideFlags: 0
@@ -303,6 +282,28 @@ VisualEffect:
       m_Array: []
     m_Bool:
       m_Array: []
+--- !u!114 &1337952341721601878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8272071067488688298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7d6b4ed02474436bbca4328b568b044, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lODGroups:
+  - {fileID: 1651817029510794112}
+  _mrOtherObject: []
+  _isObjectHaveAnimation: 0
+  _spawnStartCutoffHeight: -0.63
+  _spawnFinishCutoffHeight: 2
+  _destroyStartCutoffHeight: -1.83
+  _destroyFinishCutoffHeight: -6.5
+  _trText: {fileID: 7797606384754811364}
+  _text: {fileID: 4112111179953659108}
 --- !u!73398921 &-7013827315814474836
 VFXRenderer:
   serializedVersion: 1
@@ -398,18 +399,70 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4420826648831860276, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4420826648831860276, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6345af1ff19ad419ca0bb118501c9dce, type: 2}
     - target: {fileID: 919132149155446097, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
       propertyPath: m_Name
-      value: MainObject
+      value: DecorationEmpty
       objectReference: {fileID: 0}
+    - target: {fileID: 3140516032011907936, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3140516032011907936, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6345af1ff19ad419ca0bb118501c9dce, type: 2}
+    - target: {fileID: 4742473837712756890, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+      propertyPath: m_Size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+      propertyPath: m_LODs.Array.data[1].screenRelativeHeight
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+      propertyPath: m_LODs.Array.data[2].screenRelativeHeight
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4742473837712756890, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+      propertyPath: m_LODs.Array.data[3].screenRelativeHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753570654726554751, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753570654726554751, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6345af1ff19ad419ca0bb118501c9dce, type: 2}
+    - target: {fileID: 8006642389067209147, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8006642389067209147, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 6345af1ff19ad419ca0bb118501c9dce, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
---- !u!23 &4683002145857849246 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
+--- !u!205 &1651817029510794112 stripped
+LODGroup:
+  m_CorrespondingSourceObject: {fileID: 4742473837712756890, guid: 249cfd615ed37455cb19a6ec584a7985, type: 3}
   m_PrefabInstance: {fileID: 6286119090962389786}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5815960761052183793 stripped

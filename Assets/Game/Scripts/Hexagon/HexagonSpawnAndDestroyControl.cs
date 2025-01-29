@@ -84,10 +84,10 @@ namespace HexagonControl {
         private void SetDestroyHexagonObjectVFXConfiguration() {
             _visualEffect.visualEffectAsset = _visualEffectsConfigs.DestroyHexagonOrHexagonObjectVFXEffect;
             _visualEffect.SetInt("NumberParticles", _visualEffectsConfigs.DefaultDestroyVFXNumberParticles);
-            _visualEffect.SetTexture("DestroyBuildTextureParticle", _levelConfigs.DefaultDestroyTextureParticle);
+            _visualEffect.SetTexture("DestroyBuildTextureParticle", _visualEffectsConfigs.DefaultDestroyTextureParticle);
             _visualEffect.SetMesh("ObjectMesh", _mrHexagonLP.GetComponent<MeshFilter>().sharedMesh);
             _visualEffect.SetFloat("LifeTimeParticle", _levelConfigs.DefaultDestroyTimeAllObject);
-            _visualEffect.SetFloat("SizeParticle", _levelConfigs.SizeAllObject * _levelConfigs.DefaultDestroySizeParticles);
+            _visualEffect.SetFloat("SizeParticle", _levelConfigs.SizeAllObject * _visualEffectsConfigs.DefaultDestroySizeParticles);
             _visualEffect.SetVector4("EmissionColor", _visualEffectsConfigs.DefaultDestroyVFXEmissionColor);
             _visualEffect.SetVector3("StartVelocity", _visualEffectsConfigs.DefaultDestroyVFXStartVelocity);
             _visualEffect.SetFloat("LinearDrag", _visualEffectsConfigs.DefaultDestroyVFXLinearDrag);
@@ -155,6 +155,8 @@ namespace HexagonControl {
 
             if (_isObjectWaitingToSpawn) {
                 materialPropertyBlock.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
+
+                _hexagonLP.SetActive(false);
 
                 _visualEffect.SendEvent("DestroyEffect");
 

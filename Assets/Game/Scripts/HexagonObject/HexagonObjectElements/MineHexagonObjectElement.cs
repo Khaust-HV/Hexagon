@@ -39,29 +39,25 @@ namespace HexagonObjectControl {
             switch (_hexagonObjectPartType) {
                 case MineHexagonObjectsType.RedCrystalSource:
                 case MineHexagonObjectsType.RedCrystalMining:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmissionTextureWithUV;
-                    _baseMaterialPropertyBlock.SetTexture("_EmissionTexture", _visualEffectsConfigs.RedCrystalEmissionTexture);
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.RedCrystalEmissionColor);
                 break;
 
                 case MineHexagonObjectsType.BlueCrystalSource:
                 case MineHexagonObjectsType.BlueCrystalMining:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmissionTextureWithUV;
-                    _baseMaterialPropertyBlock.SetTexture("_EmissionTexture", _visualEffectsConfigs.BlueCrystalEmissionTexture);
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.BlueCrystalEmissionColor);
                 break;
 
                 case MineHexagonObjectsType.GreenCrystalSource:
                 case MineHexagonObjectsType.GreenCrystalMining:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmissionTextureWithUV;
-                    _baseMaterialPropertyBlock.SetTexture("_EmissionTexture", _visualEffectsConfigs.GreenCrystalEmissionTexture);
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.GreenCrystalEmissionColor);
                 break;
 
                 case MineHexagonObjectsType.ElectricalSource:
                 case MineHexagonObjectsType.ElectricalMining:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmissionTextureWithUV;
-                    _baseMaterialPropertyBlock.SetTexture("_EmissionTexture", _visualEffectsConfigs.ElectricalEmissionTexture);
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.ElectricalEmissionColor);
                 break;
 
@@ -69,14 +65,11 @@ namespace HexagonObjectControl {
                 case MineHexagonObjectsType.GlitcheMining:
                     _baseMaterial = _visualEffectsConfigs.DissolveAndEmission3TexturesWithUV;
 
-                    _baseMaterialPropertyBlock.SetTexture("_FirstEmissionTexture", _visualEffectsConfigs.FirstGlitcheEmissionTexture);
-                    _baseMaterialPropertyBlock.SetColor("_FirstEmissionColor", _visualEffectsConfigs.FirstGlitcheEmissionColor);
+                    _baseMaterialPropertyBlock.SetColor("_FirstEmissionColor", _visualEffectsConfigs.GlitcheFirstEmissionColor);
 
-                    _baseMaterialPropertyBlock.SetTexture("_SecondEmissionTexture", _visualEffectsConfigs.SecondGlitcheEmissionTexture);
-                    _baseMaterialPropertyBlock.SetColor("_SecondEmissionColor", _visualEffectsConfigs.SecondGlitcheEmissionColor);
+                    _baseMaterialPropertyBlock.SetColor("_SecondEmissionColor", _visualEffectsConfigs.GlitcheSecondEmissionColor);
 
-                    _baseMaterialPropertyBlock.SetTexture("_ThirdEmissionTexture", _visualEffectsConfigs.ThirdGlitcheEmissionTexture);
-                    _baseMaterialPropertyBlock.SetColor("_ThirdEmissionColor", _visualEffectsConfigs.ThirdGlitcheEmissionColor);
+                    _baseMaterialPropertyBlock.SetColor("_ThirdEmissionColor", _visualEffectsConfigs.GlitcheThirdEmissionColor);
                 break;
 
                 default:

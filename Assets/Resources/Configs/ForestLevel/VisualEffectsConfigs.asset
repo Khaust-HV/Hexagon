@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <DefaultMetallic>k__BackingField: 0.3
   <DefaultSmoothness>k__BackingField: 0.5
-  <DissolveNonUV>k__BackingField: {fileID: 2100000, guid: 4728606e0835e41e68e5d8f010a7cd18, type: 2}
-  <DissolveWithUV>k__BackingField: {fileID: 2100000, guid: b95300aa7be6544a0896b61f4a3f19c4, type: 2}
-  <DissolveAndEmissionTextureWithUV>k__BackingField: {fileID: 2100000, guid: 1d87c30baf42a48e7a1441e3fe5b94e2, type: 2}
-  <DissolveAndEmission3TexturesWithUV>k__BackingField: {fileID: 2100000, guid: ee6b7a6b9cd334d0ca79915546515d61, type: 2}
-  <HologramAndDissolve>k__BackingField: {fileID: 2100000, guid: 84c88f09fa2a14d9c82272b97bdc65ad, type: 2}
-  <EmissionFullObject>k__BackingField: {fileID: 2100000, guid: eb723a40fb5e84b578b11e05517e5c11, type: 2}
-  <DissolveAndEmissionFullObjectAndVerticalNoice>k__BackingField: {fileID: 2100000, guid: edcf1a94b92d44ee6beb78f6c24cf2b2, type: 2}
+  <DissolveNonUV>k__BackingField: {fileID: 2100000, guid: 51882ef677a99413199a773d5eb2a566, type: 2}
+  <DissolveWithUV>k__BackingField: {fileID: 2100000, guid: 6345af1ff19ad419ca0bb118501c9dce, type: 2}
+  <DissolveAndEmission1TextureWithUV>k__BackingField: {fileID: 2100000, guid: ac7f41a1473b84b2ab9c2863a03d625b, type: 2}
+  <DissolveAndEmission2TextureWithUV>k__BackingField: {fileID: 2100000, guid: 2ee1504bf3b994d55ad66f618eca8a24, type: 2}
+  <DissolveAndEmission3TexturesWithUV>k__BackingField: {fileID: 2100000, guid: 117a5531bb23c4b24bab1ae34bfa460a, type: 2}
+  <DissolveAndEmissionFullObjectAndVerticalNoiceGhost>k__BackingField: {fileID: 2100000, guid: 80b90463c7b5f4bac9c7d74a8319b778, type: 2}
+  <EmissionFullObjectGhost>k__BackingField: {fileID: 2100000, guid: 234e8d47aebb849a9a538ca880bc9592, type: 2}
+  <HologramAndDissolveGhost>k__BackingField: {fileID: 2100000, guid: 84c88f09fa2a14d9c82272b97bdc65ad, type: 2}
   <DefaultSpawnNoiseScale>k__BackingField: 75
   <DefaultSpawnNoiseStrength>k__BackingField: 1
   <DefaultSpawnEdgeWidth>k__BackingField: 1
@@ -30,6 +31,8 @@ MonoBehaviour:
   <DefaultDestroyEdgeWidth>k__BackingField: 0.1
   <DefaultDestroyEdgeColor>k__BackingField: {r: 0, g: 2.9960785, b: 2.9960785, a: 0}
   <DestroyHexagonOrHexagonObjectVFXEffect>k__BackingField: {fileID: 8926484042661614526, guid: 749e8cb9578c541f1b0e5279b87e2016, type: 3}
+  <DefaultDestroyTextureParticle>k__BackingField: {fileID: 2800000, guid: 09531588890b0486cbe0a52ccb971925, type: 3}
+  <DefaultDestroySizeParticles>k__BackingField: 0.5
   <DefaultDestroyVFXNumberParticles>k__BackingField: 50
   <DefaultDestroyVFXStartVelocity>k__BackingField: {x: 0, y: 2, z: 0}
   <DefaultDestroyVFXLinearDrag>k__BackingField: 1
@@ -39,23 +42,16 @@ MonoBehaviour:
   <DefaultHologramColor>k__BackingField: {r: 1, g: 1, b: 1, a: 0}
   <DefaultHologramFresnelColor>k__BackingField: {r: 1.6536849, g: 2.996078, b: 0, a: 0}
   <DefaultHologramEdgeColor>k__BackingField: {r: 0, g: 23.968628, b: 23.968628, a: 0}
-  <ElectricalEmissionTexture>k__BackingField: {fileID: 0}
   <ElectricalEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
-  <RedCrystalEmissionTexture>k__BackingField: {fileID: 0}
   <RedCrystalEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
-  <BlueCrystalEmissionTexture>k__BackingField: {fileID: 2800000, guid: c810567a378a841288e525862dcee606, type: 3}
   <BlueCrystalEmissionColor>k__BackingField: {r: 0, g: 1.8682938, b: 4, a: 0}
-  <GreenCrystalEmissionTexture>k__BackingField: {fileID: 0}
   <GreenCrystalEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
-  <FirstGlitcheEmissionTexture>k__BackingField: {fileID: 0}
-  <FirstGlitcheEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
-  <SecondGlitcheEmissionTexture>k__BackingField: {fileID: 0}
-  <SecondGlitcheEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
-  <ThirdGlitcheEmissionTexture>k__BackingField: {fileID: 0}
-  <ThirdGlitcheEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
-  <ShieldAuraEmissionFresnelColor>k__BackingField: {r: 0.73424715, g: 2.8301888, b: 2.327813, a: 0}
+  <GlitcheFirstEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  <GlitcheSecondEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  <GlitcheThirdEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  <ShieldAuraEmissionFresnelColor>k__BackingField: {r: 0.72075456, g: 2.9960783, b: 2.460708, a: 0}
   <ShieldAuraEmissionFresnelPower>k__BackingField: 7
-  <ShieldAuraEmissionColor>k__BackingField: {r: 0.40717334, g: 1.4150944, b: 1.4150944, a: 0}
+  <ShieldAuraEmissionColor>k__BackingField: {r: 0.21551976, g: 0.7490196, b: 0.7490196, a: 0}
   <ShieldAuraVerticalNoiceScale>k__BackingField: 3
   <ShieldAuraHeightLowEfficiency>k__BackingField: 0.7
   <ShieldAuraHeightStandardEfficiency>k__BackingField: 1.7

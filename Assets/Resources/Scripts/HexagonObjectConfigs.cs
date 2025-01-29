@@ -58,7 +58,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] GreenCrystalSourcePrefabs { get; private set; }
         [field: Header("GlitcheSource settings <Mine> <Source>")]
         [field: SerializeField] public GameObject[] GlitcheSourcePrefabs { get; private set; }
-        [field: Space(15)]
+        [field: Space(10)]
 
         [field: Header("TreeMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] TreeMiningPrefabs { get; private set; }
@@ -133,7 +133,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] ElectricSaplingPrefabs { get; private set; }
         [field: Header("BurningSpout settings <BuildebleField> <Tree>")]
         [field: SerializeField] public GameObject[] BurningSpoutPrefabs { get; private set; }
-        [field: Space(15)]
+        [field: Space(10)]
 
         [field: Header("VolcanicEruptionTower settings <BuildebleField> <Stone>")]
         [field: SerializeField] public GameObject[] VolcanicEruptionTowerPrefabs { get; private set; }
@@ -151,7 +151,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] ArcLightningTowerPrefabs { get; private set; }
         [field: Header("MoltenFortress settings <BuildebleField> <Stone>")]
         [field: SerializeField] public GameObject[] MoltenFortressPrefabs { get; private set; }
-        [field: Space(15)]
+        [field: Space(10)]
 
         [field: Header("PlasmaForge settings <BuildebleField> <Metal>")]
         [field: SerializeField] public GameObject[] PlasmaForgePrefabs { get; private set; }
@@ -169,7 +169,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] TeslaOverchargerPrefabs { get; private set; }
         [field: Header("IgnitionBlaster settings <BuildebleField> <Metal>")]
         [field: SerializeField] public GameObject[] IgnitionBlasterPrefabs { get; private set; }
-        [field: Space(15)]
+        [field: Space(10)]
 
         [field: Header("WarriorHallOfTimber settings <BuildebleField> <HireUnits>")]
         [field: SerializeField] public GameObject[] WarriorHallOfTimberPrefabs { get; private set; }
@@ -227,7 +227,7 @@ namespace GameConfigs {
         [field: SerializeField] public GameObject[] LongTurnSafeRiverPrefabs { get; private set; }
         [field: Header("NearTurnSafeRiver settings <River> <SafeRiver>")]
         [field: SerializeField] public GameObject[] NearTurnSafeRiverPrefabs { get; private set; }
-        [field: Space(15)]
+        [field: Space(10)]
 
         [field: Header("StartOrFinishDangerousRiver settings <River> <DangerousRiver>")]
         [field: SerializeField] public GameObject[] StartOrFinishDangerousRiverPrefabs { get; private set; }
@@ -260,7 +260,6 @@ namespace GameConfigs {
         // Category of StatsAuraType
         [field: Header("Shield settings <StatsAuraType>")]
         [field: SerializeField] public GameObject[] ShieldAuraPrefabs { get; private set; }
-        [field: Space(15)]
         [field: SerializeField] public Vector3 OneShieldPosition { get; private set; }
         [field: SerializeField] public Vector3[] TwoShieldsPosition { get; private set; }
         [field: SerializeField] public Vector3[] ThreeShieldsPosition { get; private set; }

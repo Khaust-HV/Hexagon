@@ -14,40 +14,33 @@ namespace HexagonObjectControl {
 
             switch (_hexagonObjectPartType) {
                 case DecorationHexagonObjectsType.RedCrystalBiome:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmissionTextureWithUV;
-                    _baseMaterialPropertyBlock.SetTexture("_EmissionTexture", _visualEffectsConfigs.RedCrystalEmissionTexture);
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.RedCrystalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.BlueCrystalBiome:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmissionTextureWithUV;
-                    _baseMaterialPropertyBlock.SetTexture("_EmissionTexture", _visualEffectsConfigs.BlueCrystalEmissionTexture);
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.BlueCrystalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.GreenCrystalBiome:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmissionTextureWithUV;
-                    _baseMaterialPropertyBlock.SetTexture("_EmissionTexture", _visualEffectsConfigs.GreenCrystalEmissionTexture);
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.GreenCrystalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.ElectricalBiome:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmissionTextureWithUV;
-                    _baseMaterialPropertyBlock.SetTexture("_EmissionTexture", _visualEffectsConfigs.ElectricalEmissionTexture);
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.ElectricalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.GlitcheBiome:
                     _baseMaterial = _visualEffectsConfigs.DissolveAndEmission3TexturesWithUV;
 
-                    _baseMaterialPropertyBlock.SetTexture("_FirstEmissionTexture", _visualEffectsConfigs.FirstGlitcheEmissionTexture);
-                    _baseMaterialPropertyBlock.SetColor("_FirstEmissionColor", _visualEffectsConfigs.FirstGlitcheEmissionColor);
+                    _baseMaterialPropertyBlock.SetColor("_FirstEmissionColor", _visualEffectsConfigs.GlitcheFirstEmissionColor);
 
-                    _baseMaterialPropertyBlock.SetTexture("_SecondEmissionTexture", _visualEffectsConfigs.SecondGlitcheEmissionTexture);
-                    _baseMaterialPropertyBlock.SetColor("_SecondEmissionColor", _visualEffectsConfigs.SecondGlitcheEmissionColor);
+                    _baseMaterialPropertyBlock.SetColor("_SecondEmissionColor", _visualEffectsConfigs.GlitcheSecondEmissionColor);
 
-                    _baseMaterialPropertyBlock.SetTexture("_ThirdEmissionTexture", _visualEffectsConfigs.ThirdGlitcheEmissionTexture);
-                    _baseMaterialPropertyBlock.SetColor("_ThirdEmissionColor", _visualEffectsConfigs.ThirdGlitcheEmissionColor);
+                    _baseMaterialPropertyBlock.SetColor("_ThirdEmissionColor", _visualEffectsConfigs.GlitcheThirdEmissionColor);
                 break;
 
                 default:

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using GameConfigs;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -9,13 +10,16 @@ namespace HexagonObjectControl {
     [RequireComponent(typeof(VisualEffect))]
     public class HexagonObjectElement : MonoBehaviour, IHexagonObjectPart {
         [Header("Renderer settings")]
-        [SerializeField] protected MeshRenderer[] _mrBaseObject;
+        [SerializeField] private LODGroup[] _lODGroups;
+        [SerializeField] private MeshRenderer[] _mrOtherObject;
         [SerializeField] protected bool _isObjectHaveAnimation;
         [Header("Dissolve effect settings")]
         [SerializeField] private float _spawnStartCutoffHeight;
         [SerializeField] private float _spawnFinishCutoffHeight;
         [SerializeField] private float _destroyStartCutoffHeight;
         [SerializeField] private float _destroyFinishCutoffHeight;
+
+        protected List<MeshRenderer> _mrBaseObject = new();
 
         public event Action HexagonObjectPartIsRestore;
 
@@ -60,17 +64,34 @@ namespace HexagonObjectControl {
 
             // Set components
             _visualEffect = GetComponent<VisualEffect>();
-            
+
+            GetMeshRenderers();
+
             SetDestroyHexagonObjectVFXConfiguration();
+        }
+
+        private void GetMeshRenderers() {
+            foreach (var lODGroup in _lODGroups) {
+                foreach (var lOD in lODGroup.GetLODs()) {
+                    foreach (Renderer renderer in lOD.renderers) {
+                        if (renderer is MeshRenderer meshRenderer) _mrBaseObject.Add(meshRenderer);
+                        else throw new Exception($"Problem in the hexagonObject {gameObject.name} renderer");
+                    }
+                }
+            }
+
+            foreach (var meshRenderer in _mrOtherObject) {
+                _mrBaseObject.Add(meshRenderer);
+            }
         }
 
         private void SetDestroyHexagonObjectVFXConfiguration() {
             _visualEffect.visualEffectAsset = _visualEffectsConfigs.DestroyHexagonOrHexagonObjectVFXEffect;
             _visualEffect.SetInt("NumberParticles", _visualEffectsConfigs.DefaultDestroyVFXNumberParticles);
-            _visualEffect.SetTexture("DestroyBuildTextureParticle", _levelConfigs.DefaultDestroyTextureParticle);
-            _visualEffect.SetMesh("ObjectMesh", _mrBaseObject[0].GetComponent<MeshFilter>().sharedMesh);
+            _visualEffect.SetTexture("DestroyBuildTextureParticle", _visualEffectsConfigs.DefaultDestroyTextureParticle);
+            _visualEffect.SetMesh("ObjectMesh", _mrBaseObject[0].GetComponent<MeshFilter>().sharedMesh); // FIX IT !
             _visualEffect.SetFloat("LifeTimeParticle", _levelConfigs.DefaultDestroyTimeAllObject);
-            _visualEffect.SetFloat("SizeParticle", _levelConfigs.SizeAllObject * _levelConfigs.DefaultDestroySizeParticles);
+            _visualEffect.SetFloat("SizeParticle", _levelConfigs.SizeAllObject * _visualEffectsConfigs.DefaultDestroySizeParticles);
             _visualEffect.SetVector4("EmissionColor", _visualEffectsConfigs.DefaultDestroyVFXEmissionColor);
             _visualEffect.SetVector3("StartVelocity", _visualEffectsConfigs.DefaultDestroyVFXStartVelocity);
             _visualEffect.SetFloat("LinearDrag", _visualEffectsConfigs.DefaultDestroyVFXLinearDrag);
@@ -261,7 +282,7 @@ namespace HexagonObjectControl {
 
         public void MakeObjectHologram() {
             if (_hologramMaterialPropertyBlock == null) {
-                _hologramMaterial = _visualEffectsConfigs.HologramAndDissolve;
+                _hologramMaterial = _visualEffectsConfigs.HologramAndDissolveGhost;
                 _hologramMaterialPropertyBlock = new MaterialPropertyBlock();
                 _hologramMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
                 _hologramMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);

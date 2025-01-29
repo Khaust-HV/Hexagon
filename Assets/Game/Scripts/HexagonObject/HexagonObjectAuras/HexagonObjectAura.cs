@@ -2,11 +2,9 @@ using System;
 using System.Collections;
 using GameConfigs;
 using UnityEngine;
-using UnityEngine.VFX;
 using Zenject;
 
 namespace HexagonObjectControl {
-    [RequireComponent(typeof(VisualEffect))]
     public class HexagonObjectAura : MonoBehaviour, IHexagonObjectPart {
         public event Action HexagonObjectPartIsRestore;
 

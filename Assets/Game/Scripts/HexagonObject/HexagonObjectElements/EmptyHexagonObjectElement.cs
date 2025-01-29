@@ -63,19 +63,17 @@ namespace HexagonObjectControl {
             else _animator.enabled = false;
         }
 
-        protected override void SetHexagonObjectWorkActive(bool isActive) {
-            base.SetHexagonObjectWorkActive(isActive);
+        // protected override void SetHexagonObjectWorkActive(bool isActive) {
+        //     if (isActive) {
+        //         _text.text = _hexagonObjectPartType.ToString();
 
-            if (isActive) {
-                _text.text = _hexagonObjectPartType.ToString();
+        //         StartCoroutine(TextLookedStarted());
+        //     } else {
+        //         _text.text = "";
 
-                StartCoroutine(TextLookedStarted());
-            } else {
-                _text.text = "";
-
-                StopAllCoroutines();
-            }
-        }
+        //         StopAllCoroutines();
+        //     }
+        // }
 
         private IEnumerator TextLookedStarted() {
             while (true) {

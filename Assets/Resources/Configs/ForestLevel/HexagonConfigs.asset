@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HexagonConfigs
   m_EditorClassIdentifier: 
   <RotationTime>k__BackingField: 1
-  <MinTimeForAutoHexagonRotate>k__BackingField: 1
+  <MinTimeForAutoHexagonRotate>k__BackingField: 1.1
   <MaxTimeForAutoHexagonRotate>k__BackingField: 10
   <MinNumberRotationsForHexagon>k__BackingField: 3
   <MaxNumberRotationsForHexagon>k__BackingField: 10

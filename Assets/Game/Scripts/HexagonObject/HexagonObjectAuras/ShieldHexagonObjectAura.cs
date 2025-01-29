@@ -33,7 +33,7 @@ namespace HexagonObjectControl {
         }
 
         private void SetMaterial() {
-            Material shieldMaterial = _visualEffectsConfigs.EmissionFullObject;
+            Material shieldMaterial = _visualEffectsConfigs.EmissionFullObjectGhost;
             MaterialPropertyBlock _shieldMaterialPropertyBlock = new MaterialPropertyBlock();
             _shieldMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
             _shieldMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
@@ -46,7 +46,7 @@ namespace HexagonObjectControl {
                 shield.SetPropertyBlock(_shieldMaterialPropertyBlock);
             }
 
-            Material auraShieldMaterial = _visualEffectsConfigs.DissolveAndEmissionFullObjectAndVerticalNoice;
+            Material auraShieldMaterial = _visualEffectsConfigs.DissolveAndEmissionFullObjectAndVerticalNoiceGhost;
             _auraShieldMaterialPropertyBlock = new MaterialPropertyBlock();
             _auraShieldMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
             _auraShieldMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);

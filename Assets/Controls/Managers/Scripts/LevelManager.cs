@@ -16,8 +16,6 @@ namespace Managers {
             private LevelConfigs _levelConfigs;
         #endregion
 
-        private List<IHexagonObjectControl> _hexagonControllersList = new(); // FIX IT !
-
         [Inject]
         private void Construct (
             IBuildingsPool iBuildingsPool, 
@@ -91,26 +89,13 @@ namespace Managers {
         public async void GenerateLevel() {
             SpreadHexagons();
 
-            for (int i = 0; i < _iBuildingsPool.GetNumberHexagonControllers() + 100; i++) {
-                _hexagonControllersList.Add(_iBuilder.CreateHexagonObject(GetRandomHexagonObjectElementType(), GetRandomHexagonObjectAuraType()));
-            }
-
             await SetRandomHexagonTypeAsync(); // FIX IT !
         }
 
         private void CreateNewHexagonObjectForHexagon(IHexagonControl iHexagonControl) { // FIX IT !
-            if (_hexagonControllersList.Count != 0) {
-                var hexagonObject = _hexagonControllersList[0];
+            var hexagonController = _iBuilder.CreateHexagonObject(GetRandomHexagonObjectElementType(), GetRandomHexagonObjectAuraType());
 
-                iHexagonControl.SetHexagonObject(hexagonObject, false);
-
-                _hexagonControllersList.Remove(hexagonObject);
-            } else {
-                var hexagonObject = _iBuilder.CreateHexagonObject(GetRandomHexagonObjectElementType(), GetRandomHexagonObjectAuraType());
-
-                iHexagonControl.SetHexagonObject(hexagonObject, false);
-            }
-
+            iHexagonControl.SetHexagonObject(hexagonController, false);
         }
 
         private void SpreadHexagons() {
