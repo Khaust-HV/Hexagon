@@ -9,14 +9,21 @@ namespace HexagonControl {
 
         public IHexagonObjectControl CurrentObject { get; private set; }
 
-        public event Action HexagonControllerIsRestore;
+        public event Action HexagonControllerIsRestored;
+        public event Action HexagonControllerIsDestroyed;
 
         private bool _isHexagonUpsideDown;
 
         public void SetHexagonObject(IHexagonObjectControl iHexagonObjectControl, bool setOnTheCurrentSide = false) {
-            if (CurrentObject != null) CurrentObject.SetObjectActive(false);
+            if (CurrentObject != null) {
+                CurrentObject.SetObjectActive(false);
+
+                CurrentObject.MainObjectInHexagonControllerIsDestroyed -= MainObjectInHexagonControllerIsDestroyed;
+            }
 
             CurrentObject = iHexagonObjectControl;
+
+            CurrentObject.MainObjectInHexagonControllerIsDestroyed += MainObjectInHexagonControllerIsDestroyed;
 
             if (setOnTheCurrentSide) {
                 if (_isHexagonUpsideDown) CurrentObject.SetParentObject(_secondObjectPoint);
@@ -31,6 +38,10 @@ namespace HexagonControl {
             CurrentObject.SetObjectActive(true);
         }
 
+        private void MainObjectInHexagonControllerIsDestroyed() {
+            HexagonControllerIsDestroyed?.Invoke();
+        }
+
         public void DestroyCurrentHexagonObject() {
             if (CurrentObject != null) {
                 CurrentObject.SetObjectActive(false, true);
@@ -41,8 +52,9 @@ namespace HexagonControl {
 
         private void LastHexagonControllerIsRestore() {
             CurrentObject.HexagonControllerIsRestore -= LastHexagonControllerIsRestore;
+            CurrentObject.MainObjectInHexagonControllerIsDestroyed -= MainObjectInHexagonControllerIsDestroyed;
 
-            HexagonControllerIsRestore?.Invoke();
+            HexagonControllerIsRestored?.Invoke();
 
             CurrentObject = null;
 

@@ -39,7 +39,8 @@ namespace HexagonControl {
             _hexagonRotationControl.HexagonRandomRotation += CheckingBeforeRotate;
             _hexagonSpawnAndDestroyControl.HexagonSpawnFinished += HexagonEnable;
             _hexagonSpawnAndDestroyControl.HexagonIsRestoreAndHide += HexagonIsRestoreAndHide;
-            _hexagonSetObjectControl.HexagonControllerIsRestore += HexagonControllerIsRestore;
+            _hexagonSetObjectControl.HexagonControllerIsRestored += HexagonControllerIsRestored;
+            _hexagonSetObjectControl.HexagonControllerIsDestroyed += HexagonControllerIsDestroyed;
             _hexagonUnitAreaControl.DestroyHexagon += DestroyHexagon;
         }
 
@@ -132,6 +133,14 @@ namespace HexagonControl {
             NeedHexagonObject?.Invoke(this); // Request to levelManager for a new object
         }
 
+        private void HexagonControllerIsDestroyed() {
+            _hexagonRotationControl.RotationFromTimeEnable();
+
+            CameraLooking?.Invoke(); // If a player has taken a focus but the hexagon is rotation
+
+            NeedHexagonObject?.Invoke(this); // Request to levelManager for a new object
+        }
+
         public bool GetHexagonObjectController(out IHexagonObjectControl iHexagonObjectControl) {
             if (_hexagonSetObjectControl.CurrentObject != null) {
                 iHexagonObjectControl = _hexagonSetObjectControl.CurrentObject;
@@ -171,7 +180,7 @@ namespace HexagonControl {
             }
         }
 
-        private void HexagonControllerIsRestore() {
+        private void HexagonControllerIsRestored() {
             _hexagonSpawnAndDestroyControl.RestoreAndHide();
         }
 

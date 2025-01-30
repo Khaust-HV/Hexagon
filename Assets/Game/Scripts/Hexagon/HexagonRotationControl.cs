@@ -9,6 +9,8 @@ namespace HexagonControl {
         public event Action HexagonRandomRotation;
         public bool IsHexagonRotation { get; private set; }
 
+        private IEnumerator _hexagonRotationFromTimeStarted;
+
         private static readonly Vector3[] edgeCenters = new Vector3[] {
             new Vector3(0.5f, 0f, 0.866f),
             new Vector3(1f, 0f, 0f),
@@ -35,7 +37,9 @@ namespace HexagonControl {
         }
 
         public void RotationFromTimeEnable() {
-            StartCoroutine(HexagonRotationFromTimeStarted());
+            if (_hexagonRotationFromTimeStarted != null) StopCoroutine(_hexagonRotationFromTimeStarted);
+
+            StartCoroutine(_hexagonRotationFromTimeStarted = HexagonRotationFromTimeStarted());
         }
 
         private IEnumerator HexagonRotationFromTimeStarted() {

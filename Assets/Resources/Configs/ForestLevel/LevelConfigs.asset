@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: LevelConfigs
   m_EditorClassIdentifier: 
   <SizeAllObject>k__BackingField: 10
-  <DefaultDestroyTextureParticle>k__BackingField: {fileID: 2800000, guid: 09531588890b0486cbe0a52ccb971925, type: 3}
-  <DefaultDestroySizeParticles>k__BackingField: 0.5
   <DefaultSpawnTimeAllObject>k__BackingField: 1.5
   <DefaultDestroyTimeAllObject>k__BackingField: 2
   <DefaultHologramSpawnTimeAllObject>k__BackingField: 1

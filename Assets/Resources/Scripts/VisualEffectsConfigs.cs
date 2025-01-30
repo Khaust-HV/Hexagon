@@ -20,6 +20,12 @@ namespace GameConfigs {
         [field: SerializeField] public Material HologramAndDissolveGhost { get; private set; }
         [field: Space(25)]
 
+        [field: Header("Default hit effect settings")]
+        [field: SerializeField] public float DefaultHitEffectTime { get; private set; }
+         [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color DefaultHitEffectColor { get; private set; }
+        [field: Space(25)]
+
         [field: Header("Default dissolve settings for spawn effect")]
         [field: SerializeField] public float DefaultSpawnNoiseScale { get; private set; }
         [field: SerializeField] public float DefaultSpawnNoiseStrength { get; private set; }

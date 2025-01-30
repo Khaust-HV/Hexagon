@@ -22,6 +22,8 @@ MonoBehaviour:
   <DissolveAndEmissionFullObjectAndVerticalNoiceGhost>k__BackingField: {fileID: 2100000, guid: 80b90463c7b5f4bac9c7d74a8319b778, type: 2}
   <EmissionFullObjectGhost>k__BackingField: {fileID: 2100000, guid: 234e8d47aebb849a9a538ca880bc9592, type: 2}
   <HologramAndDissolveGhost>k__BackingField: {fileID: 2100000, guid: 84c88f09fa2a14d9c82272b97bdc65ad, type: 2}
+  <DefaultHitEffectTime>k__BackingField: 0.25
+  <DefaultHitEffectColor>k__BackingField: {r: 1.498039, g: 1.498039, b: 1.498039, a: 0}
   <DefaultSpawnNoiseScale>k__BackingField: 75
   <DefaultSpawnNoiseStrength>k__BackingField: 1
   <DefaultSpawnEdgeWidth>k__BackingField: 1
@@ -33,7 +35,7 @@ MonoBehaviour:
   <DestroyHexagonOrHexagonObjectVFXEffect>k__BackingField: {fileID: 8926484042661614526, guid: 749e8cb9578c541f1b0e5279b87e2016, type: 3}
   <DefaultDestroyTextureParticle>k__BackingField: {fileID: 2800000, guid: 09531588890b0486cbe0a52ccb971925, type: 3}
   <DefaultDestroySizeParticles>k__BackingField: 0.5
-  <DefaultDestroyVFXNumberParticles>k__BackingField: 50
+  <DefaultDestroyVFXNumberParticles>k__BackingField: 75
   <DefaultDestroyVFXStartVelocity>k__BackingField: {x: 0, y: 2, z: 0}
   <DefaultDestroyVFXLinearDrag>k__BackingField: 1
   <DefaultDestroyVFXEmissionColor>k__BackingField: {r: 0, g: 11.984314, b: 11.984314, a: 0}
@@ -42,10 +44,10 @@ MonoBehaviour:
   <DefaultHologramColor>k__BackingField: {r: 1, g: 1, b: 1, a: 0}
   <DefaultHologramFresnelColor>k__BackingField: {r: 1.6536849, g: 2.996078, b: 0, a: 0}
   <DefaultHologramEdgeColor>k__BackingField: {r: 0, g: 23.968628, b: 23.968628, a: 0}
-  <ElectricalEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
-  <RedCrystalEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
-  <BlueCrystalEmissionColor>k__BackingField: {r: 0, g: 1.8682938, b: 4, a: 0}
-  <GreenCrystalEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+  <ElectricalEmissionColor>k__BackingField: {r: 0.19923122, g: 0, b: 2.9960787, a: 0}
+  <RedCrystalEmissionColor>k__BackingField: {r: 2.9960787, g: 0.26085535, b: 0, a: 0}
+  <BlueCrystalEmissionColor>k__BackingField: {r: 0, g: 1.3993888, b: 2.9960787, a: 0}
+  <GreenCrystalEmissionColor>k__BackingField: {r: 1.1569355, g: 2.9960787, b: 0, a: 0}
   <GlitcheFirstEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
   <GlitcheSecondEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
   <GlitcheThirdEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}

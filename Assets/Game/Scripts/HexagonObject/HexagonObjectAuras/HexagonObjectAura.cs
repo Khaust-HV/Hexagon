@@ -6,7 +6,8 @@ using Zenject;
 
 namespace HexagonObjectControl {
     public class HexagonObjectAura : MonoBehaviour, IHexagonObjectPart {
-        public event Action HexagonObjectPartIsRestore;
+        public event Action HexagonObjectPartIsRestored;
+        public event Action HexagonObjectPartIsDestroyed;
 
         protected Enum _hexagonObjectPartType;
         protected Enum _hexagonObjectType;
@@ -119,7 +120,7 @@ namespace HexagonObjectControl {
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
 
-            HexagonObjectPartIsRestore?.Invoke();
+            HexagonObjectPartIsRestored?.Invoke();
 
             _isHexagonObjectPartUsed = false;
         }
@@ -132,6 +133,11 @@ namespace HexagonObjectControl {
         }
         public void HologramSpawnEffectEnable() {
             throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"Aura cannot become a hologram {gameObject.name}");
+        }
+        public void TakeTheDamage(float damage) {
+            HexagonObjectPartIsDestroyed();
+
+            throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"Aura can't take damage {gameObject.name}");
         }
     }
 

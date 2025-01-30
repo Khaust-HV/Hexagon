@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using GameConfigs;
+using LevelObjectType;
 using UnityEngine;
 using UnityEngine.VFX;
 using Zenject;
@@ -21,11 +22,16 @@ namespace HexagonObjectControl {
 
         protected List<MeshRenderer> _mrBaseObject = new();
 
-        public event Action HexagonObjectPartIsRestore;
+        public event Action HexagonObjectPartIsRestored;
+        public event Action HexagonObjectPartIsDestroyed;
 
         protected Enum _hexagonObjectPartType;
 
         protected float _spawnEffectTime;
+
+        protected float _hitPoints;
+        private bool _isHitEffectActive;
+        private IEnumerator _hitEffectStarted;
 
         private bool _isHexagonObjectPartUsed;
         protected bool _isObjectHologram;
@@ -115,9 +121,56 @@ namespace HexagonObjectControl {
             // Overridden by an heir
         }
 
+        protected virtual void SetColliderActive(bool isActive) {
+            // Overridden by an heir
+        }
+
         protected virtual void SetHexagonObjectWorkActive(bool isActive) {
             // Overridden by an heir
         }
+
+        public void TakeTheDamage(float damage) {
+            if (_isHitEffectActive) StopCoroutine(_hitEffectStarted);
+
+            StartCoroutine(_hitEffectStarted = HitEffectStarted());
+
+            _hitPoints -= damage;
+
+            if (_hitPoints <= 0f) HexagonObjectPartIsDestroyed?.Invoke();
+        }
+
+       private IEnumerator HitEffectStarted() {
+            _isHitEffectActive = true;
+
+            float hitEffectTime = _visualEffectsConfigs.DefaultHitEffectTime;
+            float inverseEffectTime = 1f / hitEffectTime;
+            float elapsedTime = 0f;
+
+            Color startColor = _visualEffectsConfigs.DefaultHitEffectColor;
+            Color endColor = Color.black;
+
+            while (elapsedTime < hitEffectTime) {
+                Color lerpedColor = Color.Lerp(startColor, endColor, elapsedTime * inverseEffectTime);
+
+                _baseMaterialPropertyBlock.SetColor("_HitColor", lerpedColor);
+
+                foreach (var mrObject in _mrBaseObject) {
+                    mrObject.SetPropertyBlock(_baseMaterialPropertyBlock);
+                }
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            _baseMaterialPropertyBlock.SetColor("_HitColor", endColor);
+
+            foreach (var mrObject in _mrBaseObject) {
+                mrObject.SetPropertyBlock(_baseMaterialPropertyBlock);
+            }
+
+            _isHitEffectActive = false;
+        }
+
 
         public void SetHexagonObjectPartType<T>(T type) where T : Enum {
             _hexagonObjectPartType = type;
@@ -148,6 +201,8 @@ namespace HexagonObjectControl {
 
         public void SpawnEffectEnable() {
             gameObject.SetActive(true);
+
+            SetColliderActive(true);
 
             _baseMaterialPropertyBlock.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultSpawnNoiseScale);
             _baseMaterialPropertyBlock.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultSpawnNoiseStrength);
@@ -184,9 +239,10 @@ namespace HexagonObjectControl {
             SetAnimationActive(true);
 
             float elapsedTime = 0f;
+            float inverseEffectTime = 1f / spawnEffectTime;
 
             while (elapsedTime < spawnEffectTime) {
-                float currentValue = Mathf.Lerp(_spawnStartCutoffHeight, _spawnFinishCutoffHeight, elapsedTime / spawnEffectTime);
+                float currentValue = Mathf.Lerp(_spawnStartCutoffHeight, _spawnFinishCutoffHeight, elapsedTime * inverseEffectTime);
 
                 materialPropertyBlock.SetFloat("_CutoffHeight", currentValue);
 
@@ -212,6 +268,8 @@ namespace HexagonObjectControl {
 
         public void DestroyEffectEnable(bool _isFastDestroy) {
             SetHexagonObjectWorkActive(false);
+
+            SetColliderActive(false);
 
             _baseMaterialPropertyBlock.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultDestroyNoiseScale);
             _baseMaterialPropertyBlock.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultDestroyNoiseStrength);
@@ -253,9 +311,10 @@ namespace HexagonObjectControl {
                 float elapsedTime = 0f;
 
                 float destroyEffectTime = _levelConfigs.DefaultDestroyTimeAllObject;
+                float inverseEffectTime = 1f / destroyEffectTime;
 
                 while (elapsedTime <destroyEffectTime) {
-                    float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / destroyEffectTime);
+                    float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime * inverseEffectTime);
 
                     _baseMaterialPropertyBlock.SetFloat("_CutoffHeight", currentValue);
 
@@ -326,7 +385,7 @@ namespace HexagonObjectControl {
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
 
-            HexagonObjectPartIsRestore?.Invoke();
+            HexagonObjectPartIsRestored?.Invoke();
 
             _isHexagonObjectPartUsed = false;
         }
@@ -338,10 +397,12 @@ namespace HexagonObjectControl {
 }
 
 public interface IHexagonObjectPart {
-    public event Action HexagonObjectPartIsRestore;
+    public event Action HexagonObjectPartIsRestored;
+    public event Action HexagonObjectPartIsDestroyed;
     public bool IsHexagonObjectPartUsed();
     public void SetHexagonObjectPartType<T>(T type) where T : Enum;
     public void SetHexagonObjectType<T>(T type) where T : Enum;
+    public void TakeTheDamage(float damage);
     public void SetParentObject(Transform parentObject);
     public void SetAuraEfficiency(AuraEfficiencyType auraEfficiencyType);
     public void ApplyAuraToHexagonObjectElement(IHexagonObjectPart iHexagonObjectPart);

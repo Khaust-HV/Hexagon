@@ -112,12 +112,12 @@ namespace HexagonControl {
         private IEnumerator SpawnEffectStarted(MaterialPropertyBlock materialPropertyBlock) {
             _isObjectWaitingToSpawn = true;
 
+            float spawnEffectTime = _levelConfigs.DefaultSpawnTimeAllObject;
+            float inverseEffectTime = 1f / spawnEffectTime;
             float elapsedTime = 0f;
 
-            float spawnEffectTime = _levelConfigs.DefaultSpawnTimeAllObject;
-
             while (elapsedTime < spawnEffectTime) {
-                float currentValue = Mathf.Lerp(_spawnStartCutoffHeight, _spawnFinishCutoffHeight, elapsedTime / spawnEffectTime);
+                float currentValue = Mathf.Lerp(_spawnStartCutoffHeight, _spawnFinishCutoffHeight, elapsedTime * inverseEffectTime);
 
                 materialPropertyBlock.SetFloat("_CutoffHeight", currentValue);
 
@@ -183,12 +183,12 @@ namespace HexagonControl {
         private IEnumerator DestroyEffectStarted(MaterialPropertyBlock materialPropertyBlock, bool isHexagonAutoRestore, bool _isFastDestroy) {
             if (_isFastDestroy) yield return new WaitForSeconds(_levelConfigs.DefaultDestroyTimeAllObject);
             else {
+                float destroyEffectTime = _levelConfigs.DefaultDestroyTimeAllObject;
+                float inverseEffectTime = 1f / destroyEffectTime;
                 float elapsedTime = 0f;
 
-                float destroyEffectTime = _levelConfigs.DefaultDestroyTimeAllObject;
-
                 while (elapsedTime < destroyEffectTime) {
-                    float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / destroyEffectTime);
+                    float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime * inverseEffectTime);
 
                     materialPropertyBlock.SetFloat("_CutoffHeight", currentValue);
 
