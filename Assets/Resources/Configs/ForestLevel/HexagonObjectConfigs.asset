@@ -12,7 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 407cbdf16d48748f7bef40153006b6b3, type: 3}
   m_Name: HexagonObjectConfigs
   m_EditorClassIdentifier: 
-  <BiomePrefabs>k__BackingField: []
+  <BiomePrefabs>k__BackingField:
+  - {fileID: 107116681824326084, guid: d53582d51d30a46ac9c7a36fce8d75f0, type: 3}
+  - {fileID: 6722737030619812003, guid: b59f9513b82e547eca01693efb1985ef, type: 3}
+  - {fileID: 2502347506566480594, guid: c6eb23129b2024b708f93afad1eb3187, type: 3}
+  - {fileID: 6420939359099565899, guid: 5c2aea987d99140d4a7d6041656fd6b4, type: 3}
+  - {fileID: 3660334938183939360, guid: bac6dc51513104043bac9b28c187b25b, type: 3}
+  - {fileID: 7464068894220274366, guid: a765ba316c1fb42b585c160b5ce1dbab, type: 3}
+  - {fileID: 7081199604689460646, guid: 3c0e4eeb16f0f45ad899d190b4bd62bf, type: 3}
+  - {fileID: 8153191378182464374, guid: eec68a8b97f204c6683204f6175cf49d, type: 3}
+  - {fileID: 8681676834913048314, guid: 5fc29115a75f24840b68c66fa8a51024, type: 3}
+  - {fileID: 8831472459869924457, guid: 1d0a47c2cea38478a82afa6187458e8c, type: 3}
   <LakeBiomePrefabs>k__BackingField: []
   <TreeBiomePrefabs>k__BackingField: []
   <StoneBiomePrefabs>k__BackingField: []

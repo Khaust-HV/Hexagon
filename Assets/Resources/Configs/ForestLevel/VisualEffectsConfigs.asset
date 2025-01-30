@@ -15,13 +15,13 @@ MonoBehaviour:
   <DefaultMetallic>k__BackingField: 0.3
   <DefaultSmoothness>k__BackingField: 0.5
   <DissolveNonUV>k__BackingField: {fileID: 2100000, guid: 51882ef677a99413199a773d5eb2a566, type: 2}
-  <DissolveWithUV>k__BackingField: {fileID: 2100000, guid: 6345af1ff19ad419ca0bb118501c9dce, type: 2}
-  <DissolveAndEmission1TextureWithUV>k__BackingField: {fileID: 2100000, guid: ac7f41a1473b84b2ab9c2863a03d625b, type: 2}
-  <DissolveAndEmission2TextureWithUV>k__BackingField: {fileID: 2100000, guid: 2ee1504bf3b994d55ad66f618eca8a24, type: 2}
-  <DissolveAndEmission3TexturesWithUV>k__BackingField: {fileID: 2100000, guid: 117a5531bb23c4b24bab1ae34bfa460a, type: 2}
+  <DissolveAndHitWithUV>k__BackingField: {fileID: 2100000, guid: 6345af1ff19ad419ca0bb118501c9dce, type: 2}
+  <DissolveAndHitAndEmission1TextureWithUV>k__BackingField: {fileID: 2100000, guid: ac7f41a1473b84b2ab9c2863a03d625b, type: 2}
+  <DissolveAndHitAndEmission2TextureWithUV>k__BackingField: {fileID: 2100000, guid: 2ee1504bf3b994d55ad66f618eca8a24, type: 2}
+  <DissolveAndHitAndEmission3TexturesWithUV>k__BackingField: {fileID: 2100000, guid: 117a5531bb23c4b24bab1ae34bfa460a, type: 2}
   <DissolveAndEmissionFullObjectAndVerticalNoiceGhost>k__BackingField: {fileID: 2100000, guid: 80b90463c7b5f4bac9c7d74a8319b778, type: 2}
   <EmissionFullObjectGhost>k__BackingField: {fileID: 2100000, guid: 234e8d47aebb849a9a538ca880bc9592, type: 2}
-  <HologramAndDissolveGhost>k__BackingField: {fileID: 2100000, guid: 84c88f09fa2a14d9c82272b97bdc65ad, type: 2}
+  <DissolveAndHologramGhost>k__BackingField: {fileID: 2100000, guid: 84c88f09fa2a14d9c82272b97bdc65ad, type: 2}
   <DefaultHitEffectTime>k__BackingField: 0.25
   <DefaultHitEffectColor>k__BackingField: {r: 1.498039, g: 1.498039, b: 1.498039, a: 0}
   <DefaultSpawnNoiseScale>k__BackingField: 75
@@ -64,4 +64,5 @@ MonoBehaviour:
   <ShieldAuraShieldSpawn>k__BackingField: {fileID: 8926484042661614526, guid: 3d8d496aadf2540d49c372b6cf7dc6f5, type: 3}
   <ShieldAuraStartVelocity>k__BackingField: {x: -0.5, y: 0, z: 0}
   <ShieldAuraLinearDrag>k__BackingField: 0.25
+  <ShieldAuraBaseAlpha>k__BackingField: 0.1
   <ShieldAuraParticlesNumberForShieldDestroy>k__BackingField: 20

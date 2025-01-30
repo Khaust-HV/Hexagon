@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DissolveWithUV
-  m_Shader: {fileID: -6465566751694194690, guid: a07e660a7a06b4cd4b4245217e045a76, type: 3}
+  m_Name: DissolveAndHitAndEmission1TextureWithUV
+  m_Shader: {fileID: -6465566751694194690, guid: abf5124d6e8d54d4dbd4d998c40f38c6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -24,8 +24,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _ObjectTexture:
-        m_Texture: {fileID: 2800000, guid: 052dc8598c96b44b48fe83f7c7aadcfb, type: 3}
+    - _EmissionTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_427a939d683f45a79aa56439a19582ca_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: b7112b1d3c8324210842a27f6b25df03, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_66622f2d1eeb463ba6e636bf98f5cdb7_Texture_1_Texture2D:
@@ -46,8 +50,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CutoffHeight: 1.41
-    - _EdgeWidth: 1
+    - _CutoffHeight: 1.5
+    - _EdgeWidth: 0.01
     - _Metallic: 0.3
     - _NoiseScale: 75
     - _NoiseStrength: 1
@@ -56,10 +60,10 @@ Material:
     - _Smoothness: 0.5
     m_Colors:
     - _EdgeColor: {r: 0, g: 766.9962, b: 681.8837, a: 0}
-    - _HitColor: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionTextureColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &3584347368930972190
+--- !u!114 &2042682391707034147
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

@@ -34,3 +34,7 @@ MonoBehaviour:
   <EastBorder>k__BackingField: 190
   <NorthBorder>k__BackingField: 190
   <SouthBorder>k__BackingField: -190
+  <LODObjectSize>k__BackingField: 1
+  <LOD0Distance>k__BackingField: 0.35
+  <LOD1Distance>k__BackingField: 0.175
+  <LOD2Distance>k__BackingField: 0.05

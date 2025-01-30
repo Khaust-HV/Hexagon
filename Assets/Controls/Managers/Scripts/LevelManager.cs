@@ -4,7 +4,6 @@ using UnityEngine;
 using Zenject;
 using System.Threading.Tasks;
 using LevelObjectType;
-using System.Collections.Generic;
 
 namespace Managers {
     public sealed class LevelManager : IHexagonTarget, IGenerateLevel {
@@ -94,6 +93,7 @@ namespace Managers {
 
         private void CreateNewHexagonObjectForHexagon(IHexagonControl iHexagonControl) { // FIX IT !
             var hexagonController = _iBuilder.CreateHexagonObject(GetRandomHexagonObjectElementType(), GetRandomHexagonObjectAuraType());
+            // var hexagonController = _iBuilder.CreateHexagonObject(GetRandomHexagonObjectElementType(), StatsAuraType.ShieldAura);
 
             iHexagonControl.SetHexagonObject(hexagonController, false);
         }

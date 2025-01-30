@@ -26,6 +26,9 @@
         },
         {
             "m_Id": "22096901b5684b5b8f926727ff0188c2"
+        },
+        {
+            "m_Id": "caf03a8a66944ccc9fed19569eadd915"
         }
     ],
     "m_Keywords": [],
@@ -125,6 +128,9 @@
         },
         {
             "m_Id": "2d4f501565c2424bb95cf80c290fa47e"
+        },
+        {
+            "m_Id": "9cc85b5f97714d8d8b9e798f73e25414"
         }
     ],
     "m_GroupDatas": [
@@ -275,6 +281,20 @@
                     "m_Id": "ca4df588f1b547359ec9a4f42939053d"
                 },
                 "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "9cc85b5f97714d8d8b9e798f73e25414"
+                },
+                "m_SlotId": 0
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "2d4f501565c2424bb95cf80c290fa47e"
+                },
+                "m_SlotId": 1
             }
         },
         {
@@ -783,7 +803,7 @@
     "m_Title": "Dissolve Effect",
     "m_Position": {
         "x": -2180.5,
-        "y": -731.0000610351563
+        "y": -730.0000610351563
     }
 }
 
@@ -1684,6 +1704,9 @@
         },
         {
             "m_Id": "d84227c68b624f43b16e54b1f96452a3"
+        },
+        {
+            "m_Id": "caf03a8a66944ccc9fed19569eadd915"
         }
     ]
 }
@@ -2125,6 +2148,42 @@
 }
 
 {
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
+    "m_ObjectId": "9cc85b5f97714d8d8b9e798f73e25414",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Property",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": -677.0000610351563,
+            "y": -65.50005340576172,
+            "width": 131.00006103515626,
+            "height": 34.000022888183597
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "a67f5235d5ec45a99b64e04096158d1c"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_Property": {
+        "m_Id": "caf03a8a66944ccc9fed19569eadd915"
+    }
+}
+
+{
     "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.NoiseNode",
     "m_ObjectId": "9cc9025e39a34642bc33511118a31b7d",
@@ -2310,6 +2369,21 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "a67f5235d5ec45a99b64e04096158d1c",
+    "m_Id": 0,
+    "m_DisplayName": "BaseAlpha",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
     "m_ObjectId": "a7b7a81e55de47079aefac22b46b0035",
     "m_Group": {
@@ -2402,7 +2476,7 @@
     "m_Title": "Emission Object",
     "m_Position": {
         "x": -1479.5,
-        "y": 342.5
+        "y": 343.5
     }
 }
 
@@ -2687,6 +2761,34 @@
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
+    }
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
+    "m_ObjectId": "caf03a8a66944ccc9fed19569eadd915",
+    "m_Guid": {
+        "m_GuidSerialized": "079c603a-fba7-4ecd-98ba-171beafe72a0"
+    },
+    "m_Name": "BaseAlpha",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "BaseAlpha",
+    "m_DefaultReferenceName": "_BaseAlpha",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_DismissedVersion": 0,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": true,
+    "hlslDeclarationOverride": 3,
+    "m_Hidden": false,
+    "m_Value": 0.014999999664723874,
+    "m_FloatType": 0,
+    "m_RangeValues": {
+        "x": 0.0,
+        "y": 1.0
     }
 }
 

@@ -11,14 +11,18 @@ namespace GameConfigs {
         
         [field: Header("General material pool")]
         [field: SerializeField] public Material DissolveNonUV { get; private set; }
-        [field: SerializeField] public Material DissolveWithUV { get; private set; }
-        [field: SerializeField] public Material DissolveAndEmission1TextureWithUV { get; private set; }
-        [field: SerializeField] public Material DissolveAndEmission2TextureWithUV { get; private set; }
-        [field: SerializeField] public Material DissolveAndEmission3TexturesWithUV { get; private set; }
+        [field: SerializeField] public Material DissolveAndHitWithUV { get; private set; }
+        [field: SerializeField] public Material DissolveAndHitAndEmission1TextureWithUV { get; private set; }
+        [field: SerializeField] public Material DissolveAndHitAndEmission2TextureWithUV { get; private set; }
+        [field: SerializeField] public Material DissolveAndHitAndEmission3TexturesWithUV { get; private set; }
         [field: SerializeField] public Material DissolveAndEmissionFullObjectAndVerticalNoiceGhost { get; private set; }
         [field: SerializeField] public Material EmissionFullObjectGhost { get; private set; }
-        [field: SerializeField] public Material HologramAndDissolveGhost { get; private set; }
+        [field: SerializeField] public Material DissolveAndHologramGhost { get; private set; }
         [field: Space(25)]
+
+        // [field: Header("Specialty material pool")]
+        // // In the process of coming up
+        // [field: Space(25)]
 
         [field: Header("Default hit effect settings")]
         [field: SerializeField] public float DefaultHitEffectTime { get; private set; }
@@ -105,6 +109,7 @@ namespace GameConfigs {
         [field: SerializeField] public VisualEffectAsset ShieldAuraShieldSpawn { get; private set; }
         [field: SerializeField] public Vector3 ShieldAuraStartVelocity { get; private set; }
         [field: SerializeField] public float ShieldAuraLinearDrag { get; private set; }
+        [field: SerializeField] public float ShieldAuraBaseAlpha { get; private set; }
         [field: SerializeField] public int ShieldAuraParticlesNumberForShieldDestroy { get; private set; }
     }
 }

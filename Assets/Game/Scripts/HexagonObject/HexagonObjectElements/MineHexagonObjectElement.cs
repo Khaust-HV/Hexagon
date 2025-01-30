@@ -39,31 +39,31 @@ namespace HexagonObjectControl {
             switch (_hexagonObjectPartType) {
                 case MineHexagonObjectsType.RedCrystalSource:
                 case MineHexagonObjectsType.RedCrystalMining:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndHitAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.RedCrystalEmissionColor);
                 break;
 
                 case MineHexagonObjectsType.BlueCrystalSource:
                 case MineHexagonObjectsType.BlueCrystalMining:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndHitAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.BlueCrystalEmissionColor);
                 break;
 
                 case MineHexagonObjectsType.GreenCrystalSource:
                 case MineHexagonObjectsType.GreenCrystalMining:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndHitAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.GreenCrystalEmissionColor);
                 break;
 
                 case MineHexagonObjectsType.ElectricalSource:
                 case MineHexagonObjectsType.ElectricalMining:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndHitAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.ElectricalEmissionColor);
                 break;
 
                 case MineHexagonObjectsType.GlitcheSource:
                 case MineHexagonObjectsType.GlitcheMining:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission3TexturesWithUV;
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndHitAndEmission3TexturesWithUV;
 
                     _baseMaterialPropertyBlock.SetColor("_FirstEmissionColor", _visualEffectsConfigs.GlitcheFirstEmissionColor);
 
@@ -73,7 +73,7 @@ namespace HexagonObjectControl {
                 break;
 
                 default:
-                    _baseMaterial = _visualEffectsConfigs.DissolveWithUV;
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndHitWithUV;
                 break;
             }
 
@@ -104,6 +104,7 @@ namespace HexagonObjectControl {
                 case MineHexagonObjectsType.TreeMining:
                     _resourceCreated = ResourceType.Wood;
                     _creationTime = _hexagonObjectConfigs.TreeMiningResourceCreationTime;
+                    _hitPoints = _hexagonObjectConfigs.TreeMiningHitPoints;
                     _minResourceNumber = _hexagonObjectConfigs.TreeMiningMinResourceNumber;
                     _maxResourceNumber = _hexagonObjectConfigs.TreeMiningMaxResourceNumber;
                     _spawnEffectTime = _hexagonObjectConfigs.TreeMiningTimeSpawn;
@@ -112,6 +113,7 @@ namespace HexagonObjectControl {
                 case MineHexagonObjectsType.StoneMining:
                     _resourceCreated = ResourceType.Stone;
                     _creationTime = _hexagonObjectConfigs.StoneMiningResourceCreationTime;
+                    _hitPoints = _hexagonObjectConfigs.StoneMiningHitPoints;
                     _minResourceNumber = _hexagonObjectConfigs.StoneMiningMinResourceNumber;
                     _maxResourceNumber = _hexagonObjectConfigs.StoneMiningMaxResourceNumber;
                     _spawnEffectTime = _hexagonObjectConfigs.StoneMiningTimeSpawn;
@@ -120,6 +122,7 @@ namespace HexagonObjectControl {
                 case MineHexagonObjectsType.MetalMining:
                     _resourceCreated = ResourceType.Metal;
                     _creationTime = _hexagonObjectConfigs.MetalMiningResourceCreationTime;
+                    _hitPoints = _hexagonObjectConfigs.MetalMiningHitPoints;
                     _minResourceNumber = _hexagonObjectConfigs.MetalMiningMinResourceNumber;
                     _maxResourceNumber = _hexagonObjectConfigs.MetalMiningMaxResourceNumber;
                     _spawnEffectTime = _hexagonObjectConfigs.MetalMiningTimeSpawn;
@@ -128,6 +131,7 @@ namespace HexagonObjectControl {
                 case MineHexagonObjectsType.ElectricalMining:
                     _resourceCreated = ResourceType.Electrical;
                     _creationTime = _hexagonObjectConfigs.ElectricalMiningResourceCreationTime;
+                    _hitPoints = _hexagonObjectConfigs.ElectricalMiningHitPoints;
                     _minResourceNumber = _hexagonObjectConfigs.ElectricalMiningMinResourceNumber;
                     _maxResourceNumber = _hexagonObjectConfigs.ElectricalMiningMaxResourceNumber;
                     _spawnEffectTime = _hexagonObjectConfigs.ElectricalMiningTimeSpawn;
@@ -136,6 +140,7 @@ namespace HexagonObjectControl {
                 case MineHexagonObjectsType.OilMining:
                     _resourceCreated = ResourceType.Oil;
                     _creationTime = _hexagonObjectConfigs.OilMiningResourceCreationTime;
+                    _hitPoints = _hexagonObjectConfigs.OilMiningHitPoints;
                     _minResourceNumber = _hexagonObjectConfigs.OilMiningMinResourceNumber;
                     _maxResourceNumber = _hexagonObjectConfigs.OilMiningMaxResourceNumber;
                     _spawnEffectTime = _hexagonObjectConfigs.OilMiningTimeSpawn;
@@ -144,6 +149,7 @@ namespace HexagonObjectControl {
                 case MineHexagonObjectsType.RedCrystalMining:
                     _resourceCreated = ResourceType.RedCrystal;
                     _creationTime = _hexagonObjectConfigs.RedCrystalMiningResourceCreationTime;
+                    _hitPoints = _hexagonObjectConfigs.RedCrystalMiningHitPoints;
                     _minResourceNumber = _hexagonObjectConfigs.RedCrystalMiningMinResourceNumber;
                     _maxResourceNumber = _hexagonObjectConfigs.RedCrystalMiningMaxResourceNumber;
                     _spawnEffectTime = _hexagonObjectConfigs.RedCrystalMiningTimeSpawn;
@@ -152,6 +158,7 @@ namespace HexagonObjectControl {
                 case MineHexagonObjectsType.BlueCrystalMining:
                     _resourceCreated = ResourceType.BlueCrystal;
                     _creationTime = _hexagonObjectConfigs.BlueCrystalMiningResourceCreationTime;
+                    _hitPoints = _hexagonObjectConfigs.BlueCrystalMiningHitPoints;
                     _minResourceNumber = _hexagonObjectConfigs.BlueCrystalMiningMinResourceNumber;
                     _maxResourceNumber = _hexagonObjectConfigs.BlueCrystalMiningMaxResourceNumber;
                     _spawnEffectTime = _hexagonObjectConfigs.BlueCrystalMiningTimeSpawn;
@@ -160,6 +167,7 @@ namespace HexagonObjectControl {
                 case MineHexagonObjectsType.GreenCrystalMining:
                     _resourceCreated = ResourceType.GreenCrystal;
                     _creationTime = _hexagonObjectConfigs.GreenCrystalMiningResourceCreationTime;
+                    _hitPoints = _hexagonObjectConfigs.GreenCrystalMiningHitPoints;
                     _minResourceNumber = _hexagonObjectConfigs.GreenCrystalMiningMinResourceNumber;
                     _maxResourceNumber = _hexagonObjectConfigs.GreenCrystalMiningMaxResourceNumber;
                     _spawnEffectTime = _hexagonObjectConfigs.GreenCrystalMiningTimeSpawn;
@@ -168,6 +176,7 @@ namespace HexagonObjectControl {
                 case MineHexagonObjectsType.GlitcheMining:
                     _resourceCreated = ResourceType.Glitche;
                     _creationTime = _hexagonObjectConfigs.GlitcheMiningResourceCreationTime;
+                    _hitPoints = _hexagonObjectConfigs.GlitcheMiningHitPoints;
                     _minResourceNumber = _hexagonObjectConfigs.GlitcheMiningMinResourceNumber;
                     _maxResourceNumber = _hexagonObjectConfigs.GlitcheMiningMaxResourceNumber;
                     _spawnEffectTime = _hexagonObjectConfigs.GlitcheMiningTimeSpawn;

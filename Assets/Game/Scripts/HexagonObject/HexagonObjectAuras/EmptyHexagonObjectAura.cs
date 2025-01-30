@@ -50,25 +50,25 @@ namespace HexagonObjectControl {
             _baseMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
             _baseMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
 
-            _mrAura.material = _visualEffectsConfigs.DissolveWithUV;
+            _mrAura.material = _visualEffectsConfigs.DissolveAndHitWithUV;
             _mrAura.SetPropertyBlock(_baseMaterialPropertyBlock);
         }
 
-        // protected override void SetHexagonObjectWorkActive(bool isActive) {
-        //     if (isActive) {
-        //         _text.text = _hexagonObjectPartType.ToString();
+        protected override void SetHexagonObjectWorkActive(bool isActive) {
+            if (isActive) {
+                _text.text = _hexagonObjectPartType.ToString();
 
-        //         _mrAura.enabled = true;
+                _mrAura.enabled = true;
 
-        //         StartCoroutine(TextLookedStarted());
-        //     } else {
-        //         _text.text = "";
+                StartCoroutine(TextLookedStarted());
+            } else {
+                _text.text = "";
 
-        //         _mrAura.enabled = false;
+                _mrAura.enabled = false;
 
-        //         StopAllCoroutines();
-        //     }
-        // }
+                StopAllCoroutines();
+            }
+        }
 
         private IEnumerator TextLookedStarted() {
             while (true) {

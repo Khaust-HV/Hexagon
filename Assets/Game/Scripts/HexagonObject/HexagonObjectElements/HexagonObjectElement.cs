@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using GameConfigs;
-using LevelObjectType;
 using UnityEngine;
 using UnityEngine.VFX;
 using Zenject;
@@ -51,6 +50,7 @@ namespace HexagonObjectControl {
             protected VisualEffectsConfigs _visualEffectsConfigs;
             protected HexagonObjectConfigs _hexagonObjectConfigs;
             protected LevelConfigs _levelConfigs;
+            CameraConfigs _cameraConfigs;
         #endregion
 
         [Inject]
@@ -58,7 +58,8 @@ namespace HexagonObjectControl {
             IStorageTransformPool iStorageTransformPool, 
             VisualEffectsConfigs visualEffectsConfigs, 
             HexagonObjectConfigs hexagonObjectConfigs,
-            LevelConfigs levelConfigs
+            LevelConfigs levelConfigs,
+            CameraConfigs cameraConfigs
             ) {
             // Set DI
             _iStorageTransformPool = iStorageTransformPool;
@@ -67,6 +68,7 @@ namespace HexagonObjectControl {
             _visualEffectsConfigs = visualEffectsConfigs;
             _hexagonObjectConfigs = hexagonObjectConfigs;
             _levelConfigs = levelConfigs;
+            _cameraConfigs = cameraConfigs;
 
             // Set components
             _visualEffect = GetComponent<VisualEffect>();
@@ -77,8 +79,23 @@ namespace HexagonObjectControl {
         }
 
         private void GetMeshRenderers() {
+            float objectSizeLODs = _cameraConfigs.LODObjectSize;
+            float lOD0Distance = _cameraConfigs.LOD0Distance;
+            float lOD1Distance = _cameraConfigs.LOD1Distance;
+            float lOD2Distance = _cameraConfigs.LOD2Distance;
+            
             foreach (var lODGroup in _lODGroups) {
-                foreach (var lOD in lODGroup.GetLODs()) {
+                var lODs = lODGroup.GetLODs();
+
+                lODs[0].screenRelativeTransitionHeight = lOD0Distance;
+                lODs[1].screenRelativeTransitionHeight = lOD1Distance;
+                lODs[2].screenRelativeTransitionHeight = lOD2Distance;
+
+                lODGroup.SetLODs(lODs);
+
+                lODGroup.size = objectSizeLODs;
+
+                foreach (var lOD in lODs) {
                     foreach (Renderer renderer in lOD.renderers) {
                         if (renderer is MeshRenderer meshRenderer) _mrBaseObject.Add(meshRenderer);
                         else throw new Exception($"Problem in the hexagonObject {gameObject.name} renderer");
@@ -95,7 +112,7 @@ namespace HexagonObjectControl {
             _visualEffect.visualEffectAsset = _visualEffectsConfigs.DestroyHexagonOrHexagonObjectVFXEffect;
             _visualEffect.SetInt("NumberParticles", _visualEffectsConfigs.DefaultDestroyVFXNumberParticles);
             _visualEffect.SetTexture("DestroyBuildTextureParticle", _visualEffectsConfigs.DefaultDestroyTextureParticle);
-            _visualEffect.SetMesh("ObjectMesh", _mrBaseObject[0].GetComponent<MeshFilter>().sharedMesh); // FIX IT !
+            _visualEffect.SetMesh("ObjectMesh", _mrBaseObject[0].GetComponent<MeshFilter>().sharedMesh);
             _visualEffect.SetFloat("LifeTimeParticle", _levelConfigs.DefaultDestroyTimeAllObject);
             _visualEffect.SetFloat("SizeParticle", _levelConfigs.SizeAllObject * _visualEffectsConfigs.DefaultDestroySizeParticles);
             _visualEffect.SetVector4("EmissionColor", _visualEffectsConfigs.DefaultDestroyVFXEmissionColor);
@@ -106,7 +123,7 @@ namespace HexagonObjectControl {
         protected virtual void SetBaseConfiguration() {
             _spawnEffectTime = _levelConfigs.DefaultSpawnTimeAllObject;
 
-            _baseMaterial = _visualEffectsConfigs.DissolveWithUV;
+            _baseMaterial = _visualEffectsConfigs.DissolveAndHitWithUV;
             _baseMaterialPropertyBlock = new MaterialPropertyBlock();
             _baseMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
             _baseMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
@@ -129,7 +146,7 @@ namespace HexagonObjectControl {
             // Overridden by an heir
         }
 
-        public void TakeTheDamage(float damage) {
+        protected void TakeTheDamage(float damage) {
             if (_isHitEffectActive) StopCoroutine(_hitEffectStarted);
 
             StartCoroutine(_hitEffectStarted = HitEffectStarted());
@@ -209,6 +226,7 @@ namespace HexagonObjectControl {
             _baseMaterialPropertyBlock.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
             _baseMaterialPropertyBlock.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultSpawnEdgeWidth);
             _baseMaterialPropertyBlock.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultSpawnEdgeColor);
+            _baseMaterialPropertyBlock.SetColor("_HitColor", Color.black);
 
             foreach (var mrObject in _mrBaseObject) {
                 mrObject.SetPropertyBlock(_baseMaterialPropertyBlock);
@@ -223,6 +241,7 @@ namespace HexagonObjectControl {
             gameObject.SetActive(true);
 
             _hologramMaterialPropertyBlock.SetFloat("_CutoffHeight", _spawnStartCutoffHeight);
+            _baseMaterialPropertyBlock.SetColor("_HitColor", Color.black);
 
             foreach (var mrObject in _mrBaseObject) {
                 mrObject.SetPropertyBlock(_hologramMaterialPropertyBlock);
@@ -275,6 +294,7 @@ namespace HexagonObjectControl {
             _baseMaterialPropertyBlock.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultDestroyNoiseStrength);
             _baseMaterialPropertyBlock.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultDestroyEdgeWidth);
             _baseMaterialPropertyBlock.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultDestroyEdgeColor);
+            _baseMaterialPropertyBlock.SetColor("_HitColor", Color.black);
 
             if (_isFastDestroy || _isObjectWaitingToSpawn) {
                 _baseMaterialPropertyBlock.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
@@ -341,7 +361,7 @@ namespace HexagonObjectControl {
 
         public void MakeObjectHologram() {
             if (_hologramMaterialPropertyBlock == null) {
-                _hologramMaterial = _visualEffectsConfigs.HologramAndDissolveGhost;
+                _hologramMaterial = _visualEffectsConfigs.DissolveAndHologramGhost;
                 _hologramMaterialPropertyBlock = new MaterialPropertyBlock();
                 _hologramMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
                 _hologramMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
@@ -402,7 +422,6 @@ public interface IHexagonObjectPart {
     public bool IsHexagonObjectPartUsed();
     public void SetHexagonObjectPartType<T>(T type) where T : Enum;
     public void SetHexagonObjectType<T>(T type) where T : Enum;
-    public void TakeTheDamage(float damage);
     public void SetParentObject(Transform parentObject);
     public void SetAuraEfficiency(AuraEfficiencyType auraEfficiencyType);
     public void ApplyAuraToHexagonObjectElement(IHexagonObjectPart iHexagonObjectPart);

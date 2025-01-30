@@ -14,27 +14,27 @@ namespace HexagonObjectControl {
 
             switch (_hexagonObjectPartType) {
                 case DecorationHexagonObjectsType.RedCrystalBiome:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndHitAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.RedCrystalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.BlueCrystalBiome:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndHitAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.BlueCrystalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.GreenCrystalBiome:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndHitAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.GreenCrystalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.ElectricalBiome:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission1TextureWithUV;
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndHitAndEmission1TextureWithUV;
                     _baseMaterialPropertyBlock.SetColor("_EmissionTextureColor", _visualEffectsConfigs.ElectricalEmissionColor);
                 break;
 
                 case DecorationHexagonObjectsType.GlitcheBiome:
-                    _baseMaterial = _visualEffectsConfigs.DissolveAndEmission3TexturesWithUV;
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndHitAndEmission3TexturesWithUV;
 
                     _baseMaterialPropertyBlock.SetColor("_FirstEmissionColor", _visualEffectsConfigs.GlitcheFirstEmissionColor);
 
@@ -44,7 +44,7 @@ namespace HexagonObjectControl {
                 break;
 
                 default:
-                    _baseMaterial = _visualEffectsConfigs.DissolveWithUV;
+                    _baseMaterial = _visualEffectsConfigs.DissolveAndHitWithUV;
                 break;
             }
             

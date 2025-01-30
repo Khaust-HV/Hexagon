@@ -66,6 +66,7 @@ namespace HexagonObjectControl {
             _visualEffect.SetTexture("DestroyShieldTextureParticle", _visualEffectsConfigs.DefaultDestroyTextureParticle);
             _visualEffect.SetVector3("StartVelocity", _visualEffectsConfigs.ShieldAuraStartVelocity);
             _visualEffect.SetFloat("LinearDrag", _visualEffectsConfigs.ShieldAuraLinearDrag);
+            _visualEffect.SetFloat("BaseAlpha", _visualEffectsConfigs.ShieldAuraBaseAlpha);
         }
 
         public void ShieldEffectEnable(ShieldAuraEffectType shieldAuraEffectType) {

@@ -31,5 +31,15 @@ namespace GameConfigs {
         [field: SerializeField] public float EastBorder { get; private set; }
         [field: SerializeField] public float NorthBorder { get; private set; }
         [field: SerializeField] public float SouthBorder { get; private set; }
+        [field: Space(25)]
+        
+        [field: Header("LODGroup settings")]
+        [field: SerializeField] public float LODObjectSize { get; private set; }
+        [field: Range(0,1)]
+        [field: SerializeField] public float LOD0Distance { get; private set; }
+        [field: Range(0,1)]
+        [field: SerializeField] public float LOD1Distance { get; private set; }
+        [field: Range(0,1)]
+        [field: SerializeField] public float LOD2Distance { get; private set; }
     }
 }

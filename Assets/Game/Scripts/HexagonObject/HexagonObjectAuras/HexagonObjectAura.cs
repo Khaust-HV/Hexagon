@@ -104,6 +104,8 @@ namespace HexagonObjectControl {
                 _isObjectWaitingToSpawn = false;
             } else SetHexagonObjectWorkActive(false);
 
+            transform.SetParent(_iStorageTransformPool.GetHexagonObjectTransformPool());
+
             StartCoroutine(DestroyEffectStarted());
         }
 
@@ -116,11 +118,11 @@ namespace HexagonObjectControl {
         public void RestoreAndHide() {
             gameObject.SetActive(false);
 
-            transform.SetParent(_iStorageTransformPool.GetHexagonObjectTransformPool());
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
 
             HexagonObjectPartIsRestored?.Invoke();
+            HexagonObjectPartIsDestroyed?.Invoke();
 
             _isHexagonObjectPartUsed = false;
         }
@@ -133,11 +135,6 @@ namespace HexagonObjectControl {
         }
         public void HologramSpawnEffectEnable() {
             throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"Aura cannot become a hologram {gameObject.name}");
-        }
-        public void TakeTheDamage(float damage) {
-            HexagonObjectPartIsDestroyed();
-
-            throw new LevelObjectException(LevelObjectErrorType.InvalidHexagonObjectPartType, $"Aura can't take damage {gameObject.name}");
         }
     }
 

@@ -63,54 +63,63 @@ namespace GameConfigs {
         [field: Header("TreeMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] TreeMiningPrefabs { get; private set; }
         [field: SerializeField] public float TreeMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float TreeMiningHitPoints { get; private set; }
         [field: SerializeField] public float TreeMiningResourceCreationTime { get; private set; }
         [field: SerializeField] public int TreeMiningMinResourceNumber { get; private set; }
         [field: SerializeField] public int TreeMiningMaxResourceNumber { get; private set; }
         [field: Header("StoneMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] StoneMiningPrefabs { get; private set; }
         [field: SerializeField] public float StoneMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float StoneMiningHitPoints { get; private set; }
         [field: SerializeField] public float StoneMiningResourceCreationTime { get; private set; }
         [field: SerializeField] public int StoneMiningMinResourceNumber { get; private set; }
         [field: SerializeField] public int StoneMiningMaxResourceNumber { get; private set; }
         [field: Header("MetalMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] MetalMiningPrefabs { get; private set; }
         [field: SerializeField] public float MetalMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float MetalMiningHitPoints { get; private set; }
         [field: SerializeField] public float MetalMiningResourceCreationTime { get; private set; }
         [field: SerializeField] public int MetalMiningMinResourceNumber { get; private set; }
         [field: SerializeField] public int MetalMiningMaxResourceNumber { get; private set; }
-        [field: Header("ElectricityMinig settings <Mine> <Mining>")]
+        [field: Header("ElectricalMinig settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] ElectricalMinigPrefabs { get; private set; }
         [field: SerializeField] public float ElectricalMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float ElectricalMiningHitPoints { get; private set; }
         [field: SerializeField] public float ElectricalMiningResourceCreationTime { get; private set; }
         [field: SerializeField] public int ElectricalMiningMinResourceNumber { get; private set; }
         [field: SerializeField] public int ElectricalMiningMaxResourceNumber { get; private set; }
         [field: Header("OilMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] OilMiningPrefabs { get; private set; }
         [field: SerializeField] public float OilMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float OilMiningHitPoints { get; private set; }
         [field: SerializeField] public float OilMiningResourceCreationTime { get; private set; }
         [field: SerializeField] public int OilMiningMinResourceNumber { get; private set; }
         [field: SerializeField] public int OilMiningMaxResourceNumber { get; private set; }
         [field: Header("RedCrystalMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] RedCrystalMiningPrefabs { get; private set; }
         [field: SerializeField] public float RedCrystalMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float RedCrystalMiningHitPoints { get; private set; }
         [field: SerializeField] public float RedCrystalMiningResourceCreationTime { get; private set; }
         [field: SerializeField] public int RedCrystalMiningMinResourceNumber { get; private set; }
         [field: SerializeField] public int RedCrystalMiningMaxResourceNumber { get; private set; }
         [field: Header("BlueCrystalMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] BlueCrystalMiningPrefabs { get; private set; }
         [field: SerializeField] public float BlueCrystalMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float BlueCrystalMiningHitPoints { get; private set; }
         [field: SerializeField] public float BlueCrystalMiningResourceCreationTime { get; private set; }
         [field: SerializeField] public int BlueCrystalMiningMinResourceNumber { get; private set; }
         [field: SerializeField] public int BlueCrystalMiningMaxResourceNumber { get; private set; }
         [field: Header("GreenCrystalMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] GreenCrystalMiningPrefabs { get; private set; }
         [field: SerializeField] public float GreenCrystalMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float GreenCrystalMiningHitPoints { get; private set; }
         [field: SerializeField] public float GreenCrystalMiningResourceCreationTime { get; private set; }
         [field: SerializeField] public int GreenCrystalMiningMinResourceNumber { get; private set; }
         [field: SerializeField] public int GreenCrystalMiningMaxResourceNumber { get; private set; }
         [field: Header("GlitcheMining settings <Mine> <Mining>")]
         [field: SerializeField] public GameObject[] GlitcheMiningPrefabs { get; private set; }
         [field: SerializeField] public float GlitcheMiningTimeSpawn { get; private set; }
+        [field: SerializeField] public float GlitcheMiningHitPoints { get; private set; }
         [field: SerializeField] public float GlitcheMiningResourceCreationTime { get; private set; }
         [field: SerializeField] public int GlitcheMiningMinResourceNumber { get; private set; }
         [field: SerializeField] public int GlitcheMiningMaxResourceNumber { get; private set; }

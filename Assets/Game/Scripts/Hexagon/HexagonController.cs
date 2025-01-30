@@ -134,7 +134,12 @@ namespace HexagonControl {
         }
 
         private void HexagonControllerIsDestroyed() {
-            _hexagonRotationControl.RotationFromTimeEnable();
+            switch (_hexagonType) {
+                case HexagonType.Random:
+                case HexagonType.Temporary:
+                    _hexagonRotationControl.RotationFromTimeEnable();
+                break;
+            }
 
             CameraLooking?.Invoke(); // If a player has taken a focus but the hexagon is rotation
 
