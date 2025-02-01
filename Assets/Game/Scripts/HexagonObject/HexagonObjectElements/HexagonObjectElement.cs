@@ -79,7 +79,7 @@ namespace HexagonObjectControl {
         }
 
         private void GetMeshRenderers() {
-            float objectSizeLODs = _cameraConfigs.LODObjectSize;
+            float lODObjectSize = _cameraConfigs.LODObjectSize;
             float lOD0Distance = _cameraConfigs.LOD0Distance;
             float lOD1Distance = _cameraConfigs.LOD1Distance;
             float lOD2Distance = _cameraConfigs.LOD2Distance;
@@ -93,7 +93,7 @@ namespace HexagonObjectControl {
 
                 lODGroup.SetLODs(lODs);
 
-                lODGroup.size = objectSizeLODs;
+                lODGroup.size = lODObjectSize;
 
                 foreach (var lOD in lODs) {
                     foreach (Renderer renderer in lOD.renderers) {
@@ -109,15 +109,16 @@ namespace HexagonObjectControl {
         }
 
         private void SetDestroyHexagonObjectVFXConfiguration() {
-            _visualEffect.visualEffectAsset = _visualEffectsConfigs.DestroyHexagonOrHexagonObjectVFXEffect;
-            _visualEffect.SetInt("NumberParticles", _visualEffectsConfigs.DefaultDestroyVFXNumberParticles);
-            _visualEffect.SetTexture("DestroyBuildTextureParticle", _visualEffectsConfigs.DefaultDestroyTextureParticle);
+            _visualEffect.visualEffectAsset = _visualEffectsConfigs.CreatingParticlesOnMeshAtTheMomentAndContinuousRandomVelocity;
+            _visualEffect.SetInt("NumberParticlesAtTheMoment", _visualEffectsConfigs.DefaultDestroyVFXNumberParticles);
+            _visualEffect.SetTexture("TextureParticle", _visualEffectsConfigs.DefaultDestroyTextureParticle);
             _visualEffect.SetMesh("ObjectMesh", _mrBaseObject[0].GetComponent<MeshFilter>().sharedMesh);
             _visualEffect.SetFloat("LifeTimeParticle", _levelConfigs.DefaultDestroyTimeAllObject);
             _visualEffect.SetFloat("SizeParticle", _levelConfigs.SizeAllObject * _visualEffectsConfigs.DefaultDestroySizeParticles);
             _visualEffect.SetVector4("EmissionColor", _visualEffectsConfigs.DefaultDestroyVFXEmissionColor);
-            _visualEffect.SetVector3("StartVelocity", _visualEffectsConfigs.DefaultDestroyVFXStartVelocity);
+            _visualEffect.SetVector3("MaxVelocity", _visualEffectsConfigs.DefaultDestroyVFXMaxVelocity);
             _visualEffect.SetFloat("LinearDrag", _visualEffectsConfigs.DefaultDestroyVFXLinearDrag);
+            _visualEffect.SetFloat("TurbulencePawer", _visualEffectsConfigs.DefaultDestroyVFXTurbulencePawer);
         }
 
         protected virtual void SetBaseConfiguration() {
@@ -156,30 +157,31 @@ namespace HexagonObjectControl {
             if (_hitPoints <= 0f) HexagonObjectPartIsDestroyed?.Invoke();
         }
 
-       private IEnumerator HitEffectStarted() {
+        private IEnumerator HitEffectStarted() {
             _isHitEffectActive = true;
 
-            float hitEffectTime = _visualEffectsConfigs.DefaultHitEffectTime;
+            float hitEffectTime = _levelConfigs.DefaultHitEffectTime;
             float inverseEffectTime = 1f / hitEffectTime;
             float elapsedTime = 0f;
 
-            Color startColor = _visualEffectsConfigs.DefaultHitEffectColor;
-            Color endColor = Color.black;
+            Color startColor = _visualEffectsConfigs.DefaultHitIntensiveEmissionColor;
+            Color finishColor = Color.black;
 
             while (elapsedTime < hitEffectTime) {
-                Color lerpedColor = Color.Lerp(startColor, endColor, elapsedTime * inverseEffectTime);
+                Color currentColor = Color.Lerp(startColor, finishColor, elapsedTime * inverseEffectTime);
 
-                _baseMaterialPropertyBlock.SetColor("_HitColor", lerpedColor);
+                _baseMaterialPropertyBlock.SetColor("_HitColor", currentColor);
 
                 foreach (var mrObject in _mrBaseObject) {
                     mrObject.SetPropertyBlock(_baseMaterialPropertyBlock);
                 }
 
                 elapsedTime += Time.deltaTime;
+
                 yield return null;
             }
 
-            _baseMaterialPropertyBlock.SetColor("_HitColor", endColor);
+            _baseMaterialPropertyBlock.SetColor("_HitColor", finishColor);
 
             foreach (var mrObject in _mrBaseObject) {
                 mrObject.SetPropertyBlock(_baseMaterialPropertyBlock);
@@ -299,7 +301,7 @@ namespace HexagonObjectControl {
             if (_isFastDestroy || _isObjectWaitingToSpawn) {
                 _baseMaterialPropertyBlock.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
 
-                _visualEffect.SendEvent("DestroyEffect");
+                _visualEffect.SendEvent("AtTheMoment");
 
                 if (_isObjectWaitingToSpawn) {
                     StopCoroutine(_spawnEffectStarted);
@@ -367,11 +369,13 @@ namespace HexagonObjectControl {
                 _hologramMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
                 _hologramMaterialPropertyBlock.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultSpawnNoiseScale);
                 _hologramMaterialPropertyBlock.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultSpawnNoiseStrength);
-                _hologramMaterialPropertyBlock.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultHologramEdgeWidth);
                 _hologramMaterialPropertyBlock.SetFloat("_AnimationSpeed", _visualEffectsConfigs.DefaultHologramAnimationSpeed);
-                _hologramMaterialPropertyBlock.SetColor("_BaseColor", _visualEffectsConfigs.DefaultHologramColor);
+                _hologramMaterialPropertyBlock.SetFloat("_AnimationNoise", _visualEffectsConfigs.DefaultHologramAnimationNoise);
+                _hologramMaterialPropertyBlock.SetColor("_EmissionColor", _visualEffectsConfigs.DefaultHologramEmissionColor);
                 _hologramMaterialPropertyBlock.SetColor("_FresnelColor", _visualEffectsConfigs.DefaultHologramFresnelColor);
+                _hologramMaterialPropertyBlock.SetFloat("_FresnelPower", _visualEffectsConfigs.DefaultHologramFresnelPower);
                 _hologramMaterialPropertyBlock.SetColor("_EdgeColor", _visualEffectsConfigs.DefaultHologramEdgeColor);
+                _hologramMaterialPropertyBlock.SetFloat("_EdgeWidth", _visualEffectsConfigs.DefaultHologramEdgeWidth);
             }
 
             foreach (var mrObject in _mrBaseObject) {

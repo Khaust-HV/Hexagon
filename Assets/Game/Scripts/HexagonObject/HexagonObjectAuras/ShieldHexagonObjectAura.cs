@@ -5,16 +5,12 @@ namespace HexagonObjectControl {
     public sealed class ShieldHexagonObjectAura : HexagonObjectAura {
         [SerializeField] private MeshRenderer _mrShieldAura;
         [SerializeField] private GameObject[] _shields;
-        [Header("Dissolve effect settings")]
-        [SerializeField] private float _destroyStartCutoffHeight;
-        [SerializeField] private float _destroyFinishCutoffHeight;
 
         private ShieldAuraShieldControl[] _shildsControl;
         private MeshRenderer[] _mrShilds;
 
         private MaterialPropertyBlock _auraShieldMaterialPropertyBlock;
-
-        private AuraEfficiencyType _auraEfficiencyType;
+        private MaterialPropertyBlock _shieldMaterialPropertyBlock;
 
         protected override void SetBaseConfiguration() {
             _mrShieldAura = _mrShieldAura.GetComponent<MeshRenderer>();
@@ -34,7 +30,7 @@ namespace HexagonObjectControl {
 
         private void SetMaterial() {
             Material shieldMaterial = _visualEffectsConfigs.EmissionFullObjectGhost;
-            MaterialPropertyBlock _shieldMaterialPropertyBlock = new MaterialPropertyBlock();
+            _shieldMaterialPropertyBlock = new MaterialPropertyBlock();
             _shieldMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
             _shieldMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
             _shieldMaterialPropertyBlock.SetColor("_FresnelColor", _visualEffectsConfigs.ShieldAuraEmissionFresnelColor);
@@ -61,11 +57,10 @@ namespace HexagonObjectControl {
             _mrShieldAura.SetPropertyBlock(_auraShieldMaterialPropertyBlock);
         }
 
-        public override void SetAuraEfficiency(AuraEfficiencyType auraEfficiencyType) {
-            _auraEfficiencyType = auraEfficiencyType;
+        protected override void ApplyAuraEfficiency() {
+            // In the process of coming up
 
-            // Set aura efficiency
-            switch (_auraEfficiencyType) { // FIX IT !
+            switch (_auraEfficiencyType) { 
                 case AuraEfficiencyType.LowEfficiency:
 
                 break;
@@ -84,73 +79,81 @@ namespace HexagonObjectControl {
             }
         }
 
+        protected override void SetConfigurationFromHexagonObjectType() {
+            // In the process of coming up
+        }
+
         public override void ApplyAuraToHexagonObjectElement(IHexagonObjectPart iHexagonObjectPart) {
-            
+            // In the process of coming up
         }
 
         protected override void SetHexagonObjectWorkActive(bool isActive) {
             if (isActive) {
                 switch (_auraEfficiencyType) {
                     case AuraEfficiencyType.LowEfficiency:
-                        _shields[3].transform.localPosition = _hexagonObjectConfigs.OneShieldPosition;
+                        _shields[3].transform.localPosition = _hexagonObjectConfigs.ShieldAuraOneShieldPosition;
 
                         _mrShilds[3].enabled = true;
                         _mrShieldAura.enabled = true;
 
-                        _shildsControl[3].SetMoveActive(true, _hexagonObjectConfigs.MaxHeightShieldAuraLowEfficiency);
+                        _shildsControl[3].SetMoveActive(true, _hexagonObjectConfigs.ShieldAuraMaxHeightLowEfficiency);
 
                         _shildsControl[3].ShieldEffectEnable(ShieldAuraEffectType.SpawnShield);
 
+                        StartCoroutine(FadingLightStarted());
                         StartCoroutine(RaiseTheShield(_visualEffectsConfigs.ShieldAuraHeightLowEfficiency));
                     break;
 
                     case AuraEfficiencyType.StandardEfficiency:
-                        _shields[0].transform.localPosition = _hexagonObjectConfigs.OneShieldPosition;
+                        _shields[0].transform.localPosition = _hexagonObjectConfigs.ShieldAuraOneShieldPosition;
 
                         _mrShilds[0].enabled = true;
                         _mrShieldAura.enabled = true;
                         
-                        _shildsControl[0].SetMoveActive(true, _hexagonObjectConfigs.MaxHeightShieldAuraStandardEfficiency);
+                        _shildsControl[0].SetMoveActive(true, _hexagonObjectConfigs.ShieldAuraMaxHeightStandardEfficiency);
                         _shildsControl[0].ShieldEffectEnable(ShieldAuraEffectType.SpawnShield);
 
+                        StartCoroutine(FadingLightStarted());
                         StartCoroutine(RaiseTheShield(_visualEffectsConfigs.ShieldAuraHeightStandardEfficiency));
                     break;
 
                     case AuraEfficiencyType.HighEfficiency:
-                        _shields[0].transform.localPosition = _hexagonObjectConfigs.TwoShieldsPosition[0];
-                        _shields[1].transform.localPosition = _hexagonObjectConfigs.TwoShieldsPosition[1];
+                        _shields[0].transform.localPosition = _hexagonObjectConfigs.ShieldAuraTwoShieldsPosition[0];
+                        _shields[1].transform.localPosition = _hexagonObjectConfigs.ShieldAuraTwoShieldsPosition[1];
 
                         _mrShilds[0].enabled = true;
                         _mrShilds[1].enabled = true;
                         _mrShieldAura.enabled = true;
 
-                        _shildsControl[0].SetMoveActive(true, _hexagonObjectConfigs.MaxHeightShieldAuraHighEfficiency);
-                        _shildsControl[1].SetMoveActive(true, _hexagonObjectConfigs.MaxHeightShieldAuraHighEfficiency);
+                        _shildsControl[0].SetMoveActive(true, _hexagonObjectConfigs.ShieldAuraMaxHeightHighEfficiency);
+                        _shildsControl[1].SetMoveActive(true, _hexagonObjectConfigs.ShieldAuraMaxHeightHighEfficiency);
 
                         _shildsControl[0].ShieldEffectEnable(ShieldAuraEffectType.SpawnShield);
                         _shildsControl[1].ShieldEffectEnable(ShieldAuraEffectType.SpawnShield);
 
+                        StartCoroutine(FadingLightStarted());
                         StartCoroutine(RaiseTheShield(_visualEffectsConfigs.ShieldAuraHeightHighEfficiency));
                     break;
 
                     case AuraEfficiencyType.ReallyHighEfficiency:
-                        _shields[0].transform.localPosition = _hexagonObjectConfigs.ThreeShieldsPosition[0];
-                        _shields[1].transform.localPosition = _hexagonObjectConfigs.ThreeShieldsPosition[1];
-                        _shields[2].transform.localPosition = _hexagonObjectConfigs.ThreeShieldsPosition[2];
+                        _shields[0].transform.localPosition = _hexagonObjectConfigs.ShieldAuraThreeShieldsPosition[0];
+                        _shields[1].transform.localPosition = _hexagonObjectConfigs.ShieldAuraThreeShieldsPosition[1];
+                        _shields[2].transform.localPosition = _hexagonObjectConfigs.ShieldAuraThreeShieldsPosition[2];
 
                         _mrShilds[0].enabled = true;
                         _mrShilds[1].enabled = true;
                         _mrShilds[2].enabled = true;
                         _mrShieldAura.enabled = true;
 
-                        _shildsControl[0].SetMoveActive(true, _hexagonObjectConfigs.MaxHeightShieldAuraReallyHighEfficiency);
-                        _shildsControl[1].SetMoveActive(true, _hexagonObjectConfigs.MaxHeightShieldAuraReallyHighEfficiency);
-                        _shildsControl[2].SetMoveActive(true, _hexagonObjectConfigs.MaxHeightShieldAuraReallyHighEfficiency);
+                        _shildsControl[0].SetMoveActive(true, _hexagonObjectConfigs.ShieldAuraMaxHeightReallyHighEfficiency);
+                        _shildsControl[1].SetMoveActive(true, _hexagonObjectConfigs.ShieldAuraMaxHeightReallyHighEfficiency);
+                        _shildsControl[2].SetMoveActive(true, _hexagonObjectConfigs.ShieldAuraMaxHeightReallyHighEfficiency);
                         
                         _shildsControl[0].ShieldEffectEnable(ShieldAuraEffectType.SpawnShield);
                         _shildsControl[1].ShieldEffectEnable(ShieldAuraEffectType.SpawnShield);
                         _shildsControl[2].ShieldEffectEnable(ShieldAuraEffectType.SpawnShield);
 
+                        StartCoroutine(FadingLightStarted());
                         StartCoroutine(RaiseTheShield(_visualEffectsConfigs.ShieldAuraHeightReallyHighEfficiency));
                     break;
                 }
@@ -203,14 +206,48 @@ namespace HexagonObjectControl {
             }
         }
 
+        private IEnumerator FadingLightStarted() {
+            float intensiveEmissionTime = _hexagonObjectConfigs.ShieldAuraIntensiveEmissionTime;
+            float inverseEffectTime = 1f / intensiveEmissionTime;
+            float elapsedTime = 0f;
+
+            Color startColor = _visualEffectsConfigs.ShieldAuraIntensiveEmissionColor;
+            Color finishColor = _visualEffectsConfigs.ShieldAuraEmissionColor;
+
+            while (elapsedTime < intensiveEmissionTime) {
+                Color currentColor = Color.Lerp(startColor, finishColor, elapsedTime * inverseEffectTime);
+
+                _shieldMaterialPropertyBlock.SetColor("_EmissionColor", currentColor);
+                _auraShieldMaterialPropertyBlock.SetColor("_EmissionColor", currentColor);
+
+                foreach (var mrShild in _mrShilds) {
+                    mrShild.SetPropertyBlock(_shieldMaterialPropertyBlock);
+                }
+
+                _mrShieldAura.SetPropertyBlock(_auraShieldMaterialPropertyBlock);
+
+                elapsedTime += Time.deltaTime;
+
+                yield return null;
+            }
+
+            _shieldMaterialPropertyBlock.SetColor("_EmissionColor", finishColor);
+            _auraShieldMaterialPropertyBlock.SetColor("_EmissionColor", finishColor);
+
+            foreach (var mrShild in _mrShilds) {
+                mrShild.SetPropertyBlock(_shieldMaterialPropertyBlock);
+            }
+
+            _mrShieldAura.SetPropertyBlock(_auraShieldMaterialPropertyBlock);
+        }
+
         private IEnumerator RaiseTheShield(float shieldAuraHeight) {
-            _auraShieldMaterialPropertyBlock.SetFloat("_CutoffHeight", _destroyStartCutoffHeight);
+            _auraShieldMaterialPropertyBlock.SetFloat("_CutoffHeight", _visualEffectsConfigs.ShieldAuraDestroyStartCutoffHeight);
 
             _mrShieldAura.SetPropertyBlock(_auraShieldMaterialPropertyBlock);
 
+            float spawnEffectTime = _hexagonObjectConfigs.ShieldAuraSpawnTime;
             float elapsedTime = 0f;
-
-            float spawnEffectTime = _visualEffectsConfigs.ShieldAuraSpawnTime;
 
             while (elapsedTime < spawnEffectTime) {
                 float currentValue = Mathf.Lerp(0f, shieldAuraHeight, elapsedTime / spawnEffectTime);
@@ -230,12 +267,14 @@ namespace HexagonObjectControl {
         }
 
         private IEnumerator LowerTheShield() {
+            float destroyEffectTime = _hexagonObjectConfigs.ShieldAuraDestroyTime;
             float elapsedTime = 0f;
 
-            float destroyEffectTime = _visualEffectsConfigs.ShieldAuraDestroyTime;
+            float startDestroyCutoffHeight  = _visualEffectsConfigs.ShieldAuraDestroyStartCutoffHeight;
+            float finishDestroyCutoffHeight  = _visualEffectsConfigs.ShieldAuraDestroyFinishCutoffHeight;
 
             while (elapsedTime < destroyEffectTime) {
-                float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / destroyEffectTime);
+                float currentValue = Mathf.Lerp(startDestroyCutoffHeight, finishDestroyCutoffHeight, elapsedTime / destroyEffectTime);
 
                 _auraShieldMaterialPropertyBlock.SetFloat("_CutoffHeight", currentValue);
 
@@ -245,8 +284,7 @@ namespace HexagonObjectControl {
 
                 yield return null;
             }
-
-            _auraShieldMaterialPropertyBlock.SetFloat("_CutoffHeight", _destroyFinishCutoffHeight);
+            _auraShieldMaterialPropertyBlock.SetFloat("_CutoffHeight", finishDestroyCutoffHeight);
 
             _mrShieldAura.SetPropertyBlock(_auraShieldMaterialPropertyBlock);
 

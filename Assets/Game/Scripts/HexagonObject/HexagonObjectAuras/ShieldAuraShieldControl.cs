@@ -6,10 +6,6 @@ using Zenject;
 
 namespace HexagonObjectControl {
     public sealed class ShieldAuraShieldControl : MonoBehaviour {
-        [Header("Dissolve effect settings")]
-        [SerializeField] private float _destroyStartCutoffHeight;
-        [SerializeField] private float _destroyFinishCutoffHeight;
-
         #region AuraConfigs
             private float _orbitSpeed;
             private float _orbitRadius;
@@ -40,16 +36,16 @@ namespace HexagonObjectControl {
             _visualEffectsConfigs = visualEffectsConfigs;
             _levelConfigs = levelConfigs;
 
-            _orbitSpeed = hexagonObjectConfigs.OrbitSpeedShieldAura;
-            _orbitRadius = hexagonObjectConfigs.OrbitRadiusShieldAura;
-            _verticalSpeed = hexagonObjectConfigs.VerticalSpeedShieldAura;
-            _minHeight = hexagonObjectConfigs.MinHeightShieldAura;
+            _orbitSpeed = hexagonObjectConfigs.ShieldAuraOrbitSpeed;
+            _orbitRadius = hexagonObjectConfigs.ShieldAuraOrbitRadius;
+            _verticalSpeed = hexagonObjectConfigs.ShieldAuraVerticalSpeed;
+            _minHeight = hexagonObjectConfigs.ShieldAuraMinHeight;
 
             _visualEffect = GetComponent<VisualEffect>();
-            SetShieldAuraShieldSpawnConfiguration();
+            SetVFXConfiguration();
         }
 
-        private void SetShieldAuraShieldSpawnConfiguration() {
+        private void SetVFXConfiguration() {
             _visualEffect.visualEffectAsset = _visualEffectsConfigs.ShieldAuraShieldSpawn;
             _visualEffect.SetFloat("Metallic", _visualEffectsConfigs.DefaultMetallic);
             _visualEffect.SetFloat("Smoothness", _visualEffectsConfigs.DefaultSmoothness);
@@ -60,12 +56,13 @@ namespace HexagonObjectControl {
             _visualEffect.SetVector4("EmissionColor", _visualEffectsConfigs.ShieldAuraEmissionColor);
             _visualEffect.SetMesh("ShieldMesh", GetComponent<MeshFilter>().sharedMesh);
             _visualEffect.SetFloat("ShieldSizeParticle", _levelConfigs.SizeAllObject);
-            _visualEffect.SetFloat("FragmentSizeParticle", _levelConfigs.SizeAllObject * _visualEffectsConfigs.DefaultDestroySizeParticles);
+            _visualEffect.SetFloat("FragmentSizeParticle", _levelConfigs.SizeAllObject * _visualEffectsConfigs.ShieldAuraSizeParticles);
             _visualEffect.SetFloat("LifeTimeParticle", _levelConfigs.DefaultDestroyTimeAllObject);
             _visualEffect.SetInt("ParticlesNumberForShieldDestroy", _visualEffectsConfigs.ShieldAuraParticlesNumberForShieldDestroy);
-            _visualEffect.SetTexture("DestroyShieldTextureParticle", _visualEffectsConfigs.DefaultDestroyTextureParticle);
-            _visualEffect.SetVector3("StartVelocity", _visualEffectsConfigs.ShieldAuraStartVelocity);
+            _visualEffect.SetTexture("DestroyShieldTextureParticle", _visualEffectsConfigs.ShieldAuraTextureParticle);
+            _visualEffect.SetVector3("MaxVelocity", _visualEffectsConfigs.ShieldAuraMaxVelocityParticles);
             _visualEffect.SetFloat("LinearDrag", _visualEffectsConfigs.ShieldAuraLinearDrag);
+            _visualEffect.SetFloat("TurbulencePawer", _visualEffectsConfigs.ShieldAuraTurbulencePawer);
             _visualEffect.SetFloat("BaseAlpha", _visualEffectsConfigs.ShieldAuraBaseAlpha);
         }
 
@@ -86,12 +83,14 @@ namespace HexagonObjectControl {
         }
 
         private IEnumerator DestroyShieldEffectStarted() {
+            float destroyEffectTime = _levelConfigs.DefaultDestroyTimeAllObject;
             float elapsedTime = 0f;
 
-            float destroyEffectTime = _levelConfigs.DefaultDestroyTimeAllObject;
+            float startDestroyCutoffHeight  = _visualEffectsConfigs.ShieldAuraShieldDestroyStartCutoffHeight;
+            float finishDestroyCutoffHeight  = _visualEffectsConfigs.ShieldAuraShieldDestroyFinishCutoffHeight;
 
             while (elapsedTime < destroyEffectTime) {
-                float currentValue = Mathf.Lerp(_destroyStartCutoffHeight, _destroyFinishCutoffHeight, elapsedTime / destroyEffectTime);
+                float currentValue = Mathf.Lerp(startDestroyCutoffHeight, finishDestroyCutoffHeight, elapsedTime / destroyEffectTime);
 
                 _visualEffect.SetFloat("CutoffHeight", currentValue);
 
@@ -100,7 +99,7 @@ namespace HexagonObjectControl {
                 yield return null;
             }
 
-            _visualEffect.SetFloat("CutoffHeight", _destroyFinishCutoffHeight);
+            _visualEffect.SetFloat("CutoffHeight", finishDestroyCutoffHeight);
         }
 
         public void SetMoveActive(bool isActive, float maxHeightShieldAura = 0f) {

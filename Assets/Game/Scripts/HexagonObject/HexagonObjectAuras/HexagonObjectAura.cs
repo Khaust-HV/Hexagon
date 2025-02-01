@@ -15,6 +15,8 @@ namespace HexagonObjectControl {
         private bool _isHexagonObjectPartUsed;
         private bool _isObjectWaitingToSpawn;
 
+        protected AuraEfficiencyType _auraEfficiencyType;
+
         private IEnumerator _spawnEffectStarted;
 
         #region DI
@@ -44,7 +46,11 @@ namespace HexagonObjectControl {
             // Overridden by an heir
         }
 
-        public virtual void SetAuraEfficiency(AuraEfficiencyType auraEfficiencyType) {
+        protected virtual void ApplyAuraEfficiency() {
+            // Overridden by an heir
+        }
+
+        protected virtual void SetConfigurationFromHexagonObjectType() {
             // Overridden by an heir
         }
 
@@ -60,6 +66,12 @@ namespace HexagonObjectControl {
             return _isHexagonObjectPartUsed;
         }
 
+        public void SetAuraEfficiency(AuraEfficiencyType auraEfficiencyType) {
+            _auraEfficiencyType = auraEfficiencyType;
+
+            ApplyAuraEfficiency();
+        }
+
         public void SetHexagonObjectPartType<T>(T type) where T : Enum {
             _hexagonObjectPartType = type;
 
@@ -68,6 +80,8 @@ namespace HexagonObjectControl {
 
         public void SetHexagonObjectType<T>(T type) where T : Enum {
             _hexagonObjectType = type;
+
+            SetConfigurationFromHexagonObjectType();
         }
 
         public void SetParentObject(Transform parentObject) {

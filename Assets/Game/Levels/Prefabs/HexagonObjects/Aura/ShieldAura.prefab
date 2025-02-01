@@ -56,7 +56,7 @@ MonoBehaviour:
   - {fileID: 5484018167290026116}
   - {fileID: 9035642131366482279}
   _destroyStartCutoffHeight: 0
-  _destroyFinishCutoffHeight: -2.1
+  _destroyFinishCutoffHeight: -2.3
 --- !u!1001 &604330917853418901
 PrefabInstance:
   m_ObjectHideFlags: 0

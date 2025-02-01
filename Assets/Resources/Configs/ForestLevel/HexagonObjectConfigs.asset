@@ -44,46 +44,55 @@ MonoBehaviour:
   <GlitcheSourcePrefabs>k__BackingField: []
   <TreeMiningPrefabs>k__BackingField: []
   <TreeMiningTimeSpawn>k__BackingField: 10
+  <TreeMiningHitPoints>k__BackingField: 0
   <TreeMiningResourceCreationTime>k__BackingField: 60
   <TreeMiningMinResourceNumber>k__BackingField: 5
   <TreeMiningMaxResourceNumber>k__BackingField: 15
   <StoneMiningPrefabs>k__BackingField: []
   <StoneMiningTimeSpawn>k__BackingField: 10
+  <StoneMiningHitPoints>k__BackingField: 0
   <StoneMiningResourceCreationTime>k__BackingField: 60
   <StoneMiningMinResourceNumber>k__BackingField: 5
   <StoneMiningMaxResourceNumber>k__BackingField: 15
   <MetalMiningPrefabs>k__BackingField: []
   <MetalMiningTimeSpawn>k__BackingField: 0
+  <MetalMiningHitPoints>k__BackingField: 0
   <MetalMiningResourceCreationTime>k__BackingField: 0
   <MetalMiningMinResourceNumber>k__BackingField: 0
   <MetalMiningMaxResourceNumber>k__BackingField: 0
   <ElectricalMinigPrefabs>k__BackingField: []
   <ElectricalMiningTimeSpawn>k__BackingField: 0
+  <ElectricalMiningHitPoints>k__BackingField: 0
   <ElectricalMiningResourceCreationTime>k__BackingField: 0
   <ElectricalMiningMinResourceNumber>k__BackingField: 0
   <ElectricalMiningMaxResourceNumber>k__BackingField: 0
   <OilMiningPrefabs>k__BackingField: []
   <OilMiningTimeSpawn>k__BackingField: 0
+  <OilMiningHitPoints>k__BackingField: 0
   <OilMiningResourceCreationTime>k__BackingField: 0
   <OilMiningMinResourceNumber>k__BackingField: 0
   <OilMiningMaxResourceNumber>k__BackingField: 0
   <RedCrystalMiningPrefabs>k__BackingField: []
   <RedCrystalMiningTimeSpawn>k__BackingField: 0
+  <RedCrystalMiningHitPoints>k__BackingField: 0
   <RedCrystalMiningResourceCreationTime>k__BackingField: 0
   <RedCrystalMiningMinResourceNumber>k__BackingField: 0
   <RedCrystalMiningMaxResourceNumber>k__BackingField: 0
   <BlueCrystalMiningPrefabs>k__BackingField: []
   <BlueCrystalMiningTimeSpawn>k__BackingField: 0
+  <BlueCrystalMiningHitPoints>k__BackingField: 0
   <BlueCrystalMiningResourceCreationTime>k__BackingField: 0
   <BlueCrystalMiningMinResourceNumber>k__BackingField: 0
   <BlueCrystalMiningMaxResourceNumber>k__BackingField: 0
   <GreenCrystalMiningPrefabs>k__BackingField: []
   <GreenCrystalMiningTimeSpawn>k__BackingField: 0
+  <GreenCrystalMiningHitPoints>k__BackingField: 0
   <GreenCrystalMiningResourceCreationTime>k__BackingField: 0
   <GreenCrystalMiningMinResourceNumber>k__BackingField: 0
   <GreenCrystalMiningMaxResourceNumber>k__BackingField: 0
   <GlitcheMiningPrefabs>k__BackingField: []
   <GlitcheMiningTimeSpawn>k__BackingField: 0
+  <GlitcheMiningHitPoints>k__BackingField: 0
   <GlitcheMiningResourceCreationTime>k__BackingField: 0
   <GlitcheMiningMinResourceNumber>k__BackingField: 0
   <GlitcheMiningMaxResourceNumber>k__BackingField: 0
@@ -147,24 +156,36 @@ MonoBehaviour:
   <NatureAuraPrefabs>k__BackingField: []
   <ShieldAuraPrefabs>k__BackingField:
   - {fileID: 5987491382444927288, guid: 42274d8a2a35146e797bf1eab1d3da51, type: 3}
-  <OneShieldPosition>k__BackingField: {x: -0.8, y: 1, z: 0}
-  <TwoShieldsPosition>k__BackingField:
+  <ShieldAuraSpawnTime>k__BackingField: 0.5
+  <ShieldAuraDestroyTime>k__BackingField: 0.5
+  <ShieldAuraIntensiveEmissionTime>k__BackingField: 1
+  <ShieldAuraOneShieldPosition>k__BackingField: {x: -0.8, y: 1, z: 0}
+  <ShieldAuraTwoShieldsPosition>k__BackingField:
   - {x: -0.8, y: 1, z: 0}
   - {x: 0.8, y: 1, z: 0}
-  <ThreeShieldsPosition>k__BackingField:
+  <ShieldAuraThreeShieldsPosition>k__BackingField:
   - {x: -0.8, y: 1, z: 0}
   - {x: 0.4, y: 1, z: 0.693}
   - {x: 0.4, y: 1, z: -0.693}
-  <OrbitSpeedShieldAura>k__BackingField: 30
-  <OrbitRadiusShieldAura>k__BackingField: 0.95
-  <VerticalSpeedShieldAura>k__BackingField: 0.1
-  <MinHeightShieldAura>k__BackingField: 0
-  <MaxHeightShieldAuraLowEfficiency>k__BackingField: 0.255
-  <MaxHeightShieldAuraStandardEfficiency>k__BackingField: 0.476
-  <MaxHeightShieldAuraHighEfficiency>k__BackingField: 0.953
-  <MaxHeightShieldAuraReallyHighEfficiency>k__BackingField: 1.245
-  <AttackRangePositiveAuraPrefabs>k__BackingField: []
-  <AttackRangeNegativeAuraPrefabs>k__BackingField: []
+  <ShieldAuraOrbitSpeed>k__BackingField: 30
+  <ShieldAuraOrbitRadius>k__BackingField: 0.95
+  <ShieldAuraVerticalSpeed>k__BackingField: 0.1
+  <ShieldAuraMinHeight>k__BackingField: 0
+  <ShieldAuraMaxHeightLowEfficiency>k__BackingField: 0.255
+  <ShieldAuraMaxHeightStandardEfficiency>k__BackingField: 0.476
+  <ShieldAuraMaxHeightHighEfficiency>k__BackingField: 0.953
+  <ShieldAuraMaxHeightReallyHighEfficiency>k__BackingField: 1.245
+  <AttackRangeAuraPrefabs>k__BackingField:
+  - {fileID: 5938705542835383388, guid: 40c712b762a7d4e4189c82af7d7e6498, type: 3}
+  <AttackRangeAuraSpawnRingTime>k__BackingField: 0.15
+  <AttackRangeAuraSpawnBrokenSpaceTime>k__BackingField: 0.5
+  <AttackRangeAuraIntensiveEmissionTime>k__BackingField: 1
+  <AttackRangeAuraDestroyTime>k__BackingField: 1
+  <AttackRangeAuraRingHeight>k__BackingField: 0.5
+  <AttackRangePositiveAuraSpawnRingStartScale>k__BackingField: 0
+  <AttackRangePositiveAuraSpawnRingFinishScale>k__BackingField: 1
+  <AttackRangeNegativeAuraSpawnRingStartScale>k__BackingField: 2.1
+  <AttackRangeNegativeAuraSpawnRingFinishScale>k__BackingField: 1.1
   <CamoAuraPrefabs>k__BackingField: []
   <AttackStrengthPositiveAuraPrefabs>k__BackingField: []
   <AttackStrengthNegativeAuraPrefabs>k__BackingField: []

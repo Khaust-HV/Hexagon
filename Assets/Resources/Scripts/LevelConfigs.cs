@@ -8,6 +8,7 @@ namespace GameConfigs {
         [field: SerializeField] public float SizeAllObject { get; private set; }
         [field: SerializeField] public float DefaultSpawnTimeAllObject { get; private set; }
         [field: SerializeField] public float DefaultDestroyTimeAllObject { get; private set; }
+        [field: SerializeField] public float DefaultHitEffectTime { get; private set; }
         [field: SerializeField] public float DefaultHologramSpawnTimeAllObject { get; private set; }
         [field: SerializeField] public AlgorithmOfLevelBuilding AlgorithmOfLevelBuilding { get; private set; }
         [field: SerializeField] public int NumberOfRings { get; private set; }

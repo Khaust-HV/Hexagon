@@ -269,23 +269,38 @@ namespace GameConfigs {
         // Category of StatsAuraType
         [field: Header("Shield settings <StatsAuraType>")]
         [field: SerializeField] public GameObject[] ShieldAuraPrefabs { get; private set; }
-        [field: SerializeField] public Vector3 OneShieldPosition { get; private set; }
-        [field: SerializeField] public Vector3[] TwoShieldsPosition { get; private set; }
-        [field: SerializeField] public Vector3[] ThreeShieldsPosition { get; private set; }
-        [field: SerializeField] public float OrbitSpeedShieldAura{ get; private set; }
-        [field: SerializeField] public float OrbitRadiusShieldAura{ get; private set; }
-        [field: SerializeField] public float VerticalSpeedShieldAura{ get; private set; }
-        [field: SerializeField] public float MinHeightShieldAura{ get; private set; }
-        [field: SerializeField] public float MaxHeightShieldAuraLowEfficiency{ get; private set; }
-        [field: SerializeField] public float MaxHeightShieldAuraStandardEfficiency{ get; private set; }
-        [field: SerializeField] public float MaxHeightShieldAuraHighEfficiency{ get; private set; }
-        [field: SerializeField] public float MaxHeightShieldAuraReallyHighEfficiency{ get; private set; }
-        [field: Space(15)]
+        [field: SerializeField] public float ShieldAuraSpawnTime { get; private set; }
+        [field: SerializeField] public float ShieldAuraDestroyTime { get; private set; }
+        [field: SerializeField] public float ShieldAuraIntensiveEmissionTime { get; private set; }
+        [field: Space(10)]
+        [field: SerializeField] public Vector3 ShieldAuraOneShieldPosition { get; private set; }
+        [field: SerializeField] public Vector3[] ShieldAuraTwoShieldsPosition { get; private set; }
+        [field: SerializeField] public Vector3[] ShieldAuraThreeShieldsPosition { get; private set; }
+        [field: SerializeField] public float ShieldAuraOrbitSpeed{ get; private set; }
+        [field: SerializeField] public float ShieldAuraOrbitRadius{ get; private set; }
+        [field: SerializeField] public float ShieldAuraVerticalSpeed{ get; private set; }
+        [field: Space(10)]
+        [field: SerializeField] public float ShieldAuraMinHeight{ get; private set; }
+        [field: SerializeField] public float ShieldAuraMaxHeightLowEfficiency{ get; private set; }
+        [field: SerializeField] public float ShieldAuraMaxHeightStandardEfficiency{ get; private set; }
+        [field: SerializeField] public float ShieldAuraMaxHeightHighEfficiency{ get; private set; }
+        [field: SerializeField] public float ShieldAuraMaxHeightReallyHighEfficiency{ get; private set; }
+        [field: Space(10)]
         
-        [field: Header("AttackRangePositive settings <StatsAuraType>")]
-        [field: SerializeField] public GameObject[] AttackRangePositiveAuraPrefabs { get; private set; }
-        [field: Header("AttackRangeNegative settings <StatsAuraType>")]
-        [field: SerializeField] public GameObject[] AttackRangeNegativeAuraPrefabs { get; private set; }
+        [field: Header("AttackRangePositive/Negative settings <StatsAuraType>")]
+        [field: SerializeField] public GameObject[] AttackRangeAuraPrefabs { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraSpawnRingTime { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraSpawnBrokenSpaceTime { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraIntensiveEmissionTime { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraDestroyTime { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraRingHeight { get; private set; }
+        [field: Space(10)]
+        [field: SerializeField] public float AttackRangePositiveAuraSpawnRingStartScale { get; private set; }
+        [field: SerializeField] public float AttackRangePositiveAuraSpawnRingFinishScale { get; private set; }
+        [field: SerializeField] public float AttackRangeNegativeAuraSpawnRingStartScale { get; private set; }
+        [field: SerializeField] public float AttackRangeNegativeAuraSpawnRingFinishScale { get; private set; }
+        [field: Space(10)]
+
         [field: Header("Camo settings <StatsAuraType>")]
         [field: SerializeField] public GameObject[] CamoAuraPrefabs { get; private set; }
         [field: Header("AttackStrengthPositive settings <StatsAuraType>")]
@@ -513,8 +528,8 @@ namespace GameConfigs {
                 case StatsAuraType statsAuraType:
                     prefabs = statsAuraType switch {
                         StatsAuraType.ShieldAura => ShieldAuraPrefabs,
-                        StatsAuraType.AttackRangePositiveAura => AttackRangePositiveAuraPrefabs,
-                        StatsAuraType.AttackRangeNegativeAura => AttackRangeNegativeAuraPrefabs,
+                        StatsAuraType.AttackRangePositiveAura => AttackRangeAuraPrefabs,
+                        StatsAuraType.AttackRangeNegativeAura => AttackRangeAuraPrefabs,
                         StatsAuraType.CamoAura => CamoAuraPrefabs,
                         StatsAuraType.AttackStrengthPositiveAura => AttackStrengthPositiveAuraPrefabs,
                         StatsAuraType.AttackStrengthNegativeAura => AttackStrengthNegativeAuraPrefabs,

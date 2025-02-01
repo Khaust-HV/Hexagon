@@ -12,6 +12,8 @@ namespace GameConfigs {
         [field: Header("General material pool")]
         [field: SerializeField] public Material DissolveNonUV { get; private set; }
         [field: SerializeField] public Material DissolveAndHitWithUV { get; private set; }
+        [field: SerializeField] public Material DissolveAndEmissionFullObjectGhost { get; private set; }
+        [field: SerializeField] public Material DissolveFromMiddleAndEmissionFullObjectGhost { get; private set; }
         [field: SerializeField] public Material DissolveAndHitAndEmission1TextureWithUV { get; private set; }
         [field: SerializeField] public Material DissolveAndHitAndEmission2TextureWithUV { get; private set; }
         [field: SerializeField] public Material DissolveAndHitAndEmission3TexturesWithUV { get; private set; }
@@ -24,10 +26,17 @@ namespace GameConfigs {
         // // In the process of coming up
         // [field: Space(25)]
 
+        [field: Header("General VFX pool")]
+        [field: SerializeField] public VisualEffectAsset CreatingParticlesOnMeshAtTheMomentAndContinuousRandomVelocity { get; private set; }
+        [field: Space(25)]
+
+        [field: Header("Specialty VFX pool")]
+        [field: SerializeField] public VisualEffectAsset ShieldAuraShieldSpawn { get; private set; }
+        [field: Space(25)]
+
         [field: Header("Default hit effect settings")]
-        [field: SerializeField] public float DefaultHitEffectTime { get; private set; }
-         [field: ColorUsage(true, true)] // For HDR
-        [field: SerializeField] public Color DefaultHitEffectColor { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color DefaultHitIntensiveEmissionColor { get; private set; }
         [field: Space(25)]
 
         [field: Header("Default dissolve settings for spawn effect")]
@@ -47,23 +56,25 @@ namespace GameConfigs {
         [field: Space(25)]
 
         [field: Header("Destroy hexagon and hexagonObject effect settings")]
-        [field: SerializeField] public VisualEffectAsset DestroyHexagonOrHexagonObjectVFXEffect { get; private set; }
         [field: SerializeField] public Texture2D DefaultDestroyTextureParticle { get; private set; }
         [field: SerializeField] public float DefaultDestroySizeParticles { get; private set; }
         [field: SerializeField] public int DefaultDestroyVFXNumberParticles { get; private set; }
-        [field: SerializeField] public Vector3 DefaultDestroyVFXStartVelocity { get; private set; }
+        [field: SerializeField] public Vector3 DefaultDestroyVFXMaxVelocity { get; private set; }
+        [field: SerializeField] public float DefaultDestroyVFXTurbulencePawer { get; private set; }
         [field: SerializeField] public float DefaultDestroyVFXLinearDrag { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color DefaultDestroyVFXEmissionColor { get; private set; }
         [field: Space(25)]
 
         [field: Header("Default hologram and dissolve settings for preview and spawn effect")]
-        [field: SerializeField] public float DefaultHologramEdgeWidth { get; private set; }
-        [field: SerializeField] public float DefaultHologramAnimationSpeed { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
-        [field: SerializeField] public Color DefaultHologramColor { get; private set; }
+        [field: SerializeField] public Color DefaultHologramEmissionColor { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color DefaultHologramFresnelColor { get; private set; }
+        [field: SerializeField] public float DefaultHologramFresnelPower { get; private set; }
+        [field: SerializeField] public float DefaultHologramEdgeWidth { get; private set; }
+        [field: SerializeField] public float DefaultHologramAnimationSpeed { get; private set; }
+        [field: SerializeField] public float DefaultHologramAnimationNoise { get; private set; }
         [field: ColorUsage(true, true)] // For HDR
         [field: SerializeField] public Color DefaultHologramEdgeColor { get; private set; }
         [field: Space(25)]
@@ -93,23 +104,65 @@ namespace GameConfigs {
         [field: Space(25)]
 
         [field: Header("ShieldAura visual settings")]
-        [field: ColorUsage(true, true)] // For HDR
-        [field: SerializeField] public Color ShieldAuraEmissionFresnelColor { get; private set; }
-        [field: SerializeField] public float ShieldAuraEmissionFresnelPower { get; private set; }
-        [field: ColorUsage(true, true)] // For HDR
-        [field: SerializeField] public Color ShieldAuraEmissionColor { get; private set; }
-        [field: SerializeField] public float ShieldAuraVerticalNoiceScale { get; private set; }
+        [field: SerializeField] public Texture2D ShieldAuraTextureParticle { get; private set; }
+        [field: SerializeField] public float ShieldAuraSizeParticles { get; private set; }
+        [field: SerializeField] public int ShieldAuraParticlesNumberForShieldDestroy { get; private set; }
+        [field: SerializeField] public Vector3 ShieldAuraMaxVelocityParticles { get; private set; }
+        [field: SerializeField] public float ShieldAuraTurbulencePawer { get; private set; }
+        [field: SerializeField] public float ShieldAuraLinearDrag { get; private set; }
+        [field: SerializeField] public float ShieldAuraBaseAlpha { get; private set; }
+        [field: Space(10)]
         [field: SerializeField] public float ShieldAuraHeightLowEfficiency { get; private set; }
         [field: SerializeField] public float ShieldAuraHeightStandardEfficiency { get; private set; }
         [field: SerializeField] public float ShieldAuraHeightHighEfficiency { get; private set; }
         [field: SerializeField] public float ShieldAuraHeightReallyHighEfficiency { get; private set; }
-        [field: SerializeField] public float ShieldAuraSpawnTime { get; private set; }
-        [field: SerializeField] public float ShieldAuraDestroyTime { get; private set; }
         [field: Space(10)]
-        [field: SerializeField] public VisualEffectAsset ShieldAuraShieldSpawn { get; private set; }
-        [field: SerializeField] public Vector3 ShieldAuraStartVelocity { get; private set; }
-        [field: SerializeField] public float ShieldAuraLinearDrag { get; private set; }
-        [field: SerializeField] public float ShieldAuraBaseAlpha { get; private set; }
-        [field: SerializeField] public int ShieldAuraParticlesNumberForShieldDestroy { get; private set; }
+        [field: SerializeField] public float ShieldAuraDestroyStartCutoffHeight { get; private set; }
+        [field: SerializeField] public float ShieldAuraDestroyFinishCutoffHeight{ get; private set; }
+        [field: SerializeField] public float ShieldAuraShieldDestroyStartCutoffHeight { get; private set; }
+        [field: SerializeField] public float ShieldAuraShieldDestroyFinishCutoffHeight{ get; private set; }
+        [field: Space(10)]
+        [field: SerializeField] public Color ShieldAuraIntensiveEmissionColor { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color ShieldAuraEmissionColor { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color ShieldAuraEmissionFresnelColor { get; private set; }
+        [field: SerializeField] public float ShieldAuraEmissionFresnelPower { get; private set; }
+        [field: SerializeField] public float ShieldAuraVerticalNoiceScale { get; private set; }
+        [field: Space(25)]
+
+        [field: Header("AttackRangeAura visual settings")]
+        [field: SerializeField] public Texture2D AttackRangeAuraTextureParticle { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraSizeParticles { get; private set; }
+        [field: SerializeField] public int AttackRangeAuraNumberParticlesAtTheMoment { get; private set; }
+        [field: SerializeField] public int AttackRangeAuraNumberParticlesContinuous { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraContinuousMaxDelay { get; private set; }
+        [field: SerializeField] public Vector3 AttackRangeAuraMinVelocityParticles { get; private set; }
+        [field: SerializeField] public Vector3 AttackRangeAuraMaxVelocityParticles { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraTurbulencePawer { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraLinearDrag { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraSpawnBrokenSpaceNoiseStrength { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraBaseAlpha { get; private set; }
+        [field: Space(10)]
+        [field: SerializeField] public float AttackRangeAuraSpawnBrokenSpaceStartCutoffHeight { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraSpawnBrokenSpaceFinishCutoffHeight{ get; private set; }
+        [field: SerializeField] public float AttackRangeAuraDestroyStartCutoffHeight { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraDestroyFinishCutoffHeight{ get; private set; }
+        [field: Space(10)]
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color AttackRangeAuraPositiveIntensiveEmissionColor { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color AttackRangeAuraPositiveEmissionColor { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color AttackRangeAuraPositiveEmissionFresnelColor { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraPositiveEmissionFresnelPower { get; private set; }
+        [field: Space(10)]
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color AttackRangeAuraNegativeIntensiveEmissionColor { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color AttackRangeAuraNegativeEmissionColor { get; private set; }
+        [field: ColorUsage(true, true)] // For HDR
+        [field: SerializeField] public Color AttackRangeAuraNegativeEmissionFresnelColor { get; private set; }
+        [field: SerializeField] public float AttackRangeAuraNegativeEmissionFresnelPower { get; private set; }
     }
 }

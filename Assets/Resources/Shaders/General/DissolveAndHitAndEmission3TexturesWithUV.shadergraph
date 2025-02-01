@@ -942,7 +942,7 @@
     "m_ObjectId": "0a0e5c3f830b4766b4e505eb81f5209a",
     "m_Title": "Second Emission Texture",
     "m_Position": {
-        "x": -1508.0,
+        "x": -1507.999755859375,
         "y": 1165.5
     }
 }
@@ -2964,8 +2964,8 @@
     "m_ObjectId": "6d2fb3b50b6048e780d11a95e0d8a9c5",
     "m_Title": "Third Emission Texture",
     "m_Position": {
-        "x": -1508.5,
-        "y": 1693.5
+        "x": -1508.499755859375,
+        "y": 1693.4998779296875
     }
 }
 
@@ -2975,8 +2975,8 @@
     "m_ObjectId": "6dc0af04e9944b83884416ef5bd147bd",
     "m_Title": "Hit Object",
     "m_Position": {
-        "x": 250.0,
-        "y": 1030.5
+        "x": 250.0001678466797,
+        "y": 1030.4998779296875
     }
 }
 
@@ -3657,8 +3657,8 @@
     "m_ObjectId": "92e57b63511d46a09e5d9f2e7fd40e0d",
     "m_Title": "First Emission Texture",
     "m_Position": {
-        "x": -1508.0,
-        "y": 638.0
+        "x": -1507.999755859375,
+        "y": 637.9999389648438
     }
 }
 
@@ -5005,8 +5005,8 @@
     "m_ObjectId": "da16c34151fe4a638b33f31e642a571b",
     "m_Title": "Dissolve Effect",
     "m_Position": {
-        "x": -2786.5,
-        "y": -631.4999389648438
+        "x": -2786.499755859375,
+        "y": -631.5000610351563
     }
 }
 
@@ -5436,7 +5436,7 @@
     "m_ZTestMode": 4,
     "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
-    "m_RenderFace": 0,
+    "m_RenderFace": 2,
     "m_AlphaClip": true,
     "m_CastShadows": true,
     "m_ReceiveShadows": true,

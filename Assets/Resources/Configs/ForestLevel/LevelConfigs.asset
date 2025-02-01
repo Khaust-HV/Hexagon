@@ -15,6 +15,7 @@ MonoBehaviour:
   <SizeAllObject>k__BackingField: 10
   <DefaultSpawnTimeAllObject>k__BackingField: 1.5
   <DefaultDestroyTimeAllObject>k__BackingField: 2
+  <DefaultHitEffectTime>k__BackingField: 0.25
   <DefaultHologramSpawnTimeAllObject>k__BackingField: 1
   <AlgorithmOfLevelBuilding>k__BackingField: 0
   <NumberOfRings>k__BackingField: 10

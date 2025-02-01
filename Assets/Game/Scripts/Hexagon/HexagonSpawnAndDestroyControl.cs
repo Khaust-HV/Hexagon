@@ -82,15 +82,16 @@ namespace HexagonControl {
         }
 
         private void SetDestroyHexagonObjectVFXConfiguration() {
-            _visualEffect.visualEffectAsset = _visualEffectsConfigs.DestroyHexagonOrHexagonObjectVFXEffect;
-            _visualEffect.SetInt("NumberParticles", _visualEffectsConfigs.DefaultDestroyVFXNumberParticles);
-            _visualEffect.SetTexture("DestroyBuildTextureParticle", _visualEffectsConfigs.DefaultDestroyTextureParticle);
+            _visualEffect.visualEffectAsset = _visualEffectsConfigs.CreatingParticlesOnMeshAtTheMomentAndContinuousRandomVelocity;
+            _visualEffect.SetInt("NumberParticlesAtTheMoment", _visualEffectsConfigs.DefaultDestroyVFXNumberParticles);
+            _visualEffect.SetTexture("TextureParticle", _visualEffectsConfigs.DefaultDestroyTextureParticle);
             _visualEffect.SetMesh("ObjectMesh", _mrHexagonLP.GetComponent<MeshFilter>().sharedMesh);
             _visualEffect.SetFloat("LifeTimeParticle", _levelConfigs.DefaultDestroyTimeAllObject);
             _visualEffect.SetFloat("SizeParticle", _levelConfigs.SizeAllObject * _visualEffectsConfigs.DefaultDestroySizeParticles);
             _visualEffect.SetVector4("EmissionColor", _visualEffectsConfigs.DefaultDestroyVFXEmissionColor);
-            _visualEffect.SetVector3("StartVelocity", _visualEffectsConfigs.DefaultDestroyVFXStartVelocity);
+            _visualEffect.SetVector3("MaxVelocity", _visualEffectsConfigs.DefaultDestroyVFXMaxVelocity);
             _visualEffect.SetFloat("LinearDrag", _visualEffectsConfigs.DefaultDestroyVFXLinearDrag);
+            _visualEffect.SetFloat("TurbulencePawer", _visualEffectsConfigs.DefaultDestroyVFXTurbulencePawer);
         }
 
         public void SpawnEffectEnable(MaterialPropertyBlock materialPropertyBlock) {
@@ -158,7 +159,7 @@ namespace HexagonControl {
 
                 _hexagonLP.SetActive(false);
 
-                _visualEffect.SendEvent("DestroyEffect");
+                _visualEffect.SendEvent("AtTheMoment");
 
                 _isObjectWaitingToSpawn = false;
 

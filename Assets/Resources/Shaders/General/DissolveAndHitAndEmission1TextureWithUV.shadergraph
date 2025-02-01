@@ -2752,7 +2752,7 @@
     "m_Title": "First Emission Texture",
     "m_Position": {
         "x": -1502.9998779296875,
-        "y": 640.0
+        "y": 639.9999389648438
     }
 }
 
@@ -2762,7 +2762,7 @@
     "m_ObjectId": "95b4499ffe95418eb460117798371e4d",
     "m_Title": "Hit Object",
     "m_Position": {
-        "x": -199.0,
+        "x": -199.00006103515626,
         "y": 708.4999389648438
     }
 }
@@ -3900,7 +3900,7 @@
     "m_Title": "Dissolve Effect",
     "m_Position": {
         "x": -2786.5,
-        "y": -631.4999389648438
+        "y": -631.5
     }
 }
 
@@ -4223,7 +4223,7 @@
     "m_ZTestMode": 4,
     "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
-    "m_RenderFace": 0,
+    "m_RenderFace": 2,
     "m_AlphaClip": true,
     "m_CastShadows": true,
     "m_ReceiveShadows": true,
