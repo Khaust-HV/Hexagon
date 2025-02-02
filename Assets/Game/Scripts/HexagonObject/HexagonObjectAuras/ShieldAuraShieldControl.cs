@@ -47,8 +47,8 @@ namespace HexagonObjectControl {
 
         private void SetVFXConfiguration() {
             _visualEffect.visualEffectAsset = _visualEffectsConfigs.ShieldAuraShieldSpawn;
-            _visualEffect.SetFloat("Metallic", _visualEffectsConfigs.DefaultMetallic);
-            _visualEffect.SetFloat("Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            _visualEffect.SetFloat("Metallic", _visualEffectsConfigs.DefaultMetallicForGhost);
+            _visualEffect.SetFloat("Smoothness", _visualEffectsConfigs.DefaultSmoothnessForGhost);
             _visualEffect.SetFloat("NoiseScale", _visualEffectsConfigs.DefaultDestroyNoiseScale);
             _visualEffect.SetFloat("NoiseStrength", _visualEffectsConfigs.DefaultDestroyNoiseStrength);
             _visualEffect.SetVector4("FresnelColor", _visualEffectsConfigs.ShieldAuraEmissionFresnelColor);

@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <DefaultMetallic>k__BackingField: 0.3
   <DefaultSmoothness>k__BackingField: 0.5
+  <DefaultMetallicForGhost>k__BackingField: 0
+  <DefaultSmoothnessForGhost>k__BackingField: 0
   <DissolveNonUV>k__BackingField: {fileID: 2100000, guid: 51882ef677a99413199a773d5eb2a566, type: 2}
   <DissolveAndHitWithUV>k__BackingField: {fileID: 2100000, guid: 6345af1ff19ad419ca0bb118501c9dce, type: 2}
   <DissolveAndEmissionFullObjectGhost>k__BackingField: {fileID: 2100000, guid: 26694e082d3d149aab8f74f12ff44269, type: 2}
@@ -42,12 +44,12 @@ MonoBehaviour:
   <DefaultDestroyVFXTurbulencePawer>k__BackingField: 2
   <DefaultDestroyVFXLinearDrag>k__BackingField: 1
   <DefaultDestroyVFXEmissionColor>k__BackingField: {r: 0, g: 23.968628, b: 23.968628, a: 0}
-  <DefaultHologramEmissionColor>k__BackingField: {r: 0.8036145, g: 1.5922081, b: 1.0389539, a: 0}
-  <DefaultHologramFresnelColor>k__BackingField: {r: 3.9511569, g: 5.992157, b: 0, a: 0}
+  <DefaultHologramEmissionColor>k__BackingField: {r: 0, g: 2.9960783, b: 2.9960783, a: 0}
+  <DefaultHologramFresnelColor>k__BackingField: {r: 0, g: 5.992157, b: 1.1342043, a: 0}
   <DefaultHologramFresnelPower>k__BackingField: 10
   <DefaultHologramEdgeWidth>k__BackingField: 0.01
   <DefaultHologramAnimationSpeed>k__BackingField: 0.25
-  <DefaultHologramAnimationNoise>k__BackingField: 0.4
+  <DefaultHologramAnimationNoise>k__BackingField: 0.5
   <DefaultHologramEdgeColor>k__BackingField: {r: 0, g: 23.968628, b: 23.968628, a: 0}
   <ElectricalEmissionColor>k__BackingField: {r: 0, g: 0.056307055, b: 2.9960787, a: 0}
   <RedCrystalEmissionColor>k__BackingField: {r: 2.9960787, g: 0.26085535, b: 0, a: 0}
@@ -56,11 +58,13 @@ MonoBehaviour:
   <GlitcheFirstEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
   <GlitcheSecondEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
   <GlitcheThirdEmissionColor>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
-  <ShieldAuraIntensiveEmissionColor>k__BackingField: {r: 1.7254902, g: 5.992157, b: 5.992157, a: 0}
-  <ShieldAuraEmissionColor>k__BackingField: {r: 0.21551976, g: 0.7490196, b: 0.7490196, a: 0}
-  <ShieldAuraEmissionFresnelColor>k__BackingField: {r: 0.72075456, g: 2.9960783, b: 2.460708, a: 0}
-  <ShieldAuraEmissionFresnelPower>k__BackingField: 7
-  <ShieldAuraVerticalNoiceScale>k__BackingField: 3
+  <ShieldAuraTextureParticle>k__BackingField: {fileID: 2800000, guid: 09531588890b0486cbe0a52ccb971925, type: 3}
+  <ShieldAuraSizeParticles>k__BackingField: 0.35
+  <ShieldAuraParticlesNumberForShieldDestroy>k__BackingField: 20
+  <ShieldAuraMaxVelocityParticles>k__BackingField: {x: -0.5, y: 0, z: 0}
+  <ShieldAuraTurbulencePawer>k__BackingField: 2
+  <ShieldAuraLinearDrag>k__BackingField: 0.25
+  <ShieldAuraBaseAlpha>k__BackingField: 0.1
   <ShieldAuraHeightLowEfficiency>k__BackingField: 0.7
   <ShieldAuraHeightStandardEfficiency>k__BackingField: 1.7
   <ShieldAuraHeightHighEfficiency>k__BackingField: 2.7
@@ -69,13 +73,11 @@ MonoBehaviour:
   <ShieldAuraDestroyFinishCutoffHeight>k__BackingField: -2.3
   <ShieldAuraShieldDestroyStartCutoffHeight>k__BackingField: 1
   <ShieldAuraShieldDestroyFinishCutoffHeight>k__BackingField: -8.1
-  <ShieldAuraTextureParticle>k__BackingField: {fileID: 2800000, guid: 09531588890b0486cbe0a52ccb971925, type: 3}
-  <ShieldAuraSizeParticles>k__BackingField: 0.35
-  <ShieldAuraParticlesNumberForShieldDestroy>k__BackingField: 20
-  <ShieldAuraMaxVelocityParticles>k__BackingField: {x: 0, y: 0, z: 0}
-  <ShieldAuraTurbulencePawer>k__BackingField: 2
-  <ShieldAuraLinearDrag>k__BackingField: 0.25
-  <ShieldAuraBaseAlpha>k__BackingField: 0.1
+  <ShieldAuraIntensiveEmissionColor>k__BackingField: {r: 1.7254902, g: 5.992157, b: 5.992157, a: 0}
+  <ShieldAuraEmissionColor>k__BackingField: {r: 0.21551976, g: 0.7490196, b: 0.7490196, a: 0}
+  <ShieldAuraEmissionFresnelColor>k__BackingField: {r: 0.72075456, g: 2.9960783, b: 2.460708, a: 0}
+  <ShieldAuraEmissionFresnelPower>k__BackingField: 7
+  <ShieldAuraVerticalNoiceScale>k__BackingField: 3
   <AttackRangeAuraTextureParticle>k__BackingField: {fileID: 2800000, guid: ba93793793e574c9d8405597c62c888f, type: 3}
   <AttackRangeAuraSizeParticles>k__BackingField: 0.5
   <AttackRangeAuraNumberParticlesAtTheMoment>k__BackingField: 15

@@ -25,6 +25,7 @@
 
 # Hide directory in project
 /[Aa]ssets/Resources/Models/
+/[Aa]ssets/Resources/Sprites/
 
 # Visual Studio cache directory
 .vs/

@@ -77,16 +77,16 @@ namespace HexagonObjectControl {
         private void SetMaterial() {
             Material ringMaterial = _visualEffectsConfigs.DissolveAndEmissionFullObjectGhost;
             _ringMaterialPropertyBlock = new MaterialPropertyBlock();
-            _ringMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
-            _ringMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            _ringMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallicForGhost);
+            _ringMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothnessForGhost);
             _ringMaterialPropertyBlock.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultDestroyNoiseScale);
             _ringMaterialPropertyBlock.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultDestroyNoiseStrength);
             _ringMaterialPropertyBlock.SetFloat("_BaseAlpha", _visualEffectsConfigs.AttackRangeAuraBaseAlpha);
 
             Material brokenSpaceMaterial = _visualEffectsConfigs.DissolveFromMiddleAndEmissionFullObjectGhost;
             _brokenSpaceMaterialPropertyBlock = new MaterialPropertyBlock();
-            _brokenSpaceMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
-            _brokenSpaceMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            _brokenSpaceMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallicForGhost);
+            _brokenSpaceMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothnessForGhost);
             _brokenSpaceMaterialPropertyBlock.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultDestroyNoiseScale);
             _brokenSpaceMaterialPropertyBlock.SetFloat("_BaseAlpha", _visualEffectsConfigs.AttackRangeAuraBaseAlpha);
 

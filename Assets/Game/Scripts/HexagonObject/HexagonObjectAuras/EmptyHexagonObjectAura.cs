@@ -49,6 +49,9 @@ namespace HexagonObjectControl {
             MaterialPropertyBlock _baseMaterialPropertyBlock = new MaterialPropertyBlock();
             _baseMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
             _baseMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            _baseMaterialPropertyBlock.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultSpawnNoiseScale);
+            _baseMaterialPropertyBlock.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultSpawnNoiseStrength);
+            _baseMaterialPropertyBlock.SetFloat("_CutoffHeight", 3f);
 
             _mrAura.material = _visualEffectsConfigs.DissolveAndHitWithUV;
             _mrAura.SetPropertyBlock(_baseMaterialPropertyBlock);

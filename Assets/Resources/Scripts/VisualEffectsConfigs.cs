@@ -7,6 +7,8 @@ namespace GameConfigs {
         [field: Header("Default material settings")]
         [field: SerializeField] public float DefaultMetallic { get; private set; }
         [field: SerializeField] public float DefaultSmoothness { get; private set; }
+        [field: SerializeField] public float DefaultMetallicForGhost { get; private set; }
+        [field: SerializeField] public float DefaultSmoothnessForGhost { get; private set; }
         [field: Space(25)]
         
         [field: Header("General material pool")]

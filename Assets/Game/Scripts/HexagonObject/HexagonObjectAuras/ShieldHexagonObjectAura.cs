@@ -31,8 +31,8 @@ namespace HexagonObjectControl {
         private void SetMaterial() {
             Material shieldMaterial = _visualEffectsConfigs.EmissionFullObjectGhost;
             _shieldMaterialPropertyBlock = new MaterialPropertyBlock();
-            _shieldMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
-            _shieldMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            _shieldMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallicForGhost);
+            _shieldMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothnessForGhost);
             _shieldMaterialPropertyBlock.SetColor("_FresnelColor", _visualEffectsConfigs.ShieldAuraEmissionFresnelColor);
             _shieldMaterialPropertyBlock.SetFloat("_FresnelPower", _visualEffectsConfigs.ShieldAuraEmissionFresnelPower);
             _shieldMaterialPropertyBlock.SetColor("_EmissionColor", _visualEffectsConfigs.ShieldAuraEmissionColor);
@@ -44,8 +44,8 @@ namespace HexagonObjectControl {
 
             Material auraShieldMaterial = _visualEffectsConfigs.DissolveAndEmissionFullObjectAndVerticalNoiceGhost;
             _auraShieldMaterialPropertyBlock = new MaterialPropertyBlock();
-            _auraShieldMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
-            _auraShieldMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+            _auraShieldMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallicForGhost);
+            _auraShieldMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothnessForGhost);
             _auraShieldMaterialPropertyBlock.SetColor("_FresnelColor", _visualEffectsConfigs.ShieldAuraEmissionFresnelColor);
             _auraShieldMaterialPropertyBlock.SetFloat("_FresnelPower", _visualEffectsConfigs.ShieldAuraEmissionFresnelPower);
             _auraShieldMaterialPropertyBlock.SetColor("_EmissionColor", _visualEffectsConfigs.ShieldAuraEmissionColor);

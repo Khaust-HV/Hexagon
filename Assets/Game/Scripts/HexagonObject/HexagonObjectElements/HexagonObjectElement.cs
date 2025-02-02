@@ -365,8 +365,8 @@ namespace HexagonObjectControl {
             if (_hologramMaterialPropertyBlock == null) {
                 _hologramMaterial = _visualEffectsConfigs.DissolveAndHologramGhost;
                 _hologramMaterialPropertyBlock = new MaterialPropertyBlock();
-                _hologramMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallic);
-                _hologramMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothness);
+                _hologramMaterialPropertyBlock.SetFloat("_Metallic", _visualEffectsConfigs.DefaultMetallicForGhost);
+                _hologramMaterialPropertyBlock.SetFloat("_Smoothness", _visualEffectsConfigs.DefaultSmoothnessForGhost);
                 _hologramMaterialPropertyBlock.SetFloat("_NoiseScale", _visualEffectsConfigs.DefaultSpawnNoiseScale);
                 _hologramMaterialPropertyBlock.SetFloat("_NoiseStrength", _visualEffectsConfigs.DefaultSpawnNoiseStrength);
                 _hologramMaterialPropertyBlock.SetFloat("_AnimationSpeed", _visualEffectsConfigs.DefaultHologramAnimationSpeed);

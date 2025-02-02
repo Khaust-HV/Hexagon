@@ -24,8 +24,14 @@ MonoBehaviour:
   - {fileID: 8681676834913048314, guid: 5fc29115a75f24840b68c66fa8a51024, type: 3}
   - {fileID: 8831472459869924457, guid: 1d0a47c2cea38478a82afa6187458e8c, type: 3}
   <LakeBiomePrefabs>k__BackingField: []
-  <TreeBiomePrefabs>k__BackingField: []
-  <StoneBiomePrefabs>k__BackingField: []
+  <TreeBiomePrefabs>k__BackingField:
+  - {fileID: 2383882812275418797, guid: dfc1c2336b30e4bc1832c9a6a8415c63, type: 3}
+  - {fileID: 3749527971092011945, guid: 03a3d3c11545444f7b52e86dc7d52fae, type: 3}
+  - {fileID: 3276633719161502446, guid: f65cf558ccf6d4d7bb3cf9de9035cdd7, type: 3}
+  <StoneBiomePrefabs>k__BackingField:
+  - {fileID: 1342988694810744843, guid: e01e3db6718ff4efd83dbc75a6980285, type: 3}
+  - {fileID: 8096835334480278415, guid: 17b970e130aa148588230c1989446f8e, type: 3}
+  - {fileID: 2596253093829149373, guid: a2c1478411c414f8fb86af94e6ba9a20, type: 3}
   <MetalBiomePrefabs>k__BackingField: []
   <ElectricalBiomePrefabs>k__BackingField: []
   <OilBiomePrefabs>k__BackingField: []
@@ -33,8 +39,14 @@ MonoBehaviour:
   <BlueCrystalBiomePrefabs>k__BackingField: []
   <GreenCrystalBiomePrefabs>k__BackingField: []
   <GlitcheBiomePrefabs>k__BackingField: []
-  <TreeSourcePrefabs>k__BackingField: []
-  <StoneSourcePrefabs>k__BackingField: []
+  <TreeSourcePrefabs>k__BackingField:
+  - {fileID: 2265524953039720967, guid: ea8766164dd2646e0942d8277e70be39, type: 3}
+  - {fileID: 2096869322110415524, guid: 0b15e7ece921040349edb0e460edd8b0, type: 3}
+  - {fileID: 5017006415220298470, guid: bc8934bf49b7d4979a4544e3b50dfadf, type: 3}
+  <StoneSourcePrefabs>k__BackingField:
+  - {fileID: 4278260224210763034, guid: cc9f3ceb5c1ca478aa11eb93b9135c82, type: 3}
+  - {fileID: 8271655312768821460, guid: 0f16b1bf974ed47038b23400f9352945, type: 3}
+  - {fileID: 7352034265465275660, guid: 1d6dfc57e01fa4cdc94d293a12be19df, type: 3}
   <MetalSourcePrefabs>k__BackingField: []
   <ElectricalSourcePrefabs>k__BackingField: []
   <OilSourcePrefabs>k__BackingField: []
@@ -42,13 +54,15 @@ MonoBehaviour:
   <BlueCrystalSourcePrefabs>k__BackingField: []
   <GreenCrystalSourcePrefabs>k__BackingField: []
   <GlitcheSourcePrefabs>k__BackingField: []
-  <TreeMiningPrefabs>k__BackingField: []
+  <TreeMiningPrefabs>k__BackingField:
+  - {fileID: 1642738461317001850, guid: 71c50e00b9d1844859e0ef2668e27883, type: 3}
   <TreeMiningTimeSpawn>k__BackingField: 10
   <TreeMiningHitPoints>k__BackingField: 0
   <TreeMiningResourceCreationTime>k__BackingField: 60
   <TreeMiningMinResourceNumber>k__BackingField: 5
   <TreeMiningMaxResourceNumber>k__BackingField: 15
-  <StoneMiningPrefabs>k__BackingField: []
+  <StoneMiningPrefabs>k__BackingField:
+  - {fileID: 6329014450028679355, guid: 296a833fcced24425860c0f6ef789051, type: 3}
   <StoneMiningTimeSpawn>k__BackingField: 10
   <StoneMiningHitPoints>k__BackingField: 0
   <StoneMiningResourceCreationTime>k__BackingField: 60
